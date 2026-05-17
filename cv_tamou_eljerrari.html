@@ -18,17 +18,17 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .page{max-width:860px;margin:0 auto;background:var(--card);box-shadow:0 4px 32px rgba(0,0,0,.1)}
 
 /* ── HEADER ── */
-.header{display:grid;grid-template-columns:auto 1fr;background:var(--navy);color:#fff;min-height:180px}
+.header{display:grid;grid-template-columns:auto 1fr;background:#f8f9ff;border-bottom:2px solid var(--border);min-height:180px}
 .header-accent{width:8px;background:linear-gradient(180deg,var(--gold),var(--red))}
 .header-content{padding:32px 36px 28px;display:flex;align-items:flex-start;gap:28px}
-.avatar{width:88px;height:88px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.avatar{width:88px;height:88px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;flex-shrink:0;background:rgba(5,150,105,.1);display:flex;align-items:center;justify-content:center;font-size:2rem}
 .header-text{flex:1}
-.header-text h1{font-size:1.75rem;font-weight:800;letter-spacing:-.5px;line-height:1.1}
-.header-text .title{color:var(--gold);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 12px}
-.tagline{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6;max-width:520px}
+.header-text h1{font-size:1.75rem;font-weight:800;letter-spacing:-.5px;line-height:1.1;color:var(--navy)}
+.header-text .title{color:var(--blue);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 12px}
+.tagline{font-size:.8rem;color:var(--muted);line-height:1.6;max-width:520px}
 .contact-bar{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px}
-.contact-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:rgba(255,255,255,.65)}
-.contact-item strong{color:rgba(255,255,255,.9)}
+.contact-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--muted)}
+.contact-item strong{color:var(--text)}
 
 /* ── KPI BAR ── */
 .kpi-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--blue)}
