@@ -7,7 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 :root{
-  --navy:#0d1b2a;--blue:#1b3a6b;--gold:#c89f14;--red:#C1272D;
+  --navy:#0d1b2a;--blue:#059669;--gold:#c89f14;--red:#C1272D;
   --green:#00853F;--purple:#7c3aed;--text:#1e2533;--muted:#5a6478;
   --bg:#f4f5f9;--card:#fff;--border:#e4e7ee;
 }
@@ -18,18 +18,18 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .page{max-width:780px;margin:0 auto;background:var(--card);box-shadow:0 4px 32px rgba(0,0,0,.1)}
 
 /* ── HEADER ── */
-.lm-header{background:var(--navy);padding:0;display:grid;grid-template-columns:6px 1fr}
+.lm-header{background:#f8f9ff;border-bottom:2px solid var(--border);padding:0;display:grid;grid-template-columns:6px 1fr}
 .accent{background:linear-gradient(180deg,var(--gold),var(--red));width:6px}
 .header-inner{padding:32px 40px 28px}
 .sender{margin-bottom:20px}
-.sender h2{color:#fff;font-size:1.2rem;font-weight:800;letter-spacing:-.3px}
-.sender .role{color:var(--gold);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:4px 0}
-.sender .coords{font-size:.75rem;color:rgba(255,255,255,.55);margin-top:6px;line-height:1.8}
-.meta-bar{display:flex;justify-content:space-between;align-items:flex-end;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
-.recipient{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.8}
-.recipient strong{color:rgba(255,255,255,.85)}
-.date-obj{text-align:right;font-size:.75rem;color:rgba(255,255,255,.5)}
-.date-obj strong{display:block;color:rgba(255,255,255,.8);font-size:.8rem}
+.sender h2{color:var(--navy);font-size:1.2rem;font-weight:800;letter-spacing:-.3px}
+.sender .role{color:var(--blue);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:4px 0}
+.sender .coords{font-size:.75rem;color:var(--muted);margin-top:6px;line-height:1.8}
+.meta-bar{display:flex;justify-content:space-between;align-items:flex-end;padding-top:16px;border-top:1px solid var(--border)}
+.recipient{font-size:.8rem;color:var(--muted);line-height:1.8}
+.recipient strong{color:var(--text)}
+.date-obj{text-align:right;font-size:.75rem;color:var(--muted)}
+.date-obj strong{display:block;color:var(--text);font-size:.8rem}
 
 /* ── BODY ── */
 .lm-body{padding:40px 48px}
@@ -52,7 +52,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .impact-card{border-radius:10px;padding:14px 16px;text-align:center;border:1px solid var(--border)}
 .impact-card .big{font-size:1.6rem;font-weight:800;line-height:1;margin-bottom:4px}
 .impact-card .label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
-.card-ope{background:rgba(29,78,216,.05);border-color:rgba(29,78,216,.15)}
+.card-ope{background:rgba(5,150,105,.05);border-color:rgba(5,150,105,.15)}
 .card-ope .big{color:var(--blue)}
 .card-rel{background:rgba(124,58,237,.05);border-color:rgba(124,58,237,.15)}
 .card-rel .big{color:var(--purple)}
@@ -79,7 +79,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 
 /* KW TAGS */
 .kw-row{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
-.kw{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;background:rgba(27,58,107,.08);color:var(--blue);border:1px solid rgba(27,58,107,.15)}
+.kw{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;background:rgba(5,150,105,.08);color:var(--blue);border:1px solid rgba(5,150,105,.15)}
 </style>
 </head>
 <body>
@@ -93,7 +93,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <h2>TAMOU ELJERRARI</h2>
       <div class="role">Responsable Qualité &amp; Formation · Auditrice Interne Freelance · Expert BPO</div>
       <div class="coords">
-        📞 +212 608 946 665 &nbsp;|&nbsp; ✉️ madsenfatou@gmail.com &nbsp;|&nbsp; 📍 Marrakech, Maroc<br>
+        📞 +212 608 946 665 &nbsp;|&nbsp; ✉️ madsenfatou@gmail.com &nbsp;|&nbsp; 📍 Agadir &amp; Marrakech, Maroc<br>
         🟢 Disponibilité immédiate
       </div>
     </div>
@@ -143,7 +143,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <div class="impact-grid">
     <div class="impact-card card-ope">
       <div class="big">46%</div>
-      <div class="label">Excellence opérationnelle<br><span style="font-size:9px;color:#1d4ed8">(50 verbatims · pédagogie, méthode, structure)</span></div>
+      <div class="label">Excellence opérationnelle<br><span style="font-size:9px;color:#059669">(50 verbatims · pédagogie, méthode, structure)</span></div>
     </div>
     <div class="impact-card card-rel">
       <div class="big">39%</div>

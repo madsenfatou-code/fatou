@@ -7,7 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 :root{
-  --navy:#0d1b2a;--blue:#1b3a6b;--gold:#c89f14;--red:#C1272D;
+  --navy:#0d1b2a;--blue:#059669;--gold:#c89f14;--red:#C1272D;
   --green:#00853F;--purple:#7c3aed;--text:#1e2533;--muted:#5a6478;
   --bg:#f4f5f9;--card:#fff;--border:#e4e7ee;--light:#f8f9fc;
 }
@@ -18,17 +18,17 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .page{max-width:860px;margin:0 auto;background:var(--card);box-shadow:0 4px 32px rgba(0,0,0,.1)}
 
 /* ── HEADER ── */
-.header{display:grid;grid-template-columns:auto 1fr;background:var(--navy);color:#fff;min-height:180px}
+.header{display:grid;grid-template-columns:auto 1fr;background:#f8f9ff;border-bottom:2px solid var(--border);min-height:180px}
 .header-accent{width:8px;background:linear-gradient(180deg,var(--gold),var(--red))}
 .header-content{padding:32px 36px 28px;display:flex;align-items:flex-start;gap:28px}
-.avatar{width:88px;height:88px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.avatar{width:88px;height:88px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;flex-shrink:0;background:rgba(5,150,105,.1);display:flex;align-items:center;justify-content:center;font-size:2rem}
 .header-text{flex:1}
-.header-text h1{font-size:1.75rem;font-weight:800;letter-spacing:-.5px;line-height:1.1}
-.header-text .title{color:var(--gold);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 12px}
-.tagline{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6;max-width:520px}
+.header-text h1{font-size:1.75rem;font-weight:800;letter-spacing:-.5px;line-height:1.1;color:var(--navy)}
+.header-text .title{color:var(--blue);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 12px}
+.tagline{font-size:.8rem;color:var(--muted);line-height:1.6;max-width:520px}
 .contact-bar{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px}
-.contact-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:rgba(255,255,255,.65)}
-.contact-item strong{color:rgba(255,255,255,.9)}
+.contact-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--muted)}
+.contact-item strong{color:var(--text)}
 
 /* ── KPI BAR ── */
 .kpi-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--blue)}
@@ -54,7 +54,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .tag-list{display:flex;flex-wrap:wrap;gap:5px}
 .tag{font-size:10px;padding:3px 8px;border-radius:12px;font-weight:500;border:1px solid}
 .tag.r{background:rgba(124,58,237,.08);color:var(--purple);border-color:rgba(124,58,237,.2)}
-.tag.b{background:rgba(29,78,216,.08);color:var(--blue);border-color:rgba(29,78,216,.2)}
+.tag.b{background:rgba(5,150,105,.08);color:var(--blue);border-color:rgba(5,150,105,.2)}
 .tag.g{background:rgba(0,133,63,.08);color:var(--green);border-color:rgba(0,133,63,.2)}
 .tag.gold{background:rgba(200,159,20,.1);color:#8a6d00;border-color:rgba(200,159,20,.3)}
 
@@ -94,7 +94,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .score-mini{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 .score-chip{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600}
 .chip-rel{background:rgba(124,58,237,.1);color:var(--purple)}
-.chip-ope{background:rgba(29,78,216,.1);color:var(--blue)}
+.chip-ope{background:rgba(5,150,105,.1);color:var(--blue)}
 .chip-mot{background:rgba(217,119,6,.1);color:var(--mot,#d97706)}
 
 .verbatim-box{background:var(--light);border-left:3px solid var(--gold);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-style:italic;font-size:11px;color:var(--muted)}
@@ -129,7 +129,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <div class="contact-bar">
         <div class="contact-item">📞 <strong>+212 608 946 665</strong></div>
         <div class="contact-item">✉️ <strong>madsenfatou@gmail.com</strong></div>
-        <div class="contact-item">📍 <strong>Marrakech, Maroc</strong></div>
+        <div class="contact-item">📍 <strong>Agadir &amp; Marrakech, Maroc</strong></div>
         <div class="contact-item">🟢 <strong>Disponible immédiatement</strong></div>
       </div>
     </div>
@@ -156,7 +156,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <div><span class="ico">📞</span>+212 608 946 665</div>
       <div><span class="ico">📞</span>+212 603 993 201</div>
       <div><span class="ico">✉️</span>madsenfatou@gmail.com</div>
-      <div><span class="ico">📍</span>Marrakech, Maroc</div>
+      <div><span class="ico">📍</span>Agadir &amp; Marrakech, Maroc</div>
       <div><span class="ico">🟢</span><strong style="color:var(--green)">Disponibilité immédiate</strong></div>
     </div>
   </div>
