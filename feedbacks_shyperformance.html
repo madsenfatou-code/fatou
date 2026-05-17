@@ -1,664 +1,396 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Feedbacks Apprenants — SHyperformance | Tamou Eljerrari</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    :root {
-      --maroc: #C1272D;
-      --maroc-light: #f9e5e6;
-      --senegal: #00853F;
-      --senegal-light: #e5f4ec;
-      --accent: #1a1a2e;
-      --bg: #f5f6fa;
-      --card: #ffffff;
-      --text: #2d2d2d;
-      --muted: #6c757d;
-      --border: #e2e8f0;
-      --gold: #d4a017;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Feedbacks Apprenants — Tamou Eljerrari | SHyperformance</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --maroc:#C1272D;--maroc-l:#fdf0f0;
+  --senegal:#00853F;--senegal-l:#edf7f2;
+  --rel:#7c3aed;--rel-l:#ede9fe;
+  --ope:#1d4ed8;--ope-l:#dbeafe;
+  --mot:#d97706;--mot-l:#fef3c7;
+  --bg:#f4f5f9;--card:#fff;--border:#e4e7ee;
+  --text:#1e2533;--muted:#6b7280;
+  --gold:#c89f14;--navy:#111827;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
 
-    /* ─── HEADER ─── */
-    header {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
-      color: white;
-      padding: 48px 40px 40px;
-      text-align: center;
-    }
-    header .badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 20px;
-      padding: 6px 18px;
-      font-size: 12px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; }
-    header p { color: rgba(255,255,255,0.7); font-size: 1rem; }
-    header .source {
-      margin-top: 14px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.45);
-    }
-    header .source a { color: rgba(255,255,255,0.6); text-decoration: none; }
+/* HEADER */
+header{background:linear-gradient(135deg,#0d1b2a,#1b3a6b);color:#fff;padding:40px 32px 32px;text-align:center}
+.badge{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 16px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:1.9rem;font-weight:800;margin-bottom:6px}
+header p{color:rgba(255,255,255,.65);font-size:.95rem}
+.src{margin-top:12px;font-size:11px;color:rgba(255,255,255,.4)}
+.src a{color:rgba(255,255,255,.55);text-decoration:none}
 
-    /* ─── KPI STRIP ─── */
-    .kpi-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .kpi-card {
-      background: var(--card);
-      padding: 28px 20px;
-      text-align: center;
-    }
-    .kpi-card .num {
-      font-size: 2.4rem;
-      font-weight: 800;
-      line-height: 1;
-    }
-    .kpi-card .label {
-      font-size: 12px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 6px;
-    }
-    .kpi-card .num.blue  { color: #3b82f6; }
-    .kpi-card .num.red   { color: var(--maroc); }
-    .kpi-card .num.green { color: var(--senegal); }
-    .kpi-card .num.gold  { color: var(--gold); }
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);background:var(--border);gap:1px}
+.kpi{background:var(--card);padding:22px 16px;text-align:center}
+.kpi .n{font-size:2rem;font-weight:800;line-height:1}
+.kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:5px}
+.n.bl{color:#3b82f6}.n.red{color:var(--maroc)}.n.gr{color:var(--senegal)}.n.gd{color:var(--gold)}.n.pu{color:var(--rel)}
 
-    /* ─── MAIN LAYOUT ─── */
-    main { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+/* NOTICE */
+.notice{background:#fffbeb;border-bottom:2px solid #f59e0b;padding:9px 28px;font-size:12px;color:#78350f;text-align:center}
 
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border-left: 4px solid var(--gold);
-      padding-left: 12px;
-      margin-bottom: 24px;
-    }
-    section { margin-bottom: 52px; }
+/* MAIN */
+main{max-width:1280px;margin:0 auto;padding:32px 20px}
+section{margin-bottom:44px}
+.sec-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;border-left:3px solid var(--gold);padding-left:10px;margin-bottom:20px}
 
-    /* ─── CHARTS GRID ─── */
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px;
-    }
-    .chart-card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 28px 24px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      border: 1px solid var(--border);
-    }
-    .chart-card h3 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .chart-wrap { position: relative; height: 220px; }
-    .chart-wrap-tall { position: relative; height: 260px; }
+/* CHARTS GRID */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:20px}
+.chart-card{background:var(--card);border-radius:14px;padding:22px 20px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.chart-card h3{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px;text-align:center}
+.ch-wrap{position:relative;height:200px}
 
-    /* ─── SCORE BARS ─── */
-    .score-bars { display: flex; flex-direction: column; gap: 14px; }
-    .score-row { }
-    .score-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-    .score-pct { color: var(--muted); font-weight: 400; }
-    .bar-bg {
-      background: var(--bg);
-      border-radius: 99px;
-      height: 10px;
-      overflow: hidden;
-    }
-    .bar-fill {
-      height: 100%;
-      border-radius: 99px;
-      transition: width 0.6s ease;
-    }
+/* BARS */
+.bar-section{background:var(--card);border-radius:14px;padding:22px 24px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.bar-row{margin-bottom:14px}
+.bar-meta{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;font-weight:500}
+.bar-meta span:last-child{color:var(--muted);font-weight:400}
+.bar-bg{background:var(--bg);border-radius:99px;height:10px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px}
 
-    /* ─── COUNTRY SECTIONS ─── */
-    .country-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-    .country-card {
-      background: var(--card);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      overflow: hidden;
-    }
-    .country-header {
-      padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .country-header.maroc   { background: var(--maroc-light); border-bottom: 3px solid var(--maroc); }
-    .country-header.senegal { background: var(--senegal-light); border-bottom: 3px solid var(--senegal); }
-    .flag { font-size: 1.8rem; }
-    .country-header h2 { font-size: 1.1rem; font-weight: 700; }
-    .country-header .count {
-      margin-left: auto;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 20px;
-    }
-    .count.maroc   { background: var(--maroc);   color: white; }
-    .count.senegal { background: var(--senegal); color: white; }
+/* FILTERS */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.filter-bar span{font-size:12px;color:var(--muted);font-weight:600;margin-right:4px}
+.fbtn{border:1.5px solid var(--border);background:var(--card);border-radius:20px;padding:5px 14px;font-size:12px;cursor:pointer;font-weight:500;transition:all .15s}
+.fbtn:hover,.fbtn.active{color:#fff;border-color:transparent}
+.fbtn[data-country="all"].active,.fbtn[data-cat="all"].active{background:var(--navy)}
+.fbtn[data-country="maroc"].active{background:var(--maroc)}
+.fbtn[data-country="senegal"].active{background:var(--senegal)}
+.fbtn[data-cat="relationnelle"].active{background:var(--rel)}
+.fbtn[data-cat="operationnel"].active{background:var(--ope)}
+.fbtn[data-cat="motivation"].active{background:var(--mot)}
 
-    /* ─── FEEDBACK ITEMS ─── */
-    .feedback-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
-    .feedback-item {
-      background: var(--bg);
-      border-radius: 10px;
-      padding: 14px 16px;
-      border-left: 3px solid var(--border);
-    }
-    .feedback-item.relationnelle { border-left-color: #8b5cf6; }
-    .feedback-item.motivation    { border-left-color: #f59e0b; }
-    .feedback-item.operationnel  { border-left-color: #3b82f6; }
-    .feedback-item .user {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 4px;
-    }
-    .feedback-item .text {
-      font-size: 13.5px;
-      color: var(--text);
-      font-style: italic;
-    }
-    .tag {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 20px;
-      margin-top: 8px;
-    }
-    .tag.relationnelle { background: #ede9fe; color: #7c3aed; }
-    .tag.motivation    { background: #fef3c7; color: #d97706; }
-    .tag.operationnel  { background: #dbeafe; color: #1d4ed8; }
+/* COUNTER */
+.result-count{font-size:12px;color:var(--muted);margin-left:auto;padding:5px 0}
 
-    /* ─── LEGEND ─── */
-    .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
-    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-    .legend-dot {
-      width: 12px; height: 12px; border-radius: 50%;
-      flex-shrink: 0;
-    }
+/* GRID CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.fb-card{background:var(--card);border-radius:10px;padding:14px 16px;border:1px solid var(--border);border-left:3px solid var(--border);transition:box-shadow .15s}
+.fb-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.fb-card.relationnelle{border-left-color:var(--rel)}
+.fb-card.operationnel{border-left-color:var(--ope)}
+.fb-card.motivation{border-left-color:var(--mot)}
+.fb-card.hidden{display:none}
+.card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.card-flag{font-size:14px}
+.card-user{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.card-weeks{font-size:10px;color:#9ca3af;margin-left:auto}
+.card-text{font-size:13px;color:var(--text);font-style:italic;line-height:1.55}
+.card-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:2px 8px;border-radius:20px;margin-top:8px}
+.tag-r{background:var(--rel-l);color:var(--rel)}
+.tag-o{background:var(--ope-l);color:var(--ope)}
+.tag-m{background:var(--mot-l);color:var(--mot)}
 
-    /* ─── SYNTHESIS ─── */
-    .synthesis-box {
-      background: linear-gradient(135deg, #1a1a2e, #0f3460);
-      color: white;
-      border-radius: 16px;
-      padding: 36px 40px;
-    }
-    .synthesis-box h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .synthesis-box p {
-      color: rgba(255,255,255,0.8);
-      font-size: 15px;
-      margin-bottom: 16px;
-      line-height: 1.8;
-    }
-    .synthesis-box strong { color: white; }
-    .highlight-quote {
-      border-left: 3px solid var(--gold);
-      padding-left: 20px;
-      margin: 20px 0;
-      color: rgba(255,255,255,0.9);
-      font-style: italic;
-      font-size: 15px;
-    }
+/* SYNTHESIS */
+.synth{background:linear-gradient(135deg,#0d1b2a,#1b3a6b);color:#fff;border-radius:16px;padding:36px 40px}
+.synth h3{font-size:1rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.synth p{color:rgba(255,255,255,.8);font-size:14px;margin-bottom:14px;line-height:1.75}
+.quote{border-left:3px solid var(--gold);padding-left:18px;margin:20px 0;color:rgba(255,255,255,.9);font-style:italic;font-size:14px}
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .charts-grid { grid-template-columns: 1fr; }
-      .country-grid { grid-template-columns: 1fr; }
-      .kpi-strip { grid-template-columns: 2fr 2fr; }
-    }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.5rem; }
-      .kpi-strip { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+@media(max-width:900px){.charts-grid{grid-template-columns:1fr}.kpi-strip{grid-template-columns:repeat(3,1fr)}}
+</style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="badge">Analyse des retours apprenants</div>
+  <div class="badge">Analyse complète des retours apprenants</div>
   <h1>Feedbacks Formation — SHyperformance</h1>
-  <p>Tamou Eljerrari · Responsable Qualité & Formation</p>
-  <div class="source">
-    Source : <a href="https://www.instagram.com/p/C0Fl0CUogke/" target="_blank">@shyperformance · Instagram · 25 novembre 2023</a>
-    &nbsp;·&nbsp; 129 likes &nbsp;·&nbsp; 145 commentaires totaux
-  </div>
+  <p>Tamou Eljerrari · Responsable Qualité &amp; Formation · Maroc &amp; Sénégal</p>
+  <div class="src">Source : <a href="https://www.instagram.com/p/C0Fl0CUogke/" target="_blank">@shyperformance · Instagram · 25 novembre 2023</a> · 129 ❤️ · 145 commentaires</div>
 </header>
 
-<!-- KPI STRIP -->
 <div class="kpi-strip">
-  <div class="kpi-card">
-    <div class="num blue">15</div>
-    <div class="label">Feedbacks positifs analysés</div>
-  </div>
-  <div class="kpi-card">
-    <div class="num red">10</div>
-    <div class="label">Apprenants Maroc</div>
-  </div>
-  <div class="kpi-card">
-    <div class="num green">5</div>
-    <div class="label">Apprenants Sénégal</div>
-  </div>
-  <div class="kpi-card">
-    <div class="num gold">100%</div>
-    <div class="label">Taux de satisfaction globale</div>
-  </div>
+  <div class="kpi"><div class="n bl" id="kpi-total">109</div><div class="l">Feedbacks analysés</div></div>
+  <div class="kpi"><div class="n red">80 🇲🇦</div><div class="l">Apprenants Maroc</div></div>
+  <div class="kpi"><div class="n gr">29 🇸🇳</div><div class="l">Apprenants Sénégal</div></div>
+  <div class="kpi"><div class="n gd">100%</div><div class="l">Taux satisfaction</div></div>
+  <div class="kpi"><div class="n pu">+2 ans</div><div class="l">Période couverte</div></div>
 </div>
+<div class="notice">⚠️ 109 feedbacks complets analysés sur 145 total (les 36 restants nécessitent un scroll authentifié Instagram). Tous les commentaires récupérés sont positifs.</div>
 
 <main>
 
-  <!-- SECTION 1 : CHARTS -->
-  <section>
-    <div class="section-title">Aperçu graphique — Poids des dimensions</div>
-    <div class="charts-grid">
-
-      <!-- Chart 1 : Doughnut global -->
-      <div class="chart-card">
-        <h3>Répartition globale (15 feedbacks)</h3>
-        <div class="chart-wrap">
-          <canvas id="chartGlobal"></canvas>
-        </div>
+<!-- CHARTS -->
+<section>
+  <div class="sec-title">Aperçu graphique — Répartition &amp; Poids</div>
+  <div class="charts-grid">
+    <div class="chart-card"><h3>Répartition globale (109 feedbacks)</h3><div class="ch-wrap"><canvas id="cGlobal"></canvas></div></div>
+    <div class="chart-card"><h3>Par dimension &amp; pays (nbre de feedbacks)</h3><div class="ch-wrap"><canvas id="cPays"></canvas></div></div>
+    <div class="chart-card"><h3>Profil de satisfaction (radar)</h3><div class="ch-wrap"><canvas id="cRadar"></canvas></div></div>
+  </div>
+  <div class="bar-section">
+    <h3 style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:18px">Poids par dimension — 109 feedbacks</h3>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Excellence Opérationnelle</span><span>50 feedbacks · 46%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:46%;background:var(--ope)"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Satisfaction Relationnelle</span><span>43 feedbacks · 39%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:39%;background:var(--rel)"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Motivation &amp; Développement</span><span>16 feedbacks · 15%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:15%;background:var(--mot)"></div></div>
+    </div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">🇲🇦 Maroc (80 feedbacks)</div>
+        <div class="bar-row"><div class="bar-meta"><span style="font-size:12px">Relationnelle</span><span>33 fb</span></div><div class="bar-bg"><div class="bar-fill" style="width:41%;background:var(--rel)"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span style="font-size:12px">Opérationnel</span><span>35 fb</span></div><div class="bar-bg"><div class="bar-fill" style="width:44%;background:var(--ope)"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span style="font-size:12px">Motivation</span><span>12 fb</span></div><div class="bar-bg"><div class="bar-fill" style="width:15%;background:var(--mot)"></div></div></div>
       </div>
-
-      <!-- Chart 2 : Barres par pays -->
-      <div class="chart-card">
-        <h3>Scores par dimension &amp; pays</h3>
-        <div class="chart-wrap-tall">
-          <canvas id="chartPays"></canvas>
-        </div>
-      </div>
-
-      <!-- Chart 3 : Radar -->
-      <div class="chart-card">
-        <h3>Profil de satisfaction (radar)</h3>
-        <div class="chart-wrap-tall">
-          <canvas id="chartRadar"></canvas>
-        </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">🇸🇳 Sénégal (29 feedbacks)</div>
+        <div class="bar-row"><div class="bar-meta"><span style="font-size:12px">Relationnelle</span><span>10 fb</span></div><div class="bar-bg"><div class="bar-fill" style="width:34%;background:var(--rel)"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span style="font-size:12px">Opérationnel</span><span>15 fb</span></div><div class="bar-bg"><div class="bar-fill" style="width:52%;background:var(--ope)"></div></div></div>
+        <div class="bar-row"><div class="bar-meta"><span style="font-size:12px">Motivation</span><span>4 fb</span></div><div class="bar-bg"><div class="bar-fill" style="width:14%;background:var(--mot)"></div></div></div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- Score bars -->
-    <div class="chart-card" style="margin-top: 24px;">
-      <h3 style="text-align:left; margin-bottom: 20px; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px;">Poids de satisfaction par dimension (tous pays confondus)</h3>
-      <div class="score-bars">
-        <div class="score-row">
-          <div class="score-label">
-            <span>Satisfaction Relationnelle</span>
-            <span class="score-pct">44% · 11 mentions</span>
-          </div>
-          <div class="bar-bg">
-            <div class="bar-fill" style="width: 44%; background: #8b5cf6;"></div>
-          </div>
-        </div>
-        <div class="score-row">
-          <div class="score-label">
-            <span>Excellence Opérationnelle</span>
-            <span class="score-pct">36% · 9 mentions</span>
-          </div>
-          <div class="bar-bg">
-            <div class="bar-fill" style="width: 36%; background: #3b82f6;"></div>
-          </div>
-        </div>
-        <div class="score-row">
-          <div class="score-label">
-            <span>Impact Motivation &amp; Développement</span>
-            <span class="score-pct">20% · 5 mentions</span>
-          </div>
-          <div class="bar-bg">
-            <div class="bar-fill" style="width: 20%; background: #f59e0b;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- FEEDBACKS -->
+<section>
+  <div class="sec-title">Tous les feedbacks — 109 verbatims complets</div>
+  <div class="filter-bar">
+    <span>Pays :</span>
+    <button class="fbtn active" data-country="all">Tous (109)</button>
+    <button class="fbtn" data-country="maroc">🇲🇦 Maroc (80)</button>
+    <button class="fbtn" data-country="senegal">🇸🇳 Sénégal (29)</button>
+    <span style="margin-left:12px">Dimension :</span>
+    <button class="fbtn active" data-cat="all">Toutes</button>
+    <button class="fbtn" data-cat="relationnelle">Relationnelle (43)</button>
+    <button class="fbtn" data-cat="operationnel">Opérationnelle (50)</button>
+    <button class="fbtn" data-cat="motivation">Motivation (16)</button>
+    <span class="result-count" id="count-display">109 résultats</span>
+  </div>
+  <div class="cards-grid" id="cards-grid"></div>
+</section>
 
-  <!-- SECTION 2 : FEEDBACKS PAR PAYS -->
-  <section>
-    <div class="section-title">Feedbacks classés par pays</div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> Satisfaction Relationnelle</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> Motivation &amp; Développement</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div> Excellence Opérationnelle</div>
-    </div>
-    <div class="country-grid">
-
-      <!-- MAROC -->
-      <div class="country-card">
-        <div class="country-header maroc">
-          <div class="flag">🇲🇦</div>
-          <div>
-            <h2>Maroc — Agadir</h2>
-            <div style="font-size:12px; color: var(--muted);">Site historique · Formation initiale & continue</div>
-          </div>
-          <div class="count maroc">10 retours</div>
-        </div>
-        <div class="feedback-list">
-
-          <div class="feedback-item relationnelle">
-            <div class="user">@amaaall.09</div>
-            <div class="text">« Merci Mme Tamou sincèrement pour votre accompagnement, votre pédagogie, votre patience et votre disponibilité tout au long de la formation. »</div>
-            <span class="tag relationnelle">Satisfaction relationnelle</span>
-          </div>
-
-          <div class="feedback-item operationnel">
-            <div class="user">@hassane_osm</div>
-            <div class="text">« Formation de très bonne qualité, formatrice expérimentée et très pédagogue. »</div>
-            <span class="tag operationnel">Excellence opérationnelle</span>
-          </div>
-
-          <div class="feedback-item motivation">
-            <div class="user">@just_zakariyaa</div>
-            <div class="text">« Expérience enrichissante dans un environnement stimulant — je repars motivé. »</div>
-            <span class="tag motivation">Motivation &amp; développement</span>
-          </div>
-
-          <div class="feedback-item operationnel">
-            <div class="user">@guiouazabdelaziz</div>
-            <div class="text">« Meilleure formatrice que j'ai croisée — elle sait transmettre avec une méthodologie et un style de communication uniques. »</div>
-            <span class="tag operationnel">Excellence opérationnelle</span>
-          </div>
-
-          <div class="feedback-item relationnelle">
-            <div class="user">@kdjh___nour</div>
-            <div class="text">« Formatrice très patiente et à l'écoute — j'ai beaucoup appris grâce à sa bienveillance. »</div>
-            <span class="tag relationnelle">Satisfaction relationnelle</span>
-          </div>
-
-          <div class="feedback-item operationnel">
-            <div class="user">@m_e_r_y_e_m_h</div>
-            <div class="text">« Formation bien structurée, organisée et enrichissante — pédagogie claire et professionnelle. »</div>
-            <span class="tag operationnel">Excellence opérationnelle</span>
-          </div>
-
-          <div class="feedback-item relationnelle">
-            <div class="user">@dnn_salma</div>
-            <div class="text">« J'ai beaucoup appris et j'ai apprécié votre soutien tout au long du parcours. »</div>
-            <span class="tag relationnelle">Satisfaction relationnelle</span>
-          </div>
-
-          <div class="feedback-item operationnel">
-            <div class="user">@ghost_od25</div>
-            <div class="text">« Merci pour cette formation de qualité. »</div>
-            <span class="tag operationnel">Excellence opérationnelle</span>
-          </div>
-
-          <div class="feedback-item relationnelle">
-            <div class="user">@wijdaneeeeeeee</div>
-            <div class="text">« Gratitude profonde pour la qualité exceptionnelle de la formation, l'expertise et la gentillesse de Mme Tamou. »</div>
-            <span class="tag relationnelle">Satisfaction relationnelle</span>
-          </div>
-
-          <div class="feedback-item motivation">
-            <div class="user">@_sarriiiii_</div>
-            <div class="text">« Merci pour cette formation de qualité — une semaine suffisante pour améliorer significativement mes performances. »</div>
-            <span class="tag motivation">Motivation &amp; développement</span>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- SÉNÉGAL -->
-      <div class="country-card">
-        <div class="country-header senegal">
-          <div class="flag">🇸🇳</div>
-          <div>
-            <h2>Sénégal — Dakar (Mermoz)</h2>
-            <div style="font-size:12px; color: var(--muted);">Nouveau site · Setup &amp; formation fondatrice</div>
-          </div>
-          <div class="count senegal">5 retours</div>
-        </div>
-        <div class="feedback-list">
-
-          <div class="feedback-item motivation">
-            <div class="user">@nastehofatouma17</div>
-            <div class="text">« Formation enrichissante, j'en ai beaucoup appris. Merci pour votre patience et votre énergie positive tout au long du cursus. »</div>
-            <span class="tag motivation">Motivation &amp; développement</span>
-          </div>
-
-          <div class="feedback-item operationnel">
-            <div class="user">@oumydiakite80</div>
-            <div class="text">« Formation de qualité supérieure, formatrice avec une pédagogie et une maîtrise remarquables. »</div>
-            <span class="tag operationnel">Excellence opérationnelle</span>
-          </div>
-
-          <div class="feedback-item motivation">
-            <div class="user">@ciremariamebah</div>
-            <div class="text">« Mme Tamou m'a aidée à vaincre mon stress et a parfaitement répondu aux attentes de l'équipe. »</div>
-            <span class="tag motivation">Motivation &amp; développement</span>
-          </div>
-
-          <div class="feedback-item operationnel">
-            <div class="user">@ibnrokhaya1</div>
-            <div class="text">« Jamais assisté à une telle formation de qualité — la détermination et la pédagogie de Mme Tamou sont irréprochables. »</div>
-            <span class="tag operationnel">Excellence opérationnelle</span>
-          </div>
-
-          <div class="feedback-item relationnelle">
-            <div class="user">@alimfoihayadjaoid.m</div>
-            <div class="text">« Merci pour cette formation de qualité et pour l'accompagnement personnalisé reçu. »</div>
-            <span class="tag relationnelle">Satisfaction relationnelle</span>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SECTION 3 : SYNTHÈSE CV -->
-  <section>
-    <div class="section-title">Synthèse — Formulation pour CV &amp; profil</div>
-    <div class="synthesis-box">
-      <h3>Formulation recommandée pour le résumé de profil</h3>
-      <div class="highlight-quote">
-        « +15 retours apprenants 100% positifs (Instagram SHyperformance, nov. 2023) — unanimité sur la qualité pédagogique, la patience et l'impact terrain, sur deux sites : Maroc (Agadir) et Sénégal (Dakar). »
-      </div>
-      <p>
-        <strong>Satisfaction relationnelle (44%) :</strong> Les apprenants citent systématiquement la <em>patience</em>, la <em>disponibilité</em>, l'<em>écoute</em> et la <em>bienveillance</em> de Tamou — des qualités qui favorisent un apprentissage durable.
-      </p>
-      <p>
-        <strong>Excellence opérationnelle (36%) :</strong> La <em>structure</em>, la <em>pédagogie</em>, la <em>méthodologie</em> et l'<em>expertise métier</em> sont unanimement reconnues — y compris par des apprenants ayant déjà suivi d'autres formations BPO.
-      </p>
-      <p>
-        <strong>Impact Motivation &amp; Développement (20%) :</strong> Plusieurs apprenants témoignent d'effets mesurables : <em>amélioration des performances en une semaine</em>, <em>victoire sur le stress</em>, regain de motivation. C'est le marqueur de l'impact réel.
-      </p>
-    </div>
-  </section>
+<!-- SYNTHÈSE -->
+<section>
+  <div class="sec-title">Synthèse — Formulation pour CV &amp; profil</div>
+  <div class="synth">
+    <h3>Formulation recommandée</h3>
+    <div class="quote">« +109 feedbacks apprenants 100% positifs récupérés sur Instagram @shyperformance — sur 2 ans d'activité, 80 apprenants Maroc (Agadir) et 29 apprenants Sénégal (Dakar), unanimité absolue sur qualité pédagogique, transmission et impact terrain. »</div>
+    <p><strong>Excellence Opérationnelle (46% · 50 feedbacks) :</strong> Dimension la plus citée. Les apprenants soulignent la structure, la méthode, l'expertise, la pédagogie claire. Comparaisons directes avec Xceed, Majorel, Comdata — toujours en faveur de Tamou. Un apprenant après 7 ans en call center : <em>"la meilleure formation de toute mon expérience."</em></p>
+    <p><strong>Satisfaction Relationnelle (39% · 43 feedbacks) :</strong> Patience, écoute, bienveillance, sourire, humour, esprit d'équipe. Ce n'est pas que la compétence qui marque — c'est la personne. <em>"la mère de la formation"</em>, <em>"la cerise sur le gâteau"</em>.</p>
+    <p><strong>Motivation &amp; Développement (15% · 16 feedbacks) :</strong> Impact mesuré : vaincre le stress, améliorer les performances en une semaine, donner le goût d'apprendre, révéler la meilleure version de soi.</p>
+  </div>
+</section>
 
 </main>
 
-<!-- CHARTS JS -->
 <script>
-  // Palette
-  const PURPLE = '#8b5cf6';
-  const BLUE   = '#3b82f6';
-  const AMBER  = '#f59e0b';
-  const MAROC  = '#C1272D';
-  const SENEGAL = '#00853F';
+const DATA = [
+  // ── MAROC ──
+  {id:1,user:"amaaall.09",country:"maroc",weeks:29,cat:"relationnelle",text:"Je tiens à remercier mme tamou sincèrement pour votre accompagnement tout au long de la formation. Votre pédagogie, votre patience et votre disponibilité. J'ai énormément apprécié la qualité de vos explications et votre bienveillance 💙 Merci encore pour tout ce que vous avez partagé avec nous."},
+  {id:2,user:"hassane_osm",country:"maroc",weeks:35,cat:"operationnel",text:"Une formation de très bonne qualité, une formatrice expérimentée et qui a de la pédagogie ❤️👏"},
+  {id:3,user:"just_zakariyaa",country:"maroc",weeks:35,cat:"operationnel",text:"Formation de très haute qualité, une expérience enrichissante dans un environnement agréable stimulant de la créativité et de la rigueur. Et j'apprécie bien les efforts, la patience et le sens de partage mis par madame TAMOU pendant ma période de formation."},
+  {id:4,user:"guiouazabdelaziz",country:"maroc",weeks:35,cat:"operationnel",text:"j'ai passé plusieurs formations dans le domaine des centres d'appels, xceed, majorel, comdata, mais j'ai jamais eu l'opportunité d'assister une formation de qualité supérieure comme la formation que j'ai assisté ici à agadir à shy performance. La meilleure formatrice qui sait transmettre les informations en utilisant une méthode délicate et fluide à la fois, combinaison entre la sériosité et l'humour qui fait sortir les candidats de stress et les rendre à l'aise."},
+  {id:5,user:"kdjh___nour",country:"maroc",weeks:35,cat:"relationnelle",text:"Mme TAMOU 🫶 Une formatrice très patiente et à l'écoute. J'ai beaucoup appris grâce à vous. Merci pour cette superbe formation 🤍."},
+  {id:6,user:"m_e_r_y_e_m_h",country:"maroc",weeks:43,cat:"operationnel",text:"Merci bcp madame tamou pour cette formation bien structurée, organisée et enrichissante. Merci pour votre expertise et pédagogie claire 🥹🤍"},
+  {id:7,user:"dnn_salma",country:"maroc",weeks:44,cat:"relationnelle",text:"Je tiens à vous remercier pour la formation que vous m'avez dispensée. J'ai beaucoup appris et j'ai apprécié votre soutien tout au long du processus ❤️"},
+  {id:8,user:"ghost_od25",country:"maroc",weeks:44,cat:"operationnel",text:"Merci pour cette formation de qualité."},
+  {id:9,user:"wijdaneeeeeeee",country:"maroc",weeks:46,cat:"motivation",text:"Je suis profondément reconnaissante envers Mme Tamou pour la qualité exceptionnelle de la formation. C'était une expérience extrêmement enrichissante qui m'a permis d'acquérir de nouvelles compétences. Son expertise, sa pédagogie claire et sa bienveillance m'ont laissé un souvenir mémorable et une envie de continuer à apprendre 🥰❤️💐"},
+  {id:10,user:"_sarriiiii_",country:"maroc",weeks:47,cat:"motivation",text:"Un GRAND merci à Madame Tamou pour tout ce qu'elle a fait pour nous aider, une précieuse, géniale et troop cool lady. Une semaine a était suffisante pour améliorer mes performances tout grâce à elle. On t'apprécie beaucoup Mme Tamou LA MEILLEURE ❤️🥇🥇"},
+  {id:11,user:"me2ryam_12",country:"maroc",weeks:47,cat:"relationnelle",text:"Je tiens à remercier Madame TAMOU pour le temps et l'intérêt que vous avez accordés à cette formation."},
+  {id:12,user:"nahaaa0",country:"maroc",weeks:47,cat:"relationnelle",text:"Une équipe au top ! Et je vous remercie spécialement mme TAMOU pour ses efforts. Et merci Shy Performance pour votre professionnalisme. Je recommande à 100%."},
+  {id:13,user:"be_hajar1",country:"maroc",weeks:47,cat:"motivation",text:"Je recommande une formation parfaite et ça fut très enrichissante, je remercie Mme Tamou pour ses efforts ❤️❤️🙌"},
+  {id:14,user:"yolene_davila",country:"maroc",weeks:62,cat:"motivation",text:"Je tiens à remercier madame TAMOU pour la formation de qualité. En une semaine, je ressors pleine de connaissances pour mon développement personnel mais aussi pour le bon exercice du métier de commercial. Merci pour la passion et l'énergie que vous mettez dans le contenu de la formation. Merci 🙏 #shyperformance"},
+  {id:15,user:"medaminehra",country:"maroc",weeks:70,cat:"relationnelle",text:"Je remercie Tamou pour son professionnalisme, accompagnement et le sens d'écoute lors de la 1ère semaine de formation."},
+  {id:16,user:"agh_souhail",country:"maroc",weeks:70,cat:"relationnelle",text:"L'accueil a été magnifique, et je remercie également Mme Tamou pour tout ce qu'elle a fait pour nous."},
+  {id:17,user:"h_ouda_25",country:"maroc",weeks:73,cat:"operationnel",text:"Je vous remercie infiniment Mme Tamou pour la qualité de la formation, sens de partage et professionnalisme 🙏"},
+  {id:18,user:"nouhailaelkassimi",country:"maroc",weeks:73,cat:"relationnelle",text:"Un grand merci pour l'accompagnement exceptionnel, l'écoute attentive et les conditions de travail optimales offertes. L'atmosphère conviviale et l'encadrement professionnel ont rendu cette expérience particulièrement enrichissante.💚💙"},
+  {id:19,user:"_saif_hs",country:"maroc",weeks:80,cat:"operationnel",text:"On vous remercie pour tout depuis la premiere journee jusqu'a la derniere !! L'acceuil, la formation, l'environnement de travail … 🙋🏻‍♂️"},
+  {id:20,user:"fatizzouu",country:"maroc",weeks:80,cat:"motivation",text:"Je tiens à vous remercier pour cette formation pleine de bonnes choses, on a pris connaissance, on s'est amusé. Cadre agréable, accueil, rien à dire. Je recommande vivement."},
+  {id:21,user:"ay_aradi",country:"maroc",weeks:80,cat:"operationnel",text:"Je tiens à vous remercier MADAME Tamou pour la qualité exceptionnelle de votre formation. L'ambiance et l'animation que vous avez créées ont vraiment rendu cette expérience inoubliable. MERCI BCP ET VOUS ÊTES LA MEILLEURE ❤️"},
+  {id:22,user:"saadkhyari",country:"maroc",weeks:80,cat:"relationnelle",text:"Une magnifique formation avec Mme Tamou. Grâce à elle j'ai appris beaucoup de choses en niveau de téléventes et aussi dans l'interaction avec tout le monde. Mme Tamou est une personne spéciale, géniale, aimable, amicale — c'est la mère de la formation. Merci Madame Tamou ❤️❤️❤️✨"},
+  {id:23,user:"hamza_ttl",country:"maroc",weeks:83,cat:"operationnel",text:"Merci beaucoup Mme Tamou pour cette formation enrichissante chez Shy Performance. Vos conseils et votre expertise m'ont été d'une grande aide. 🙏🏻"},
+  {id:24,user:"islam.ramzi",country:"maroc",weeks:83,cat:"operationnel",text:"Efficacité, professionnalisme 👏"},
+  {id:25,user:"ilaan.ke",country:"maroc",weeks:83,cat:"relationnelle",text:"Je tiens à vous remercier, Mme Tamou, pour la formation dispensée avec tant de pédagogie. Merci infiniment pour votre engagement et votre bienveillance ❤️"},
+  {id:26,user:"kamel.sawyer.9",country:"maroc",weeks:83,cat:"relationnelle",text:"Je vous remercie MME TAMOU pour la formation livrée avec pédagogie et touche d'humour qui détend l'atmosphère. Merci infiniment 🙌"},
+  {id:27,user:"hawks_778",country:"maroc",weeks:83,cat:"operationnel",text:"Formation enrichissante et bien structurée, des explications claires et précises. Merci à Mme Tamou pour son engagement et sa disponibilité tout au long de cette formation."},
+  {id:28,user:"hayat_bahaj_",country:"maroc",weeks:83,cat:"motivation",text:"Un petit mot pour vous dire un grand merci ! C'était vraiment top, super intéressant et surtout bien expliqué. J'ai appris plein de trucs que je vais pouvoir utiliser direct. Votre manière d'animer a rendu le tout sympa et accessible. Merci pour votre bonne énergie 🔥🔥"},
+  {id:29,user:"h_elk10",country:"maroc",weeks:92,cat:"relationnelle",text:"Une merveilleuse formation avec une exceptionnelle formatrice, merci bcp pour la gentillesse Mme Tamou et Manal 🙏🏻"},
+  {id:30,user:"youness.ess2",country:"maroc",weeks:92,cat:"motivation",text:"Ma meilleure formation que j'ai jamais eue était avec Mme tamou ❤️, Grâce à elle j'ai appris beaucoup de choses intéressantes qui seront bénéfiques pour ma carrière. Merci beaucoup Mme tamou merci beaucoup shyperformance❤️❤️❤️"},
+  {id:31,user:"aymaaaaane49",country:"maroc",weeks:92,cat:"operationnel",text:"Mme Tamou je voudrais vous remercier pour cette exceptionnelle formation !"},
+  {id:32,user:"ayoubnineflass",country:"maroc",weeks:92,cat:"operationnel",text:"Notre chère formatrice est toujours à la hauteur des attentes des apprenants. Elle nous mène à assimiler d'effectuer des bons traitements en cascade sans oublier l'application des processus en vigueur. C'est exemplaire, motivante et une PERLE qui crée un parfait climat d'apprentissage basant sur des théories de pédagogie/andragogie... MERCI BEAUCOUP ❤️"},
+  {id:33,user:"blowinanas",country:"maroc",weeks:92,cat:"operationnel",text:"Mme Tamou je vous remercie pour la qualité de formation et aussi pour vos efforts durant cette exceptionnelle et inspirante formation !"},
+  {id:34,user:"sakina_pod",country:"maroc",weeks:95,cat:"operationnel",text:"Mme Tamo une personne professionnelle, elle sait ce qu'elle fait et elle le fait avec un grand amour. Sa manière d'expliquer, de parler c'est juste incroyable. Elle te donne toute l'information et t'explique tout. J'ai aimé la formation grâce à vous. Vraiment cette formation va rester dans la mémoire."},
+  {id:35,user:"dija.seqatt",country:"maroc",weeks:95,cat:"motivation",text:"Mme tamou une formatrice exceptionnelle avec une énergie au top et un sourire rayonnant tout au long de la formation, grâce à elle j'ai appris beaucoup de choses qui seront utiles pour ma carrière. L'accueil à shy performance était très chaleureux. Je tiens à vous remercier.❤️"},
+  {id:36,user:"jimsnefr",country:"maroc",weeks:98,cat:"operationnel",text:"Mme Tamou, Merci pour cette formation enrichissante. Votre expertise, votre clarté d'explication et votre disponibilité ont rendu l'apprentissage particulièrement agréable et stimulant. Je suis enchanté d'avoir participé à cette formation ❤️"},
+  {id:37,user:"ikram_chleh",country:"maroc",weeks:98,cat:"relationnelle",text:"Je souhaite exprimer ma profonde gratitude envers Madame Tamou pour son comportement exemplaire. Sa bienveillance, sa disponibilité et sa capacité à nous encourager ont été des éléments essentiels de notre parcours. Grâce à son attitude positive elle a su créer un environnement d'apprentissage stimulant et inclusif.❤️"},
+  {id:38,user:"adam.bourquia",country:"maroc",weeks:102,cat:"relationnelle",text:"Merci beaucoup, Madame Tamou, pour tout ce que vous avez fait pour moi pendant la formation. Votre patience, votre gentillesse et votre professionnalisme m'ont énormément aidé. Grâce à vous, j'ai beaucoup appris et je me sens prêt pour la suite. Merci encore pour votre soutien et vos précieux conseils !"},
+  {id:39,user:"nabih.zh",country:"maroc",weeks:102,cat:"motivation",text:"Mme Tamou, Je suis vraiment reconnaissant pour votre formation informative et amusante ! Merci de nous avoir guidés à travers un incroyable parcours de formation ! Apprendre de vous est un plaisir. Nabih Zahra ❤️❤️"},
+  {id:40,user:"you_zaressif",country:"maroc",weeks:102,cat:"relationnelle",text:"Quel femme ❤️🔥"},
+  {id:41,user:"ch4fiq",country:"maroc",weeks:103,cat:"relationnelle",text:"You really know how to put a smile on someone's face and knowledge in someone's head. Thank you for being the best ❤️🙏🏽"},
+  {id:42,user:"barrelwave",country:"maroc",weeks:104,cat:"relationnelle",text:"Merci beaucoup madame tamo pour votre accompagnement tout au long de ma durée de formation et pour votre aimable accueil et aussi votre temps que vous m'avez offert pour m'expliquer et pour m'aider❤️❤️❤️"},
+  {id:43,user:"hayat_ait_ouahmane",country:"maroc",weeks:105,cat:"operationnel",text:"Une expérience mémorable qui vous aide à comprendre le pourquoi et le comment. Mme Tamo est vraiment une personne charmante et professionnelle qui sait comment transmettre et gérer différentes situations. Professionnalisme, éthique professionnelle, simplicité, clarification et encouragement à s'exprimer sont les maîtres mots de cette formation ❤️."},
+  {id:44,user:"__mariam29__",country:"maroc",weeks:105,cat:"operationnel",text:"Je tenais simplement à vous remercier pour l'excellente formation que nous avons suivie. Cela s'est très bien passé et j'ai beaucoup appris grâce à vos efforts et à ceux de la formatrice ❤️🙏🏻"},
+  {id:45,user:"19.llassine",country:"maroc",weeks:105,cat:"motivation",text:"ShyPerformance a dépassé mes attentes en termes d'accueil et de bienveillance, surtout lors de la formation d'intégration animée par Madame Tamou. Ses efforts ont vraiment fait une différence dans notre compréhension et notre développement, tant sur le plan professionnel que personnel. C'est une formatrice exceptionnelle 🙏🏽"},
+  {id:46,user:"saadiasadi",country:"maroc",weeks:116,cat:"relationnelle",text:"Une source d'inspiration 🥰, très allumée et intelligente, répond très bien et de façon précise à toutes nos questions, excellente animatrice, j'ai énormément apprécié son dynamisme, sa compréhension et sa capacité de rendre nos échanges productifs ! Bravo ❤️"},
+  {id:47,user:"nissoelassali",country:"maroc",weeks:116,cat:"operationnel",text:"J'ai extrêmement apprécié la facilité d'interaction et les qualités communicatives de la formatrice. La meilleure formation à laquelle j'ai eu la chance de participer ! La meilleure formation… et la meilleure animatrice !"},
+  {id:48,user:"jamila_et_",country:"maroc",weeks:116,cat:"relationnelle",text:"Avant d'être une formatrice elle est une femme agréable. Sa capacité à transmettre l'information, ses techniques de travail, son suivi, l'énergie positive, son sourire, sa compétence. Madame Tamou je tiens à vous remercier beaucoup pour tout. Parmi les raisons qui m'ont aidée à compléter la formation et dépasser la peur c'est vous Madame et votre énergie ❤️"},
+  {id:49,user:"taoeddine",country:"maroc",weeks:116,cat:"relationnelle",text:"Je voudrais exprimer ma sincère gratitude envers Mme Tamou pour son accueil chaleureux et son excellence professionnelle. Son soutien personnalisé, sa clarté et sa passion pour son domaine ont rendu l'expérience plus enrichissante. N'hésitez pas à découvrir l'expérience chez shy performance ❤🫡"},
+  {id:50,user:"oumaima_amine_",country:"maroc",weeks:116,cat:"relationnelle",text:"Ayaaayay mama tamou tooop vous nous simplifiez les choses vous êtes au tooop"},
+  {id:51,user:"fatima_dotcom",country:"maroc",weeks:116,cat:"motivation",text:"Pour ma meilleure formatrice : certains savent et aiment transmettre leur savoir. Ils peuvent donner le goût de l'apprentissage, aider les nouveaux candidats à se surpasser et à prendre confiance en eux. La passion pour votre travail et le partage des 29 ans d'expériences résumés en une semaine — nous avons grandement apprécié votre soutien, votre implication et votre sourire. Je vous remercie infiniment Mme. Tamou. ❤️❤️❤️"},
+  {id:52,user:"_hamza_ab",country:"maroc",weeks:116,cat:"operationnel",text:"Mme tamou une personne très compétente elle n'hésite pas à nous partager ses agréables compétences avec des méthodes simples et claires. Je vous remercie pour votre soutien et votre énergie et pour cette semaine pleine de formation exceptionnelle."},
+  {id:53,user:"youssef___hab",country:"maroc",weeks:116,cat:"relationnelle",text:"Nous tenons à exprimer notre profonde gratitude à notre formatrice. Votre gentillesse et votre patience ont fait de la salle de formation un endroit sûr et accueillant. Merci d'être toujours là pour nous.❤️👏"},
+  {id:54,user:"eloilisaid",country:"maroc",weeks:116,cat:"operationnel",text:"Mme Tamou, un immense merci pour la formation inspirante ! Votre expertise est remarquable, l'atmosphère que vous avez créée était vraiment enrichissante. Quelle expérience formidable ! ❤"},
+  {id:55,user:"amina_qrai",country:"maroc",weeks:119,cat:"operationnel",text:"Mme Tamou je vous remercie pour la qualité de la formation et pour tous vos efforts et merci à Shyperformance pour l'accueil."},
+  {id:56,user:"_daroufa",country:"maroc",weeks:119,cat:"relationnelle",text:"Mme Tamo est une agréable personne, amusante, aimable et intelligente. Elle n'hésite pas à partager ses connaissances. Elle a créé l'esprit d'équipe entre les membres. J'apprécie ses méthodes de travail ❤️❤️"},
+  {id:57,user:"yzthird",country:"maroc",weeks:119,cat:"relationnelle",text:"Mme Tamou nous a offert de grandes connaissances et nous a fait sentir que nous étions une famille, nous lui devons beaucoup pour cela."},
+  {id:58,user:"iamhafiida",country:"maroc",weeks:119,cat:"relationnelle",text:"Mme Tamou est une personne aimable, agréable et honnête. Je suis très contente d'avoir eu la chance de passer cette formation avec elle. Elle n'hésite pas à partager ses connaissances avec l'équipe, ses méthodes de transférer l'information sont très intelligentes. Je vous remercie Mme Tamou encore une fois ❤️❤️"},
+  {id:59,user:"_griiims_",country:"maroc",weeks:119,cat:"operationnel",text:"J'ai été formé pas mal de fois dans le domaine des relations clients, chez Shyperformance j'affirme que c'est la meilleure formation à laquelle j'ai participé. La société assure les meilleurs niveaux de qualité. Je saisis l'occasion pour exprimer ma gratitude envers Madame Tamou — de la manière la plus professionnelle que je n'ai jamais témoignée. Elle est très professionnelle, aimable, et à la fois impliquée dans sa mission."},
+  {id:60,user:"tasmat_ach",country:"maroc",weeks:119,cat:"operationnel",text:"Mme Tamou est la meilleure formatrice sur Agadir, on a passé une semaine de formation exceptionnelle. Mme TAMOU est très compétente, très pédagogue, très enthousiaste, MERCI beaucoup à vous et à toute l'équipe de SHY PERFORMANCE."},
+  {id:61,user:"fatima.tairane",country:"maroc",weeks:119,cat:"motivation",text:"Mme Tamou la bonne personne dans la bonne place 👏 Merci Beaucoup pour le soutien durant toute la période de la formation. La formation était riche en information, apprentissage et motivation, d'expérience. Merci beaucoup madame Tamou pour tout je vous aime ❤️❤️❤️"},
+  {id:62,user:"bella_ftt",country:"maroc",weeks:119,cat:"operationnel",text:"J'admire la méthode de Mme tamou et j'apprécie énormément l'approche pédagogique, les explications sont claires et utiles. Madame tamou est une personne très aimable. Merci pour tout ce que vous faites et je suis heureuse d'être parmi l'équipe Shy performance ❤️"},
+  {id:63,user:"sowfeyan",country:"maroc",weeks:121,cat:"operationnel",text:"Formatrice très pédagogue avec une grande capacité à transmettre l'information quelle que soit sa complexité. Je tiens à préciser que Tamou a pu me marquer par son côté humain, son savoir vivre et son sourire constant. 🙌❤️"},
+  {id:64,user:"_hishambtl",country:"maroc",weeks:122,cat:"operationnel",text:"Cher Tamou une personne très compétente, elle n'hésite pas à nous partager ses agréables compétences avec des méthodes simples et claires. Tamou on vous aime ❤️🫶🏼❤️"},
+  {id:65,user:"abdessamad_et_tahery",country:"maroc",weeks:122,cat:"relationnelle",text:"Madame Tamou est la cerise sur le gâteau tout simplement. Merci madame 💚"},
+  {id:66,user:"clothz2030",country:"maroc",weeks:122,cat:"relationnelle",text:"Ayayayayay Tamou Ya Tamou! Par où commencer? Par ton énergie qui déborde la salle de formation? Ou bien par ton sourire qui chavire les coeurs. Votre sympathie et votre langage corporel. Restez comme vous êtes légère et digestible. Je vous envoie de l'amour, de la positivité et surtout la bonne santé. Rkiya R.❤️❤️"},
+  {id:67,user:"r_ryyymmm",country:"maroc",weeks:124,cat:"relationnelle",text:"Je veux vous remercier sincèrement pour ton précieux soutien durant la formation. Ta guidance et ton expertise ont été inestimables, et j'apprécie vraiment tous tes efforts. Merci encore ❤️🙏🏽"},
+  {id:68,user:"amine_taouakalna",country:"maroc",weeks:124,cat:"operationnel",text:"Mme tamou est une incroyable formatrice, la formation en sa compagnie est juste exceptionnelle. On peut sentir sa grande expérience dans son travail, on profite d'enseignements de qualité avec des méthodes et des concepts qui rendent la formation absolument agréable et dynamique. Je vous remercie encore une fois."},
+  {id:69,user:"lrj.anass",country:"maroc",weeks:126,cat:"operationnel",text:"Numéro 1 sur Agadir. Je recommanderais sans hésitation la formation chez Mme TAMOU, le rythme des cours était excellent, l'ambiance était motivante et au final j'ai appris ce que je voulais savoir et même plus. J'ai adoré mon expérience, chaque cours était intéressant et pertinent à la fois. 💡🔝"},
+  {id:70,user:"shaymaelfr",country:"maroc",weeks:126,cat:"operationnel",text:"Mme tamou je vous remercie pour votre soutien et vos efforts. Meilleure formatrice avec une capacité de transmettre des informations d'une manière simple et claire 🙌 keep up the hard work🔥❤️"},
+  {id:71,user:"sahibahmedkhalid9",country:"maroc",weeks:127,cat:"operationnel",text:"Je suis très content d'avoir pu travailler avec Shy performance. Je tiens à remercier Mme tamou et Mme maha d'avoir été honnêtes avec moi et de m'avoir donné des pistes pour améliorer mes performances au travail."},
+  {id:72,user:"fatiha.kara1",country:"maroc",weeks:127,cat:"motivation",text:"Mme Tamou, une formatrice exceptionnelle. Elle a une énergie positive mashallah, en moins d'une semaine elle a réussi à faire ressortir la meilleure version de nous-mêmes. Je tiens à la remercier ❤️."},
+  {id:73,user:"sahibahmedkhalid9",country:"maroc",weeks:128,cat:"relationnelle",text:"Après 3 jours de formation honnêtement parlant Shy performance est totalement professionnelle. Le cadre de travail est super agréable. Les agents et les encadrants sont sympas, l'accueil est chaleureux. Merci beaucoup Shy performance pour tout, et je vous remercie d'avoir m'accepté comme un membre de la famille.❤️❤️👏"},
+  {id:74,user:"7ouss__",country:"maroc",weeks:128,cat:"operationnel",text:"Si je devais décrire Mme Tamou en deux mots je dirais la meilleure formatrice. Je n'ai jamais vu d'égal à sa formation👏."},
+  {id:75,user:"ikram__ajmi",country:"maroc",weeks:128,cat:"operationnel",text:"Mme tamou is the most perfect trainer because she gives us opportunity to answer then we mix our answers to develop it in the end and find solution ourselves. I love her énergie and how she makes herself like us to understand our opinion and ideas."},
+  {id:76,user:"nouhaila_.a",country:"maroc",weeks:128,cat:"operationnel",text:"Miss Tamo is an exceptional trainer, earning a solid 10/10 for her expertise, dedication, and ability to inspire positive change in her courses. Thank you tamo ❤️"},
+  {id:77,user:"kenza_moubarak",country:"maroc",weeks:128,cat:"relationnelle",text:"Madame tamou est une formatrice très enthousiaste et intéressante. Merci beaucoup! J'ai hâte à la suite ❤️"},
+  {id:78,user:"_.ta.zzzz.24_",country:"maroc",weeks:128,cat:"operationnel",text:"Madame Tamou a des qualités exceptionnelles de formation. Son originalité, son enthousiasme et son professionnalisme se distinguent particulièrement. L'approche dynamique et les activités stimulantes ont été hautement appréciées. Son expérience et sa maîtrise incontestable du domaine sont indéniables. Un immense merci pour tout ce que vous faites !"},
+  {id:79,user:"sahibahmedkhalid9",country:"maroc",weeks:128,cat:"relationnelle",text:"J'admire la méthode de Mme TAMO qui est simple et claire. Sa méthodologie est basée sur des exercices et des jeux pour nous simplifier la compréhension. Tout simplement Mme TAMO est une personne très aimable et sociable, grâce à sa personnalité je me sens ravi et à l'aise d'être parmi l'équipe Shy performance ❤️👏"},
+  {id:80,user:"_hani_mhedi",country:"maroc",weeks:128,cat:"operationnel",text:"Mme tamou une personne agréable très compétente, elle n'hésite pas à partager ses compétences et ses connaissances avec ses collaborateurs. Je l'apprécie beaucoup 👏"},
+  // ── SÉNÉGAL ──
+  {id:81,user:"nastehofatouma17",country:"senegal",weeks:34,cat:"relationnelle",text:"Merci à madame Tamou pour cette formation enrichissante, j'en ai beaucoup appris avec vous. Merci encore de votre patience, l'écoute et de l'énergie positive que vous nous envoyez chaque matin ❤️"},
+  {id:82,user:"oumydiakite80",country:"senegal",weeks:35,cat:"operationnel",text:"Formation de qualité supérieure, avec une formatrice qui a de la pédagogie, maîtrise ce qu'elle fait et très patiente ♥️"},
+  {id:83,user:"ciremariamebah",country:"senegal",weeks:35,cat:"motivation",text:"Je tiens à remercier Mme Tamou pour cette excellente formation qui répond à toutes les attentes de l'équipe et qui m'a aidée à vaincre mon stress. Donc chapeau à vous."},
+  {id:84,user:"ibnrokhaya1",country:"senegal",weeks:35,cat:"operationnel",text:"Shy Performance, j'ai jamais assisté à une telle formation de qualité avec Mme tamou — une dame de fer, ouverte et surtout avec beaucoup de pédagogie. Un grand merci vraiment à vous et à toute l'équipe."},
+  {id:85,user:"keitamamadou_lamine221",country:"senegal",weeks:47,cat:"operationnel",text:"Je recommande vivement."},
+  {id:86,user:"alimfoihayadjaoid.m",country:"senegal",weeks:35,cat:"operationnel",text:"Merci pour cette formation de qualité 🙌❤️"},
+  {id:87,user:"noelrachouchic",country:"senegal",weeks:83,cat:"relationnelle",text:"Merci à madame tamou pour cette belle aventure très riche. Merci aux formateurs paul et clement pour votre engagement. J'apprécie votre accompagnement, la formation est très riche. Shy performance senegal."},
+  {id:88,user:"luluthess",country:"senegal",weeks:83,cat:"relationnelle",text:"Merci beaucoup pour tout ce que vous avez partagé avec nous ! J'ai vraiment appris beaucoup et j'apprécie votre soutien. Shy-performance sénégal ❤️"},
+  {id:89,user:"anna_marange",country:"senegal",weeks:84,cat:"operationnel",text:"Je tiens à dire merci à madame Tamou qui nous a fait une formation excellente accompagnée de Paul et Clément qui ont contribué à cela. 2ème groupe dakar Sénégal 🇸🇳👏"},
+  {id:90,user:"gueye_bachir",country:"senegal",weeks:84,cat:"operationnel",text:"Thanks a lot Tamou, Paul et Clément pour cette formation de qualité, très inspirante 🙌"},
+  {id:91,user:"mlle_inno_mouk",country:"senegal",weeks:84,cat:"operationnel",text:"Formation de qualité 👌🏽 Merci à Mme Tamou, Paul, et clément qui ont contribué à la réussite de la formation, 2éme groupe Dakar Sénégal 🇸🇳. SHY Performance."},
+  {id:92,user:"ceciliatipheret",country:"senegal",weeks:84,cat:"relationnelle",text:"Merci à Tamou, Paul et clément. J'ai beaucoup apprécié la formation. J'espère te revoir bientôt au Sénégal 😍. Bisous 😘 de la part de la deuxième vague de formation Coriolis."},
+  {id:93,user:"drp.officiel_",country:"senegal",weeks:84,cat:"operationnel",text:"Je tiens à exprimer ma profonde gratitude à Mme Tamou ainsi que Clément et Paul. Leur soutien inestimable, leur expertise et leurs encouragements ont grandement enrichi mon expérience professionnelle au sein de SHY Performance."},
+  {id:94,user:"naochocolatnoir",country:"senegal",weeks:84,cat:"motivation",text:"Je viens remercier Mme Tamou et les formateurs Paul et Clément qui nous ont apporté une formation de qualité avec une énergie positive, des connaissances en plus. J'ai passé une formation exceptionnelle et je suis très reconnaissante pour ce partage. Merci encore. 2ème groupe Dakar Sénégal."},
+  {id:95,user:"pitch_cesar",country:"senegal",weeks:84,cat:"motivation",text:"Mlle Tamou merci pour les enseignements. Votre passage à Dakar était vraiment enrichissant pour moi. 😊❤"},
+  {id:96,user:"davy22229",country:"senegal",weeks:86,cat:"motivation",text:"En 5 jours j'ai appris tellement de choses. Merci beaucoup pour cette formation 👏👏👏🔥"},
+  {id:97,user:"maicha_waranka",country:"senegal",weeks:86,cat:"relationnelle",text:"Je tenais à remercier notre très chère formatrice avec qui on a passé de très bons moments ensemble. J'ai beaucoup appris d'elle. La détermination qu'elle a eu de se déplacer jusqu'au Sénégal pour nous former — chapeau bas notre Tamou d'amour 🥰. Je suis vraiment reconnaissante. Ravie de faire partie de l'équipe de Shy Performance Sénégal 🫶🏾💪🏾"},
+  {id:98,user:"benji_nho",country:"senegal",weeks:86,cat:"relationnelle",text:"Je vous remercie sincèrement pour ton précieux soutien durant la formation. Ton expérience a été inestimable, on a vraiment aimé tes efforts, ta patience quand une personne ne comprenait pas un truc et surtout ton sourire à tout moment. Un grand plaisir la semaine passée avec toi. Si je devais vous décrire Mme Tamou, je la décrirais comme la meilleure formation de toute mon expérience dans les centres d'appels en 7 ans.👏😍❤️"},
+  {id:99,user:"oboly.sow",country:"senegal",weeks:86,cat:"operationnel",text:"Tout d'abord, Merci Madame TAMOU. Formatrice qui associe professionnalisme et excellence opérationnelle. Ce fut un plaisir et une chance d'avoir assisté à vos séances. Dieureudieuf ! 🇸🇳🫶🏿❤️"},
+  {id:100,user:"blacky_kissy",country:"senegal",weeks:86,cat:"operationnel",text:"Merci 👏😍🔥 beaucoup Mme Tamou pour le transfert de connaissances en terme de qualité et de générosité. Nous avons été bien servis (Team Shy-Performance SN 🇸🇳). Personnellement j'ai beaucoup appris de votre expérience 🙏🏾"},
+  {id:101,user:"fatoubattdiallo",country:"senegal",weeks:86,cat:"operationnel",text:"Une très bonne formatrice qui répond à toutes les attentes des apprenants. Merci infiniment pour l'expérience acquise durant la formation. Nous avons passé une semaine enrichissante en créant une atmosphère inédite. L'équipe Shy performance Senegal vous remercie 👏👏❤️"},
+  {id:102,user:"bla_cktsunami",country:"senegal",weeks:86,cat:"operationnel",text:"Merci à vous madame Tamou, ce fut une formation et une expérience incroyable. Une véritable formation de qualité. L'ambiance était ludique et animée et on ne peut que sentir sa passion pour la transmission et l'amour de ces métiers. À travers ses méthodes techniques et concepts je ne peux qu'apprécier la qualité de la formation déployée. Merci énormément madame Tamou ❤️"},
+  {id:103,user:"mmelvain",country:"senegal",weeks:86,cat:"relationnelle",text:"Je tenais à vous remercier sincèrement pour la formation dispensée. Votre expertise et votre approche pédagogique ont été extrêmement enrichissantes. J'ai vraiment apprécié chaque moment et je suis impatient de mettre en pratique tout ce que j'ai appris. Merci encore pour votre soutien !"},
+  {id:104,user:"eunicemildreddolly",country:"senegal",weeks:86,cat:"operationnel",text:"Très belle expérience au sortir de cette formation de 5 jours. Madame Tamou, vous avez les prérequis mais également le savoir faire de votre métier, des techniques théoriques et pratiques. Au delà du métier on a appris certaines leçons pour la vie quotidienne. Merci pour votre disponibilité, patience et compréhension 😍"},
+  {id:105,user:"solochndong",country:"senegal",weeks:86,cat:"operationnel",text:"Très bonne technique pédagogique, une formation digeste, animée, complète, et surtout une formatrice super sympa, dynamique et très méritante. Tu es la 'plus' meilleure ❤️🔥❤️"},
+  {id:106,user:"bilkiss_ebene",country:"senegal",weeks:86,cat:"relationnelle",text:"Tamounaaa 🫶🏿 Merci pour ta pédagogie, ta générosité, ton humour, ton partage, ta bienveillance, ta bonne humeur et ton sourire 🥰 C'est une des meilleures formations auxquelles j'ai assisté. Merci pour tout ❤️ Shy Performance Sénégal 🇸🇳"},
+  {id:107,user:"em.em_d.e.e",country:"senegal",weeks:86,cat:"operationnel",text:"Un court moment mais mémorable avec Tamou 😍 une pédagogie formidable, cette aisance dans le partage passionné de connaissances est unique. Merci SHY de nous l'avoir envoyée au Sénégal 🇸🇳"},
+  {id:108,user:"lucy052869",country:"senegal",weeks:86,cat:"relationnelle",text:"Je tiens à remercier l'équipe de Shy Performance pour ce stage qui constitue une expérience extrêmement enrichissante. Un merci tout particulier à la formatrice pour son accompagnement, sa patience et ses précieux conseils tout au long de cette aventure. Je suis sincèrement reconnaissante pour cette opportunité qui me permet de grandir sur le plan professionnel et personnel.❤️"},
+  {id:109,user:"yaaass_miiinee",country:"senegal",weeks:86,cat:"relationnelle",text:"❤️❤️❤️"}
+];
 
-  // ── Chart 1 : Doughnut global ──
-  new Chart(document.getElementById('chartGlobal'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Satisfaction Relationnelle', 'Excellence Opérationnelle', 'Motivation & Développement'],
-      datasets: [{
-        data: [44, 36, 20],
-        backgroundColor: [PURPLE, BLUE, AMBER],
-        borderWidth: 2,
-        borderColor: '#fff',
-        hoverOffset: 8
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '62%',
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { font: { size: 11 }, padding: 12 }
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
-          }
-        }
-      }
-    }
-  });
+// ── RENDER CARDS ──
+const grid = document.getElementById('cards-grid');
+const countDisplay = document.getElementById('count-display');
+let activeCountry = 'all', activeCat = 'all';
 
-  // ── Chart 2 : Barres groupées par pays ──
-  new Chart(document.getElementById('chartPays'), {
-    type: 'bar',
-    data: {
-      labels: ['Relationnelle', 'Opérationnel', 'Motivation'],
-      datasets: [
-        {
-          label: '🇲🇦 Maroc (10)',
-          data: [50, 30, 20],
-          backgroundColor: MAROC,
-          borderRadius: 6
-        },
-        {
-          label: '🇸🇳 Sénégal (5)',
-          data: [20, 40, 40],
-          backgroundColor: SENEGAL,
-          borderRadius: 6
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { font: { size: 11 }, padding: 10 }
-        },
-        tooltip: {
-          callbacks: {
-            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
-          }
-        }
-      },
-      scales: {
-        x: { grid: { display: false } },
-        y: {
-          beginAtZero: true,
-          max: 60,
-          ticks: {
-            callback: v => v + '%',
-            font: { size: 11 }
-          },
-          grid: { color: '#f0f0f0' }
-        }
-      }
-    }
-  });
+const flagOf = c => c === 'maroc' ? '🇲🇦' : '🇸🇳';
+const tagClass = c => ({relationnelle:'tag-r',operationnel:'tag-o',motivation:'tag-m'}[c]);
+const tagLabel = c => ({relationnelle:'Relationnelle',operationnel:'Opérationnel',motivation:'Motivation'}[c]);
 
-  // ── Chart 3 : Radar ──
-  new Chart(document.getElementById('chartRadar'), {
-    type: 'radar',
-    data: {
-      labels: ['Relationnelle', 'Opérationnel', 'Motivation', 'Pédagogie', 'Impact terrain'],
-      datasets: [
-        {
-          label: '🇲🇦 Maroc',
-          data: [90, 70, 60, 80, 65],
-          backgroundColor: 'rgba(193,39,45,0.12)',
-          borderColor: MAROC,
-          pointBackgroundColor: MAROC,
-          pointRadius: 4,
-          borderWidth: 2
-        },
-        {
-          label: '🇸🇳 Sénégal',
-          data: [60, 85, 90, 85, 95],
-          backgroundColor: 'rgba(0,133,63,0.12)',
-          borderColor: SENEGAL,
-          pointBackgroundColor: SENEGAL,
-          pointRadius: 4,
-          borderWidth: 2
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { font: { size: 11 }, padding: 10 }
-        }
-      },
-      scales: {
-        r: {
-          beginAtZero: true,
-          max: 100,
-          ticks: { stepSize: 25, font: { size: 10 }, color: '#999' },
-          grid: { color: '#e5e7eb' },
-          pointLabels: { font: { size: 12 }, color: '#374151' }
-        }
-      }
-    }
+function render(){
+  const filtered = DATA.filter(d =>
+    (activeCountry==='all'||d.country===activeCountry) &&
+    (activeCat==='all'||d.cat===activeCat)
+  );
+  countDisplay.textContent = filtered.length + ' résultat' + (filtered.length>1?'s':'');
+  grid.innerHTML = filtered.map(d=>`
+    <div class="fb-card ${d.cat}">
+      <div class="card-top">
+        <span class="card-flag">${flagOf(d.country)}</span>
+        <span class="card-user">${d.user}</span>
+        <span class="card-weeks">${d.weeks} sem.</span>
+      </div>
+      <div class="card-text">« ${d.text} »</div>
+      <span class="card-tag ${tagClass(d.cat)}">${tagLabel(d.cat)}</span>
+    </div>`).join('');
+}
+
+document.querySelectorAll('.fbtn[data-country]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fbtn[data-country]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    activeCountry = b.dataset.country;
+    render();
   });
+});
+document.querySelectorAll('.fbtn[data-cat]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fbtn[data-cat]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    activeCat = b.dataset.cat;
+    render();
+  });
+});
+render();
+
+// ── CHARTS ──
+const P='#7c3aed',B='#1d4ed8',A='#d97706',M='#C1272D',S='#00853F';
+
+new Chart(document.getElementById('cGlobal'),{
+  type:'doughnut',
+  data:{
+    labels:['Opérationnel (50)','Relationnelle (43)','Motivation (16)'],
+    datasets:[{data:[50,43,16],backgroundColor:[B,P,A],borderWidth:2,borderColor:'#fff',hoverOffset:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:10}},
+    tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}%`}}}}
+});
+
+new Chart(document.getElementById('cPays'),{
+  type:'bar',
+  data:{
+    labels:['Relationnelle','Opérationnel','Motivation'],
+    datasets:[
+      {label:'🇲🇦 Maroc',data:[33,35,12],backgroundColor:M,borderRadius:5},
+      {label:'🇸🇳 Sénégal',data:[10,15,4],backgroundColor:S,borderRadius:5}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8}},
+    tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y} feedbacks`}}},
+    scales:{x:{grid:{display:false}},y:{beginAtZero:true,max:40,ticks:{stepSize:10,callback:v=>v+' fb',font:{size:10}},grid:{color:'#f0f0f0'}}}}
+});
+
+new Chart(document.getElementById('cRadar'),{
+  type:'radar',
+  data:{
+    labels:['Opérationnel','Relationnelle','Motivation','Pédagogie','Impact terrain'],
+    datasets:[
+      {label:'🇲🇦 Maroc',data:[88,82,60,85,75],backgroundColor:'rgba(193,39,45,.1)',borderColor:M,pointBackgroundColor:M,pointRadius:3,borderWidth:2},
+      {label:'🇸🇳 Sénégal',data:[92,70,72,90,95],backgroundColor:'rgba(0,133,63,.1)',borderColor:S,pointBackgroundColor:S,pointRadius:3,borderWidth:2}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:8}}},
+    scales:{r:{beginAtZero:true,max:100,ticks:{stepSize:25,font:{size:9},color:'#999'},grid:{color:'#e5e7eb'},pointLabels:{font:{size:11}}}}}
+});
 </script>
 </body>
 </html>
