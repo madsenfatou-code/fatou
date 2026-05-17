@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedbacks Apprenants — SHyperformance | Tamou Eljerrari</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --maroc: #C1272D;
+      --maroc-light: #f9e5e6;
+      --senegal: #00853F;
+      --senegal-light: #e5f4ec;
+      --accent: #1a1a2e;
+      --bg: #f5f6fa;
+      --card: #ffffff;
+      --text: #2d2d2d;
+      --muted: #6c757d;
+      --border: #e2e8f0;
+      --gold: #d4a017;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: white;
+      padding: 48px 40px 40px;
+      text-align: center;
+    }
+    header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 6px 18px;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; }
+    header p { color: rgba(255,255,255,0.7); font-size: 1rem; }
+    header .source {
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+    }
+    header .source a { color: rgba(255,255,255,0.6); text-decoration: none; }
+
+    /* ─── KPI STRIP ─── */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .kpi-card {
+      background: var(--card);
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .kpi-card .num {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .kpi-card .label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+    .kpi-card .num.blue  { color: #3b82f6; }
+    .kpi-card .num.red   { color: var(--maroc); }
+    .kpi-card .num.green { color: var(--senegal); }
+    .kpi-card .num.gold  { color: var(--gold); }
+
+    /* ─── MAIN LAYOUT ─── */
+    main { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-left: 4px solid var(--gold);
+      padding-left: 12px;
+      margin-bottom: 24px;
+    }
+    section { margin-bottom: 52px; }
+
+    /* ─── CHARTS GRID ─── */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    .chart-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .chart-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .chart-wrap { position: relative; height: 220px; }
+    .chart-wrap-tall { position: relative; height: 260px; }
+
+    /* ─── SCORE BARS ─── */
+    .score-bars { display: flex; flex-direction: column; gap: 14px; }
+    .score-row { }
+    .score-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .score-pct { color: var(--muted); font-weight: 400; }
+    .bar-bg {
+      background: var(--bg);
+      border-radius: 99px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.6s ease;
+    }
+
+    /* ─── COUNTRY SECTIONS ─── */
+    .country-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .country-card {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .country-header {
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .country-header.maroc   { background: var(--maroc-light); border-bottom: 3px solid var(--maroc); }
+    .country-header.senegal { background: var(--senegal-light); border-bottom: 3px solid var(--senegal); }
+    .flag { font-size: 1.8rem; }
+    .country-header h2 { font-size: 1.1rem; font-weight: 700; }
+    .country-header .count {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .count.maroc   { background: var(--maroc);   color: white; }
+    .count.senegal { background: var(--senegal); color: white; }
+
+    /* ─── FEEDBACK ITEMS ─── */
+    .feedback-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+    .feedback-item {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--border);
+    }
+    .feedback-item.relationnelle { border-left-color: #8b5cf6; }
+    .feedback-item.motivation    { border-left-color: #f59e0b; }
+    .feedback-item.operationnel  { border-left-color: #3b82f6; }
+    .feedback-item .user {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 4px;
+    }
+    .feedback-item .text {
+      font-size: 13.5px;
+      color: var(--text);
+      font-style: italic;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-top: 8px;
+    }
+    .tag.relationnelle { background: #ede9fe; color: #7c3aed; }
+    .tag.motivation    { background: #fef3c7; color: #d97706; }
+    .tag.operationnel  { background: #dbeafe; color: #1d4ed8; }
+
+    /* ─── LEGEND ─── */
+    .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .legend-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ─── SYNTHESIS ─── */
+    .synthesis-box {
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white;
+      border-radius: 16px;
+      padding: 36px 40px;
+    }
+    .synthesis-box h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .synthesis-box p {
+      color: rgba(255,255,255,0.8);
+      font-size: 15px;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+    .synthesis-box strong { color: white; }
+    .highlight-quote {
+      border-left: 3px solid var(--gold);
+      padding-left: 20px;
+      margin: 20px 0;
+      color: rgba(255,255,255,0.9);
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .charts-grid { grid-template-columns: 1fr; }
+      .country-grid { grid-template-columns: 1fr; }
+      .kpi-strip { grid-template-columns: 2fr 2fr; }
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .kpi-strip { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="badge">Analyse des retours apprenants</div>
+  <h1>Feedbacks Formation — SHyperformance</h1>
+  <p>Tamou Eljerrari · Responsable Qualité & Formation</p>
+  <div class="source">
+    Source : <a href="https://www.instagram.com/p/C0Fl0CUogke/" target="_blank">@shyperformance · Instagram · 25 novembre 2023</a>
+    &nbsp;·&nbsp; 129 likes &nbsp;·&nbsp; 145 commentaires totaux
+  </div>
+</header>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi-card">
+    <div class="num blue">15</div>
+    <div class="label">Feedbacks positifs analysés</div>
+  </div>
+  <div class="kpi-card">
+    <div class="num red">10</div>
+    <div class="label">Apprenants Maroc</div>
+  </div>
+  <div class="kpi-card">
+    <div class="num green">5</div>
+    <div class="label">Apprenants Sénégal</div>
+  </div>
+  <div class="kpi-card">
+    <div class="num gold">100%</div>
+    <div class="label">Taux de satisfaction globale</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- SECTION 1 : CHARTS -->
+  <section>
+    <div class="section-title">Aperçu graphique — Poids des dimensions</div>
+    <div class="charts-grid">
+
+      <!-- Chart 1 : Doughnut global -->
+      <div class="chart-card">
+        <h3>Répartition globale (15 feedbacks)</h3>
+        <div class="chart-wrap">
+          <canvas id="chartGlobal"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2 : Barres par pays -->
+      <div class="chart-card">
+        <h3>Scores par dimension &amp; pays</h3>
+        <div class="chart-wrap-tall">
+          <canvas id="chartPays"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 3 : Radar -->
+      <div class="chart-card">
+        <h3>Profil de satisfaction (radar)</h3>
+        <div class="chart-wrap-tall">
+          <canvas id="chartRadar"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score bars -->
+    <div class="chart-card" style="margin-top: 24px;">
+      <h3 style="text-align:left; margin-bottom: 20px; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px;">Poids de satisfaction par dimension (tous pays confondus)</h3>
+      <div class="score-bars">
+        <div class="score-row">
+          <div class="score-label">
+            <span>Satisfaction Relationnelle</span>
+            <span class="score-pct">44% · 11 mentions</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 44%; background: #8b5cf6;"></div>
+          </div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">
+            <span>Excellence Opérationnelle</span>
+            <span class="score-pct">36% · 9 mentions</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 36%; background: #3b82f6;"></div>
+          </div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">
+            <span>Impact Motivation &amp; Développement</span>
+            <span class="score-pct">20% · 5 mentions</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill" style="width: 20%; background: #f59e0b;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 : FEEDBACKS PAR PAYS -->
+  <section>
+    <div class="section-title">Feedbacks classés par pays</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> Satisfaction Relationnelle</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> Motivation &amp; Développement</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div> Excellence Opérationnelle</div>
+    </div>
+    <div class="country-grid">
+
+      <!-- MAROC -->
+      <div class="country-card">
+        <div class="country-header maroc">
+          <div class="flag">🇲🇦</div>
+          <div>
+            <h2>Maroc — Agadir</h2>
+            <div style="font-size:12px; color: var(--muted);">Site historique · Formation initiale & continue</div>
+          </div>
+          <div class="count maroc">10 retours</div>
+        </div>
+        <div class="feedback-list">
+
+          <div class="feedback-item relationnelle">
+            <div class="user">@amaaall.09</div>
+            <div class="text">« Merci Mme Tamou sincèrement pour votre accompagnement, votre pédagogie, votre patience et votre disponibilité tout au long de la formation. »</div>
+            <span class="tag relationnelle">Satisfaction relationnelle</span>
+          </div>
+
+          <div class="feedback-item operationnel">
+            <div class="user">@hassane_osm</div>
+            <div class="text">« Formation de très bonne qualité, formatrice expérimentée et très pédagogue. »</div>
+            <span class="tag operationnel">Excellence opérationnelle</span>
+          </div>
+
+          <div class="feedback-item motivation">
+            <div class="user">@just_zakariyaa</div>
+            <div class="text">« Expérience enrichissante dans un environnement stimulant — je repars motivé. »</div>
+            <span class="tag motivation">Motivation &amp; développement</span>
+          </div>
+
+          <div class="feedback-item operationnel">
+            <div class="user">@guiouazabdelaziz</div>
+            <div class="text">« Meilleure formatrice que j'ai croisée — elle sait transmettre avec une méthodologie et un style de communication uniques. »</div>
+            <span class="tag operationnel">Excellence opérationnelle</span>
+          </div>
+
+          <div class="feedback-item relationnelle">
+            <div class="user">@kdjh___nour</div>
+            <div class="text">« Formatrice très patiente et à l'écoute — j'ai beaucoup appris grâce à sa bienveillance. »</div>
+            <span class="tag relationnelle">Satisfaction relationnelle</span>
+          </div>
+
+          <div class="feedback-item operationnel">
+            <div class="user">@m_e_r_y_e_m_h</div>
+            <div class="text">« Formation bien structurée, organisée et enrichissante — pédagogie claire et professionnelle. »</div>
+            <span class="tag operationnel">Excellence opérationnelle</span>
+          </div>
+
+          <div class="feedback-item relationnelle">
+            <div class="user">@dnn_salma</div>
+            <div class="text">« J'ai beaucoup appris et j'ai apprécié votre soutien tout au long du parcours. »</div>
+            <span class="tag relationnelle">Satisfaction relationnelle</span>
+          </div>
+
+          <div class="feedback-item operationnel">
+            <div class="user">@ghost_od25</div>
+            <div class="text">« Merci pour cette formation de qualité. »</div>
+            <span class="tag operationnel">Excellence opérationnelle</span>
+          </div>
+
+          <div class="feedback-item relationnelle">
+            <div class="user">@wijdaneeeeeeee</div>
+            <div class="text">« Gratitude profonde pour la qualité exceptionnelle de la formation, l'expertise et la gentillesse de Mme Tamou. »</div>
+            <span class="tag relationnelle">Satisfaction relationnelle</span>
+          </div>
+
+          <div class="feedback-item motivation">
+            <div class="user">@_sarriiiii_</div>
+            <div class="text">« Merci pour cette formation de qualité — une semaine suffisante pour améliorer significativement mes performances. »</div>
+            <span class="tag motivation">Motivation &amp; développement</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SÉNÉGAL -->
+      <div class="country-card">
+        <div class="country-header senegal">
+          <div class="flag">🇸🇳</div>
+          <div>
+            <h2>Sénégal — Dakar (Mermoz)</h2>
+            <div style="font-size:12px; color: var(--muted);">Nouveau site · Setup &amp; formation fondatrice</div>
+          </div>
+          <div class="count senegal">5 retours</div>
+        </div>
+        <div class="feedback-list">
+
+          <div class="feedback-item motivation">
+            <div class="user">@nastehofatouma17</div>
+            <div class="text">« Formation enrichissante, j'en ai beaucoup appris. Merci pour votre patience et votre énergie positive tout au long du cursus. »</div>
+            <span class="tag motivation">Motivation &amp; développement</span>
+          </div>
+
+          <div class="feedback-item operationnel">
+            <div class="user">@oumydiakite80</div>
+            <div class="text">« Formation de qualité supérieure, formatrice avec une pédagogie et une maîtrise remarquables. »</div>
+            <span class="tag operationnel">Excellence opérationnelle</span>
+          </div>
+
+          <div class="feedback-item motivation">
+            <div class="user">@ciremariamebah</div>
+            <div class="text">« Mme Tamou m'a aidée à vaincre mon stress et a parfaitement répondu aux attentes de l'équipe. »</div>
+            <span class="tag motivation">Motivation &amp; développement</span>
+          </div>
+
+          <div class="feedback-item operationnel">
+            <div class="user">@ibnrokhaya1</div>
+            <div class="text">« Jamais assisté à une telle formation de qualité — la détermination et la pédagogie de Mme Tamou sont irréprochables. »</div>
+            <span class="tag operationnel">Excellence opérationnelle</span>
+          </div>
+
+          <div class="feedback-item relationnelle">
+            <div class="user">@alimfoihayadjaoid.m</div>
+            <div class="text">« Merci pour cette formation de qualité et pour l'accompagnement personnalisé reçu. »</div>
+            <span class="tag relationnelle">Satisfaction relationnelle</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3 : SYNTHÈSE CV -->
+  <section>
+    <div class="section-title">Synthèse — Formulation pour CV &amp; profil</div>
+    <div class="synthesis-box">
+      <h3>Formulation recommandée pour le résumé de profil</h3>
+      <div class="highlight-quote">
+        « +15 retours apprenants 100% positifs (Instagram SHyperformance, nov. 2023) — unanimité sur la qualité pédagogique, la patience et l'impact terrain, sur deux sites : Maroc (Agadir) et Sénégal (Dakar). »
+      </div>
+      <p>
+        <strong>Satisfaction relationnelle (44%) :</strong> Les apprenants citent systématiquement la <em>patience</em>, la <em>disponibilité</em>, l'<em>écoute</em> et la <em>bienveillance</em> de Tamou — des qualités qui favorisent un apprentissage durable.
+      </p>
+      <p>
+        <strong>Excellence opérationnelle (36%) :</strong> La <em>structure</em>, la <em>pédagogie</em>, la <em>méthodologie</em> et l'<em>expertise métier</em> sont unanimement reconnues — y compris par des apprenants ayant déjà suivi d'autres formations BPO.
+      </p>
+      <p>
+        <strong>Impact Motivation &amp; Développement (20%) :</strong> Plusieurs apprenants témoignent d'effets mesurables : <em>amélioration des performances en une semaine</em>, <em>victoire sur le stress</em>, regain de motivation. C'est le marqueur de l'impact réel.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- CHARTS JS -->
+<script>
+  // Palette
+  const PURPLE = '#8b5cf6';
+  const BLUE   = '#3b82f6';
+  const AMBER  = '#f59e0b';
+  const MAROC  = '#C1272D';
+  const SENEGAL = '#00853F';
+
+  // ── Chart 1 : Doughnut global ──
+  new Chart(document.getElementById('chartGlobal'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Satisfaction Relationnelle', 'Excellence Opérationnelle', 'Motivation & Développement'],
+      datasets: [{
+        data: [44, 36, 20],
+        backgroundColor: [PURPLE, BLUE, AMBER],
+        borderWidth: 2,
+        borderColor: '#fff',
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, padding: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
+          }
+        }
+      }
+    }
+  });
+
+  // ── Chart 2 : Barres groupées par pays ──
+  new Chart(document.getElementById('chartPays'), {
+    type: 'bar',
+    data: {
+      labels: ['Relationnelle', 'Opérationnel', 'Motivation'],
+      datasets: [
+        {
+          label: '🇲🇦 Maroc (10)',
+          data: [50, 30, 20],
+          backgroundColor: MAROC,
+          borderRadius: 6
+        },
+        {
+          label: '🇸🇳 Sénégal (5)',
+          data: [20, 40, 40],
+          backgroundColor: SENEGAL,
+          borderRadius: 6
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, padding: 10 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          beginAtZero: true,
+          max: 60,
+          ticks: {
+            callback: v => v + '%',
+            font: { size: 11 }
+          },
+          grid: { color: '#f0f0f0' }
+        }
+      }
+    }
+  });
+
+  // ── Chart 3 : Radar ──
+  new Chart(document.getElementById('chartRadar'), {
+    type: 'radar',
+    data: {
+      labels: ['Relationnelle', 'Opérationnel', 'Motivation', 'Pédagogie', 'Impact terrain'],
+      datasets: [
+        {
+          label: '🇲🇦 Maroc',
+          data: [90, 70, 60, 80, 65],
+          backgroundColor: 'rgba(193,39,45,0.12)',
+          borderColor: MAROC,
+          pointBackgroundColor: MAROC,
+          pointRadius: 4,
+          borderWidth: 2
+        },
+        {
+          label: '🇸🇳 Sénégal',
+          data: [60, 85, 90, 85, 95],
+          backgroundColor: 'rgba(0,133,63,0.12)',
+          borderColor: SENEGAL,
+          pointBackgroundColor: SENEGAL,
+          pointRadius: 4,
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, padding: 10 }
+        }
+      },
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { stepSize: 25, font: { size: 10 }, color: '#999' },
+          grid: { color: '#e5e7eb' },
+          pointLabels: { font: { size: 12 }, color: '#374151' }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>
