@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CV — Tamou Eljerrari | Responsable Qualité & Formation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+:root{
+  --navy:#0d1b2a;--blue:#1b3a6b;--gold:#c89f14;--red:#C1272D;
+  --green:#00853F;--purple:#7c3aed;--text:#1e2533;--muted:#5a6478;
+  --bg:#f4f5f9;--card:#fff;--border:#e4e7ee;--light:#f8f9fc;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5}
+@media print{body{background:#fff}@page{margin:12mm;size:A4}}
+
+.page{max-width:860px;margin:0 auto;background:var(--card);box-shadow:0 4px 32px rgba(0,0,0,.1)}
+
+/* ── HEADER ── */
+.header{display:grid;grid-template-columns:auto 1fr;background:var(--navy);color:#fff;min-height:180px}
+.header-accent{width:8px;background:linear-gradient(180deg,var(--gold),var(--red))}
+.header-content{padding:32px 36px 28px;display:flex;align-items:flex-start;gap:28px}
+.avatar{width:88px;height:88px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.header-text{flex:1}
+.header-text h1{font-size:1.75rem;font-weight:800;letter-spacing:-.5px;line-height:1.1}
+.header-text .title{color:var(--gold);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 12px}
+.tagline{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6;max-width:520px}
+.contact-bar{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px}
+.contact-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:rgba(255,255,255,.65)}
+.contact-item strong{color:rgba(255,255,255,.9)}
+
+/* ── KPI BAR ── */
+.kpi-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--blue)}
+.kpi{padding:14px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
+.kpi:last-child{border-right:none}
+.kpi .n{font-size:1.5rem;font-weight:800;color:var(--gold);line-height:1}
+.kpi .l{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-top:3px}
+
+/* ── BODY ── */
+.body{display:grid;grid-template-columns:260px 1fr}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--light);padding:24px 20px;border-right:1px solid var(--border)}
+.sec{margin-bottom:22px}
+.sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--blue);border-left:3px solid var(--gold);padding-left:8px;margin-bottom:12px}
+
+.skill-item{margin-bottom:8px}
+.skill-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;font-weight:500}
+.skill-pct{color:var(--muted);font-size:10px}
+.bar-bg{background:#e8eaf0;border-radius:99px;height:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px}
+
+.tag-list{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:10px;padding:3px 8px;border-radius:12px;font-weight:500;border:1px solid}
+.tag.r{background:rgba(124,58,237,.08);color:var(--purple);border-color:rgba(124,58,237,.2)}
+.tag.b{background:rgba(29,78,216,.08);color:var(--blue);border-color:rgba(29,78,216,.2)}
+.tag.g{background:rgba(0,133,63,.08);color:var(--green);border-color:rgba(0,133,63,.2)}
+.tag.gold{background:rgba(200,159,20,.1);color:#8a6d00;border-color:rgba(200,159,20,.3)}
+
+.cert-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;padding:8px;background:var(--card);border-radius:8px;border:1px solid var(--border)}
+.cert-icon{font-size:18px;flex-shrink:0}
+.cert-text{font-size:11px}
+.cert-text strong{display:block;font-size:11px;color:var(--text)}
+.cert-text span{color:var(--muted);font-size:10px}
+
+.contact-side{font-size:11px;color:var(--muted)}
+.contact-side div{margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.contact-side .ico{font-size:13px}
+
+/* ── MAIN ── */
+.main{padding:24px 28px}
+.main-sec{margin-bottom:22px}
+
+.profile-box{background:linear-gradient(135deg,#f8f3e0,#fff8e8);border:1px solid rgba(200,159,20,.3);border-radius:10px;padding:14px 16px;margin-bottom:20px}
+.profile-box p{font-size:12.5px;line-height:1.7;color:var(--text)}
+.profile-box strong{color:var(--navy)}
+
+.exp-item{margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border);position:relative}
+.exp-item::before{content:'';position:absolute;left:-5px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.exp-item.current::before{background:var(--red)}
+.exp-item.current{border-left-color:var(--red)}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.exp-title{font-size:12.5px;font-weight:700;color:var(--navy)}
+.exp-date{font-size:10px;color:var(--muted);white-space:nowrap;margin-left:8px}
+.exp-company{font-size:11px;color:var(--blue);font-weight:600;margin-bottom:4px}
+.exp-bullets{padding-left:0;list-style:none}
+.exp-bullets li{font-size:11.5px;color:var(--muted);line-height:1.55;padding-left:12px;position:relative;margin-bottom:2px}
+.exp-bullets li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:10px}
+
+.impact-badge{display:inline-block;background:var(--navy);color:var(--gold);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle}
+
+/* SCORE MINI */
+.score-mini{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.score-chip{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600}
+.chip-rel{background:rgba(124,58,237,.1);color:var(--purple)}
+.chip-ope{background:rgba(29,78,216,.1);color:var(--blue)}
+.chip-mot{background:rgba(217,119,6,.1);color:var(--mot,#d97706)}
+
+.verbatim-box{background:var(--light);border-left:3px solid var(--gold);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-style:italic;font-size:11px;color:var(--muted)}
+.verbatim-box strong{color:var(--text);font-style:normal}
+
+.edu-item{margin-bottom:10px}
+.edu-degree{font-size:12px;font-weight:600;color:var(--navy)}
+.edu-detail{font-size:11px;color:var(--muted)}
+
+.flag-row{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--muted);margin-top:6px}
+
+@media(max-width:700px){.body{grid-template-columns:1fr}.kpi-bar{grid-template-columns:repeat(2,1fr)}.header-content{flex-direction:column}.sidebar{border-right:none;border-bottom:1px solid var(--border)}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-accent"></div>
+  <div class="header-content">
+    <div class="avatar">👩</div>
+    <div class="header-text">
+      <h1>TAMOU ELJERRARI</h1>
+      <div class="title">Responsable Qualité &amp; Formation · Expert BPO</div>
+      <div class="tagline">
+        10 ans d'expérience en centres d'appels · Certifiée ISO 9001 V2015 AFNOR · Formatrice &amp; Coach terrain
+        ayant formé <strong style="color:var(--gold)">109+ apprenants</strong> avec <strong style="color:var(--gold)">100% de satisfaction</strong>
+        sur deux sites internationaux (Agadir 🇲🇦 · Dakar 🇸🇳).
+      </div>
+      <div class="contact-bar">
+        <div class="contact-item">📞 <strong>+212 608 946 665</strong></div>
+        <div class="contact-item">✉️ <strong>madsenfatou@gmail.com</strong></div>
+        <div class="contact-item">📍 <strong>Marrakech, Maroc</strong></div>
+        <div class="contact-item">🟢 <strong>Disponible immédiatement</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KPI BAR -->
+<div class="kpi-bar">
+  <div class="kpi"><div class="n">10 ans</div><div class="l">Expérience BPO</div></div>
+  <div class="kpi"><div class="n">109+</div><div class="l">Apprenants formés</div></div>
+  <div class="kpi"><div class="n">100%</div><div class="l">Satisfaction terrain</div></div>
+  <div class="kpi"><div class="n">ISO 9001</div><div class="l">Certifiée AFNOR</div></div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+  <div class="sec">
+    <div class="sec-title">Contact</div>
+    <div class="contact-side">
+      <div><span class="ico">📞</span>+212 608 946 665</div>
+      <div><span class="ico">📞</span>+212 603 993 201</div>
+      <div><span class="ico">✉️</span>madsenfatou@gmail.com</div>
+      <div><span class="ico">📍</span>Marrakech, Maroc</div>
+      <div><span class="ico">🟢</span><strong style="color:var(--green)">Disponibilité immédiate</strong></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Compétences opérationnelles</div>
+    <div class="skill-item">
+      <div class="skill-label"><span>Management &amp; Leadership</span><span class="skill-pct">●●●●●</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:95%;background:var(--navy)"></div></div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-label"><span>Ingénierie de formation</span><span class="skill-pct">●●●●●</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:95%;background:var(--blue)"></div></div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-label"><span>Coaching terrain &amp; PDCA</span><span class="skill-pct">●●●●●</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:92%;background:var(--gold)"></div></div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-label"><span>Management qualité ISO</span><span class="skill-pct">●●●●○</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:88%;background:var(--red)"></div></div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-label"><span>Audit interne</span><span class="skill-pct">●●●●○</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:82%;background:var(--purple)"></div></div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-label"><span>Recrutement &amp; Intégration</span><span class="skill-pct">●●●●○</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:78%;background:var(--green)"></div></div>
+    </div>
+    <div class="skill-item">
+      <div class="skill-label"><span>Animation COPROD / COPIL</span><span class="skill-pct">●●●●○</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:80%;background:#0891b2)"></div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Soft Skills animés</div>
+    <div class="tag-list">
+      <span class="tag r">Intelligence émotionnelle</span>
+      <span class="tag r">Gestion du stress</span>
+      <span class="tag r">Excellence relationnelle</span>
+      <span class="tag r">Gestion des conflits</span>
+      <span class="tag b">Communication transversale</span>
+      <span class="tag b">Leadership situationnel</span>
+      <span class="tag g">Transmission du savoir</span>
+      <span class="tag g">Amélioration continue</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Certifications</div>
+    <div class="cert-item">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-text">
+        <strong>ISO 9001 V2015 — AFNOR</strong>
+        <span>Délivré 2022 · Financé entreprise</span>
+      </div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-icon">🎓</div>
+      <div class="cert-text">
+        <strong>Habilitée Formateur de Formateurs</strong>
+        <span>Cursus compétence métier</span>
+      </div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-icon">📋</div>
+      <div class="cert-text">
+        <strong>Ingénierie pédagogique</strong>
+        <span>Élaboration contenus e-learning &amp; présentiel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Secteurs maîtrisés</div>
+    <div class="tag-list">
+      <span class="tag gold">Téléphonie &amp; Télécom</span>
+      <span class="tag gold">Énergie</span>
+      <span class="tag gold">Service Client BPO</span>
+      <span class="tag gold">Télévente B2C/B2B</span>
+      <span class="tag gold">Management QSE</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">Implantations</div>
+    <div style="font-size:11px;color:var(--muted)">
+      <div style="margin-bottom:5px">🇲🇦 <strong>Maroc</strong> — Agadir · Marrakech</div>
+      <div style="margin-bottom:5px">🇸🇳 <strong>Sénégal</strong> — Dakar (Mermoz)</div>
+      <div>🇫🇷 <strong>France</strong> — Client DO</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PROFIL -->
+  <div class="profile-box">
+    <p>
+      Avec <strong>10 ans d'expérience BPO</strong> et une trajectoire construite poste par poste — conseillère, contrôleuse qualité, recruteuse, formatrice, responsable — Tamou Eljerrari incarne une double expertise rare :
+      <strong>management de la qualité ISO 9001</strong> et <strong>ingénierie de formation terrain</strong>.
+      Elle a formé <strong>109+ apprenants</strong> sur deux continents avec un taux de satisfaction de <strong>100%</strong>
+      (source : 109 verbatims publics Instagram @shyperformance).
+      Elle pilote, certifie et transmet — simultanément.
+    </p>
+  </div>
+
+  <!-- EXPÉRIENCE -->
+  <div class="main-sec">
+    <div class="sec-title">Expérience professionnelle</div>
+
+    <div class="exp-item current">
+      <div class="exp-header">
+        <div class="exp-title">Responsable Qualité &amp; Formation <span class="impact-badge">🔴 EN POSTE</span></div>
+        <div class="exp-date">2023 — Aujourd'hui</div>
+      </div>
+      <div class="exp-company">SHyperformance · Agadir, Maroc · (ISO 18295 · 500+ clients · 98% satisfaction)</div>
+      <ul class="exp-bullets">
+        <li>Mise en place &amp; suivi du <strong>système de management qualité ISO 9001 V2015</strong> — certificat AFNOR obtenu, financé par l'entreprise</li>
+        <li>Développement de programmes de formation ayant généré <strong>109 retours apprenants 100% positifs</strong> (Instagram @shyperformance)</li>
+        <li>Participation au <strong>setup du site Sénégal (Dakar – Mermoz)</strong> : déploiement de la culture qualité &amp; formation fondatrice sur nouveau marché</li>
+        <li>Animation COPROD &amp; COPIL : interface client donneur d'ordre / équipes terrain</li>
+      </ul>
+      <div class="score-mini">
+        <span class="score-chip chip-ope">Opérationnel : 50 fb (46%)</span>
+        <span class="score-chip chip-rel">Relationnelle : 43 fb (39%)</span>
+        <span class="score-chip chip-mot">Motivation : 16 fb (15%)</span>
+      </div>
+      <div class="verbatim-box">
+        <strong>Verbatim apprenant :</strong> « j'ai passé plusieurs formations chez Xceed, Majorel, Comdata — jamais eu l'opportunité d'assister une formation de qualité supérieure comme ici. »
+        <br><strong>Verbatim Sénégal :</strong> « Formatrice qui associe professionnalisme et excellence opérationnelle. Dieureudieuf ! 🇸🇳 »
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-title">Formatrice Senior</div>
+        <div class="exp-date">2021 — 2022</div>
+      </div>
+      <div class="exp-company">SHyperformance · Activités Énergie &amp; Téléphonie</div>
+      <ul class="exp-bullets">
+        <li>Encadrement des nouvelles recrues et accompagnement des équipes terrain</li>
+        <li>Animation de formations relation client, gestion des compétences et soft skills</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-title">Formatrice Senior</div>
+        <div class="exp-date">2020 — 2021</div>
+      </div>
+      <div class="exp-company">Webhelp</div>
+      <ul class="exp-bullets">
+        <li>Formation initiale et continue des conseillers commerciaux</li>
+        <li>Coaching terrain, identification des écarts &amp; mise en place du PDCA</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-title">Formatrice SFR Sortant &amp; Entraînement Service Client</div>
+        <div class="exp-date">2018 — 2020</div>
+      </div>
+      <div class="exp-company">Webhelp · Activité SFR (Télécom)</div>
+      <ul class="exp-bullets">
+        <li>Animation des formations dédiées au programme sortant SFR</li>
+        <li>Entraînement service client : simulation, jeux de rôle, traitement des objections</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-title">Chargée de Recrutement</div>
+        <div class="exp-date">2016 — 2017</div>
+      </div>
+      <div class="exp-company">Webhelp</div>
+      <ul class="exp-bullets">
+        <li>Sélection &amp; intégration des nouveaux collaborateurs</li>
+        <li>Élaboration des tests et entretiens de validation des compétences</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-title">Contrôleuse Qualité</div>
+        <div class="exp-date">2015 — 2016</div>
+      </div>
+      <div class="exp-company">Webhelp</div>
+      <ul class="exp-bullets">
+        <li>Évaluation des performances des conseillers &amp; analyse des écarts</li>
+        <li>Proposition et suivi des actions correctives</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-title">Conseillère Commerciale TLV SFR</div>
+        <div class="exp-date">2014 — 2015</div>
+      </div>
+      <div class="exp-company">Webhelp (9 mois) · Socle terrain de la carrière</div>
+    </div>
+  </div>
+
+  <!-- FORMATION -->
+  <div class="main-sec">
+    <div class="sec-title">Formation</div>
+    <div class="edu-item">
+      <div class="edu-degree">Baccalauréat Scientifique</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-degree">Formation en Ingénierie de Formation &amp; Élaboration de Contenus Pédagogiques</div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-degree">Expertise Soft Skills animés</div>
+      <div class="edu-detail">Gestion du stress · Intelligence émotionnelle · Excellence relationnelle · Gestion des conflits</div>
+    </div>
+  </div>
+
+  <!-- RÉALISATIONS -->
+  <div class="main-sec">
+    <div class="sec-title">Réalisations clés</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:var(--light);border-radius:8px;padding:10px 12px;border:1px solid var(--border)">
+        <div style="font-size:1.1rem;font-weight:800;color:var(--navy)">ISO 9001 AFNOR</div>
+        <div style="font-size:11px;color:var(--muted)">Pilotage complet du SMQ · Certification obtenue 2022</div>
+      </div>
+      <div style="background:var(--light);border-radius:8px;padding:10px 12px;border:1px solid var(--border)">
+        <div style="font-size:1.1rem;font-weight:800;color:var(--navy)">109 apprenants · 100%</div>
+        <div style="font-size:11px;color:var(--muted)">Taux satisfaction prouvé · 🇲🇦 80 Maroc · 🇸🇳 29 Sénégal</div>
+      </div>
+      <div style="background:var(--light);border-radius:8px;padding:10px 12px;border:1px solid var(--border)">
+        <div style="font-size:1.1rem;font-weight:800;color:var(--navy)">Setup Sénégal</div>
+        <div style="font-size:11px;color:var(--muted)">Déploiement formation fondatrice · Dakar Mermoz 2023</div>
+      </div>
+      <div style="background:var(--light);border-radius:8px;padding:10px 12px;border:1px solid var(--border)">
+        <div style="font-size:1.1rem;font-weight:800;color:var(--navy)">2R : Résultats &amp; Rétention</div>
+        <div style="font-size:11px;color:var(--muted)">Méthode propriétaire · Propositions de valeur capitalisant les 2R</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+</body>
+</html>
