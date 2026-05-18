@@ -45,6 +45,7 @@
     display: flex;
     gap: 12px;
     z-index: 100;
+    align-items: center;
   }
   #controls button {
     background: rgba(255,255,255,0.2);
@@ -59,6 +60,33 @@
     transition: background 0.2s;
   }
   #controls button:hover { background: rgba(255,255,255,0.35); }
+  #btn-voice { background: rgba(255,255,255,0.15); }
+  #btn-voice.on { background: rgba(0,255,160,0.25); border-color: #00ffa0; color: #00ffa0; }
+
+  /* VOICE INDICATOR */
+  #voice-indicator {
+    position: fixed;
+    top: 14px; left: 20px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+  }
+  #voice-indicator.active { display: flex; }
+  .wave { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
+  .wave span {
+    display: block; width: 4px; background: #fff; border-radius: 2px;
+    animation: waveAnim 0.8s ease-in-out infinite;
+  }
+  .wave span:nth-child(1){height:6px;animation-delay:0s}
+  .wave span:nth-child(2){height:14px;animation-delay:0.1s}
+  .wave span:nth-child(3){height:10px;animation-delay:0.2s}
+  .wave span:nth-child(4){height:18px;animation-delay:0.15s}
+  .wave span:nth-child(5){height:8px;animation-delay:0.05s}
+  @keyframes waveAnim {
+    0%,100%{transform:scaleY(1)} 50%{transform:scaleY(0.3)}
+  }
+  #voice-label { color: #fff; font-size: 12px; font-weight: 700; opacity: 0.85; letter-spacing: 1px; text-transform: uppercase; }
 
   /* SLIDES */
   .slide {
@@ -382,26 +410,182 @@
   </div>
 </div>
 
+<!-- VOICE INDICATOR -->
+<div id="voice-indicator">
+  <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+  <div id="voice-label">Voice-over actif</div>
+</div>
+
 <!-- CONTROLS -->
 <div id="controls">
   <button onclick="prevSlide()">◀ Précédent</button>
   <button id="btn-auto" onclick="toggleAuto()">⏸ Pause</button>
   <button onclick="nextSlide()">Suivant ▶</button>
+  <button id="btn-voice" onclick="toggleVoice()">🔊 Voice-over</button>
 </div>
 
 <script>
+  // ─── VOICE-OVER SCRIPTS ────────────────────────────────────────────────────
+  const VOICEOVERS = [
+    // Slide 0 — Intro
+    `Bienvenue dans cette formation dédiée à la prospection de donateurs pour l'UNICEF.
+     Aujourd'hui, vous allez découvrir quatre outils concrets, immédiatement applicables sur le terrain.
+     Préparez-vous : chaque appel que vous passerez peut changer la vie d'un enfant.`,
+
+    // Slide 1 — 10 chiffres
+    `L'UNICEF, c'est une force mondiale extraordinaire.
+     Présente dans cent quatre-vingt-dix pays, elle touche deux cents millions d'enfants chaque année.
+     Un vaccin sur trois dans le monde est fourni par l'UNICEF.
+     Retenez ces trois chiffres par cœur : ils créent l'émotion, ils déclenchent le don.
+     Et surtout : quatre-vingt-treize pour cent des fonds collectés vont directement sur le terrain.
+     C'est votre argument de transparence le plus puissant.`,
+
+    // Slide 2 — Sophie
+    `Voici Sophie. Quarante-deux ans, mère de famille.
+     Sa motivation profonde, c'est l'empathie parentale : en parlant d'un enfant en danger,
+     elle pense instinctivement à ses propres enfants.
+     Avec Sophie, soyez chaleureux, émotionnel, rassurant.
+     Son objection la plus fréquente : elle doute que l'argent arrive vraiment sur le terrain.
+     Votre réponse : les quatre-vingt-treize pour cent. Chiffre précis, crédible, immédiat.`,
+
+    // Slide 3 — Marc
+    `Marc, cinquante-cinq ans, cadre ou retraité engagé.
+     Il donne par conviction, par valeurs, par envie de laisser une trace positive.
+     Avec Marc, adoptez un ton respectueux et factuel.
+     Il veut comprendre l'impact global : cent quatre-vingt-dix pays, le système des Nations Unies,
+     une organisation qui pèse à l'échelle mondiale.
+     Son objection : il donne déjà à d'autres causes.
+     Votre réponse : l'UNICEF ne remplace pas, elle complète. Son échelle est unique.`,
+
+    // Slide 4 — Thomas
+    `Thomas, trente-cinq ans, jeune actif méfiant des grandes structures.
+     Il veut des preuves concrètes avant de sortir sa carte bleue.
+     Soyez direct, transparent, sans jargon.
+     Son déclencheur : les quatre-vingt-treize pour cent reversés au terrain,
+     et les rapports annuels publics accessibles à tous.
+     Son objection : comment savoir que ce n'est pas du gaspillage ?
+     Donnez-lui les chiffres, les sources, la preuve. Il donnera.`,
+
+    // Slide 5 — Script
+    `Le script d'appel se déroule en six étapes précises.
+     Étape un : l'accroche. Trente secondes, naturelles, souriantes. Jamais récitées.
+     Étape deux : l'émotion. Placez un chiffre choc. Toutes les trois secondes, un enfant reçoit un vaccin.
+     Étape trois : la qualification. Écoutez. Laissez le silence travailler pour vous.
+     Étape quatre : la proposition. Trois paliers : dix, vingt, ou trente euros par mois.
+     Étape cinq : la gestion des objections. Méthode A-A-R : accuser réception, argumenter, relancer.
+     Étape six : le closing. Soyez direct. Demandez l'IBAN sans hésitation. La confiance se sent dans la voix.`,
+
+    // Slide 6 — Grille
+    `La grille d'observation va structurer vos jeux de rôle.
+     Huit critères, trois niveaux : à travailler, en progrès, maîtrisé.
+     Observez particulièrement l'accroche : est-elle naturelle ? Ou récitée mécaniquement ?
+     Regardez le silence : le conseiller laisse-t-il vraiment le donateur s'exprimer ?
+     Et le closing : demande-t-il l'IBAN avec conviction, sans hésiter ?
+     Un score entre vingt-et-un et vingt-quatre points : le conseiller est prêt pour le terrain.`,
+
+    // Slide 7 — Outro
+    `Vous avez maintenant tous les outils pour réussir.
+     Les chiffres de l'UNICEF, les trois profils de donateurs,
+     le script d'appel en six étapes, et la grille d'observation pour progresser.
+     Rappelez-vous : chaque appel que vous passerez aujourd'hui,
+     c'est un enfant quelque part dans le monde qui reçoit un vaccin, de la nourriture, une protection.
+     Vous n'êtes pas seulement des conseillers commerciaux.
+     Vous êtes des acteurs du changement. Bonne formation à toutes et à tous.`
+  ];
+
+  // ─── SPEECH ENGINE ──────────────────────────────────────────────────────────
+  let voiceEnabled = false;
+  let speaking = false;
+  let selectedVoice = null;
+
+  function loadVoices() {
+    return new Promise(resolve => {
+      let voices = speechSynthesis.getVoices();
+      if (voices.length) { resolve(voices); return; }
+      speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
+    });
+  }
+
+  async function pickBestFrenchVoice() {
+    const voices = await loadVoices();
+    const frVoices = voices.filter(v => v.lang.startsWith('fr'));
+    // Priority order: female neural/premium voices first, then any french voice
+    const preferred = ['Google français', 'Microsoft Julie', 'Amelie', 'Thomas', 'Marie'];
+    for (const name of preferred) {
+      const found = frVoices.find(v => v.name.includes(name));
+      if (found) return found;
+    }
+    // Prefer a female voice
+    const female = frVoices.find(v => /female|femme|julie|amelie|marie|claire|elsa/i.test(v.name));
+    if (female) return female;
+    return frVoices[0] || voices[0];
+  }
+
+  function speakSlide(index) {
+    if (!voiceEnabled) return;
+    speechSynthesis.cancel();
+    speaking = false;
+
+    const text = VOICEOVERS[index];
+    if (!text) return;
+
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'fr-FR';
+    utter.rate = 0.88;   // slightly slower = more pedagogical
+    utter.pitch = 1.08;  // slightly warmer tone
+    utter.volume = 1.0;
+
+    if (selectedVoice) utter.voice = selectedVoice;
+
+    utter.onstart = () => {
+      speaking = true;
+      document.getElementById('voice-indicator').classList.add('active');
+    };
+    utter.onend = utter.onerror = () => {
+      speaking = false;
+      document.getElementById('voice-indicator').classList.remove('active');
+    };
+
+    speechSynthesis.speak(utter);
+  }
+
+  function stopSpeaking() {
+    speechSynthesis.cancel();
+    speaking = false;
+    document.getElementById('voice-indicator').classList.remove('active');
+  }
+
+  async function toggleVoice() {
+    voiceEnabled = !voiceEnabled;
+    const btn = document.getElementById('btn-voice');
+    if (voiceEnabled) {
+      btn.textContent = '🔊 Voice-over ON';
+      btn.classList.add('on');
+      if (!selectedVoice) selectedVoice = await pickBestFrenchVoice();
+      speakSlide(current);
+    } else {
+      btn.textContent = '🔇 Voice-over OFF';
+      btn.classList.remove('on');
+      stopSpeaking();
+    }
+  }
+
+  // ─── SLIDES ENGINE ──────────────────────────────────────────────────────────
   const slides = document.querySelectorAll('.slide');
   const total = slides.length;
   let current = 0;
   let autoTimer = null;
-  const DURATIONS = [4000, 6000, 7000, 7000, 7000, 7000, 7000, 6000];
+  const DURATIONS = [9000, 16000, 14000, 14000, 14000, 18000, 16000, 15000];
 
   function showSlide(n) {
+    stopSpeaking();
     slides[current].classList.remove('active');
     current = (n + total) % total;
     slides[current].classList.add('active');
     document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
     document.getElementById('progress-bar').style.width = ((current + 1) / total * 100) + '%';
+    // Small delay so the slide animation starts before voice
+    setTimeout(() => speakSlide(current), 400);
   }
 
   function nextSlide() { showSlide(current + 1); resetAuto(); }
@@ -409,21 +593,23 @@
 
   let autoRunning = true;
   function startAuto() {
-    autoTimer = setTimeout(() => { showSlide(current + 1); startAuto(); }, DURATIONS[current] || 6000);
+    autoTimer = setTimeout(() => { showSlide(current + 1); startAuto(); }, DURATIONS[current] || 12000);
   }
   function stopAuto() { clearTimeout(autoTimer); }
   function resetAuto() { if (autoRunning) { stopAuto(); startAuto(); } }
   function toggleAuto() {
     autoRunning = !autoRunning;
-    document.getElementById('btn-auto').textContent = autoRunning ? '⏸ Pause' : '▶ Auto';
-    autoRunning ? startAuto() : stopAuto();
+    const btn = document.getElementById('btn-auto');
+    btn.textContent = autoRunning ? '⏸ Pause' : '▶ Auto';
+    if (autoRunning) { startAuto(); if (voiceEnabled) speakSlide(current); }
+    else { stopAuto(); stopSpeaking(); }
   }
 
-  // Keyboard navigation
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
     if (e.key === 'ArrowLeft') prevSlide();
     if (e.key === 'p' || e.key === 'P') toggleAuto();
+    if (e.key === 'v' || e.key === 'V') toggleVoice();
   });
 
   startAuto();
