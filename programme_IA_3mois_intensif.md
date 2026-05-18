@@ -1,4 +1,4 @@
-# Programme IA Intensif — 3 Mois
+# TAMOU NEURAL PATH
 **4h/jour | 6 jours/semaine | 13 semaines | 312 heures**  
 **Profil : Expert(e) Ingénierie Formation & Centres d'Appels | Freelance**
 
