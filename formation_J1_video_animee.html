@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formation UNICEF — Prospection Donateurs J1</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #00AEEF;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* PROGRESS BAR */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 5px;
+    background: #fff;
+    transition: width 0.3s ease;
+    z-index: 100;
+  }
+
+  /* SLIDE COUNTER */
+  #counter {
+    position: fixed;
+    top: 14px; right: 20px;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    z-index: 100;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* CONTROLS */
+  #controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+  #controls button {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.6);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    backdrop-filter: blur(5px);
+    transition: background 0.2s;
+  }
+  #controls button:hover { background: rgba(255,255,255,0.35); }
+
+  /* SLIDES */
+  .slide {
+    display: none;
+    position: absolute;
+    inset: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    animation: fadeIn 0.6s ease;
+  }
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slideLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ============================
+     SLIDE 0 — INTRO
+  ============================ */
+  #slide-0 { background: linear-gradient(135deg, #002F6C 0%, #00AEEF 100%); flex-direction: column; text-align: center; }
+  #slide-0 .logo { font-size: 72px; margin-bottom: 10px; animation: popIn 0.8s ease; }
+  #slide-0 h1 { color: #fff; font-size: 42px; font-weight: 900; line-height: 1.2; animation: fadeIn 1s ease 0.3s both; }
+  #slide-0 h2 { color: #7DD4F5; font-size: 22px; margin-top: 14px; font-weight: 400; animation: fadeIn 1s ease 0.6s both; }
+  #slide-0 .badge { margin-top: 30px; background: rgba(255,255,255,0.15); border-radius: 50px; padding: 10px 28px; color: #fff; font-size: 16px; font-weight: 600; animation: fadeIn 1s ease 0.9s both; display: inline-block; }
+
+  /* ============================
+     SLIDE 1 — 10 CHIFFRES
+  ============================ */
+  #slide-1 { background: #fff; flex-direction: column; }
+  #slide-1 .title { color: #00AEEF; font-size: 32px; font-weight: 900; margin-bottom: 30px; text-align: center; animation: fadeIn 0.6s ease; }
+  .chiffres-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; width: 100%; max-width: 1100px; }
+  .chiffre-card {
+    background: linear-gradient(135deg, #00AEEF, #002F6C);
+    border-radius: 14px;
+    padding: 18px 12px;
+    text-align: center;
+    color: #fff;
+    animation: popIn 0.5s ease both;
+  }
+  .chiffre-card .num { font-size: 28px; font-weight: 900; line-height: 1; }
+  .chiffre-card .label { font-size: 11px; margin-top: 6px; opacity: 0.9; line-height: 1.3; }
+  .chiffre-card:nth-child(1) { animation-delay: 0.1s; }
+  .chiffre-card:nth-child(2) { animation-delay: 0.2s; }
+  .chiffre-card:nth-child(3) { animation-delay: 0.3s; }
+  .chiffre-card:nth-child(4) { animation-delay: 0.4s; }
+  .chiffre-card:nth-child(5) { animation-delay: 0.5s; }
+  .chiffre-card:nth-child(6) { animation-delay: 0.6s; }
+  .chiffre-card:nth-child(7) { animation-delay: 0.7s; }
+  .chiffre-card:nth-child(8) { animation-delay: 0.8s; }
+  .chiffre-card:nth-child(9) { animation-delay: 0.9s; }
+  .chiffre-card:nth-child(10){ animation-delay: 1.0s; }
+
+  /* ============================
+     SLIDES 2-4 — PERSONAS
+  ============================ */
+  .persona-slide { flex-direction: row; gap: 40px; }
+  .persona-left {
+    flex: 0 0 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideLeft 0.7s ease;
+  }
+  .persona-avatar { font-size: 90px; line-height: 1; }
+  .persona-name { color: #fff; font-size: 26px; font-weight: 900; margin-top: 10px; }
+  .persona-age { color: rgba(255,255,255,0.8); font-size: 15px; }
+  .persona-right { flex: 1; animation: fadeIn 0.7s ease 0.3s both; }
+  .persona-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .info-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+  .info-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .info-text { color: #fff; font-size: 16px; line-height: 1.5; }
+  .info-text strong { display: block; font-size: 12px; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; margin-bottom: 2px; }
+  .objection-box {
+    background: rgba(0,0,0,0.2);
+    border-left: 4px solid #fff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    color: #fff;
+    font-style: italic;
+    font-size: 15px;
+  }
+  .objection-box span { font-style: normal; font-size: 12px; font-weight: 700; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+
+  #slide-2 { background: linear-gradient(135deg, #E91E8C 0%, #002F6C 100%); }
+  #slide-3 { background: linear-gradient(135deg, #002F6C 0%, #00AEEF 100%); }
+  #slide-4 { background: linear-gradient(135deg, #009688 0%, #002F6C 100%); }
+
+  /* ============================
+     SLIDE 5 — SCRIPT
+  ============================ */
+  #slide-5 { background: #002F6C; flex-direction: column; }
+  #slide-5 .title { color: #00AEEF; font-size: 28px; font-weight: 900; margin-bottom: 24px; text-align: center; animation: fadeIn 0.6s ease; }
+  .script-steps { display: flex; gap: 10px; width: 100%; max-width: 1100px; }
+  .step {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 18px 12px;
+    text-align: center;
+    border-top: 4px solid #00AEEF;
+    animation: fadeIn 0.5s ease both;
+  }
+  .step:nth-child(1){animation-delay:0.1s} .step:nth-child(2){animation-delay:0.2s}
+  .step:nth-child(3){animation-delay:0.3s} .step:nth-child(4){animation-delay:0.4s}
+  .step:nth-child(5){animation-delay:0.5s} .step:nth-child(6){animation-delay:0.6s}
+  .step-num { font-size: 32px; font-weight: 900; color: #00AEEF; }
+  .step-title { color: #fff; font-size: 13px; font-weight: 800; margin: 6px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+  .step-desc { color: rgba(255,255,255,0.65); font-size: 11px; line-height: 1.4; }
+  .step-time { margin-top: 10px; background: rgba(0,174,239,0.2); color: #00AEEF; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; }
+
+  /* ============================
+     SLIDE 6 — GRILLE
+  ============================ */
+  #slide-6 { background: #fff; flex-direction: column; }
+  #slide-6 .title { color: #002F6C; font-size: 28px; font-weight: 900; margin-bottom: 20px; text-align: center; animation: fadeIn 0.6s ease; }
+  .grille-table { width: 100%; max-width: 900px; border-collapse: collapse; animation: fadeIn 0.7s ease 0.2s both; }
+  .grille-table th { background: #002F6C; color: #fff; padding: 10px 14px; font-size: 13px; text-align: left; }
+  .grille-table td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 13px; color: #333; }
+  .grille-table tr:nth-child(even) td { background: #f0f8ff; }
+  .dot { display: inline-block; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #00AEEF; margin: 0 4px; }
+  .score-box { display: flex; gap: 16px; margin-top: 16px; animation: fadeIn 0.7s ease 0.5s both; }
+  .score-item { flex: 1; border-radius: 12px; padding: 12px 16px; text-align: center; color: #fff; font-size: 13px; font-weight: 700; }
+  .score-item.expert { background: #4CAF50; }
+  .score-item.inter  { background: #FF9800; }
+  .score-item.debut  { background: #F44336; }
+
+  /* ============================
+     SLIDE 7 — OUTRO
+  ============================ */
+  #slide-7 { background: linear-gradient(135deg, #002F6C 0%, #00AEEF 100%); flex-direction: column; text-align: center; }
+  #slide-7 .logo { font-size: 80px; animation: popIn 0.8s ease; }
+  #slide-7 h2 { color: #fff; font-size: 36px; font-weight: 900; margin-top: 16px; animation: fadeIn 1s ease 0.3s both; }
+  #slide-7 p { color: rgba(255,255,255,0.8); font-size: 20px; margin-top: 14px; animation: fadeIn 1s ease 0.6s both; }
+  #slide-7 .cta { margin-top: 30px; display: flex; gap: 20px; justify-content: center; animation: fadeIn 1s ease 0.9s both; }
+  .cta-item { background: rgba(255,255,255,0.15); border-radius: 16px; padding: 16px 24px; color: #fff; font-size: 16px; font-weight: 700; }
+  .cta-item .icon { font-size: 28px; display: block; margin-bottom: 6px; }
+
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="counter">1 / 8</div>
+
+<!-- SLIDE 0 — INTRO -->
+<div class="slide active" id="slide-0">
+  <div class="logo">🌍</div>
+  <h1>Prospection Donateurs<br>UNICEF</h1>
+  <h2>Formation FIDELIS — Jour 1</h2>
+  <div class="badge">📋 4 Outils · 7 Heures · 1 Mission</div>
+</div>
+
+<!-- SLIDE 1 — 10 CHIFFRES -->
+<div class="slide" id="slide-1">
+  <div class="title">🔢 L'UNICEF en 10 chiffres qui font la différence</div>
+  <div class="chiffres-grid">
+    <div class="chiffre-card"><div class="num">190</div><div class="label">pays dans le monde</div></div>
+    <div class="chiffre-card"><div class="num">200M</div><div class="label">enfants touchés par an</div></div>
+    <div class="chiffre-card"><div class="num">1/3</div><div class="label">des vaccins mondiaux</div></div>
+    <div class="chiffre-card"><div class="num">6,9M</div><div class="label">enfants &lt;5 ans meurent de causes évitables</div></div>
+    <div class="chiffre-card"><div class="num">75 ans</div><div class="label">d'existence depuis 1946</div></div>
+    <div class="chiffre-card"><div class="num">10€</div><div class="label">= 5 moustiquaires pour 1 famille</div></div>
+    <div class="chiffre-card"><div class="num">30€</div><div class="label">= 1 mois de nutrition thérapeutique</div></div>
+    <div class="chiffre-card"><div class="num">93%</div><div class="label">des fonds vont au terrain</div></div>
+    <div class="chiffre-card"><div class="num">🏆</div><div class="label">Prix Nobel de la Paix 1965</div></div>
+    <div class="chiffre-card"><div class="num">3 sec</div><div class="label">= 1 vaccin administré grâce à l'UNICEF</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 2 — PERSONA 1 -->
+<div class="slide persona-slide" id="slide-2">
+  <div class="persona-left">
+    <div class="persona-avatar">👩‍👧</div>
+    <div class="persona-name">Sophie</div>
+    <div class="persona-age">42 ans — Mère de famille CSP+</div>
+  </div>
+  <div class="persona-right">
+    <div class="persona-tag">Persona 1 — Le Parent Sensible</div>
+    <div class="info-row"><div class="info-icon">💡</div><div class="info-text"><strong>Motivation</strong>Empathie parentale — "Ce pourrait être mon enfant"</div></div>
+    <div class="info-row"><div class="info-icon">📱</div><div class="info-text"><strong>Canal préféré</strong>Téléphone & Email</div></div>
+    <div class="info-row"><div class="info-icon">🎯</div><div class="info-text"><strong>Argument déclencheur</strong>Chiffres d'impact direct — 30€ = 1 mois de nutrition</div></div>
+    <div class="info-row"><div class="info-icon">🗣️</div><div class="info-text"><strong>Ton conseillé</strong>Chaleureux · Émotionnel · Rassurant</div></div>
+    <div class="objection-box"><span>Objection fréquente</span>"Je ne sais pas si l'argent arrive vraiment sur le terrain"</div>
+  </div>
+</div>
+
+<!-- SLIDE 3 — PERSONA 2 -->
+<div class="slide persona-slide" id="slide-3">
+  <div class="persona-left">
+    <div class="persona-avatar">👨‍💼</div>
+    <div class="persona-name">Marc</div>
+    <div class="persona-age">55 ans — Cadre / Retraité engagé</div>
+  </div>
+  <div class="persona-right">
+    <div class="persona-tag">Persona 2 — Le Citoyen Engagé</div>
+    <div class="info-row"><div class="info-icon">💡</div><div class="info-text"><strong>Motivation</strong>Valeurs, justice sociale, héritage</div></div>
+    <div class="info-row"><div class="info-icon">📞</div><div class="info-text"><strong>Canal préféré</strong>Téléphone</div></div>
+    <div class="info-row"><div class="info-icon">🎯</div><div class="info-text"><strong>Argument déclencheur</strong>Impact systémique — 190 pays, ONU, échelle mondiale</div></div>
+    <div class="info-row"><div class="info-icon">🗣️</div><div class="info-text"><strong>Ton conseillé</strong>Respectueux · Factuel · Engagé</div></div>
+    <div class="objection-box"><span>Objection fréquente</span>"Je donne déjà à d'autres associations"</div>
+  </div>
+</div>
+
+<!-- SLIDE 4 — PERSONA 3 -->
+<div class="slide persona-slide" id="slide-4">
+  <div class="persona-left">
+    <div class="persona-avatar">👨‍💻</div>
+    <div class="persona-name">Thomas</div>
+    <div class="persona-age">35 ans — Jeune actif sceptique</div>
+  </div>
+  <div class="persona-right">
+    <div class="persona-tag">Persona 3 — Le Sceptique Bienveillant</div>
+    <div class="info-row"><div class="info-icon">💡</div><div class="info-text"><strong>Motivation</strong>Transparence, efficacité, preuve concrète</div></div>
+    <div class="info-row"><div class="info-icon">💬</div><div class="info-text"><strong>Canal préféré</strong>Digital — répond si bien accroché</div></div>
+    <div class="info-row"><div class="info-icon">🎯</div><div class="info-text"><strong>Argument déclencheur</strong>93% reversés au terrain + rapports annuels publics</div></div>
+    <div class="info-row"><div class="info-icon">🗣️</div><div class="info-text"><strong>Ton conseillé</strong>Direct · Transparent · Sans jargon</div></div>
+    <div class="objection-box"><span>Objection fréquente</span>"Comment je sais que ce n'est pas du gaspillage ?"</div>
+  </div>
+</div>
+
+<!-- SLIDE 5 — SCRIPT -->
+<div class="slide" id="slide-5">
+  <div class="title">📞 Script d'appel — 6 étapes</div>
+  <div class="script-steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Accroche</div>
+      <div class="step-desc">"Bonjour, j'ai quelques secondes pour vous ?"</div>
+      <div class="step-time">30 sec</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Émotion</div>
+      <div class="step-desc">Chiffre choc — 3 secondes = 1 vaccin</div>
+      <div class="step-time">45 sec</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Qualification</div>
+      <div class="step-desc">Quelle cause vous touche ?</div>
+      <div class="step-time">1 min</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Proposition</div>
+      <div class="step-desc">3 paliers : 10 / 20 / 30 € / mois</div>
+      <div class="step-time">1 min</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-title">Objection</div>
+      <div class="step-desc">Méthode AAR — Accuser · Arguer · Relancer</div>
+      <div class="step-time">Variable</div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-title">Closing</div>
+      <div class="step-desc">"Vous avez votre IBAN sous la main ?"</div>
+      <div class="step-time">30 sec</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 — GRILLE -->
+<div class="slide" id="slide-6">
+  <div class="title">📊 Grille d'observation — Jeux de rôle</div>
+  <table class="grille-table">
+    <tr><th>Critère évalué</th><th style="text-align:center">À travailler</th><th style="text-align:center">En progrès</th><th style="text-align:center">Maîtrisé</th></tr>
+    <tr><td>Accroche naturelle, non récitée</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+    <tr><td>Chiffre choc bien placé</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+    <tr><td>Écoute — silence respecté</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+    <tr><td>Reformulation du besoin donateur</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+    <tr><td>Proposition des 3 paliers</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+    <tr><td>Méthode AAR sur l'objection</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+    <tr><td>Closing — demande IBAN sans hésitation</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+    <tr><td>Ton — chaleur, conviction, naturel</td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td><td style="text-align:center"><span class="dot"></span></td></tr>
+  </table>
+  <div class="score-box">
+    <div class="score-item expert">🏆 21-24 pts — Expert<br><small>Prêt pour le terrain</small></div>
+    <div class="score-item inter">📈 15-20 pts — Intermédiaire<br><small>Consolider 1-2 points</small></div>
+    <div class="score-item debut">📚 8-14 pts — Débutant<br><small>Retravailler la structure</small></div>
+  </div>
+</div>
+
+<!-- SLIDE 7 — OUTRO -->
+<div class="slide" id="slide-7">
+  <div class="logo">🌍</div>
+  <h2>Vous êtes prêts.<br>Chaque appel compte.</h2>
+  <p>Ensemble, donnons une chance à chaque enfant.</p>
+  <div class="cta">
+    <div class="cta-item"><span class="icon">📋</span>4 outils J1<br>prêts à l'emploi</div>
+    <div class="cta-item"><span class="icon">🎯</span>3 personas<br>maîtrisés</div>
+    <div class="cta-item"><span class="icon">📞</span>Script 6 étapes<br>en poche</div>
+    <div class="cta-item"><span class="icon">⭐</span>Méthode AAR<br>pour les objections</div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div id="controls">
+  <button onclick="prevSlide()">◀ Précédent</button>
+  <button id="btn-auto" onclick="toggleAuto()">⏸ Pause</button>
+  <button onclick="nextSlide()">Suivant ▶</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  let autoTimer = null;
+  const DURATIONS = [4000, 6000, 7000, 7000, 7000, 7000, 7000, 6000];
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progress-bar').style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  function nextSlide() { showSlide(current + 1); resetAuto(); }
+  function prevSlide() { showSlide(current - 1); resetAuto(); }
+
+  let autoRunning = true;
+  function startAuto() {
+    autoTimer = setTimeout(() => { showSlide(current + 1); startAuto(); }, DURATIONS[current] || 6000);
+  }
+  function stopAuto() { clearTimeout(autoTimer); }
+  function resetAuto() { if (autoRunning) { stopAuto(); startAuto(); } }
+  function toggleAuto() {
+    autoRunning = !autoRunning;
+    document.getElementById('btn-auto').textContent = autoRunning ? '⏸ Pause' : '▶ Auto';
+    autoRunning ? startAuto() : stopAuto();
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+    if (e.key === 'p' || e.key === 'P') toggleAuto();
+  });
+
+  startAuto();
+</script>
+</body>
+</html>
