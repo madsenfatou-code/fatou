@@ -7,297 +7,448 @@
   <style>
     /* ── Design tokens ─────────────────────────────────────────────────── */
     :root {
-      --blue-dark:  #003087;
-      --blue-mid:   #0057b8;
-      --blue-light: #e8f0fb;
-      --cyan:       #00aeef;
-      --orange:     #f7941d;
-      --green:      #27ae60;
-      --red:        #e74c3c;
-      --yellow:     #f1c40f;
-      --grey-bg:    #f4f6fb;
-      --grey-line:  #dce3f0;
-      --text:       #1a1a2e;
-      --white:      #ffffff;
-      --shadow:     0 4px 18px rgba(0,48,135,.13);
+      --blue-dark:   #003087;
+      --blue-mid:    #0057b8;
+      --blue-light:  #e8f0fb;
+      --cyan:        #00aeef;
+      --cyan-light:  #e0f6ff;
+      --orange:      #f7941d;
+      --orange-light:#fff4e6;
+      --green:       #27ae60;
+      --green-light: #eafaf1;
+      --red:         #e74c3c;
+      --red-light:   #fdf0ef;
+      --yellow:      #f1c40f;
+      --yellow-light:#fefde8;
+      --purple:      #7c3aed;
+      --purple-light:#f3f0ff;
+      --teal:        #0d9488;
+      --teal-light:  #f0fdfa;
+      --grey-bg:     #f0f4f9;
+      --grey-line:   #dce3f0;
+      --text:        #1a1a2e;
+      --text-light:  #555;
+      --white:       #ffffff;
+      --shadow:      0 4px 20px rgba(0,48,135,.12);
+      --shadow-sm:   0 2px 8px rgba(0,48,135,.08);
     }
 
     /* ── Reset & base ──────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Segoe UI', system-ui, Arial, sans-serif;
       background: var(--grey-bg);
       color: var(--text);
-      line-height: 1.65;
+      line-height: 1.7;
+      font-size: 15px;
     }
-    h1,h2,h3,h4 { font-weight: 700; line-height: 1.25; }
-    a { color: var(--blue-mid); text-decoration: none; }
 
     /* ── Page wrapper ──────────────────────────────────────────────────── */
-    .page { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+    .page { max-width: 980px; margin: 0 auto; padding: 0 20px 80px; }
 
-    /* ── Hero banner ───────────────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════════════════ */
     .hero {
-      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, var(--cyan) 100%);
+      background: linear-gradient(140deg, var(--blue-dark) 0%, var(--blue-mid) 55%, var(--cyan) 100%);
       color: var(--white);
-      padding: 48px 40px 40px;
-      border-radius: 0 0 20px 20px;
-      margin-bottom: 36px;
+      padding: 52px 44px 44px;
+      border-radius: 0 0 24px 24px;
+      margin-bottom: 40px;
       position: relative;
       overflow: hidden;
     }
+    .hero::before {
+      content: '';
+      position: absolute; left: -80px; bottom: -80px;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,.05);
+      border-radius: 50%;
+    }
     .hero::after {
       content: '';
-      position: absolute;
-      right: -60px; top: -60px;
-      width: 260px; height: 260px;
-      background: rgba(255,255,255,.06);
+      position: absolute; right: -40px; top: -40px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,.07);
       border-radius: 50%;
     }
-    .hero .badge {
+    .hero .badge-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+    .badge {
       display: inline-block;
-      background: var(--orange);
-      color: var(--white);
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 4px 14px;
-      border-radius: 20px;
-      margin-bottom: 14px;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px;
     }
-    .hero h1 { font-size: 2rem; margin-bottom: 8px; }
-    .hero .subtitle { font-size: 1.05rem; opacity: .88; max-width: 620px; }
-    .hero .meta {
-      margin-top: 22px;
-      display: flex; flex-wrap: wrap; gap: 18px;
-      font-size: .85rem; opacity: .8;
-    }
-    .hero .meta span { display: flex; align-items: center; gap: 6px; }
+    .badge.orange  { background: var(--orange); color: var(--white); }
+    .badge.cyan    { background: rgba(0,174,239,.25); color: #e0f6ff; border: 1px solid rgba(0,174,239,.4); }
+    .badge.white   { background: rgba(255,255,255,.15); color: var(--white); border: 1px solid rgba(255,255,255,.3); }
 
-    /* ── Section card ──────────────────────────────────────────────────── */
+    .hero h1 {
+      font-size: 2.2rem; font-weight: 900; margin-bottom: 10px;
+      line-height: 1.15; letter-spacing: -.02em;
+    }
+    .hero .subtitle { font-size: 1rem; opacity: .88; max-width: 640px; line-height: 1.6; }
+    .hero .meta {
+      margin-top: 26px;
+      display: flex; flex-wrap: wrap; gap: 20px;
+      font-size: .83rem; opacity: .82;
+    }
+    .hero .meta span { display: flex; align-items: center; gap: 7px; }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SECTION CARD
+    ═══════════════════════════════════════════════════════════════════ */
     .card {
       background: var(--white);
-      border-radius: 14px;
+      border-radius: 16px;
       box-shadow: var(--shadow);
-      padding: 32px 36px;
-      margin-bottom: 28px;
-    }
-    .card-title {
-      display: flex; align-items: center; gap: 12px;
-      font-size: 1.2rem;
-      color: var(--blue-dark);
-      margin-bottom: 22px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--blue-light);
-    }
-    .card-title .icon {
-      width: 38px; height: 38px;
-      background: var(--blue-light);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+      padding: 36px 40px;
+      margin-bottom: 30px;
     }
 
-    /* ── Section number label ──────────────────────────────────────────── */
-    .section-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px;
+    /* Grand titre de section */
+    .section-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 3px solid var(--blue-light);
+    }
+    .section-icon {
+      width: 46px; height: 46px;
+      background: var(--blue-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; flex-shrink: 0;
+    }
+    .section-num-badge {
       background: var(--blue-mid);
       color: var(--white);
-      border-radius: 50%;
-      font-size: .85rem; font-weight: 700;
-      flex-shrink: 0;
+      font-size: .78rem; font-weight: 800;
+      padding: 3px 10px; border-radius: 12px;
+      letter-spacing: .06em; text-transform: uppercase;
+    }
+    /* GRAND TITRE — gras, bleu foncé */
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--blue-dark);
+      letter-spacing: -.01em;
     }
 
-    /* ── Info boxes ────────────────────────────────────────────────────── */
+    /* SOUS-TITRE — couleur différente, police différente (Georgia/serif), pas gras */
+    .sub-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--teal);
+      margin: 26px 0 12px;
+      border-left: 3px solid var(--teal);
+      padding-left: 12px;
+    }
+    .sub-title.orange { color: var(--orange); border-color: var(--orange); }
+    .sub-title.purple { color: var(--purple); border-color: var(--purple); }
+    .sub-title.green  { color: var(--green);  border-color: var(--green); }
+    .sub-title.red    { color: var(--red);    border-color: var(--red); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       INFO BOXES
+    ═══════════════════════════════════════════════════════════════════ */
     .info-box {
-      border-radius: 10px;
-      padding: 16px 20px;
-      margin: 16px 0;
+      border-radius: 10px; padding: 16px 20px; margin: 14px 0;
     }
-    .info-box.blue  { background: var(--blue-light); border-left: 4px solid var(--blue-mid); }
-    .info-box.orange{ background: #fff4e8; border-left: 4px solid var(--orange); }
-    .info-box.green { background: #eafaf1; border-left: 4px solid var(--green); }
-    .info-box.red   { background: #fdf0ef; border-left: 4px solid var(--red); }
-    .info-box.yellow{ background: #fefde8; border-left: 4px solid var(--yellow); }
-    .info-box strong { display: block; margin-bottom: 4px; }
+    .info-box.blue   { background: var(--blue-light);   border-left: 4px solid var(--blue-mid); }
+    .info-box.cyan   { background: var(--cyan-light);   border-left: 4px solid var(--cyan); }
+    .info-box.orange { background: var(--orange-light); border-left: 4px solid var(--orange); }
+    .info-box.green  { background: var(--green-light);  border-left: 4px solid var(--green); }
+    .info-box.red    { background: var(--red-light);    border-left: 4px solid var(--red); }
+    .info-box.yellow { background: var(--yellow-light); border-left: 4px solid var(--yellow); }
+    .info-box.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+    .info-box.teal   { background: var(--teal-light);   border-left: 4px solid var(--teal); }
+    .info-box strong { display: block; margin-bottom: 5px; color: inherit; }
 
-    /* ── KPI cards ─────────────────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════════
+       FORMULES — couleur distinctive
+    ═══════════════════════════════════════════════════════════════════ */
+    .formula-block {
+      background: #0a1628;
+      border-radius: 12px;
+      padding: 22px 26px;
+      margin: 16px 0;
+      border: 1px solid #1e3a5f;
+    }
+    .formula-label {
+      font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .12em;
+      color: var(--cyan);
+      margin-bottom: 10px;
+    }
+    .formula-math {
+      font-family: 'Courier New', 'Lucida Console', monospace;
+      font-size: 1.05rem;
+      color: #e8f4ff;
+      line-height: 1.9;
+    }
+    .f-var      { color: #7dd3fc; }   /* variable — bleu clair */
+    .f-op       { color: #fbbf24; }   /* opérateur ÷ × = — jaune */
+    .f-result   { color: #34d399; font-weight: 700; } /* résultat — vert */
+    .f-comment  { color: #94a3b8; font-size: .85rem; font-style: italic; }
+    .f-title    { color: #fb923c; font-weight: 700; } /* nom formule — orange */
+    .f-check    { color: #4ade80; } /* ✅ */
+    .formula-note {
+      margin-top: 10px;
+      font-size: .8rem;
+      color: #64748b;
+      padding-top: 10px;
+      border-top: 1px solid #1e3a5f;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       KPI GRID
+    ═══════════════════════════════════════════════════════════════════ */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 18px;
-      margin: 20px 0;
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      gap: 16px; margin: 18px 0;
     }
     .kpi-card {
-      background: linear-gradient(145deg, var(--blue-dark), var(--blue-mid));
+      background: linear-gradient(150deg, var(--blue-dark), #1a4a9a);
       color: var(--white);
-      border-radius: 12px;
-      padding: 22px 20px;
+      border-radius: 14px;
+      padding: 24px 20px;
       text-align: center;
+      box-shadow: var(--shadow-sm);
     }
     .kpi-card .kpi-value {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--cyan);
-      line-height: 1;
-      margin: 8px 0 4px;
+      font-size: 2.4rem; font-weight: 900;
+      color: var(--cyan); line-height: 1;
+      margin: 8px 0 6px;
     }
-    .kpi-card .kpi-label { font-size: .8rem; opacity: .85; }
-    .kpi-card .kpi-name  { font-size: .95rem; font-weight: 600; margin-bottom: 4px; }
+    .kpi-card .kpi-name  { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .kpi-card .kpi-label { font-size: .77rem; opacity: .8; line-height: 1.4; }
 
-    /* ── Formula block ─────────────────────────────────────────────────── */
-    .formula {
+    /* ═══════════════════════════════════════════════════════════════════
+       NOMENCLATURE TABLE
+    ═══════════════════════════════════════════════════════════════════ */
+    .nom-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .88rem; margin: 14px 0;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .nom-table thead th {
       background: var(--blue-dark);
       color: var(--white);
-      border-radius: 10px;
-      padding: 18px 24px;
+      padding: 12px 16px;
+      text-align: left;
+      font-size: .78rem; text-transform: uppercase;
+      letter-spacing: .08em; font-weight: 700;
+    }
+    .nom-table tbody tr:nth-child(even) { background: var(--blue-light); }
+    .nom-table tbody tr:hover { background: var(--cyan-light); }
+    .nom-table tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--grey-line);
+      vertical-align: top;
+    }
+    .nom-table td.sigle {
+      font-weight: 800; color: var(--blue-mid);
+      font-size: .95rem; white-space: nowrap;
+    }
+    .nom-table td.nom-long { font-weight: 600; color: var(--blue-dark); }
+    .nom-table td.definition { color: var(--text-light); line-height: 1.5; }
+    .nom-table td.valeur {
       font-family: 'Courier New', monospace;
-      font-size: 1rem;
-      margin: 16px 0;
-      position: relative;
+      font-weight: 700; color: var(--orange);
+      white-space: nowrap;
     }
-    .formula .formula-title {
-      font-family: 'Segoe UI', sans-serif;
-      font-size: .75rem;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--cyan);
-      margin-bottom: 8px;
-    }
-    .formula .result { color: var(--orange); font-weight: 700; }
 
-    /* ── Qualification pills ───────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════════
+       QUALIFICATION CARDS
+    ═══════════════════════════════════════════════════════════════════ */
     .qual-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin: 18px 0;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px; margin: 16px 0;
     }
-    .qual-pill {
-      border-radius: 12px;
-      padding: 20px 18px;
-      text-align: center;
+    .qual-card {
+      border-radius: 14px; padding: 24px 20px; text-align: center;
+      box-shadow: var(--shadow-sm);
     }
-    .qual-pill.don    { background: #eafaf1; border: 2px solid var(--green); }
-    .qual-pill.refus  { background: #fdf0ef; border: 2px solid var(--red); }
-    .qual-pill.indecis{ background: #fff4e8; border: 2px solid var(--orange); }
-    .qual-pill .q-icon{ font-size: 2rem; margin-bottom: 8px; }
-    .qual-pill .q-name{ font-weight: 700; font-size: 1rem; }
-    .qual-pill .q-desc{ font-size: .82rem; margin-top: 6px; color: #555; }
+    .qual-card.don    { background: var(--green-light);  border: 2px solid var(--green); }
+    .qual-card.refus  { background: var(--red-light);    border: 2px solid var(--red); }
+    .qual-card.indecis{ background: var(--orange-light); border: 2px solid var(--orange); }
+    .qual-card .q-icon { font-size: 2.2rem; margin-bottom: 10px; }
+    .qual-card .q-name { font-size: 1.05rem; font-weight: 800; }
+    .qual-card.don    .q-name { color: var(--green); }
+    .qual-card.refus  .q-name { color: var(--red); }
+    .qual-card.indecis .q-name { color: var(--orange); }
+    .qual-card .q-desc { font-size: .82rem; margin-top: 8px; color: var(--text-light); line-height: 1.5; }
 
-    /* ── Step process ──────────────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════════
+       STEP PROCESS
+    ═══════════════════════════════════════════════════════════════════ */
     .steps { display: flex; flex-direction: column; gap: 0; }
     .step {
       display: flex; gap: 20px;
-      padding: 18px 0;
+      padding: 20px 0;
       border-bottom: 1px solid var(--grey-line);
     }
     .step:last-child { border-bottom: none; }
     .step-num {
-      width: 36px; height: 36px;
-      background: var(--blue-mid);
-      color: var(--white);
+      width: 38px; height: 38px;
+      background: var(--blue-mid); color: var(--white);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
+      font-weight: 800; font-size: .9rem;
       flex-shrink: 0; margin-top: 2px;
     }
-    .step-body h4 { color: var(--blue-dark); margin-bottom: 4px; }
-    .step-body p  { font-size: .9rem; color: #444; }
+    .step-body h4 {
+      font-weight: 800; color: var(--blue-dark);
+      margin-bottom: 5px; font-size: 1rem;
+    }
+    .step-body p  { font-size: .88rem; color: var(--text-light); }
 
-    /* ── Objection table ───────────────────────────────────────────────── */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: .88rem;
-      margin: 16px 0;
+    /* ═══════════════════════════════════════════════════════════════════
+       OBJECTION TABLE
+    ═══════════════════════════════════════════════════════════════════ */
+    .obj-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .85rem; margin: 14px 0;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
-    thead th {
-      background: var(--blue-dark);
-      color: var(--white);
-      padding: 10px 14px;
-      text-align: left;
-      font-size: .8rem;
-      text-transform: uppercase;
-      letter-spacing: .06em;
+    .obj-table thead th {
+      background: #1a1a2e; color: var(--white);
+      padding: 11px 14px;
+      text-align: left; font-size: .75rem;
+      text-transform: uppercase; letter-spacing: .07em;
     }
-    tbody tr:nth-child(even) { background: var(--blue-light); }
-    tbody td {
-      padding: 10px 14px;
-      vertical-align: top;
+    .obj-table tbody tr:nth-child(even) { background: #fdf9f5; }
+    .obj-table tbody tr:hover { background: var(--orange-light); }
+    .obj-table tbody td {
+      padding: 11px 14px;
       border-bottom: 1px solid var(--grey-line);
+      vertical-align: top; line-height: 1.5;
     }
-    tbody td:first-child { font-weight: 600; color: var(--red); }
-    tbody td:nth-child(2){ color: #333; font-style: italic; }
-    tbody td:last-child  { color: var(--blue-dark); }
+    .obj-table td:first-child { font-weight: 700; color: var(--red); width: 22%; }
+    .obj-table td:nth-child(2){ color: var(--text-light); font-style: italic; width: 24%; }
+    .obj-table td:last-child  { color: var(--blue-dark); }
 
-    /* ── Quote / mantra ────────────────────────────────────────────────── */
-    .mantra {
-      background: linear-gradient(135deg, var(--orange), #f7611d);
-      color: var(--white);
-      border-radius: 14px;
-      padding: 28px 36px;
-      text-align: center;
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: .02em;
-      line-height: 1.5;
-      margin: 28px 0;
-      box-shadow: var(--shadow);
-    }
-
-    /* ── Two-column layout ─────────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════════
+       TWO-COL LAYOUT
+    ═══════════════════════════════════════════════════════════════════ */
     .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin: 16px 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 18px; margin: 14px 0;
     }
-    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+    @media (max-width: 620px) { .two-col { grid-template-columns: 1fr; } }
 
-    /* ── Checklist ─────────────────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════════
+       CHECKLIST
+    ═══════════════════════════════════════════════════════════════════ */
     .checklist { list-style: none; padding: 0; }
     .checklist li {
       display: flex; align-items: flex-start; gap: 10px;
-      padding: 6px 0;
-      font-size: .92rem;
+      padding: 5px 0; font-size: .9rem;
     }
     .checklist li::before {
-      content: '✓';
-      color: var(--green);
-      font-weight: 700;
-      font-size: 1rem;
-      margin-top: 1px;
-      flex-shrink: 0;
+      content: '✓'; color: var(--green);
+      font-weight: 700; font-size: 1rem;
+      margin-top: 2px; flex-shrink: 0;
     }
-    .checklist li.warn::before { content: '!'; color: var(--orange); }
+    .checklist li.warn::before { content: '⚠'; color: var(--orange); font-style: normal; }
     .checklist li.stop::before { content: '✗'; color: var(--red); }
 
-    /* ── Progress tracker ──────────────────────────────────────────────── */
-    .progress-bar-wrap {
-      background: var(--grey-line);
-      border-radius: 8px;
-      height: 12px;
-      margin: 8px 0 4px;
-      overflow: hidden;
+    /* ═══════════════════════════════════════════════════════════════════
+       MANTRA
+    ═══════════════════════════════════════════════════════════════════ */
+    .mantra {
+      border-radius: 16px;
+      padding: 30px 40px;
+      text-align: center;
+      font-size: 1.2rem; font-weight: 800;
+      letter-spacing: .01em; line-height: 1.55;
+      margin: 32px 0;
+      box-shadow: var(--shadow);
     }
-    .progress-bar { height: 100%; border-radius: 8px; }
+    .mantra.orange {
+      background: linear-gradient(135deg, #f7611d, var(--orange));
+      color: var(--white);
+    }
+    .mantra.blue {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      color: var(--white);
+    }
+    .mantra .sub { font-size: .88rem; font-weight: 400; opacity: .9; margin-top: 8px; display: block; }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SYNOPSIS & OBJECTIFS BOXES
+    ═══════════════════════════════════════════════════════════════════ */
+    .synopsis-box {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, #0a2a6b 100%);
+      color: var(--white);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+    .synopsis-box h2 {
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--cyan); margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: .1em;
+    }
+    .synopsis-box p { font-size: .92rem; opacity: .92; line-height: 1.7; }
+
+    .obj-box {
+      background: var(--orange-light);
+      border: 2px solid var(--orange);
+      border-radius: 14px;
+      padding: 24px 30px;
+      margin-bottom: 28px;
+    }
+    .obj-box h2 {
+      font-size: 1.05rem; font-weight: 900;
+      color: var(--orange); margin-bottom: 14px;
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SUIVI TABLE
+    ═══════════════════════════════════════════════════════════════════ */
+    .suivi-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .82rem; margin: 14px 0;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .suivi-table thead th {
+      background: var(--blue-dark); color: var(--white);
+      padding: 10px 12px; text-align: center;
+      font-size: .74rem; text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .suivi-table tbody td {
+      padding: 10px 12px; text-align: center;
+      border-bottom: 1px solid var(--grey-line);
+    }
+    .suivi-table tbody tr:nth-child(even) { background: var(--blue-light); }
+    .suivi-table tbody tr.total { background: var(--blue-dark); color: var(--white); font-weight: 700; }
+    .suivi-table tbody td.label { text-align: left; font-weight: 600; color: var(--blue-dark); }
+    .suivi-table tbody tr.total td { color: var(--white); }
+    .suivi-table tbody tr.total td.label { color: var(--cyan); }
 
     /* ── Footer ────────────────────────────────────────────────────────── */
     footer {
-      text-align: center;
-      font-size: .8rem;
-      color: #888;
+      text-align: center; font-size: .78rem; color: #8a9ab8;
       padding: 30px 0 10px;
+      border-top: 1px solid var(--grey-line); margin-top: 20px;
     }
 
-    /* ── Print ─────────────────────────────────────────────────────────── */
     @media print {
       .hero { border-radius: 0; }
       .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+      .formula-block { border: 1px solid #999; }
     }
   </style>
 </head>
@@ -308,18 +459,22 @@
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="hero">
   <div class="page" style="padding-bottom:0;margin-bottom:0;">
-    <div class="badge">Formation Initiale Module · J1</div>
-    <h1>FIM Fidelis — Collecte de Dons</h1>
+    <div class="badge-row">
+      <span class="badge orange">Formation Initiale Module</span>
+      <span class="badge cyan">Journée 1 — J1</span>
+      <span class="badge white">Fidelis × SHY Performance</span>
+    </div>
+    <h1>Module J1 FIM<br>Collecte de Dons Humanitaires</h1>
     <p class="subtitle">
-      Module complet J1 à destination des agents SHY Performance.
-      Maîtriser les fondamentaux, les KPI et les techniques d'argumentation
-      pour maximiser les dons en faveur de l'association partenaire.
+      Formation complète destinée aux agents SHY Performance.
+      Ce module couvre la mission, la nomenclature, les KPI, les formules de calcul,
+      la structure d'appel et les techniques d'argumentation.
     </p>
     <div class="meta">
-      <span>📅 Durée estimée : 1 journée</span>
-      <span>🎯 Objectif CU/H : 9</span>
-      <span>🏆 Cible TX transformation : selon association</span>
-      <span>🤝 Campagne : Prélèvements automatiques réguliers</span>
+      <span>📅 Durée : 1 journée complète</span>
+      <span>🎯 Objectif CU/H : 9 minimum</span>
+      <span>💳 Produit : Prélèvement automatique régulier uniquement</span>
+      <span>🌍 Mission : Action humanitaire</span>
     </div>
   </div>
 </div>
@@ -327,53 +482,100 @@
 <div class="page">
 
 <!-- ═══════════════════════════════════════════════════════════════════
+     SYNOPSIS
+═══════════════════════════════════════════════════════════════════ -->
+<div class="synopsis-box">
+  <h2>Synopsis du Module</h2>
+  <p>
+    Ce module de formation initiale (FIM) a pour vocation de préparer chaque agent
+    à représenter dignement et efficacement l'association partenaire lors de campagnes
+    de collecte téléphonique. À l'issue de cette journée J1, l'agent sera en capacité
+    de comprendre les enjeux humanitaires de la mission, de maîtriser les indicateurs
+    clés de performance (KPI), de calculer ses propres statistiques en temps réel,
+    de conduire un appel structuré et argumenté, et de traiter les objections avec
+    méthode et empathie. Le module est articulé en 8 sections progressives, du
+    fondement de la mission jusqu'au suivi autonome de la performance.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     OBJECTIFS
+═══════════════════════════════════════════════════════════════════ -->
+<div class="obj-box">
+  <h2>Objectifs Pédagogiques de la Journée J1</h2>
+  <div class="two-col">
+    <ul class="checklist">
+      <li>Comprendre la finalité et l'impact de la mission humanitaire</li>
+      <li>Maîtriser la nomenclature et les définitions officielles</li>
+      <li>Calculer et interpréter le CU/H en temps réel</li>
+      <li>Calculer et interpréter le Taux de Transformation</li>
+    </ul>
+    <ul class="checklist">
+      <li>Distinguer les 3 qualifications de Contact Utile</li>
+      <li>Conduire un appel en 7 étapes avec la méthode ERR</li>
+      <li>Traiter les principales objections avec confiance</li>
+      <li>Assurer son propre suivi de performance heure par heure</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
      MANTRA
 ═══════════════════════════════════════════════════════════════════ -->
-<div class="mantra">
-  "LE REFUS D'AUJOURD'HUI PEUT ÊTRE LE DON DE DEMAIN."<br>
-  <span style="font-size:.85rem;font-weight:400;opacity:.9;">
-    Chaque appel compte. Chaque argument planté est une graine pour l'avenir.
+<div class="mantra orange">
+  "LE REFUS D'AUJOURD'HUI PEUT ÊTRE LE DON DE DEMAIN."
+  <span class="sub">
+    Chaque appel est une opportunité. Chaque argument planté est une graine.
+    La régularité du prélèvement construit l'avenir de la cause humanitaire.
   </span>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 1 — MISSION & FINALITÉ
+     SECTION 1 — MISSION & FINALITÉ
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="card-title">
-    <div class="icon">🌍</div>
-    <span class="section-num">1</span>
-    Mission & Finalité de la Campagne
+  <div class="section-header">
+    <div class="section-icon">🌍</div>
+    <div>
+      <div class="section-num-badge">Section 1</div>
+      <div class="section-title">Mission &amp; Finalité de la Campagne</div>
+    </div>
   </div>
 
+  <div class="info-box blue">
+    <strong>Finalité officielle de la mission</strong>
+    Obtenir des dons sous forme de prélèvements automatiques réguliers afin de
+    permettre à l'association de <strong>continuer son action humanitaire</strong>
+    et d'<strong>augmenter durablement le taux de dons</strong>.
+    Chaque prélèvement déclenché représente un soutien concret à des populations
+    en grande vulnérabilité.
+  </div>
+
+  <p class="sub-title">Pourquoi votre rôle est central</p>
   <p>
-    Vous représentez l'association lors de chaque appel. Votre rôle est essentiel :
-    <strong>sans dons, l'action humanitaire s'arrête.</strong>
+    L'association ne dispose d'aucun autre mécanisme direct pour atteindre ses
+    futurs donateurs. Vous êtes le seul point de contact humain entre la cause
+    et le donateur potentiel. La qualité de votre discours, de votre écoute
+    et de votre argumentation détermine directement les ressources disponibles
+    pour les programmes humanitaires terrain.
   </p>
 
-  <div class="info-box blue" style="margin-top:18px;">
-    <strong>Finalité de la mission</strong>
-    Obtenir des dons pour permettre à l'association de <strong>continuer son action
-    humanitaire</strong> et d'<strong>augmenter le taux de dons global</strong>.
-    Chaque prélèvement déclenché est une vie potentiellement impactée positivement.
-  </div>
-
-  <div class="two-col" style="margin-top:20px;">
+  <div class="two-col" style="margin-top:18px;">
     <div class="info-box green">
-      <strong>Ce que votre appel finance</strong>
+      <strong>Ce que votre appel finance concrètement</strong>
       <ul class="checklist" style="margin-top:8px;">
         <li>Programmes d'aide humanitaire d'urgence</li>
         <li>Nutrition et santé pour les enfants</li>
-        <li>Accès à l'eau potable et l'éducation</li>
+        <li>Accès à l'eau potable et à l'éducation</li>
         <li>Protection des populations vulnérables</li>
       </ul>
     </div>
     <div class="info-box orange">
-      <strong>Pourquoi l'argument compte</strong>
+      <strong>Ce que l'argumentation apporte à long terme</strong>
       <ul class="checklist" style="margin-top:8px;">
-        <li>Un donateur convaincu aujourd'hui donne pendant des années</li>
-        <li>Un refus bien argumenté peut revenir donateur demain</li>
-        <li>L'image de l'association dépend de la qualité de l'échange</li>
+        <li>Un donateur convaincu s'engage sur plusieurs années</li>
+        <li>Un refus bien géré peut revenir donateur ultérieurement</li>
+        <li>L'image de l'association dépend de chaque échange</li>
         <li>Votre posture = ambassadeur de la cause</li>
       </ul>
     </div>
@@ -381,218 +583,374 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 2 — LES KPI CLÉS
+     SECTION 2 — NOMENCLATURE
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="card-title">
-    <div class="icon">📊</div>
-    <span class="section-num">2</span>
-    Les KPI — Comprendre et Piloter sa Performance
-  </div>
-
-  <!-- KPI overview -->
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-name">CU / H</div>
-      <div class="kpi-value">9</div>
-      <div class="kpi-label">Contacts Utiles par heure — objectif minimum</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-name">Durée CU</div>
-      <div class="kpi-value">&gt; 60s</div>
-      <div class="kpi-label">Seuil de durée pour valider un Contact Utile</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-name">TX Transfo</div>
-      <div class="kpi-value">%</div>
-      <div class="kpi-label">Dons ou DEL parmi les CU — objectif selon association</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-name">PDC</div>
-      <div class="kpi-value">XXXX</div>
-      <div class="kpi-label">Plan de Charge — CU à produire par mois</div>
+  <div class="section-header">
+    <div class="section-icon">📖</div>
+    <div>
+      <div class="section-num-badge">Section 2</div>
+      <div class="section-title">Nomenclature — Définitions Officielles</div>
     </div>
   </div>
 
-  <!-- ─── CU définition ─── -->
-  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.1 — Qu'est-ce qu'un Contact Utile (CU) ?</h3>
-
-  <div class="info-box blue">
-    <strong>Définition officielle</strong>
-    Un appel devient un <em>Contact Utile (CU)</em> dès lors que la durée de
-    communication <strong>dépasse 60 secondes</strong>. En-dessous de ce seuil,
-    l'appel n'est pas comptabilisé comme CU, quelle qu'en soit l'issue.
-  </div>
-
-  <div class="info-box yellow">
-    <strong>Pourquoi 60 secondes ?</strong>
-    Ce seuil garantit qu'un échange argumenté a eu lieu. Un appel court (raccrochage
-    immédiat, répondeur, numéro invalide) ne reflète pas la capacité d'argumentation
-    de l'agent. Le CU mesure la <em>qualité productive</em> du temps passé.
-  </div>
-
-  <!-- ─── Formule CU/H ─── -->
-  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.2 — Calcul du CU/H</h3>
-
-  <div class="formula">
-    <div class="formula-title">Formule</div>
-    CU / H  =  Nombre de CU réalisés  ÷  Nombre d'heures de production
-  </div>
-
-  <div class="formula" style="background:#1a3a6b;">
-    <div class="formula-title">Exemple — Agent Philippe</div>
-    Philippe a réalisé <span class="result">68 CU</span> sur <span class="result">7h</span> de production<br>
-    → 68 ÷ 7 = <span class="result">9,71 CU/H</span> ✅ Objectif dépassé
-  </div>
-
-  <div class="info-box green">
-    <strong>Lecture du résultat</strong>
-    <ul class="checklist" style="margin-top:6px;">
-      <li>CU/H ≥ 9 → performance conforme à l'objectif</li>
-      <li class="warn">CU/H entre 7 et 9 → zone d'alerte, à améliorer</li>
-      <li class="stop">CU/H &lt; 7 → en-dessous du seuil acceptable, plan d'action requis</li>
-    </ul>
-  </div>
-
-  <!-- ─── Qualifications ─── -->
-  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.3 — Les 3 Qualifications de CU</h3>
-  <p style="margin-bottom:14px;">
-    Chaque CU doit être qualifié dans l'outil selon l'une des trois issues suivantes :
+  <p style="margin-bottom:16px;">
+    Maîtriser le vocabulaire de la campagne est indispensable pour lire les tableaux
+    de bord, communiquer avec son équipe et calculer ses propres indicateurs.
+    Voici l'ensemble des termes utilisés sur la campagne :
   </p>
 
-  <div class="qual-grid">
-    <div class="qual-pill don">
-      <div class="q-icon">💚</div>
-      <div class="q-name">DON</div>
-      <div class="q-desc">
-        Le donateur accepte et s'engage par prélèvement automatique
-        (à chaud ou par promesse).
-      </div>
-    </div>
-    <div class="qual-pill refus">
-      <div class="q-icon">❌</div>
-      <div class="q-name">REFUS ARGUMENTÉ</div>
-      <div class="q-desc">
-        Le contact a refusé après avoir écouté et compris l'enjeu.
-        L'agent a utilisé au moins un contre-argument.
-      </div>
-    </div>
-    <div class="qual-pill indecis">
-      <div class="q-icon">⏳</div>
-      <div class="q-name">INDÉCIS</div>
-      <div class="q-desc">
-        Le contact est intéressé mais hésite ou souhaite réfléchir.
-        Un rappel ou un suivi est à planifier.
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── Taux de transformation ─── -->
-  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.4 — Taux de Transformation</h3>
-
-  <div class="formula">
-    <div class="formula-title">Formule</div>
-    TX Transformation (%)  =  (Nombre de DEL ou PA × 100)  ÷  Nombre de CU
-  </div>
-
-  <div class="formula" style="background:#1a3a6b;">
-    <div class="formula-title">Exemple — Agent Michel</div>
-    Michel a réalisé <span class="result">72 CU</span> et obtenu <span class="result">3 DEL (Prélèvements Automatiques)</span><br>
-    → (3 × 100) ÷ 72 = <span class="result">4,16 %</span> de taux de transformation
-  </div>
-
-  <div class="info-box orange">
-    <strong>DEL / PA = Prélèvement Automatique</strong>
-    Sur cette campagne, <em>seuls les prélèvements automatiques réguliers</em>
-    sont proposés (pas de don ponctuel). Chaque DEL validé entre dans le calcul
-    du taux de transformation.
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 3 — LE PRODUIT : PRÉLÈVEMENT AUTOMATIQUE
-═══════════════════════════════════════════════════════════════════ -->
-<div class="card">
-  <div class="card-title">
-    <div class="icon">💳</div>
-    <span class="section-num">3</span>
-    Le Produit — Prélèvement Automatique Régulier
-  </div>
-
-  <div class="info-box blue">
-    <strong>Position SHY Performance sur cette campagne</strong>
-    Fidelis propose plusieurs types de prélèvement (ponctuel, automatique, etc.).
-    <strong>Sur notre campagne, nous ne proposons que des prélèvements automatiques
-    réguliers.</strong> Aucun don ponctuel ne doit être proposé.
-  </div>
-
-  <h3 style="color:var(--blue-dark);margin:20px 0 12px;">3.1 — Les deux modes de validation</h3>
-
-  <div class="two-col">
-    <div class="info-box green">
-      <strong>Mode A — Prélèvement en ligne (agent)</strong>
-      L'agent recueille l'IBAN du donateur pendant l'appel et valide
-      lui-même le prélèvement en ligne. Le don est sécurisé immédiatement
-      — on parle de <em>prélèvement à chaud</em>.
-    </div>
-    <div class="info-box orange">
-      <strong>Mode B — Lien autonome (donateur)</strong>
-      L'agent envoie un lien au donateur. Ce dernier complète lui-même
-      son prélèvement en ligne sur le site de l'association.
-      On parle de <em>promesse</em> jusqu'à confirmation.
-    </div>
-  </div>
-
-  <h3 style="color:var(--blue-dark);margin:20px 0 12px;">3.2 — À chaud vs Promesse</h3>
-
-  <table>
+  <table class="nom-table">
     <thead>
       <tr>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Point d'attention</th>
+        <th>Sigle</th>
+        <th>Nom complet</th>
+        <th>Définition</th>
+        <th>Valeur / Objectif</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td style="color:var(--green);">À chaud</td>
-        <td>Prélèvement finalisé pendant l'appel avec l'IBAN</td>
-        <td>Sécurisé immédiatement — taux de concrétisation maximal</td>
+        <td class="sigle">FIM</td>
+        <td class="nom-long">Formation Initiale Module</td>
+        <td class="definition">Programme de formation dispensé au premier jour d'intégration d'un agent sur la campagne.</td>
+        <td class="valeur">J1</td>
       </tr>
       <tr>
-        <td style="color:var(--orange);">Promesse</td>
-        <td>Lien envoyé, donateur finalise seul après l'appel</td>
-        <td>Risque de non-concrétisation — relance possible si indécis</td>
+        <td class="sigle">CU</td>
+        <td class="nom-long">Contact Utile<br><em>ou</em> Contact Argumenté</td>
+        <td class="definition">Appel téléphonique dont la durée de communication dépasse strictement 60 secondes. En-dessous de ce seuil, l'appel n'est pas comptabilisé.</td>
+        <td class="valeur">&gt; 60 sec.</td>
+      </tr>
+      <tr>
+        <td class="sigle">CU/H</td>
+        <td class="nom-long">Contacts Utiles par Heure</td>
+        <td class="definition">Nombre de CU réalisés divisé par le nombre d'heures de production. Mesure la productivité horaire de l'agent.</td>
+        <td class="valeur">Objectif : 9</td>
+      </tr>
+      <tr>
+        <td class="sigle">PDC</td>
+        <td class="nom-long">Plan de Charge</td>
+        <td class="definition">Volume de CU à produire sur le mois, fixé au niveau de l'équipe ou de la campagne.</td>
+        <td class="valeur">XXXX CU/mois</td>
+      </tr>
+      <tr>
+        <td class="sigle">TX Transfo</td>
+        <td class="nom-long">Taux de Transformation</td>
+        <td class="definition">Pourcentage de CU débouchant sur un don (DEL ou PA). Mesure l'efficacité commerciale de l'agent.</td>
+        <td class="valeur">Selon association</td>
+      </tr>
+      <tr>
+        <td class="sigle">DEL</td>
+        <td class="nom-long">Dossier En Ligne</td>
+        <td class="definition">Don validé par prélèvement automatique, finalisé en ligne. Synonyme opérationnel de PA sur cette campagne.</td>
+        <td class="valeur">Compte dans TX</td>
+      </tr>
+      <tr>
+        <td class="sigle">PA</td>
+        <td class="nom-long">Prélèvement Automatique</td>
+        <td class="definition">Mode de don par virement régulier. Sur cette campagne, seul le PA régulier est proposé — aucun don ponctuel.</td>
+        <td class="valeur">Seul mode proposé</td>
+      </tr>
+      <tr>
+        <td class="sigle">IBAN</td>
+        <td class="nom-long">International Bank Account Number</td>
+        <td class="definition">Coordonnées bancaires du donateur, collectées lors d'un prélèvement à chaud pour valider le PA immédiatement pendant l'appel.</td>
+        <td class="valeur">Mode A — À chaud</td>
+      </tr>
+      <tr>
+        <td class="sigle">ERR</td>
+        <td class="nom-long">Écouter — Reformuler — Rebondir</td>
+        <td class="definition">Méthode en 3 temps pour traiter les objections : écouter sans interrompre, reformuler pour montrer la compréhension, puis apporter un contre-argument factuel ou émotionnel.</td>
+        <td class="valeur">Méthode officielle</td>
+      </tr>
+      <tr>
+        <td class="sigle">DON</td>
+        <td class="nom-long">Qualification : Don</td>
+        <td class="definition">CU dont l'issue est un prélèvement automatique confirmé (à chaud ou par promesse validée).</td>
+        <td class="valeur">Compte dans TX</td>
+      </tr>
+      <tr>
+        <td class="sigle">REF ARG.</td>
+        <td class="nom-long">Qualification : Refus Argumenté</td>
+        <td class="definition">CU dont l'issue est un refus du contact, mais après que l'agent a présenté au moins un argument de contre-objection.</td>
+        <td class="valeur">—</td>
+      </tr>
+      <tr>
+        <td class="sigle">INDÉCIS</td>
+        <td class="nom-long">Qualification : Indécis</td>
+        <td class="definition">CU dont l'issue est une hésitation du contact. Un lien ou un rappel peut être planifié. Potentiel de transformation ultérieure.</td>
+        <td class="valeur">Suivi à prévoir</td>
       </tr>
     </tbody>
   </table>
+</div>
 
-  <h3 style="color:var(--blue-dark);margin:20px 0 12px;">3.3 — Le lien de don</h3>
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 3 — KPI & FORMULES
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-icon">📊</div>
+    <div>
+      <div class="section-num-badge">Section 3</div>
+      <div class="section-title">KPI — Indicateurs Clés de Performance</div>
+    </div>
+  </div>
 
-  <div class="info-box blue">
-    <strong>Caractéristiques du lien</strong>
-    <ul class="checklist" style="margin-top:8px;">
-      <li>Le lien <strong>n'a pas de date de validité</strong> — il reste actif indéfiniment</li>
-      <li>Il redirige le donateur directement vers le site de l'association (ex. UNICEF)</li>
-      <li>Un <strong>e-mail de confirmation</strong> est envoyé automatiquement au donateur</li>
-      <li class="warn">Ne jamais promettre une date limite sur le lien — il est permanent</li>
+  <!-- KPI cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-name">CU / H</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-label">Contacts Utiles par heure — objectif minimum à atteindre</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-name">Durée min. CU</div>
+      <div class="kpi-value">&gt;60s</div>
+      <div class="kpi-label">Seuil de durée pour valider un Contact Utile</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-name">TX Transformation</div>
+      <div class="kpi-value">%</div>
+      <div class="kpi-label">% de dons parmi les CU — cible selon l'association</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-name">Plan de Charge</div>
+      <div class="kpi-value">PDC</div>
+      <div class="kpi-label">Volume mensuel de CU à produire (défini par campagne)</div>
+    </div>
+  </div>
+
+  <!-- ─── KPI 1 : CU/H ─── -->
+  <p class="sub-title">KPI 1 — Contacts Utiles par Heure (CU/H)</p>
+
+  <p style="margin-bottom:12px;">
+    Le CU/H mesure la <strong>productivité horaire</strong> de l'agent. Il ne compte
+    que les appels dépassant 60 secondes, ce qui garantit que seuls les échanges
+    réellement argumentés sont pris en compte.
+  </p>
+
+  <!-- Formule mathématique CU/H -->
+  <div class="formula-block">
+    <div class="formula-label">Formule mathématique — CU/H</div>
+    <div class="formula-math">
+      <span class="f-title">CU/H</span>  <span class="f-op">=</span>
+      <span class="f-var">Nombre de CU réalisés</span>
+      <span class="f-op">÷</span>
+      <span class="f-var">Nombre d'heures de production</span>
+    </div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid #1e3a5f;">
+      <div class="formula-label">Exemple numérique — Agent Philippe</div>
+      <div class="formula-math">
+        <span class="f-var">CU réalisés</span>   <span class="f-op">=</span>  <span class="f-result">68</span><br>
+        <span class="f-var">Heures produites</span> <span class="f-op">=</span>  <span class="f-result">7 h</span><br>
+        <span class="f-title">CU/H</span>  <span class="f-op">=</span>  <span class="f-result">68</span>  <span class="f-op">÷</span>  <span class="f-result">7</span>  <span class="f-op">=</span>  <span class="f-result">9,71</span>  <span class="f-check">✅  Objectif dépassé (≥ 9)</span>
+      </div>
+    </div>
+    <div class="formula-note">
+      ⚠ L'heure de production = temps effectivement passé en ligne (hors pauses, hors formation).
+    </div>
+  </div>
+
+  <div class="info-box green" style="margin-top:4px;">
+    <strong>Grille d'interprétation du CU/H</strong>
+    <ul class="checklist" style="margin-top:6px;">
+      <li>CU/H ≥ 9 → performance conforme à l'objectif de campagne</li>
+      <li class="warn">CU/H entre 7 et 9 → zone d'alerte — identifier les freins (durée d'appel, décroché, argumentation)</li>
+      <li class="stop">CU/H &lt; 7 → en-dessous du seuil — plan d'action individuel obligatoire</li>
     </ul>
+  </div>
+
+  <!-- ─── KPI 2 : Taux de transformation ─── -->
+  <p class="sub-title orange" style="margin-top:28px;">KPI 2 — Taux de Transformation</p>
+
+  <p style="margin-bottom:12px;">
+    Le Taux de Transformation mesure l'<strong>efficacité commerciale</strong> de l'agent :
+    parmi tous les contacts argumentés (CU), quelle part a débouché sur un don effectif
+    (DEL ou PA) ?
+  </p>
+
+  <!-- Formule mathématique TX -->
+  <div class="formula-block">
+    <div class="formula-label">Formule mathématique — Taux de Transformation</div>
+    <div class="formula-math">
+      <span class="f-title">TX Transformation (%)</span>  <span class="f-op">=</span>
+      <span class="f-op">(</span><span class="f-var">Nombre de DEL ou PA</span>
+      <span class="f-op">×</span>  <span class="f-result">100</span><span class="f-op">)</span>
+      <span class="f-op">÷</span>
+      <span class="f-var">Nombre de CU</span>
+    </div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid #1e3a5f;">
+      <div class="formula-label">Exemple numérique — Agent Michel</div>
+      <div class="formula-math">
+        <span class="f-var">CU réalisés</span>  <span class="f-op">=</span>  <span class="f-result">72</span><br>
+        <span class="f-var">DEL (PA) obtenus</span>  <span class="f-op">=</span>  <span class="f-result">3</span><br>
+        <span class="f-title">TX</span>  <span class="f-op">=</span>
+        <span class="f-op">(</span><span class="f-result">3</span>  <span class="f-op">×</span>  <span class="f-result">100</span><span class="f-op">)</span>
+        <span class="f-op">÷</span>  <span class="f-result">72</span>
+        <span class="f-op">=</span>  <span class="f-result">300</span>  <span class="f-op">÷</span>  <span class="f-result">72</span>
+        <span class="f-op">=</span>  <span class="f-result">4,16 %</span>
+      </div>
+    </div>
+    <div class="formula-note">
+      ℹ Seuls les DEL / PA confirmés entrent dans le numérateur. Une promesse non finalisée ne compte pas encore.
+    </div>
+  </div>
+
+  <!-- ─── KPI 3 : PDC ─── -->
+  <p class="sub-title purple" style="margin-top:28px;">KPI 3 — Plan de Charge (PDC)</p>
+
+  <p style="margin-bottom:12px;">
+    Le PDC est le <strong>volume mensuel de CU</strong> à produire, fixé au niveau
+    de la campagne. Il permet de planifier les effectifs et de s'assurer que l'équipe
+    atteint ses engagements vis-à-vis de l'association.
+  </p>
+
+  <!-- Formule mathématique PDC -->
+  <div class="formula-block">
+    <div class="formula-label">Formule de vérification — PDC</div>
+    <div class="formula-math">
+      <span class="f-title">PDC atteint</span>  <span class="f-op">=</span>
+      <span class="f-var">CU/H moyen équipe</span>
+      <span class="f-op">×</span>
+      <span class="f-var">Heures produites totales équipe</span><br>
+      <br>
+      <span class="f-comment">→ Si PDC mensuel cible = 1 800 CU et équipe produit 200 h :</span><br>
+      <span class="f-title">CU/H requis</span>  <span class="f-op">=</span>  <span class="f-result">1 800</span>  <span class="f-op">÷</span>  <span class="f-result">200</span>  <span class="f-op">=</span>  <span class="f-result">9 CU/H</span>  <span class="f-check">= objectif fixé</span>
+    </div>
+    <div class="formula-note">
+      Le PDC exact de la campagne sera communiqué par le superviseur en début de mission.
+    </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 4 — STRUCTURE D'UN APPEL
+     SECTION 4 — LES 3 QUALIFICATIONS
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="card-title">
-    <div class="icon">📞</div>
-    <span class="section-num">4</span>
-    Structure d'un Appel Réussi
+  <div class="section-header">
+    <div class="section-icon">🏷️</div>
+    <div>
+      <div class="section-num-badge">Section 4</div>
+      <div class="section-title">Les 3 Qualifications de Contact Utile</div>
+    </div>
+  </div>
+
+  <p style="margin-bottom:18px;">
+    Tout CU (appel &gt; 60 secondes) doit être qualifié immédiatement après la
+    fin de l'appel. Cette qualification est obligatoire — elle alimente les
+    statistiques de l'équipe et conditionne les actions de suivi.
+  </p>
+
+  <div class="qual-grid">
+    <div class="qual-card don">
+      <div class="q-icon">💚</div>
+      <div class="q-name">DON</div>
+      <div class="q-desc">
+        Le contact accepte le prélèvement automatique régulier.
+        Don finalisé à chaud (IBAN collecté) ou par promesse
+        (lien envoyé). <strong>Entre dans le calcul du TX de transformation.</strong>
+      </div>
+    </div>
+    <div class="qual-card refus">
+      <div class="q-icon">❌</div>
+      <div class="q-name">REFUS ARGUMENTÉ</div>
+      <div class="q-desc">
+        Le contact a refusé, mais après avoir entendu et compris
+        l'argumentaire. L'agent a présenté au moins un contre-argument.
+        <strong>Ne pas qualifier en Refus Argumenté sans avoir vraiment argumenté.</strong>
+      </div>
+    </div>
+    <div class="qual-card indecis">
+      <div class="q-icon">⏳</div>
+      <div class="q-name">INDÉCIS</div>
+      <div class="q-desc">
+        Le contact est réceptif mais hésite ou souhaite réfléchir.
+        Un lien peut être envoyé. <strong>Potentiel de transformation —
+        le refus d'aujourd'hui est le don de demain.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box yellow" style="margin-top:8px;">
+    <strong>Règle de qualification</strong>
+    Un appel ne peut être qualifié en DON que si un prélèvement automatique
+    est effectivement initié (IBAN collecté à chaud, ou lien envoyé avec engagement
+    verbal du donateur). Tout doute = qualification INDÉCIS.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 5 — PRODUIT : PRÉLÈVEMENT AUTOMATIQUE
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-icon">💳</div>
+    <div>
+      <div class="section-num-badge">Section 5</div>
+      <div class="section-title">Le Produit — Prélèvement Automatique Régulier</div>
+    </div>
+  </div>
+
+  <div class="info-box blue">
+    <strong>Position officielle SHY Performance sur cette campagne</strong>
+    Fidelis propose dans ses outils plusieurs types de prélèvement (ponctuel, automatique, etc.).
+    <strong>Sur notre campagne spécifique, seul le prélèvement automatique régulier est proposé.</strong>
+    Ne jamais mentionner ni proposer un don ponctuel.
+  </div>
+
+  <p class="sub-title green">Mode A — Prélèvement à chaud (IBAN)</p>
+  <p>
+    L'agent recueille l'IBAN du donateur pendant l'appel et valide lui-même
+    le prélèvement en ligne. Le don est sécurisé immédiatement. C'est le
+    <strong>mode prioritaire</strong> : taux de concrétisation maximal.
+  </p>
+
+  <p class="sub-title orange">Mode B — Promesse par lien</p>
+  <p>
+    L'agent envoie un lien sécurisé au donateur. Ce dernier complète lui-même
+    son prélèvement sur le site de l'association après l'appel.
+    La qualification est <strong>INDÉCIS</strong> jusqu'à confirmation de finalisation.
+  </p>
+
+  <div class="two-col" style="margin-top:18px;">
+    <div class="info-box green">
+      <strong>Caractéristiques du lien</strong>
+      <ul class="checklist" style="margin-top:6px;">
+        <li>Le lien <strong>n'a pas de date de validité</strong> — il est permanent</li>
+        <li>Il redirige vers le site de l'association (ex. UNICEF)</li>
+        <li>Un e-mail de confirmation est envoyé automatiquement au donateur</li>
+      </ul>
+    </div>
+    <div class="info-box red">
+      <strong>À ne jamais dire sur le lien</strong>
+      <ul class="checklist" style="margin-top:6px;">
+        <li class="stop">Ne pas indiquer une date d'expiration — il est permanent</li>
+        <li class="stop">Ne pas promettre de délai de traitement garanti</li>
+        <li class="stop">Ne pas dire que le lien est "urgent" — créer de la pression est contre-productif</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 6 — STRUCTURE D'UN APPEL
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="section-header">
+    <div class="section-icon">📞</div>
+    <div>
+      <div class="section-num-badge">Section 6</div>
+      <div class="section-title">Structure d'un Appel Réussi en 7 Étapes</div>
+    </div>
   </div>
 
   <p style="margin-bottom:20px;">
-    Un appel efficace suit une progression logique. Chaque étape prépare la suivante
-    et contribue à dépasser les 60 secondes tout en créant les conditions du don.
+    Chaque appel suit une progression logique et irréversible.
+    Brûler une étape brise la confiance du donateur et réduit les chances
+    de don. L'objectif premier est de dépasser les 60 secondes tout en créant
+    les conditions émotionnelles et rationnelles du don.
   </p>
 
   <div class="steps">
@@ -601,14 +959,13 @@
       <div class="step-body">
         <h4>Accroche &amp; Identification</h4>
         <p>
-          Se présenter clairement, nommer l'association, et vérifier qu'on parle
-          bien à la bonne personne. Ton chaleureux et professionnel dès les premières
-          secondes — c'est ce qui empêche le raccrochage immédiat.
+          Se présenter clairement, nommer l'association, vérifier que l'on parle
+          à la bonne personne. Un ton chaleureux dès les premières secondes empêche
+          le raccrochage immédiat.
         </p>
-        <div class="info-box blue" style="margin-top:8px;font-size:.85rem;">
-          <strong>Exemple d'accroche :</strong><br>
-          "Bonjour, je suis [Prénom] et j'appelle de la part de [l'Association].
-          Est-ce que je parle bien à M./Mme [Nom] ?"
+        <div class="info-box blue" style="margin-top:8px;font-size:.84rem;">
+          "Bonjour, je suis [Prénom], j'appelle de la part de [l'Association].
+          Ai-je bien M. / Mme [Nom] ?"
         </div>
       </div>
     </div>
@@ -618,13 +975,13 @@
       <div class="step-body">
         <h4>Contexte &amp; Légitimité de l'appel</h4>
         <p>
-          Expliquer brièvement pourquoi vous appelez ce contact en particulier
-          (ancien donateur, soutien potentiel, etc.) et créer un lien émotionnel
-          avec la cause humanitaire.
+          Expliquer pourquoi ce contact est appelé (ancien donateur, soutien
+          potentiel, zone géographique). Créer un lien émotionnel immédiat
+          avec la cause.
         </p>
-        <div class="info-box green" style="margin-top:8px;font-size:.85rem;">
-          "Vous avez déjà montré votre sensibilité à notre cause / Des milliers
-          d'enfants comptent sur des personnes comme vous…"
+        <div class="info-box teal" style="margin-top:8px;font-size:.84rem;">
+          "Nous appelons des personnes qui, comme vous, ont déjà témoigné
+          leur sensibilité à [la cause]…"
         </div>
       </div>
     </div>
@@ -632,15 +989,14 @@
     <div class="step">
       <div class="step-num">3</div>
       <div class="step-body">
-        <h4>Présentation de l'impact</h4>
+        <h4>Présentation de l'impact concret</h4>
         <p>
-          Chiffrer concrètement l'impact d'un don mensuel. Rendre tangible
-          ce que représente chaque euro. C'est ici que l'émotion et la raison
-          se rejoignent pour déclencher l'engagement.
+          Chiffrer l'impact d'un don mensuel. Rendre tangible ce que représente
+          chaque euro. Ici, émotion et raison se rejoignent pour déclencher l'engagement.
         </p>
-        <div class="info-box orange" style="margin-top:8px;font-size:.85rem;">
-          "Un prélèvement de [X]€ par mois, c'est [impact concret]
-          — moins de [Y]€ par jour pour changer une vie."
+        <div class="info-box orange" style="margin-top:8px;font-size:.84rem;">
+          "Un prélèvement de [X]€/mois, c'est [impact précis] —
+          soit moins de [Y]€ par jour pour changer une vie."
         </div>
       </div>
     </div>
@@ -650,13 +1006,13 @@
       <div class="step-body">
         <h4>Proposition &amp; Ancrage sur le montant</h4>
         <p>
-          Proposer un montant précis (ancrage haut) et laisser le donateur
-          réajuster à la baisse si nécessaire. Ne jamais laisser le donateur
+          Proposer un montant de référence (ancrage haut) et laisser le donateur
+          négocier à la baisse si nécessaire. Ne jamais laisser le contact
           choisir seul sans cadre — cela génère de l'hésitation.
         </p>
-        <div class="info-box blue" style="margin-top:8px;font-size:.85rem;">
-          "Beaucoup de nos donateurs commencent à [X]€/mois —
-          est-ce que c'est une somme qui vous conviendrait ?"
+        <div class="info-box blue" style="margin-top:8px;font-size:.84rem;">
+          "Beaucoup de nos donateurs commencent à [X]€/mois.
+          Est-ce une somme qui vous serait accessible ?"
         </div>
       </div>
     </div>
@@ -664,14 +1020,14 @@
     <div class="step">
       <div class="step-num">5</div>
       <div class="step-body">
-        <h4>Traitement des objections</h4>
+        <h4>Traitement des objections — Méthode ERR</h4>
         <p>
-          Écouter, reformuler, rebondir. Ne jamais abandonner à la première
-          résistance. Chaque objection est une information sur ce qui freine
-          le donateur — c'est une porte d'entrée pour argumenter.
+          Écouter sans interrompre, reformuler l'objection pour valider
+          l'émotion du contact, puis rebondir avec un argument factuel
+          ou émotionnel. Ne jamais abandonner à la première résistance.
         </p>
-        <div class="info-box yellow" style="margin-top:8px;font-size:.85rem;">
-          Voir Module 5 — Tableau complet des objections et réponses.
+        <div class="info-box yellow" style="margin-top:8px;font-size:.84rem;">
+          Voir <strong>Section 7</strong> — Tableau complet des objections et réponses recommandées.
         </div>
       </div>
     </div>
@@ -681,13 +1037,13 @@
       <div class="step-body">
         <h4>Closing &amp; Sécurisation du don</h4>
         <p>
-          Confirmer l'accord, recueillir l'IBAN (mode à chaud) ou envoyer le
-          lien (promesse), et remercier chaleureusement. Récapituler le montant
-          et la date de prélèvement pour rassurer le donateur.
+          Confirmer l'accord, collecter l'IBAN (mode à chaud) ou envoyer
+          le lien (promesse), remercier chaleureusement. Récapituler le montant
+          et la fréquence pour rassurer et conforter la décision.
         </p>
-        <div class="info-box green" style="margin-top:8px;font-size:.85rem;">
+        <div class="info-box green" style="margin-top:8px;font-size:.84rem;">
           "Parfait ! Je note votre IBAN pour finaliser le prélèvement de [X]€/mois.
-          Vous recevrez un e-mail de confirmation sous peu. Un grand merci !"
+          Vous recevrez un e-mail de confirmation. Un immense merci pour votre geste !"
         </div>
       </div>
     </div>
@@ -697,9 +1053,9 @@
       <div class="step-body">
         <h4>Qualification &amp; Saisie dans l'outil</h4>
         <p>
-          Dès que l'appel se termine, qualifier le contact en DON, REFUS ARGUMENTÉ
-          ou INDÉCIS. Une saisie rapide et précise garantit des statistiques fiables
-          et un suivi de qualité.
+          Immédiatement après l'appel, qualifier le CU en DON, REFUS ARGUMENTÉ
+          ou INDÉCIS. La saisie rapide garantit des statistiques fiables
+          et un suivi de qualité pour toute l'équipe.
         </p>
       </div>
     </div>
@@ -707,280 +1063,240 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 5 — TRAITEMENT DES OBJECTIONS
+     SECTION 7 — TRAITEMENT DES OBJECTIONS
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="card-title">
-    <div class="icon">🛡️</div>
-    <span class="section-num">5</span>
-    Traitement des Objections — L'Art de Rester en Ligne
+  <div class="section-header">
+    <div class="section-icon">🛡️</div>
+    <div>
+      <div class="section-num-badge">Section 7</div>
+      <div class="section-title">Traitement des Objections — Méthode ERR</div>
+    </div>
   </div>
 
-  <div class="info-box blue" style="margin-bottom:18px;">
+  <div class="info-box purple" style="margin-bottom:18px;">
     <strong>Principe fondamental</strong>
-    Une objection n'est pas un refus. C'est une demande d'informations supplémentaires
-    ou une hésitation. Écouter sans interrompre, valider l'émotion, puis rebondir
-    avec un argument factuel ou émotionnel.
-    <strong>Méthode : Écouter → Reformuler → Rebondir (ERR)</strong>
+    Une objection n'est pas un refus. C'est une demande d'informations
+    supplémentaires ou une hésitation déguisée. La méthode ERR (Écouter →
+    Reformuler → Rebondir) permet de transformer chaque résistance en
+    opportunité de dialogue. Deux à trois tentatives maximum avant de conclure
+    en Refus Argumenté.
   </div>
 
-  <table>
+  <table class="obj-table">
     <thead>
       <tr>
-        <th>Objection du contact</th>
-        <th>Ce que le contact exprime vraiment</th>
-        <th>Réponse de l'agent</th>
+        <th>Objection</th>
+        <th>Ce que le contact exprime réellement</th>
+        <th>Réponse recommandée (méthode ERR)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>"Je n'ai pas les moyens."</td>
         <td>Peur d'un engagement financier trop lourd</td>
-        <td>
-          "Je comprends tout à fait. C'est pourquoi nous permettons de commencer
-          avec un montant symbolique comme [X]€/mois — soit moins de [Y]€ par jour.
-          Même un petit geste régulier change des vies."
-        </td>
+        <td>"Je comprends tout à fait. C'est pourquoi nous permettons de commencer avec un montant symbolique comme [X]€/mois — soit moins de [Y] centimes par jour. Même un geste modeste et régulier change des vies concrètement."</td>
       </tr>
       <tr>
         <td>"Je vais y réfléchir."</td>
-        <td>Manque de conviction ou peur de décider</td>
-        <td>
-          "Absolument. Je peux vous envoyer un lien directement — vous finalisez
-          à votre rythme, sans engagement supplémentaire. Il n'a pas de date limite.
-          Je vous le transmets ?"
-        </td>
+        <td>Manque de conviction ou peur de décider sur l'instant</td>
+        <td>"Absolument, je respecte cela. Puis-je vous envoyer un lien sécurisé maintenant ? Vous finalisez à votre rythme — le lien n'expire jamais. Je vous l'envoie par email ?"</td>
       </tr>
       <tr>
         <td>"Je donne déjà à d'autres associations."</td>
-        <td>Sentiment de saturation ou culpabilité</td>
-        <td>
-          "C'est formidable, merci pour votre générosité. Les besoins humanitaires
-          sont malheureusement immenses. Un soutien complémentaire, même modeste,
-          peut véritablement faire la différence dans des zones de crise."
-        </td>
+        <td>Sentiment de saturation ou de culpabilité</td>
+        <td>"C'est formidable, merci. Les besoins humanitaires sont malheureusement immenses. Un soutien complémentaire, même modeste, peut faire une vraie différence dans des zones de crise que d'autres organisations n'atteignent pas."</td>
       </tr>
       <tr>
         <td>"Je ne fais pas confiance aux associations."</td>
-        <td>Scepticisme sur l'usage des fonds</td>
-        <td>
-          "C'est une préoccupation légitime. [L'Association] publie chaque année
-          un rapport financier transparent. [X]% des dons vont directement aux
-          programmes terrain. Souhaitez-vous que je vous donne des exemples concrets ?"
-        </td>
+        <td>Scepticisme sur l'usage réel des fonds</td>
+        <td>"C'est une préoccupation tout à fait légitime. [L'Association] publie chaque année un rapport financier complet et certifié. Une part très importante des dons va directement aux programmes terrain. Souhaitez-vous que je vous partage des exemples concrets d'impact ?"</td>
       </tr>
       <tr>
         <td>"Je ne veux pas donner mes coordonnées bancaires."</td>
-        <td>Peur de la fraude, manque de confiance</td>
-        <td>
-          "Pas de problème du tout. Dans ce cas, je vous envoie un lien sécurisé
-          directement sur le site de l'association — c'est vous qui saisissez
-          vos informations, sans intermédiaire. Votre sécurité est notre priorité."
-        </td>
+        <td>Peur de la fraude ou manque de confiance</td>
+        <td>"Je comprends tout à fait. Dans ce cas, aucun problème : je vous envoie un lien sécurisé sur le site officiel de l'association — c'est vous qui saisissez vos informations directement, sans intermédiaire. Votre sécurité est notre priorité absolue."</td>
       </tr>
       <tr>
         <td>"Ce n'est pas le bon moment."</td>
-        <td>Envie de raccrocher, timing perçu comme mauvais</td>
-        <td>
-          "Je comprends. Pour les enfants dans les zones de crise,
-          malheureusement, eux n'ont pas ce luxe. Le lien que je vous envoie
-          n'expire jamais — vous pouvez l'utiliser quand vous vous sentez prêt(e)."
-        </td>
+        <td>Envie de mettre fin à l'appel rapidement</td>
+        <td>"Je comprends. Malheureusement pour les enfants dans les zones de crise, le temps est précieux. Le lien que je peux vous envoyer n'a pas de date limite — vous pouvez agir quand vous vous sentez prêt(e). Votre adresse email pour vous le transmettre ?"</td>
       </tr>
       <tr>
         <td>"Envoyez-moi des informations par courrier."</td>
-        <td>Stratégie pour terminer l'appel</td>
-        <td>
-          "Bien sûr, mais le plus simple et le plus rapide reste le lien que
-          je peux vous envoyer par email maintenant. En 2 minutes vous avez
-          toutes les informations et vous pouvez agir immédiatement si vous
-          le souhaitez. Votre adresse email ?"
-        </td>
+        <td>Stratégie polie pour terminer l'appel sans refuser</td>
+        <td>"Bien sûr. Cela dit, le plus simple et le plus rapide reste le lien email que je peux vous envoyer maintenant. En deux minutes, vous avez toutes les informations et vous pouvez agir si vous le souhaitez. Votre adresse email ?"</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="info-box red" style="margin-top:18px;">
-    <strong>Le refus définitif — savoir conclure avec dignité</strong>
-    Si après 2 à 3 tentatives d'argumentation le contact maintient son refus,
-    ne pas insister davantage. Remercier chaleureusement, laisser une impression
-    positive — <em>le refus d'aujourd'hui peut être le don de demain.</em>
-    Qualifier en <strong>REFUS ARGUMENTÉ</strong>.
+  <div class="info-box red" style="margin-top:10px;">
+    <strong>Clore avec dignité — le refus définitif</strong>
+    Si après 2 à 3 argumentations le contact maintient son refus fermement,
+    ne pas insister. Remercier chaleureusement et conclure positivement.
+    <em>Le refus d'aujourd'hui peut être le don de demain</em> — l'impression
+    laissée compte autant que l'appel lui-même. Qualifier en
+    <strong>REFUS ARGUMENTÉ</strong>.
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 6 — POSTURE & COMMUNICATION
+     SECTION 8 — POSTURE & COMMUNICATION
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="card-title">
-    <div class="icon">🎙️</div>
-    <span class="section-num">6</span>
-    Posture &amp; Communication — Les Fondamentaux
+  <div class="section-header">
+    <div class="section-icon">🎙️</div>
+    <div>
+      <div class="section-num-badge">Section 8</div>
+      <div class="section-title">Posture &amp; Fondamentaux de Communication</div>
+    </div>
+  </div>
+
+  <p class="sub-title green">Le triangle de l'argumentation efficace</p>
+
+  <div class="info-box teal" style="margin-bottom:16px;">
+    <strong>1 — Émotion</strong> Toucher le cœur du donateur (enfants, vies sauvées, urgence humanitaire)<br>
+    <strong>2 — Raison</strong> Rassurer l'intellect (transparence des fonds, impact chiffré, label)<br>
+    <strong>3 — Facilité</strong> Lever les freins pratiques (lien simple, IBAN sécurisé, pas de date limite)
   </div>
 
   <div class="two-col">
     <div>
-      <h4 style="color:var(--green);margin-bottom:12px;">✅ À faire systématiquement</h4>
+      <p class="sub-title green" style="margin-top:0;">À faire systématiquement</p>
       <ul class="checklist">
-        <li>Sourire vocal — le sourire s'entend au téléphone</li>
-        <li>Rythme posé — ne pas parler trop vite</li>
-        <li>Écoute active — laisser le contact s'exprimer</li>
+        <li>Adopter un sourire vocal — il s'entend au téléphone</li>
+        <li>Parler à un rythme posé et articulé</li>
+        <li>Écouter activement — ne pas interrompre</li>
         <li>Reformuler les objections avant de répondre</li>
-        <li>Personnaliser — utiliser le nom du donateur</li>
-        <li>Rester positif même face à l'agressivité</li>
-        <li>Dépasser les 60 secondes sur chaque appel</li>
-        <li>Qualifier précisément chaque appel dans l'outil</li>
+        <li>Personnaliser l'échange en utilisant le nom du donateur</li>
+        <li>Rester positif et calme même face à l'agressivité</li>
+        <li>Dépasser systématiquement les 60 secondes</li>
+        <li>Qualifier chaque appel immédiatement dans l'outil</li>
       </ul>
     </div>
     <div>
-      <h4 style="color:var(--red);margin-bottom:12px;">✗ À éviter absolument</h4>
+      <p class="sub-title red" style="margin-top:0;">À éviter absolument</p>
       <ul class="checklist">
-        <li class="stop">Raccrocher sans avoir argumenté</li>
-        <li class="stop">Proposer un don ponctuel — ce n'est pas notre offre</li>
-        <li class="stop">Donner une date de validité au lien — il est permanent</li>
-        <li class="stop">Promettre des résultats impossibles à garantir</li>
-        <li class="stop">Interrompre le contact pendant ses objections</li>
-        <li class="stop">Mal qualifier un contact (ex. DON sans IBAN validé)</li>
+        <li class="stop">Raccrocher sans avoir tenté un argument</li>
+        <li class="stop">Proposer un don ponctuel — ce n'est pas l'offre</li>
+        <li class="stop">Donner une date limite au lien — il est permanent</li>
+        <li class="stop">Promettre des résultats non garantis</li>
+        <li class="stop">Interrompre le donateur pendant ses objections</li>
+        <li class="stop">Qualifier DON sans PA réellement initié</li>
         <li class="stop">Oublier de saisir le résultat dans l'outil</li>
-        <li class="stop">Discuter politique ou religion</li>
+        <li class="stop">Créer une pression artificielle ou de la culpabilité excessive</li>
       </ul>
     </div>
-  </div>
-
-  <div class="info-box yellow" style="margin-top:20px;">
-    <strong>Le triangle de l'argumentation efficace</strong><br>
-    <strong>1. Émotion</strong> — toucher le cœur (les enfants, les vies sauvées)
-    &nbsp;|&nbsp;
-    <strong>2. Raison</strong> — rassurer la tête (transparence, impact chiffré)
-    &nbsp;|&nbsp;
-    <strong>3. Facilité</strong> — lever les freins pratiques (lien simple, IBAN sécurisé)
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 7 — AUTO-SUIVI DE PERFORMANCE
+     SECTION 9 — SUIVI DE PERFORMANCE
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="card-title">
-    <div class="icon">📈</div>
-    <span class="section-num">7</span>
-    Auto-Suivi de Performance — Suivre ses KPI en Temps Réel
+  <div class="section-header">
+    <div class="section-icon">📈</div>
+    <div>
+      <div class="section-num-badge">Section 9</div>
+      <div class="section-title">Auto-Suivi de Performance — Heure par Heure</div>
+    </div>
   </div>
 
-  <p style="margin-bottom:20px;">
+  <p style="margin-bottom:16px;">
     Un agent performant ne attend pas le bilan de fin de journée.
-    Il se demande toutes les heures : <em>"Où en suis-je ?"</em>
+    Il calcule son CU/H et son TX de transformation à chaque fin de tranche
+    horaire. Cela lui permet d'ajuster son rythme et son argumentation en temps réel.
   </p>
 
-  <h3 style="color:var(--blue-dark);margin-bottom:14px;">Tableau de bord personnel (à tenir à jour)</h3>
+  <!-- Rappel formules -->
+  <div class="formula-block" style="margin-bottom:20px;">
+    <div class="formula-label">Rappel formules — à utiliser toutes les heures</div>
+    <div class="formula-math">
+      <span class="f-title">CU/H</span>  <span class="f-op">=</span>  <span class="f-var">CU cumulés</span>  <span class="f-op">÷</span>  <span class="f-var">Heures produites cumulées</span><br>
+      <span class="f-title">TX (%)</span>  <span class="f-op">=</span>  <span class="f-op">(</span><span class="f-var">DON cumulés</span>  <span class="f-op">×</span>  <span class="f-result">100</span><span class="f-op">)</span>  <span class="f-op">÷</span>  <span class="f-var">CU cumulés</span>
+    </div>
+  </div>
 
-  <table>
+  <table class="suivi-table">
     <thead>
       <tr>
         <th>Tranche horaire</th>
         <th>CU réalisés</th>
-        <th>Heures produites</th>
+        <th>H produites<br>(cumulé)</th>
         <th>CU/H cumulé</th>
         <th>DON</th>
-        <th>Refus arg.</th>
+        <th>Refus Arg.</th>
         <th>Indécis</th>
         <th>TX Transfo</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td style="color:var(--blue-dark);font-weight:600;">9h – 10h</td>
-        <td>_____</td><td>1h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
-      </tr>
-      <tr>
-        <td style="color:var(--blue-dark);font-weight:600;">10h – 11h</td>
-        <td>_____</td><td>2h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
-      </tr>
-      <tr>
-        <td style="color:var(--blue-dark);font-weight:600;">11h – 12h</td>
-        <td>_____</td><td>3h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
-      </tr>
-      <tr>
-        <td style="color:var(--blue-dark);font-weight:600;">14h – 15h</td>
-        <td>_____</td><td>4h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
-      </tr>
-      <tr>
-        <td style="color:var(--blue-dark);font-weight:600;">15h – 16h</td>
-        <td>_____</td><td>5h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
-      </tr>
-      <tr>
-        <td style="color:var(--blue-dark);font-weight:600;">16h – 17h</td>
-        <td>_____</td><td>6h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
-      </tr>
-      <tr style="background:var(--blue-light);font-weight:700;">
-        <td style="color:var(--blue-dark);">TOTAL JOURNÉE</td>
-        <td>_____</td><td>_____h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
-      </tr>
+      <tr><td class="label">9h – 10h</td><td>___</td><td>1h</td><td>___</td><td>___</td><td>___</td><td>___</td><td>___%</td></tr>
+      <tr><td class="label">10h – 11h</td><td>___</td><td>2h</td><td>___</td><td>___</td><td>___</td><td>___</td><td>___%</td></tr>
+      <tr><td class="label">11h – 12h</td><td>___</td><td>3h</td><td>___</td><td>___</td><td>___</td><td>___</td><td>___%</td></tr>
+      <tr><td class="label">14h – 15h</td><td>___</td><td>4h</td><td>___</td><td>___</td><td>___</td><td>___</td><td>___%</td></tr>
+      <tr><td class="label">15h – 16h</td><td>___</td><td>5h</td><td>___</td><td>___</td><td>___</td><td>___</td><td>___%</td></tr>
+      <tr><td class="label">16h – 17h</td><td>___</td><td>6h</td><td>___</td><td>___</td><td>___</td><td>___</td><td>___%</td></tr>
+      <tr class="total"><td class="label">TOTAL JOURNÉE</td><td>___</td><td>___h</td><td>___</td><td>___</td><td>___</td><td>___</td><td>___%</td></tr>
     </tbody>
   </table>
 
-  <div class="info-box green">
-    <strong>Exemple de calcul en cours de journée</strong><br>
-    Après 3h de production avec 28 CU → 28 ÷ 3 = <strong>9,33 CU/H</strong> ✅<br>
-    Avec 2 DON sur 28 CU → TX transfo = (2 × 100) ÷ 28 = <strong>7,14%</strong>
+  <div class="info-box green" style="margin-top:8px;">
+    <strong>Exemple de lecture en milieu de journée</strong><br>
+    Après 3h de production, 28 CU dont 2 DON :<br>
+    → <strong>CU/H</strong> = 28 ÷ 3 = <strong>9,33</strong> ✅ &nbsp;|&nbsp;
+    <strong>TX</strong> = (2 × 100) ÷ 28 = <strong>7,14 %</strong>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     MODULE 8 — RÉCAPITULATIF & CHECKLIST J1
+     SECTION 10 — CHECKLIST J1
 ═══════════════════════════════════════════════════════════════════ -->
 <div class="card">
-  <div class="card-title">
-    <div class="icon">✅</div>
-    <span class="section-num">8</span>
-    Récapitulatif &amp; Checklist J1 — Avant de Décrocher
+  <div class="section-header">
+    <div class="section-icon">✅</div>
+    <div>
+      <div class="section-num-badge">Section 10</div>
+      <div class="section-title">Checklist J1 — Suis-je Prêt à Décrocher ?</div>
+    </div>
   </div>
 
   <p style="margin-bottom:18px;">
-    Avant de prendre votre premier appel, assurez-vous de maîtriser chaque point ci-dessous :
+    Avant de prendre votre premier appel en autonomie, validez chacun des points ci-dessous.
+    Si un point n'est pas acquis, demandez une clarification à votre superviseur.
   </p>
 
   <div class="two-col">
     <div>
-      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Fondamentaux KPI</h4>
+      <p class="sub-title" style="margin-top:0;">Mission &amp; Nomenclature</p>
       <ul class="checklist">
-        <li>Je connais la définition d'un CU (> 60 secondes)</li>
-        <li>Je sais calculer mon CU/H (CU ÷ heures)</li>
-        <li>Mon objectif est 9 CU/H minimum</li>
+        <li>Je connais la finalité humanitaire de la campagne</li>
+        <li>Je sais définir CU, CU/H, PDC, TX, DEL, PA</li>
         <li>Je connais les 3 qualifications : DON / REFUS ARG. / INDÉCIS</li>
-        <li>Je sais calculer le TX de transformation</li>
+        <li>Je maîtrise la méthode ERR</li>
+      </ul>
+      <p class="sub-title orange">KPI &amp; Formules</p>
+      <ul class="checklist">
+        <li>Je sais calculer mon CU/H en temps réel</li>
+        <li>Mon objectif CU/H est 9 minimum</li>
+        <li>Je sais calculer le Taux de Transformation</li>
+        <li>Je connais la formule du PDC équipe</li>
       </ul>
     </div>
     <div>
-      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Fondamentaux Produit</h4>
+      <p class="sub-title purple" style="margin-top:0;">Produit</p>
       <ul class="checklist">
         <li>Seuls les prélèvements automatiques réguliers sont proposés</li>
         <li>Je connais les 2 modes : à chaud (IBAN) et promesse (lien)</li>
-        <li>Le lien n'a pas de date de validité</li>
-        <li>Un email de confirmation est envoyé au donateur</li>
-        <li>Je ne propose jamais de don ponctuel</li>
+        <li>Le lien est permanent — pas de date d'expiration</li>
+        <li>Un email de confirmation est envoyé automatiquement</li>
       </ul>
-    </div>
-  </div>
-
-  <div class="two-col" style="margin-top:4px;">
-    <div>
-      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Structure d'appel</h4>
+      <p class="sub-title green">Appel &amp; Argumentation</p>
       <ul class="checklist">
-        <li>Accroche → Contexte → Impact → Proposition</li>
-        <li>Traitement objections (méthode ERR)</li>
-        <li>Closing → Sécurisation → Qualification</li>
-        <li>Toujours garder le contact plus de 60 secondes</li>
-      </ul>
-    </div>
-    <div>
-      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Posture &amp; Mission</h4>
-      <ul class="checklist">
-        <li>Je suis ambassadeur de la cause humanitaire</li>
-        <li>Le refus d'aujourd'hui = le don de demain</li>
-        <li>Je reste positif et bienveillant en toutes circonstances</li>
-        <li>Je suis ma performance toutes les heures</li>
+        <li>Je connais les 7 étapes de l'appel</li>
+        <li>Je sais traiter au moins 4 objections principales</li>
+        <li>Je sais conclure dignement un refus définitif</li>
+        <li>Je sais suivre ma performance heure par heure</li>
       </ul>
     </div>
   </div>
@@ -989,11 +1305,11 @@
 <!-- ═══════════════════════════════════════════════════════════════════
      MANTRA FINAL
 ═══════════════════════════════════════════════════════════════════ -->
-<div class="mantra" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue-mid));">
-  Chaque appel est une opportunité de changer une vie.<br>
-  <span style="font-size:.9rem;font-weight:400;opacity:.9;">
-    Votre voix, votre argument, votre conviction — c'est ce qui transforme
-    un refus en espoir.
+<div class="mantra blue">
+  Chaque appel est une opportunité de changer une vie.
+  <span class="sub">
+    Votre voix, votre conviction, votre argument — c'est ce qui transforme
+    une hésitation en espoir concret pour des milliers d'enfants.
   </span>
 </div>
 
@@ -1001,9 +1317,9 @@
 
 <footer>
   <div class="page">
-    FIM J1 — Fidelis × SHY Performance &nbsp;|&nbsp;
+    Module J1 FIM — Fidelis × SHY Performance &nbsp;|&nbsp;
     Document de formation interne — usage exclusif des équipes &nbsp;|&nbsp;
-    Version initiale
+    Confidentiel
   </div>
 </footer>
 
