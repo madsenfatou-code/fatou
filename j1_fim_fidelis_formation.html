@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J1 FIM – Formation Initiale Module | Fidelis × SHY Performance</title>
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────────────── */
+    :root {
+      --blue-dark:  #003087;
+      --blue-mid:   #0057b8;
+      --blue-light: #e8f0fb;
+      --cyan:       #00aeef;
+      --orange:     #f7941d;
+      --green:      #27ae60;
+      --red:        #e74c3c;
+      --yellow:     #f1c40f;
+      --grey-bg:    #f4f6fb;
+      --grey-line:  #dce3f0;
+      --text:       #1a1a2e;
+      --white:      #ffffff;
+      --shadow:     0 4px 18px rgba(0,48,135,.13);
+    }
+
+    /* ── Reset & base ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+      background: var(--grey-bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    h1,h2,h3,h4 { font-weight: 700; line-height: 1.25; }
+    a { color: var(--blue-mid); text-decoration: none; }
+
+    /* ── Page wrapper ──────────────────────────────────────────────────── */
+    .page { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+
+    /* ── Hero banner ───────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, var(--cyan) 100%);
+      color: var(--white);
+      padding: 48px 40px 40px;
+      border-radius: 0 0 20px 20px;
+      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 260px; height: 260px;
+      background: rgba(255,255,255,.06);
+      border-radius: 50%;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .hero h1 { font-size: 2rem; margin-bottom: 8px; }
+    .hero .subtitle { font-size: 1.05rem; opacity: .88; max-width: 620px; }
+    .hero .meta {
+      margin-top: 22px;
+      display: flex; flex-wrap: wrap; gap: 18px;
+      font-size: .85rem; opacity: .8;
+    }
+    .hero .meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── Section card ──────────────────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 32px 36px;
+      margin-bottom: 28px;
+    }
+    .card-title {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 1.2rem;
+      color: var(--blue-dark);
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--blue-light);
+    }
+    .card-title .icon {
+      width: 38px; height: 38px;
+      background: var(--blue-light);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Section number label ──────────────────────────────────────────── */
+    .section-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      background: var(--blue-mid);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: .85rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── Info boxes ────────────────────────────────────────────────────── */
+    .info-box {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .info-box.blue  { background: var(--blue-light); border-left: 4px solid var(--blue-mid); }
+    .info-box.orange{ background: #fff4e8; border-left: 4px solid var(--orange); }
+    .info-box.green { background: #eafaf1; border-left: 4px solid var(--green); }
+    .info-box.red   { background: #fdf0ef; border-left: 4px solid var(--red); }
+    .info-box.yellow{ background: #fefde8; border-left: 4px solid var(--yellow); }
+    .info-box strong { display: block; margin-bottom: 4px; }
+
+    /* ── KPI cards ─────────────────────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+      margin: 20px 0;
+    }
+    .kpi-card {
+      background: linear-gradient(145deg, var(--blue-dark), var(--blue-mid));
+      color: var(--white);
+      border-radius: 12px;
+      padding: 22px 20px;
+      text-align: center;
+    }
+    .kpi-card .kpi-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--cyan);
+      line-height: 1;
+      margin: 8px 0 4px;
+    }
+    .kpi-card .kpi-label { font-size: .8rem; opacity: .85; }
+    .kpi-card .kpi-name  { font-size: .95rem; font-weight: 600; margin-bottom: 4px; }
+
+    /* ── Formula block ─────────────────────────────────────────────────── */
+    .formula {
+      background: var(--blue-dark);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 18px 24px;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      margin: 16px 0;
+      position: relative;
+    }
+    .formula .formula-title {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .formula .result { color: var(--orange); font-weight: 700; }
+
+    /* ── Qualification pills ───────────────────────────────────────────── */
+    .qual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+    .qual-pill {
+      border-radius: 12px;
+      padding: 20px 18px;
+      text-align: center;
+    }
+    .qual-pill.don    { background: #eafaf1; border: 2px solid var(--green); }
+    .qual-pill.refus  { background: #fdf0ef; border: 2px solid var(--red); }
+    .qual-pill.indecis{ background: #fff4e8; border: 2px solid var(--orange); }
+    .qual-pill .q-icon{ font-size: 2rem; margin-bottom: 8px; }
+    .qual-pill .q-name{ font-weight: 700; font-size: 1rem; }
+    .qual-pill .q-desc{ font-size: .82rem; margin-top: 6px; color: #555; }
+
+    /* ── Step process ──────────────────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex; gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--grey-line);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 36px; height: 36px;
+      background: var(--blue-mid);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9rem;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .step-body h4 { color: var(--blue-dark); margin-bottom: 4px; }
+    .step-body p  { font-size: .9rem; color: #444; }
+
+    /* ── Objection table ───────────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      margin: 16px 0;
+    }
+    thead th {
+      background: var(--blue-dark);
+      color: var(--white);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    tbody tr:nth-child(even) { background: var(--blue-light); }
+    tbody td {
+      padding: 10px 14px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--grey-line);
+    }
+    tbody td:first-child { font-weight: 600; color: var(--red); }
+    tbody td:nth-child(2){ color: #333; font-style: italic; }
+    tbody td:last-child  { color: var(--blue-dark); }
+
+    /* ── Quote / mantra ────────────────────────────────────────────────── */
+    .mantra {
+      background: linear-gradient(135deg, var(--orange), #f7611d);
+      color: var(--white);
+      border-radius: 14px;
+      padding: 28px 36px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      line-height: 1.5;
+      margin: 28px 0;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Two-column layout ─────────────────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 16px 0;
+    }
+    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Checklist ─────────────────────────────────────────────────────── */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 6px 0;
+      font-size: .92rem;
+    }
+    .checklist li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .checklist li.warn::before { content: '!'; color: var(--orange); }
+    .checklist li.stop::before { content: '✗'; color: var(--red); }
+
+    /* ── Progress tracker ──────────────────────────────────────────────── */
+    .progress-bar-wrap {
+      background: var(--grey-line);
+      border-radius: 8px;
+      height: 12px;
+      margin: 8px 0 4px;
+      overflow: hidden;
+    }
+    .progress-bar { height: 100%; border-radius: 8px; }
+
+    /* ── Footer ────────────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      font-size: .8rem;
+      color: #888;
+      padding: 30px 0 10px;
+    }
+
+    /* ── Print ─────────────────────────────────────────────────────────── */
+    @media print {
+      .hero { border-radius: 0; }
+      .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="page" style="padding-bottom:0;margin-bottom:0;">
+    <div class="badge">Formation Initiale Module · J1</div>
+    <h1>FIM Fidelis — Collecte de Dons</h1>
+    <p class="subtitle">
+      Module complet J1 à destination des agents SHY Performance.
+      Maîtriser les fondamentaux, les KPI et les techniques d'argumentation
+      pour maximiser les dons en faveur de l'association partenaire.
+    </p>
+    <div class="meta">
+      <span>📅 Durée estimée : 1 journée</span>
+      <span>🎯 Objectif CU/H : 9</span>
+      <span>🏆 Cible TX transformation : selon association</span>
+      <span>🤝 Campagne : Prélèvements automatiques réguliers</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MANTRA
+═══════════════════════════════════════════════════════════════════ -->
+<div class="mantra">
+  "LE REFUS D'AUJOURD'HUI PEUT ÊTRE LE DON DE DEMAIN."<br>
+  <span style="font-size:.85rem;font-weight:400;opacity:.9;">
+    Chaque appel compte. Chaque argument planté est une graine pour l'avenir.
+  </span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 1 — MISSION & FINALITÉ
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">🌍</div>
+    <span class="section-num">1</span>
+    Mission & Finalité de la Campagne
+  </div>
+
+  <p>
+    Vous représentez l'association lors de chaque appel. Votre rôle est essentiel :
+    <strong>sans dons, l'action humanitaire s'arrête.</strong>
+  </p>
+
+  <div class="info-box blue" style="margin-top:18px;">
+    <strong>Finalité de la mission</strong>
+    Obtenir des dons pour permettre à l'association de <strong>continuer son action
+    humanitaire</strong> et d'<strong>augmenter le taux de dons global</strong>.
+    Chaque prélèvement déclenché est une vie potentiellement impactée positivement.
+  </div>
+
+  <div class="two-col" style="margin-top:20px;">
+    <div class="info-box green">
+      <strong>Ce que votre appel finance</strong>
+      <ul class="checklist" style="margin-top:8px;">
+        <li>Programmes d'aide humanitaire d'urgence</li>
+        <li>Nutrition et santé pour les enfants</li>
+        <li>Accès à l'eau potable et l'éducation</li>
+        <li>Protection des populations vulnérables</li>
+      </ul>
+    </div>
+    <div class="info-box orange">
+      <strong>Pourquoi l'argument compte</strong>
+      <ul class="checklist" style="margin-top:8px;">
+        <li>Un donateur convaincu aujourd'hui donne pendant des années</li>
+        <li>Un refus bien argumenté peut revenir donateur demain</li>
+        <li>L'image de l'association dépend de la qualité de l'échange</li>
+        <li>Votre posture = ambassadeur de la cause</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 2 — LES KPI CLÉS
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">📊</div>
+    <span class="section-num">2</span>
+    Les KPI — Comprendre et Piloter sa Performance
+  </div>
+
+  <!-- KPI overview -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-name">CU / H</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-label">Contacts Utiles par heure — objectif minimum</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-name">Durée CU</div>
+      <div class="kpi-value">&gt; 60s</div>
+      <div class="kpi-label">Seuil de durée pour valider un Contact Utile</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-name">TX Transfo</div>
+      <div class="kpi-value">%</div>
+      <div class="kpi-label">Dons ou DEL parmi les CU — objectif selon association</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-name">PDC</div>
+      <div class="kpi-value">XXXX</div>
+      <div class="kpi-label">Plan de Charge — CU à produire par mois</div>
+    </div>
+  </div>
+
+  <!-- ─── CU définition ─── -->
+  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.1 — Qu'est-ce qu'un Contact Utile (CU) ?</h3>
+
+  <div class="info-box blue">
+    <strong>Définition officielle</strong>
+    Un appel devient un <em>Contact Utile (CU)</em> dès lors que la durée de
+    communication <strong>dépasse 60 secondes</strong>. En-dessous de ce seuil,
+    l'appel n'est pas comptabilisé comme CU, quelle qu'en soit l'issue.
+  </div>
+
+  <div class="info-box yellow">
+    <strong>Pourquoi 60 secondes ?</strong>
+    Ce seuil garantit qu'un échange argumenté a eu lieu. Un appel court (raccrochage
+    immédiat, répondeur, numéro invalide) ne reflète pas la capacité d'argumentation
+    de l'agent. Le CU mesure la <em>qualité productive</em> du temps passé.
+  </div>
+
+  <!-- ─── Formule CU/H ─── -->
+  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.2 — Calcul du CU/H</h3>
+
+  <div class="formula">
+    <div class="formula-title">Formule</div>
+    CU / H  =  Nombre de CU réalisés  ÷  Nombre d'heures de production
+  </div>
+
+  <div class="formula" style="background:#1a3a6b;">
+    <div class="formula-title">Exemple — Agent Philippe</div>
+    Philippe a réalisé <span class="result">68 CU</span> sur <span class="result">7h</span> de production<br>
+    → 68 ÷ 7 = <span class="result">9,71 CU/H</span> ✅ Objectif dépassé
+  </div>
+
+  <div class="info-box green">
+    <strong>Lecture du résultat</strong>
+    <ul class="checklist" style="margin-top:6px;">
+      <li>CU/H ≥ 9 → performance conforme à l'objectif</li>
+      <li class="warn">CU/H entre 7 et 9 → zone d'alerte, à améliorer</li>
+      <li class="stop">CU/H &lt; 7 → en-dessous du seuil acceptable, plan d'action requis</li>
+    </ul>
+  </div>
+
+  <!-- ─── Qualifications ─── -->
+  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.3 — Les 3 Qualifications de CU</h3>
+  <p style="margin-bottom:14px;">
+    Chaque CU doit être qualifié dans l'outil selon l'une des trois issues suivantes :
+  </p>
+
+  <div class="qual-grid">
+    <div class="qual-pill don">
+      <div class="q-icon">💚</div>
+      <div class="q-name">DON</div>
+      <div class="q-desc">
+        Le donateur accepte et s'engage par prélèvement automatique
+        (à chaud ou par promesse).
+      </div>
+    </div>
+    <div class="qual-pill refus">
+      <div class="q-icon">❌</div>
+      <div class="q-name">REFUS ARGUMENTÉ</div>
+      <div class="q-desc">
+        Le contact a refusé après avoir écouté et compris l'enjeu.
+        L'agent a utilisé au moins un contre-argument.
+      </div>
+    </div>
+    <div class="qual-pill indecis">
+      <div class="q-icon">⏳</div>
+      <div class="q-name">INDÉCIS</div>
+      <div class="q-desc">
+        Le contact est intéressé mais hésite ou souhaite réfléchir.
+        Un rappel ou un suivi est à planifier.
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Taux de transformation ─── -->
+  <h3 style="color:var(--blue-dark);margin:24px 0 10px;">2.4 — Taux de Transformation</h3>
+
+  <div class="formula">
+    <div class="formula-title">Formule</div>
+    TX Transformation (%)  =  (Nombre de DEL ou PA × 100)  ÷  Nombre de CU
+  </div>
+
+  <div class="formula" style="background:#1a3a6b;">
+    <div class="formula-title">Exemple — Agent Michel</div>
+    Michel a réalisé <span class="result">72 CU</span> et obtenu <span class="result">3 DEL (Prélèvements Automatiques)</span><br>
+    → (3 × 100) ÷ 72 = <span class="result">4,16 %</span> de taux de transformation
+  </div>
+
+  <div class="info-box orange">
+    <strong>DEL / PA = Prélèvement Automatique</strong>
+    Sur cette campagne, <em>seuls les prélèvements automatiques réguliers</em>
+    sont proposés (pas de don ponctuel). Chaque DEL validé entre dans le calcul
+    du taux de transformation.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 3 — LE PRODUIT : PRÉLÈVEMENT AUTOMATIQUE
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">💳</div>
+    <span class="section-num">3</span>
+    Le Produit — Prélèvement Automatique Régulier
+  </div>
+
+  <div class="info-box blue">
+    <strong>Position SHY Performance sur cette campagne</strong>
+    Fidelis propose plusieurs types de prélèvement (ponctuel, automatique, etc.).
+    <strong>Sur notre campagne, nous ne proposons que des prélèvements automatiques
+    réguliers.</strong> Aucun don ponctuel ne doit être proposé.
+  </div>
+
+  <h3 style="color:var(--blue-dark);margin:20px 0 12px;">3.1 — Les deux modes de validation</h3>
+
+  <div class="two-col">
+    <div class="info-box green">
+      <strong>Mode A — Prélèvement en ligne (agent)</strong>
+      L'agent recueille l'IBAN du donateur pendant l'appel et valide
+      lui-même le prélèvement en ligne. Le don est sécurisé immédiatement
+      — on parle de <em>prélèvement à chaud</em>.
+    </div>
+    <div class="info-box orange">
+      <strong>Mode B — Lien autonome (donateur)</strong>
+      L'agent envoie un lien au donateur. Ce dernier complète lui-même
+      son prélèvement en ligne sur le site de l'association.
+      On parle de <em>promesse</em> jusqu'à confirmation.
+    </div>
+  </div>
+
+  <h3 style="color:var(--blue-dark);margin:20px 0 12px;">3.2 — À chaud vs Promesse</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Point d'attention</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--green);">À chaud</td>
+        <td>Prélèvement finalisé pendant l'appel avec l'IBAN</td>
+        <td>Sécurisé immédiatement — taux de concrétisation maximal</td>
+      </tr>
+      <tr>
+        <td style="color:var(--orange);">Promesse</td>
+        <td>Lien envoyé, donateur finalise seul après l'appel</td>
+        <td>Risque de non-concrétisation — relance possible si indécis</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:var(--blue-dark);margin:20px 0 12px;">3.3 — Le lien de don</h3>
+
+  <div class="info-box blue">
+    <strong>Caractéristiques du lien</strong>
+    <ul class="checklist" style="margin-top:8px;">
+      <li>Le lien <strong>n'a pas de date de validité</strong> — il reste actif indéfiniment</li>
+      <li>Il redirige le donateur directement vers le site de l'association (ex. UNICEF)</li>
+      <li>Un <strong>e-mail de confirmation</strong> est envoyé automatiquement au donateur</li>
+      <li class="warn">Ne jamais promettre une date limite sur le lien — il est permanent</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 4 — STRUCTURE D'UN APPEL
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">📞</div>
+    <span class="section-num">4</span>
+    Structure d'un Appel Réussi
+  </div>
+
+  <p style="margin-bottom:20px;">
+    Un appel efficace suit une progression logique. Chaque étape prépare la suivante
+    et contribue à dépasser les 60 secondes tout en créant les conditions du don.
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Accroche &amp; Identification</h4>
+        <p>
+          Se présenter clairement, nommer l'association, et vérifier qu'on parle
+          bien à la bonne personne. Ton chaleureux et professionnel dès les premières
+          secondes — c'est ce qui empêche le raccrochage immédiat.
+        </p>
+        <div class="info-box blue" style="margin-top:8px;font-size:.85rem;">
+          <strong>Exemple d'accroche :</strong><br>
+          "Bonjour, je suis [Prénom] et j'appelle de la part de [l'Association].
+          Est-ce que je parle bien à M./Mme [Nom] ?"
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Contexte &amp; Légitimité de l'appel</h4>
+        <p>
+          Expliquer brièvement pourquoi vous appelez ce contact en particulier
+          (ancien donateur, soutien potentiel, etc.) et créer un lien émotionnel
+          avec la cause humanitaire.
+        </p>
+        <div class="info-box green" style="margin-top:8px;font-size:.85rem;">
+          "Vous avez déjà montré votre sensibilité à notre cause / Des milliers
+          d'enfants comptent sur des personnes comme vous…"
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Présentation de l'impact</h4>
+        <p>
+          Chiffrer concrètement l'impact d'un don mensuel. Rendre tangible
+          ce que représente chaque euro. C'est ici que l'émotion et la raison
+          se rejoignent pour déclencher l'engagement.
+        </p>
+        <div class="info-box orange" style="margin-top:8px;font-size:.85rem;">
+          "Un prélèvement de [X]€ par mois, c'est [impact concret]
+          — moins de [Y]€ par jour pour changer une vie."
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Proposition &amp; Ancrage sur le montant</h4>
+        <p>
+          Proposer un montant précis (ancrage haut) et laisser le donateur
+          réajuster à la baisse si nécessaire. Ne jamais laisser le donateur
+          choisir seul sans cadre — cela génère de l'hésitation.
+        </p>
+        <div class="info-box blue" style="margin-top:8px;font-size:.85rem;">
+          "Beaucoup de nos donateurs commencent à [X]€/mois —
+          est-ce que c'est une somme qui vous conviendrait ?"
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Traitement des objections</h4>
+        <p>
+          Écouter, reformuler, rebondir. Ne jamais abandonner à la première
+          résistance. Chaque objection est une information sur ce qui freine
+          le donateur — c'est une porte d'entrée pour argumenter.
+        </p>
+        <div class="info-box yellow" style="margin-top:8px;font-size:.85rem;">
+          Voir Module 5 — Tableau complet des objections et réponses.
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>Closing &amp; Sécurisation du don</h4>
+        <p>
+          Confirmer l'accord, recueillir l'IBAN (mode à chaud) ou envoyer le
+          lien (promesse), et remercier chaleureusement. Récapituler le montant
+          et la date de prélèvement pour rassurer le donateur.
+        </p>
+        <div class="info-box green" style="margin-top:8px;font-size:.85rem;">
+          "Parfait ! Je note votre IBAN pour finaliser le prélèvement de [X]€/mois.
+          Vous recevrez un e-mail de confirmation sous peu. Un grand merci !"
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h4>Qualification &amp; Saisie dans l'outil</h4>
+        <p>
+          Dès que l'appel se termine, qualifier le contact en DON, REFUS ARGUMENTÉ
+          ou INDÉCIS. Une saisie rapide et précise garantit des statistiques fiables
+          et un suivi de qualité.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 5 — TRAITEMENT DES OBJECTIONS
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">🛡️</div>
+    <span class="section-num">5</span>
+    Traitement des Objections — L'Art de Rester en Ligne
+  </div>
+
+  <div class="info-box blue" style="margin-bottom:18px;">
+    <strong>Principe fondamental</strong>
+    Une objection n'est pas un refus. C'est une demande d'informations supplémentaires
+    ou une hésitation. Écouter sans interrompre, valider l'émotion, puis rebondir
+    avec un argument factuel ou émotionnel.
+    <strong>Méthode : Écouter → Reformuler → Rebondir (ERR)</strong>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Objection du contact</th>
+        <th>Ce que le contact exprime vraiment</th>
+        <th>Réponse de l'agent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Je n'ai pas les moyens."</td>
+        <td>Peur d'un engagement financier trop lourd</td>
+        <td>
+          "Je comprends tout à fait. C'est pourquoi nous permettons de commencer
+          avec un montant symbolique comme [X]€/mois — soit moins de [Y]€ par jour.
+          Même un petit geste régulier change des vies."
+        </td>
+      </tr>
+      <tr>
+        <td>"Je vais y réfléchir."</td>
+        <td>Manque de conviction ou peur de décider</td>
+        <td>
+          "Absolument. Je peux vous envoyer un lien directement — vous finalisez
+          à votre rythme, sans engagement supplémentaire. Il n'a pas de date limite.
+          Je vous le transmets ?"
+        </td>
+      </tr>
+      <tr>
+        <td>"Je donne déjà à d'autres associations."</td>
+        <td>Sentiment de saturation ou culpabilité</td>
+        <td>
+          "C'est formidable, merci pour votre générosité. Les besoins humanitaires
+          sont malheureusement immenses. Un soutien complémentaire, même modeste,
+          peut véritablement faire la différence dans des zones de crise."
+        </td>
+      </tr>
+      <tr>
+        <td>"Je ne fais pas confiance aux associations."</td>
+        <td>Scepticisme sur l'usage des fonds</td>
+        <td>
+          "C'est une préoccupation légitime. [L'Association] publie chaque année
+          un rapport financier transparent. [X]% des dons vont directement aux
+          programmes terrain. Souhaitez-vous que je vous donne des exemples concrets ?"
+        </td>
+      </tr>
+      <tr>
+        <td>"Je ne veux pas donner mes coordonnées bancaires."</td>
+        <td>Peur de la fraude, manque de confiance</td>
+        <td>
+          "Pas de problème du tout. Dans ce cas, je vous envoie un lien sécurisé
+          directement sur le site de l'association — c'est vous qui saisissez
+          vos informations, sans intermédiaire. Votre sécurité est notre priorité."
+        </td>
+      </tr>
+      <tr>
+        <td>"Ce n'est pas le bon moment."</td>
+        <td>Envie de raccrocher, timing perçu comme mauvais</td>
+        <td>
+          "Je comprends. Pour les enfants dans les zones de crise,
+          malheureusement, eux n'ont pas ce luxe. Le lien que je vous envoie
+          n'expire jamais — vous pouvez l'utiliser quand vous vous sentez prêt(e)."
+        </td>
+      </tr>
+      <tr>
+        <td>"Envoyez-moi des informations par courrier."</td>
+        <td>Stratégie pour terminer l'appel</td>
+        <td>
+          "Bien sûr, mais le plus simple et le plus rapide reste le lien que
+          je peux vous envoyer par email maintenant. En 2 minutes vous avez
+          toutes les informations et vous pouvez agir immédiatement si vous
+          le souhaitez. Votre adresse email ?"
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box red" style="margin-top:18px;">
+    <strong>Le refus définitif — savoir conclure avec dignité</strong>
+    Si après 2 à 3 tentatives d'argumentation le contact maintient son refus,
+    ne pas insister davantage. Remercier chaleureusement, laisser une impression
+    positive — <em>le refus d'aujourd'hui peut être le don de demain.</em>
+    Qualifier en <strong>REFUS ARGUMENTÉ</strong>.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 6 — POSTURE & COMMUNICATION
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">🎙️</div>
+    <span class="section-num">6</span>
+    Posture &amp; Communication — Les Fondamentaux
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h4 style="color:var(--green);margin-bottom:12px;">✅ À faire systématiquement</h4>
+      <ul class="checklist">
+        <li>Sourire vocal — le sourire s'entend au téléphone</li>
+        <li>Rythme posé — ne pas parler trop vite</li>
+        <li>Écoute active — laisser le contact s'exprimer</li>
+        <li>Reformuler les objections avant de répondre</li>
+        <li>Personnaliser — utiliser le nom du donateur</li>
+        <li>Rester positif même face à l'agressivité</li>
+        <li>Dépasser les 60 secondes sur chaque appel</li>
+        <li>Qualifier précisément chaque appel dans l'outil</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--red);margin-bottom:12px;">✗ À éviter absolument</h4>
+      <ul class="checklist">
+        <li class="stop">Raccrocher sans avoir argumenté</li>
+        <li class="stop">Proposer un don ponctuel — ce n'est pas notre offre</li>
+        <li class="stop">Donner une date de validité au lien — il est permanent</li>
+        <li class="stop">Promettre des résultats impossibles à garantir</li>
+        <li class="stop">Interrompre le contact pendant ses objections</li>
+        <li class="stop">Mal qualifier un contact (ex. DON sans IBAN validé)</li>
+        <li class="stop">Oublier de saisir le résultat dans l'outil</li>
+        <li class="stop">Discuter politique ou religion</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-box yellow" style="margin-top:20px;">
+    <strong>Le triangle de l'argumentation efficace</strong><br>
+    <strong>1. Émotion</strong> — toucher le cœur (les enfants, les vies sauvées)
+    &nbsp;|&nbsp;
+    <strong>2. Raison</strong> — rassurer la tête (transparence, impact chiffré)
+    &nbsp;|&nbsp;
+    <strong>3. Facilité</strong> — lever les freins pratiques (lien simple, IBAN sécurisé)
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 7 — AUTO-SUIVI DE PERFORMANCE
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">📈</div>
+    <span class="section-num">7</span>
+    Auto-Suivi de Performance — Suivre ses KPI en Temps Réel
+  </div>
+
+  <p style="margin-bottom:20px;">
+    Un agent performant ne attend pas le bilan de fin de journée.
+    Il se demande toutes les heures : <em>"Où en suis-je ?"</em>
+  </p>
+
+  <h3 style="color:var(--blue-dark);margin-bottom:14px;">Tableau de bord personnel (à tenir à jour)</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tranche horaire</th>
+        <th>CU réalisés</th>
+        <th>Heures produites</th>
+        <th>CU/H cumulé</th>
+        <th>DON</th>
+        <th>Refus arg.</th>
+        <th>Indécis</th>
+        <th>TX Transfo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--blue-dark);font-weight:600;">9h – 10h</td>
+        <td>_____</td><td>1h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
+      </tr>
+      <tr>
+        <td style="color:var(--blue-dark);font-weight:600;">10h – 11h</td>
+        <td>_____</td><td>2h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
+      </tr>
+      <tr>
+        <td style="color:var(--blue-dark);font-weight:600;">11h – 12h</td>
+        <td>_____</td><td>3h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
+      </tr>
+      <tr>
+        <td style="color:var(--blue-dark);font-weight:600;">14h – 15h</td>
+        <td>_____</td><td>4h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
+      </tr>
+      <tr>
+        <td style="color:var(--blue-dark);font-weight:600;">15h – 16h</td>
+        <td>_____</td><td>5h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
+      </tr>
+      <tr>
+        <td style="color:var(--blue-dark);font-weight:600;">16h – 17h</td>
+        <td>_____</td><td>6h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
+      </tr>
+      <tr style="background:var(--blue-light);font-weight:700;">
+        <td style="color:var(--blue-dark);">TOTAL JOURNÉE</td>
+        <td>_____</td><td>_____h</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>_____%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box green">
+    <strong>Exemple de calcul en cours de journée</strong><br>
+    Après 3h de production avec 28 CU → 28 ÷ 3 = <strong>9,33 CU/H</strong> ✅<br>
+    Avec 2 DON sur 28 CU → TX transfo = (2 × 100) ÷ 28 = <strong>7,14%</strong>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODULE 8 — RÉCAPITULATIF & CHECKLIST J1
+═══════════════════════════════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-title">
+    <div class="icon">✅</div>
+    <span class="section-num">8</span>
+    Récapitulatif &amp; Checklist J1 — Avant de Décrocher
+  </div>
+
+  <p style="margin-bottom:18px;">
+    Avant de prendre votre premier appel, assurez-vous de maîtriser chaque point ci-dessous :
+  </p>
+
+  <div class="two-col">
+    <div>
+      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Fondamentaux KPI</h4>
+      <ul class="checklist">
+        <li>Je connais la définition d'un CU (> 60 secondes)</li>
+        <li>Je sais calculer mon CU/H (CU ÷ heures)</li>
+        <li>Mon objectif est 9 CU/H minimum</li>
+        <li>Je connais les 3 qualifications : DON / REFUS ARG. / INDÉCIS</li>
+        <li>Je sais calculer le TX de transformation</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Fondamentaux Produit</h4>
+      <ul class="checklist">
+        <li>Seuls les prélèvements automatiques réguliers sont proposés</li>
+        <li>Je connais les 2 modes : à chaud (IBAN) et promesse (lien)</li>
+        <li>Le lien n'a pas de date de validité</li>
+        <li>Un email de confirmation est envoyé au donateur</li>
+        <li>Je ne propose jamais de don ponctuel</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:4px;">
+    <div>
+      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Structure d'appel</h4>
+      <ul class="checklist">
+        <li>Accroche → Contexte → Impact → Proposition</li>
+        <li>Traitement objections (méthode ERR)</li>
+        <li>Closing → Sécurisation → Qualification</li>
+        <li>Toujours garder le contact plus de 60 secondes</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--blue-dark);margin-bottom:10px;">Posture &amp; Mission</h4>
+      <ul class="checklist">
+        <li>Je suis ambassadeur de la cause humanitaire</li>
+        <li>Le refus d'aujourd'hui = le don de demain</li>
+        <li>Je reste positif et bienveillant en toutes circonstances</li>
+        <li>Je suis ma performance toutes les heures</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MANTRA FINAL
+═══════════════════════════════════════════════════════════════════ -->
+<div class="mantra" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue-mid));">
+  Chaque appel est une opportunité de changer une vie.<br>
+  <span style="font-size:.9rem;font-weight:400;opacity:.9;">
+    Votre voix, votre argument, votre conviction — c'est ce qui transforme
+    un refus en espoir.
+  </span>
+</div>
+
+</div><!-- /page -->
+
+<footer>
+  <div class="page">
+    FIM J1 — Fidelis × SHY Performance &nbsp;|&nbsp;
+    Document de formation interne — usage exclusif des équipes &nbsp;|&nbsp;
+    Version initiale
+  </div>
+</footer>
+
+</body>
+</html>
