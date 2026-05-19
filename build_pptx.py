@@ -26,6 +26,7 @@ C_YELLOW_LIGHT= RGBColor(0xFE, 0xFD, 0xE8)
 C_PURPLE      = RGBColor(0x7C, 0x3A, 0xED)
 C_PURPLE_LIGHT= RGBColor(0xF3, 0xF0, 0xFF)
 C_TEAL        = RGBColor(0x0D, 0x94, 0x88)
+C_TEAL_LIGHT  = RGBColor(0xF0, 0xFD, 0xFA)
 C_WHITE       = RGBColor(0xFF, 0xFF, 0xFF)
 C_DARK        = RGBColor(0x0A, 0x16, 0x28)
 C_GREY        = RGBColor(0xF0, 0xF4, 0xF9)
@@ -156,7 +157,7 @@ infos = [
     ("⏱","Seuil CU","> 60 secondes de communication"),
     ("💳","Produit","Prélèvement automatique régulier"),
     ("🌍","Mandat","Fidelis mandaté par l'UNICEF"),
-    ("📊","KPI","CU/H  |  Taux de Transformation  |  PDC"),
+    ("🕐","Horaires J1","9h30 – 17h30  |  Durée production : 6h40"),
 ]
 iy = Inches(1.0)
 for icon, lab, val in infos:
@@ -182,17 +183,19 @@ header(sl, "PLAN", "Sommaire du Module J1",
        "Contenu issu strictement des informations de campagne transmises")
 
 sections = [
-    ("01","Mission & Finalité",         "Comprendre l'enjeu humanitaire de la campagne"),
-    ("02","Nomenclature",               "Définitions officielles — CU, PDC, TX, DEL, PA…"),
-    ("03","KPI — CU/H",                 "Formule, objectif 9 CU/H, exemple agent Philippe"),
-    ("04","KPI — Taux de Transformation","Formule, objectif association, exemple agent Michel"),
-    ("05","KPI — Plan de Charge (PDC)", "Volume mensuel, formule de vérification"),
-    ("06","Les 3 Qualifications",       "DON / REFUS ARGUMENTÉ / INDÉCIS"),
-    ("07","Le Produit — Prélèvement Auto","PA régulier uniquement, 2 modes, lien de don"),
-    ("08","La Phrase d'Accroche",       "Script d'ouverture d'appel — règles officielles"),
+    ("01","Mission & Finalité",          "Comprendre l'enjeu humanitaire de la campagne"),
+    ("02","Nomenclature",                "CU, PDC, TX, PEL, PA, DON, REFUS ARG., INDÉCIS…"),
+    ("03","KPI — CU/H",                  "Formule, objectif 9 CU/H, exemple agent Philippe"),
+    ("04","KPI — Taux de Transformation","Formule PEL/PA, exemple Michel — 1 PEL / 72 CU"),
+    ("05","KPI — Plan de Charge (PDC)",  "Volume mensuel, formule de vérification"),
+    ("06","Les 3 Qualifications",        "DON / REFUS ARGUMENTÉ / INDÉCIS"),
+    ("07","Carte Bancaire",              "Définition et composants — IBAN, puce, cryptogramme…"),
+    ("08","Types d'Opérations",          "La Conquête et La Fidélisation / Réactivation"),
+    ("09","Le Produit — PA Régulier",    "2 modes : à chaud (IBAN) et promesse (lien)"),
+    ("10","La Phrase d'Accroche",        "Script d'ouverture d'appel — règles officielles"),
 ]
 
-cols = [sections[:4], sections[4:]]
+cols = [sections[:5], sections[5:]]
 xs = [Inches(.4), Inches(6.85)]
 for col, cx in zip(cols, xs):
     y = Inches(1.72)
@@ -409,7 +412,7 @@ footer(sl)
 sl = add_slide()
 rect(sl, 0, 0, W, H, fill=C_GREY)
 header(sl, "04", "KPI 2 — Taux de Transformation",
-       "% de dons (DEL / PA) parmi les CU — mesure de l'efficacité commerciale")
+       "% de PEL ou PA parmi les CU — mesure de l'efficacité commerciale")
 
 rect(sl, Inches(.35), Inches(1.72), Inches(3.5), Inches(2.5), fill=RGBColor(0x1A,0x3A,0x6B))
 tb(sl, Inches(.45), Inches(1.95), Inches(3.3), Inches(.45),
@@ -421,23 +424,23 @@ tb(sl, Inches(.45), Inches(3.48), Inches(3.3), Inches(.5),
 
 formula_box(sl, Inches(4.05), Inches(1.72), Inches(8.9), Inches(2.55),
             "FORMULE MATHÉMATIQUE — TAUX DE TRANSFORMATION",
-            [{"text":"TX (%)  =  ( Nombre de DEL ou PA  ×  100 )  ÷  Nombre de CU",
+            [{"text":"TX (%)  =  ( Nombre de PA  ou  PEL  ×  100 )  ÷  Nombre de CU",
               "color":RGBColor(0xE8,0xF4,0xFF),"size":13,"bold":True},
              {"text":" ","color":C_WHITE,"size":6},
-             {"text":"   DEL = Don en Ligne  (validé à chaud ou via le lien)",
+             {"text":"   PA = Prélèvement Automatique  |  PEL = Prélèvement En Ligne",
               "color":RGBColor(0x94,0xA3,0xB8),"size":10},
-             {"text":"   Seuls les DEL / PA confirmés entrent dans le numérateur",
+             {"text":"   Seuls les PA / PEL confirmés entrent dans le numérateur",
               "color":RGBColor(0x94,0xA3,0xB8),"size":10}])
 
 formula_box(sl, Inches(.35), Inches(4.4), Inches(12.6), Inches(1.75),
             "EXEMPLE NUMÉRIQUE — Agent Michel",
-            [{"text":"CU réalisés      =  72",
+            [{"text":"CU réalisés     =  72",
               "color":RGBColor(0x7D,0xD3,0xFC),"size":12},
-             {"text":"DEL (PA) obtenus =   3",
+             {"text":"PEL obtenus     =   1",
               "color":RGBColor(0x7D,0xD3,0xFC),"size":12},
-             {"text":"TX  =  ( 3  ×  100 )  ÷  72  =  300  ÷  72  =  4,16 %",
+             {"text":"TX  =  ( 1  ×  100 )  ÷  72  =  100  ÷  72  =  1,39 %",
               "color":RGBColor(0x34,0xD3,0x99),"size":13,"bold":True}],
-            note="ℹ  Une promesse non finalisée (lien non cliqué) ne compte pas encore dans le numérateur.")
+            note="ℹ  Un PEL non finalisé (lien non complété par le donateur) ne compte pas encore dans le numérateur.")
 footer(sl)
 
 # ════════════════════════════════════════════════════════════════════
@@ -478,11 +481,222 @@ tb(sl, Inches(.55), Inches(6.12), Inches(12.2), Inches(.42),
 footer(sl)
 
 # ════════════════════════════════════════════════════════════════════
-# SLIDE 9 — LES 3 QUALIFICATIONS
+# SLIDE 9 — HORAIRES J1
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
 rect(sl, 0, 0, W, H, fill=C_GREY)
-header(sl, "06", "Les 3 Qualifications de Contact Utile",
+header(sl, "INFO", "Horaires de la Journée J1",
+       "Organisation du temps — 9h30 à 17h30 | Durée de production effective : 6h40")
+
+# Timeline visuelle
+rect(sl, Inches(.35), Inches(1.72), Inches(12.6), Inches(.06), fill=C_BLUE_MID)
+
+horaires = [
+    (Inches(.35),  "9h30",   "DÉBUT",          C_GREEN,   C_GREEN_LIGHT,  "Prise de poste\nBriefing équipe"),
+    (Inches(2.5),  "10h00",  "PRODUCTION",     C_BLUE_MID,C_BLUE_LIGHT,   "Appels en autonomie\nCU/H cible : 9"),
+    (Inches(5.5),  "12h30",  "DÉJEUNER",       C_ORANGE,  RGBColor(0xFF,0xF4,0xE6), "Pause déjeuner\n1 heure (non produite)"),
+    (Inches(7.85), "13h30",  "REPRISE",        C_BLUE_MID,C_BLUE_LIGHT,   "Appels en autonomie\nSuivi CU/H mi-journée"),
+    (Inches(10.1), "15h30",  "PAUSETTES",      C_TEAL,    C_TEAL_LIGHT,   "20 min de pauses\n(non produites)"),
+    (Inches(11.5), "17h30",  "FIN",            C_RED,     C_RED_LIGHT,    "Débriefing\nSaisie résultats"),
+]
+for cx, heure, label, border, bg, desc in horaires:
+    rect(sl, cx, Inches(1.45), Inches(.06), Inches(.58), fill=border)
+    tb(sl, cx-Inches(.3), Inches(1.15), Inches(.7), Inches(.3),
+       heure, size=10, bold=True, color=C_BLUE_DARK, align=PP_ALIGN.CENTER)
+
+    rect(sl, cx, Inches(1.88), Inches(1.85), Inches(1.55), fill=bg, line=border, line_w=Pt(1.5))
+    tb(sl, cx+Inches(.1), Inches(1.95), Inches(1.65), Inches(.3),
+       label, size=10, bold=True, color=border)
+    tb(sl, cx+Inches(.1), Inches(2.28), Inches(1.65), Inches(.9),
+       desc, size=9, color=C_TEXT_LIGHT, wrap=True)
+
+# Récap production
+rect(sl, Inches(.35), Inches(3.65), Inches(12.6), Inches(.06), fill=C_GREY_LINE)
+
+recap = [
+    (C_BLUE_DARK, C_BLUE_LIGHT, "⏰  Amplitude totale", "8h00\n(9h30 → 17h30)"),
+    (C_RED,       C_RED_LIGHT,  "🍽  Pause déjeuner",   "– 1h00\n(non comptée)"),
+    (C_ORANGE,    RGBColor(0xFF,0xF4,0xE6),"☕  Pausettes",   "– 0h20\n(non comptées)"),
+    (C_GREEN,     C_GREEN_LIGHT,"✅  Production effective","= 6h40\n(base CU/H)"),
+]
+rcx = Inches(.35)
+for border, bg, label, val in recap:
+    rect(sl, rcx, Inches(3.85), Inches(3.0), Inches(1.65), fill=bg, line=border, line_w=Pt(2))
+    tb(sl, rcx+Inches(.15), Inches(3.98), Inches(2.7), Inches(.36),
+       label, size=11, bold=True, color=border)
+    tb(sl, rcx+Inches(.15), Inches(4.38), Inches(2.7), Inches(.85),
+       val, size=20, bold=True, color=border, align=PP_ALIGN.CENTER)
+    rcx += Inches(3.17)
+
+# Calcul cible journée
+formula_box(sl, Inches(.35), Inches(5.65), Inches(12.6), Inches(1.35),
+            "CALCUL DE L'OBJECTIF CU JOURNALIER",
+            [{"text":"Objectif CU journée  =  CU/H objectif  ×  Heures production effective",
+              "color":RGBColor(0xE8,0xF4,0xFF),"size":12,"bold":True},
+             {"text":"Objectif CU journée  =  9  ×  6,67 h  =  60 CU / journée",
+              "color":RGBColor(0x34,0xD3,0x99),"size":13,"bold":True}],
+            note="⚠  6h40 = 6,67 heures décimales. Adapter si les horaires changent.")
+footer(sl)
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 10 — CARTE BANCAIRE
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+rect(sl, 0, 0, W, H, fill=C_GREY)
+header(sl, "07", "Définition — Carte Bancaire",
+       "Comprendre la carte bancaire pour recueillir l'IBAN avec confiance")
+
+# Définition gauche
+rect(sl, Inches(.35), Inches(1.72), Inches(4.5), Inches(5.18), fill=C_BLUE_LIGHT,
+     line=C_BLUE_MID, line_w=Pt(1.5))
+tb(sl, Inches(.5), Inches(1.82), Inches(4.2), Inches(.38),
+   "DÉFINITION", size=11, bold=True, color=C_BLUE_DARK)
+tb(sl, Inches(.5), Inches(2.22), Inches(4.2), Inches(4.5),
+   ("Une carte de paiement est un moyen de paiement se présentant "
+    "sous la forme d'une carte plastique mesurant 85,60 × 53,98 mm, "
+    "équipée d'une bande magnétique et/ou puce électronique.\n\n"
+    "Elle permet le paiement, après de commerces physiques possédant "
+    "un terminal de paiement électronique, ou auprès de commerce en ligne."),
+   size=11, color=C_TEXT_LIGHT, wrap=True)
+
+# Carte visuelle (représentation stylisée)
+rect(sl, Inches(5.1), Inches(1.72), Inches(7.85), Inches(5.18), fill=C_WHITE,
+     line=C_GREY_LINE, line_w=Pt(1))
+
+# Carte dessinée
+card_x, card_y, card_w, card_h = Inches(5.3), Inches(1.9), Inches(7.45), Inches(4.6)
+rect(sl, card_x, card_y, card_w, card_h, fill=RGBColor(0x00,0x50,0x00),
+     line=RGBColor(0x00,0x70,0x00), line_w=Pt(1))
+
+# Titre carte
+tb(sl, card_x+Inches(.15), card_y+Inches(.08), card_w-Inches(.3), Inches(.32),
+   "Banque  ·  Finance pour tous", size=9, bold=True, color=C_YELLOW)
+
+# Puce
+rect(sl, card_x+Inches(.2), card_y+Inches(.52), Inches(.7), Inches(.52),
+     fill=C_YELLOW, line=RGBColor(0xCC,0xAA,0x00), line_w=Pt(1))
+tb(sl, card_x+Inches(.25), card_y+Inches(.58), Inches(.6), Inches(.4),
+   "PUCE\n1992", size=7, bold=True, color=RGBColor(0x33,0x22,0x00), align=PP_ALIGN.CENTER)
+
+# Sans contact
+tb(sl, card_x+Inches(1.1), card_y+Inches(.6), Inches(.6), Inches(.3),
+   "))) ", size=14, color=C_WHITE)
+
+# Numéro carte
+rect(sl, card_x+Inches(.2), card_y+Inches(1.25), card_w-Inches(.4), Inches(.45),
+     fill=RGBColor(0x00,0x38,0x00))
+tb(sl, card_x+Inches(.3), card_y+Inches(1.3), card_w-Inches(.6), Inches(.35),
+   "0000  1234  5678  9123", size=14, bold=True, color=C_WHITE, font="Courier New")
+
+# Date et nom
+tb(sl, card_x+Inches(.2), card_y+Inches(1.85), Inches(1.2), Inches(.28),
+   "00/00", size=11, bold=True, color=C_WHITE, font="Courier New")
+tb(sl, card_x+Inches(.2), card_y+Inches(2.22), Inches(3.5), Inches(.28),
+   "MME KARINE PLUME", size=10, bold=True, color=C_WHITE, font="Courier New")
+
+# Logo VISA
+rect(sl, card_x+card_w-Inches(1.3), card_y+Inches(1.85), Inches(1.1), Inches(.48),
+     fill=C_WHITE)
+tb(sl, card_x+card_w-Inches(1.28), card_y+Inches(1.88), Inches(1.06), Inches(.42),
+   "VISA", size=18, bold=True, color=C_BLUE_DARK, align=PP_ALIGN.CENTER)
+
+# Piste magnétique
+rect(sl, card_x, card_y+Inches(2.88), card_w, Inches(.4), fill=RGBColor(0x11,0x11,0x11))
+tb(sl, card_x+Inches(.1), card_y+Inches(2.92), Inches(2.0), Inches(.32),
+   "Piste magnétique", size=8, color=RGBColor(0x88,0x88,0x88))
+
+# Panneau signature + cryptogramme
+rect(sl, card_x+Inches(.2), card_y+Inches(3.45), Inches(4.5), Inches(.55),
+     fill=C_WHITE, line=C_GREY_LINE, line_w=Pt(.5))
+tb(sl, card_x+Inches(.25), card_y+Inches(3.52), Inches(2.8), Inches(.36),
+   "Signature du titulaire obligatoire", size=7, color=C_TEXT_LIGHT, italic=True)
+rect(sl, card_x+Inches(4.82), card_y+Inches(3.45), Inches(.95), Inches(.55),
+     fill=C_WHITE, line=C_GREY_LINE, line_w=Pt(.5))
+tb(sl, card_x+Inches(4.87), card_y+Inches(3.5), Inches(.85), Inches(.44),
+   "123", size=16, bold=True, color=C_RED, align=PP_ALIGN.CENTER, font="Courier New")
+
+# Hologramme
+rect(sl, card_x+card_w-Inches(.85), card_y+Inches(3.45), Inches(.65), Inches(.55),
+     fill=RGBColor(0xCC,0xDD,0xFF))
+tb(sl, card_x+card_w-Inches(.83), card_y+Inches(3.52), Inches(.61), Inches(.42),
+   "HOLO", size=7, bold=True, color=C_BLUE_DARK, align=PP_ALIGN.CENTER)
+
+# Légendes composants (annotations)
+annotations = [
+    (Inches(5.05), Inches(2.08), "Identification établissement\németteur & propriétaire"),
+    (Inches(5.05), Inches(2.72), "Puce (depuis 1992)\nsécurité système CB"),
+    (Inches(5.05), Inches(3.18), "Nom du titulaire"),
+    (Inches(9.8),  Inches(2.08), "Paiement sans contact"),
+    (Inches(9.8),  Inches(2.52), "Numéro de la carte"),
+    (Inches(9.8),  Inches(2.95), "Logo Visa / MasterCard"),
+    (Inches(9.8),  Inches(3.38), "Date d'expiration"),
+    (Inches(5.05), Inches(4.18), "Cryptogramme : 3 derniers chiffres\npour sécuriser le paiement à distance"),
+    (Inches(5.05), Inches(4.65), "Hologramme"),
+    (Inches(9.8),  Inches(4.18), "Adresse établissement émetteur"),
+]
+for ax, ay, atxt in annotations:
+    tb(sl, ax, ay, Inches(2.2), Inches(.48), atxt, size=8,
+       color=C_BLUE_DARK, italic=True, wrap=True)
+
+footer(sl)
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 11 — TYPES D'OPÉRATIONS
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+rect(sl, 0, 0, W, H, fill=C_GREY)
+header(sl, "08", "Les Types d'Opérations",
+       "La Conquête et La Fidélisation / Réactivation — deux missions distinctes")
+
+# LA CONQUÊTE — gauche
+rect(sl, Inches(.35), Inches(1.72), Inches(6.0), Inches(5.18),
+     fill=C_BLUE_LIGHT, line=C_BLUE_MID, line_w=Pt(2))
+rect(sl, Inches(.35), Inches(1.72), Inches(6.0), Inches(.06), fill=C_BLUE_MID)
+tb(sl, Inches(.5), Inches(1.85), Inches(5.7), Inches(.48),
+   "LA CONQUÊTE", size=20, bold=True, color=C_BLUE_DARK)
+tb(sl, Inches(.5), Inches(2.42), Inches(5.7), Inches(4.3),
+   ("Appeler pour la 1ère fois des prospects en leur présentant "
+    "les missions de l'association que nous représentons.\n\n"
+    "Notre mission consiste à les convaincre d'adhérer à la cause "
+    "que nous représentons et à les inciter à soutenir l'association "
+    "en effectuant :\n\n"
+    "  ▶  un PA en ligne\n"
+    "       (Dossier conquête PA)\n\n"
+    "  ▶  ou un don en ligne\n"
+    "       (Dossier conquête DON)"),
+   size=12, color=C_TEXT_LIGHT, wrap=True)
+
+# LA FIDÉLISATION — droite
+rect(sl, Inches(6.7), Inches(1.72), Inches(6.25), Inches(5.18),
+     fill=RGBColor(0xFF,0xF4,0xE6), line=C_ORANGE, line_w=Pt(2))
+rect(sl, Inches(6.7), Inches(1.72), Inches(6.25), Inches(.06), fill=C_ORANGE)
+tb(sl, Inches(6.88), Inches(1.85), Inches(6.0), Inches(.48),
+   "LA FIDÉLISATION  (Réactivation)", size=18, bold=True, color=C_ORANGE)
+tb(sl, Inches(6.88), Inches(2.42), Inches(6.0), Inches(3.2),
+   ("Rappeler les donateurs qui ont déjà fait un ou plusieurs dons "
+    "à l'association mais il y a longtemps, pour leur indiquer "
+    "l'importance de leur soutien à la cause.\n\n"
+    "Les tenir informés de l'actualité de l'association "
+    "et les inciter à soutenir de nouveau nos actions.\n\n"
+    "S'ils acceptent, nous « réactivons » leur soutien."),
+   size=12, color=C_TEXT_LIGHT, wrap=True)
+
+# Alerte fidélisation
+rect(sl, Inches(6.7), Inches(5.62), Inches(6.25), Inches(1.0),
+     fill=C_RED_LIGHT, line=C_RED, line_w=Pt(1.5))
+tb(sl, Inches(6.88), Inches(5.72), Inches(6.0), Inches(.82),
+   "⚠  ATTENTION : Veiller à ce que cet appel ne soit pas vécu "
+   "par le donateur comme un rappel de paiement de cotisation.",
+   size=11, bold=True, color=C_RED, wrap=True)
+
+footer(sl)
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 12 — LES 3 QUALIFICATIONS
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+rect(sl, 0, 0, W, H, fill=C_GREY)
+header(sl, "09", "Les 3 Qualifications de Contact Utile",
        "Tout appel > 60 secondes doit être qualifié immédiatement dans l'outil")
 
 qw = Inches(4.1)
@@ -537,7 +751,7 @@ footer(sl)
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
 rect(sl, 0, 0, W, H, fill=C_GREY)
-header(sl, "07", "Le Produit — Prélèvement Automatique Régulier",
+header(sl, "10", "Le Produit — Prélèvement Automatique Régulier",
        "Position officielle SHY Performance sur cette campagne Fidelis × UNICEF")
 
 rect(sl, Inches(.35), Inches(1.72), Inches(12.6), Inches(.84), fill=C_BLUE_MID)
@@ -590,7 +804,7 @@ footer(sl)
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
 rect(sl, 0, 0, W, H, fill=C_GREY)
-header(sl, "08", "La Phrase d'Accroche — Règles Officielles",
+header(sl, "11", "La Phrase d'Accroche — Règles Officielles",
        "Script d'ouverture d'appel — chaque règle est obligatoire")
 
 # Règles numérotées
@@ -638,7 +852,7 @@ footer(sl)
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
 rect(sl, 0, 0, W, H, fill=C_GREY)
-header(sl, "08", "La Phrase d'Accroche — Script Type",
+header(sl, "11", "La Phrase d'Accroche — Script Type",
        "Exemple complet d'ouverture d'appel respectant les 5 règles officielles")
 
 # Script visuel séquentiel
