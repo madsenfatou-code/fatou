@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz — Le Monde Associatif | Fidelis × SHY Performance</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#003087 0%,#0057B8 60%,#00AEEF 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.card{background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:100%;max-width:680px;overflow:hidden}
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#003087,#0057B8);padding:24px 28px 20px;position:relative}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#F7941D,#00AEEF)}
+.hdr .logo{font-size:10px;font-weight:700;color:#00AEEF;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.hdr h1{font-size:20px;font-weight:800;color:#fff;line-height:1.3}
+.hdr p{color:rgba(255,255,255,.65);font-size:12px;margin-top:4px}
+.prog-wrap{background:rgba(255,255,255,.15);border-radius:10px;height:7px;margin-top:14px;overflow:hidden}
+.prog-bar{background:linear-gradient(90deg,#F7941D,#00AEEF);height:100%;border-radius:10px;transition:width .5s ease;width:0}
+/* BODY */
+.body{padding:28px}
+/* LANDING */
+.land-icon{font-size:56px;text-align:center;margin-bottom:12px}
+.land h2{font-size:22px;font-weight:800;color:#003087;text-align:center;margin-bottom:8px}
+.land p{color:#555;text-align:center;margin-bottom:22px;font-size:13px;line-height:1.65}
+.field label{display:block;font-size:12px;font-weight:700;color:#003087;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.field input{width:100%;padding:13px 16px;border:2px solid #dce3f0;border-radius:12px;font-size:15px;font-family:inherit;outline:none;transition:.2s}
+.field input:focus{border-color:#0057B8}
+/* QUESTION */
+.q-num{font-size:10px;font-weight:700;color:#00AEEF;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.q-txt{font-size:17px;font-weight:700;color:#003087;line-height:1.5;margin-bottom:20px}
+.choices{display:flex;flex-direction:column;gap:10px}
+.ch{display:flex;align-items:center;gap:12px;padding:13px 16px;border:2px solid #dce3f0;border-radius:13px;cursor:pointer;transition:.2s;background:#fff;user-select:none}
+.ch:hover:not(.done){border-color:#0057B8;background:#e8f0fb;transform:translateX(3px)}
+.ch .bdg{width:32px;height:32px;border-radius:50%;border:2px solid #dce3f0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#555;flex-shrink:0;transition:.2s}
+.ch .lbl{font-size:13.5px;font-weight:500;color:#333;flex:1}
+.ch.correct{border-color:#27AE60;background:#eafaf1}
+.ch.correct .bdg{background:#27AE60;border-color:#27AE60;color:#fff}
+.ch.wrong{border-color:#E74C3C;background:#fdf0ef}
+.ch.wrong .bdg{background:#E74C3C;border-color:#E74C3C;color:#fff}
+.ch.show-ok{border-color:#27AE60;background:#eafaf1}
+.ch.show-ok .bdg{background:#27AE60;border-color:#27AE60;color:#fff}
+/* FEEDBACK */
+.fb{margin-top:18px;padding:14px 18px;border-radius:13px;display:none}
+.fb.ok{background:#eafaf1;border:2px solid #27AE60}
+.fb.ko{background:#fdf0ef;border:2px solid #E74C3C}
+.fb .ft{font-size:15px;font-weight:700;margin-bottom:4px}
+.fb.ok .ft{color:#27AE60}
+.fb.ko .ft{color:#E74C3C}
+.fb .fp{font-size:12px;font-weight:600;margin-bottom:6px}
+.fb .fe{font-size:12.5px;color:#444;line-height:1.6}
+.pts{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.pts1{background:#27AE60;color:#fff}
+.pts0{background:#E74C3C;color:#fff}
+/* SCORE */
+.sc-wrap{text-align:center}
+.sc-circle{width:130px;height:130px;border-radius:50%;margin:0 auto 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:#fff;background:linear-gradient(135deg,#003087,#0057B8);box-shadow:0 8px 24px rgba(0,48,135,.3)}
+.sc-circle small{font-size:13px;font-weight:600;opacity:.8}
+.sc-msg{font-size:20px;font-weight:800;color:#003087;margin-bottom:10px}
+.sc-sub{font-size:13px;color:#555;line-height:1.6;margin-bottom:22px}
+.review-item{padding:12px;border-radius:10px;margin-bottom:9px;border-left:4px solid}
+.review-item.ok{background:#eafaf1;border-color:#27AE60}
+.review-item.ko{background:#fdf0ef;border-color:#E74C3C}
+.review-item .rq{font-size:12px;font-weight:600;color:#003087;margin-bottom:3px}
+.review-item .ra{font-size:11.5px;color:#555}
+/* ADMIN */
+.adm-wrap{}
+.adm-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.adm-hdr h2{font-size:18px;font-weight:800;color:#003087}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.st{background:#f0f4f9;border-radius:12px;padding:14px;text-align:center}
+.st .sv{font-size:26px;font-weight:800;color:#003087}
+.st .sl{font-size:10px;color:#555;margin-top:3px;font-weight:600}
+.st.g .sv{color:#27AE60}
+.st.o .sv{color:#F7941D}
+.st.c .sv{color:#00AEEF}
+.adm-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:16px}
+.adm-table th{text-align:left;padding:8px 10px;font-size:10px;font-weight:700;color:#555;text-transform:uppercase;border-bottom:2px solid #dce3f0}
+.adm-table td{padding:10px;border-bottom:1px solid #f0f4f9}
+.adm-table tr:last-child td{border:none}
+.adm-table tr:hover td{background:#f8faff}
+.sbdg{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.sh{background:#eafaf1;color:#27AE60}
+.sm{background:#fff8e6;color:#F7941D}
+.sl2{background:#fdf0ef;color:#E74C3C}
+.q-bars{margin-bottom:16px}
+.q-bar-item{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.q-bar-label{font-size:10px;font-weight:600;color:#555;width:28px;flex-shrink:0}
+.q-bar-track{flex:1;background:#f0f4f9;border-radius:6px;height:18px;overflow:hidden}
+.q-bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#fff;transition:width .6s ease;min-width:28px}
+/* BUTTONS */
+.btn{width:100%;padding:14px;border:none;border-radius:13px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit;margin-top:16px}
+.btn-p{background:linear-gradient(135deg,#003087,#0057B8);color:#fff;box-shadow:0 4px 14px rgba(0,48,135,.25)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,48,135,.35)}
+.btn-o{background:linear-gradient(135deg,#F7611D,#F7941D);color:#fff;box-shadow:0 4px 14px rgba(247,148,29,.25)}
+.btn-o:hover{transform:translateY(-2px)}
+.btn-sm{width:auto;padding:9px 18px;font-size:12px;margin-top:0}
+.btn-grey{background:#f0f4f9;color:#333;box-shadow:none}
+.btn-grey:hover{background:#dce3f0}
+.hidden{display:none!important}
+@keyframes pop{0%{transform:scale(.7);opacity:0}80%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeUp .35s ease}
+/* Admin login */
+.adm-login{max-width:340px;margin:0 auto;text-align:center}
+.adm-login .icon{font-size:48px;margin-bottom:12px}
+.adm-login h2{font-size:20px;font-weight:800;color:#003087;margin-bottom:20px}
+.err-msg{background:#fdf0ef;border:1px solid #E74C3C;color:#E74C3C;border-radius:8px;padding:9px 14px;font-size:12px;margin-bottom:12px;text-align:left}
+/* Export */
+.export-area{background:#f0f4f9;border-radius:10px;padding:12px;font-size:11px;font-family:monospace;max-height:120px;overflow-y:auto;white-space:pre-wrap;margin-bottom:10px;color:#333}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="hdr">
+    <div class="logo">Fidelis × SHY Performance — Formation J2</div>
+    <h1 id="hdr-title">Quiz — Le Monde Associatif &amp; Humanitaire</h1>
+    <p id="hdr-sub">40 questions · 1 point par bonne réponse · Score immédiat</p>
+    <div class="prog-wrap"><div class="prog-bar" id="prog"></div></div>
+  </div>
+  <div class="body">
+
+    <!-- ① LANDING -->
+    <div id="v-land">
+      <div class="land-icon">🎯</div>
+      <div class="land">
+        <h2>Bienvenue au Quiz J2 !</h2>
+        <p>Testez vos connaissances sur le Monde Associatif &amp; Humanitaire.<br>
+           <strong>40 questions</strong> — 1 point par bonne réponse.<br>
+           <strong>≥ 28/40 = Bravo !</strong> &nbsp;|&nbsp; <strong>&lt; 28/40 = Tu peux faire mieux !</strong></p>
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Votre prénom et nom</label>
+        <input type="text" id="inp-name" placeholder="ex : Jean Dupont" autocomplete="name">
+      </div>
+      <button class="btn btn-p" onclick="startQuiz()">Commencer le Quiz →</button>
+      <button class="btn btn-grey btn-sm" style="width:100%;margin-top:10px" onclick="goAdmin()">🔐 Espace Admin</button>
+    </div>
+
+    <!-- ② QUESTION -->
+    <div id="v-q" class="hidden">
+      <div class="q-num" id="q-num"></div>
+      <div class="q-txt" id="q-txt"></div>
+      <div class="choices" id="choices"></div>
+      <div class="fb hidden" id="fb">
+        <div class="ft" id="fb-t"></div>
+        <div class="fp" id="fb-p"></div>
+        <div class="fe" id="fb-e"></div>
+      </div>
+      <button class="btn btn-p hidden" id="btn-next" onclick="next()">Question suivante →</button>
+      <button class="btn btn-o hidden" id="btn-fin" onclick="finish()">Voir mon score 🏆</button>
+    </div>
+
+    <!-- ③ SCORE -->
+    <div id="v-sc" class="hidden sc-wrap">
+      <div class="sc-circle pop" id="sc-circle">
+        <span id="sc-val"></span>
+        <small>/ 40</small>
+      </div>
+      <div class="sc-msg" id="sc-msg"></div>
+      <div class="sc-sub" id="sc-sub"></div>
+      <details style="text-align:left;margin-bottom:14px">
+        <summary style="cursor:pointer;font-size:12px;font-weight:600;color:#0057B8;margin-bottom:10px">
+          📋 Voir le détail de mes réponses
+        </summary>
+        <div id="review"></div>
+      </details>
+      <button class="btn btn-p" onclick="restartSelf()">🔄 Recommencer</button>
+      <button class="btn btn-grey" style="margin-top:8px" onclick="goLand()">← Accueil</button>
+    </div>
+
+    <!-- ④ ADMIN LOGIN -->
+    <div id="v-adm-login" class="hidden">
+      <div class="adm-login">
+        <div class="icon">🔐</div>
+        <h2>Espace Administrateur</h2>
+        <div class="err-msg hidden" id="adm-err">Identifiant ou mot de passe incorrect.</div>
+        <div class="field" style="margin-bottom:12px">
+          <label>Identifiant</label>
+          <input type="text" id="adm-user" placeholder="Prénom Nom" autocomplete="off">
+        </div>
+        <div class="field" style="margin-bottom:14px">
+          <label>Mot de passe</label>
+          <input type="password" id="adm-pass" placeholder="••••" onkeydown="if(event.key==='Enter')admLogin()">
+        </div>
+        <button class="btn btn-p" onclick="admLogin()">Accéder au tableau de bord →</button>
+        <button class="btn btn-grey" style="margin-top:8px" onclick="goLand()">← Retour</button>
+      </div>
+    </div>
+
+    <!-- ⑤ ADMIN DASHBOARD -->
+    <div id="v-adm" class="hidden">
+      <div class="adm-hdr">
+        <h2>📊 Tableau de Bord</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-p btn-sm" onclick="renderAdmin()">🔄</button>
+          <button class="btn btn-grey btn-sm" onclick="exportCSV()">⬇ CSV</button>
+          <button class="btn btn-grey btn-sm" onclick="clearData()">🗑</button>
+          <button class="btn btn-grey btn-sm" onclick="admLogout()">✕ Quitter</button>
+        </div>
+      </div>
+      <div class="stats-row" id="adm-stats"></div>
+      <h3 style="font-size:12px;font-weight:700;color:#003087;margin-bottom:10px">📈 Score par participant</h3>
+      <div id="adm-bars" class="q-bars"></div>
+      <h3 style="font-size:12px;font-weight:700;color:#003087;margin:14px 0 10px">❓ Réussite par question (%)</h3>
+      <div id="q-bars" class="q-bars"></div>
+      <h3 style="font-size:12px;font-weight:700;color:#003087;margin:14px 0 10px">📋 Détail participants</h3>
+      <div style="overflow-x:auto">
+        <table class="adm-table" id="adm-tbl">
+          <thead><tr><th>#</th><th>Participant</th><th>Score</th><th>Résultat</th><th>Heure</th></tr></thead>
+          <tbody id="adm-tbody"></tbody>
+        </table>
+      </div>
+      <div id="adm-empty" class="hidden" style="text-align:center;padding:30px;color:#999;font-size:13px">
+        Aucun participant n'a encore terminé le quiz.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const QS = [
+  {
+    id:1, txt:"Qu'est-ce que le Fundraising ?",
+    ch:[{k:"a",t:"Vente par correspondance"},{k:"b",t:"Collecte de fonds"},{k:"c",t:"Relation clients"}],
+    ok:"b",
+    exp:"Le Fundraising désigne la collecte de fonds. C'est l'activité centrale du fundraiser : solliciter des dons réguliers au nom d'une association reconnue."
+  },
+  {
+    id:2, txt:"En quelle année fut créé le Comité de la Charte du Don en Confiance ?",
+    ch:[{k:"a",t:"1989"},{k:"b",t:"1996"},{k:"c",t:"1995"}],
+    ok:"a",
+    exp:"Le Comité de la Charte fut créé en 1989, puis renforcé après l'Affaire ARC en 1996. Il garantit la transparence et l'éthique des associations collectant des dons."
+  },
+  {
+    id:3, txt:"Quelle autorité reconnaît les associations d'utilité publique ?",
+    ch:[{k:"a",t:"Le Comité de la Charte"},{k:"b",t:"Le Conseil d'État"},{k:"c",t:"Le ministère des Affaires Sociales"}],
+    ok:"b",
+    exp:"La Reconnaissance d'Utilité Publique est accordée par décret en Conseil d'État. C'est le statut le plus élevé. UNICEF France en bénéficie."
+  },
+  {
+    id:4, txt:"Combien y a-t-il d'associations en France ?",
+    ch:[{k:"a",t:"130 000"},{k:"b",t:"260 000"},{k:"c",t:"1 500 000"}],
+    ok:"c",
+    exp:"Il y a 1,5 million d'associations en France, mobilisant 23 millions de bénévoles. La France est le 2e pays le plus associatif d'Europe."
+  },
+  {
+    id:5, txt:"Chasser l'intrus — Le don ouvre droit à une déduction fiscale de :",
+    ch:[{k:"a",t:"66 %"},{k:"b",t:"75 %"},{k:"c",t:"100 %"}],
+    ok:"c",
+    exp:"L'intrus est 100 %. Les vrais taux : 66 % pour les associations d'intérêt général, 75 % (dans la limite de 513 €) pour les associations d'aide aux personnes en difficulté."
+  },
+  {
+    id:6, txt:"Combien d'associations sont Reconnues d'Utilité Publique en France ?",
+    ch:[{k:"a",t:"20 000"},{k:"b",t:"2 000"},{k:"c",t:"200 000"}],
+    ok:"b",
+    exp:"Environ 2 000 associations ont le statut RUP en France — soit moins de 0,2 % des associations. Parmi elles : UNICEF France, Croix-Rouge, Restos du Cœur, MSF."
+  },
+  {
+    id:7, txt:"Quelle est la limite maximale ouvrant droit à la déduction fiscale de 75 % ?",
+    ch:[{k:"a",t:"100 €"},{k:"b",t:"2 000 €"},{k:"c",t:"513 €"}],
+    ok:"c",
+    exp:"Le taux de 75 % s'applique jusqu'à 513 € de dons par an pour les associations d'aide aux personnes en difficulté. Au-delà, la réduction passe à 66 %."
+  },
+  {
+    id:8, txt:"Quelle catastrophe naturelle réveille particulièrement la générosité des donateurs ?",
+    ch:[{k:"a",t:"Tremblement de terre au Mexique"},{k:"b",t:"Le Tsunami"},{k:"c",t:"Tremblement de terre en Haïti"}],
+    ok:"c",
+    exp:"Le séisme en Haïti (2010) a déclenché une mobilisation mondiale record. Les catastrophes médiatisées amplifient fortement la générosité des donateurs."
+  },
+  {
+    id:9, txt:"Comment les associations collectaient-elles des fonds avant 1990 ?",
+    ch:[{k:"a",t:"Les galas de bienfaisance"},{k:"b",t:"Les shows télévisés"},{k:"c",t:"Le mailing postal"}],
+    ok:"c",
+    exp:"Avant 1990, le mailing postal était le principal canal de collecte. Le phoning professionnel émerge à partir de 1990-1995 et représente aujourd'hui 55 % du marché."
+  },
+  {
+    id:10, txt:"Qui est Jacques Crozemarie ?",
+    ch:[{k:"a",t:"Fondateur de l'UNICEF"},{k:"b",t:"Directeur de l'ARC impliqué dans le scandale 1996"},{k:"c",t:"Premier président du Comité de la Charte"}],
+    ok:"b",
+    exp:"Jacques Crozemarie était directeur de l'Association de Recherche sur le Cancer (ARC). Le scandale de détournements de fonds en 1996 a provoqué une crise de confiance majeure dans le secteur."
+  },
+  {
+    id:11, txt:"Combien y a-t-il de bénévoles en France ?",
+    ch:[{k:"a",t:"12 millions"},{k:"b",t:"22 millions"},{k:"c",t:"35 millions"}],
+    ok:"b",
+    exp:"La France compte 22 millions de bénévoles, ce qui en fait le 2e pays le plus associatif d'Europe. Le bénévolat est un pilier essentiel du monde associatif."
+  },
+  {
+    id:12, txt:"Combien y a-t-il de salariés dans le secteur associatif en France ?",
+    ch:[{k:"a",t:"500 000"},{k:"b",t:"1,8 million"},{k:"c",t:"3 millions"}],
+    ok:"b",
+    exp:"Le secteur associatif emploie 1,8 million de salariés en France, représentant environ 5 % de l'emploi total. C'est un secteur économique majeur."
+  },
+  {
+    id:13, txt:"Quel est le budget total annuel des associations en France ?",
+    ch:[{k:"a",t:"55 milliards €"},{k:"b",t:"113 milliards €"},{k:"c",t:"200 milliards €"}],
+    ok:"b",
+    exp:"Les associations françaises représentent 113 milliards € de budget annuel, soit 5 % du PIB. C'est un secteur économique de premier plan."
+  },
+  {
+    id:14, txt:"Quel secteur associatif regroupe le plus grand nombre d'associations en France ?",
+    ch:[{k:"a",t:"Culture et arts (28 %)"},{k:"b",t:"Action sociale (22 %)"},{k:"c",t:"Sport et loisirs (33 %)"}],
+    ok:"c",
+    exp:"Le sport et les loisirs représentent 33 % des associations en France. C'est le secteur le plus représenté, suivi par la culture/arts et l'action sociale."
+  },
+  {
+    id:15, txt:"Quelle part du financement des associations provient des dons privés ?",
+    ch:[{k:"a",t:"10 %"},{k:"b",t:"36 %"},{k:"c",t:"58 %"}],
+    ok:"b",
+    exp:"Les dons privés représentent 36 % du financement des associations. Les subventions publiques et les cotisations complètent le reste. La collecte privée est donc cruciale."
+  },
+  {
+    id:16, txt:"Combien de personnes minimum sont nécessaires pour créer une association loi 1901 ?",
+    ch:[{k:"a",t:"1 personne"},{k:"b",t:"2 personnes"},{k:"c",t:"5 personnes"}],
+    ok:"b",
+    exp:"La loi du 1er juillet 1901 exige au minimum 2 personnes pour créer une association. L'objet doit être non lucratif et ne pas contrevenir aux lois en vigueur."
+  },
+  {
+    id:17, txt:"Quelle est la caractéristique principale d'une association loi 1901 ?",
+    ch:[{k:"a",t:"Distribution de bénéfices entre membres"},{k:"b",t:"But non lucratif — partage de connaissances ou activité commune"},{k:"c",t:"Obligation d'avoir un local commercial"}],
+    ok:"b",
+    exp:"La loi 1901 définit l'association comme un groupement de personnes poursuivant un but non lucratif. Il n'y a pas de partage de bénéfices entre les membres."
+  },
+  {
+    id:18, txt:"Qu'est-ce qu'une association « de fait » ?",
+    ch:[{k:"a",t:"Une association avec statut RUP"},{k:"b",t:"Une association reconnue par l'État"},{k:"c",t:"Un groupement sans personnalité juridique ni déclaration officielle"}],
+    ok:"c",
+    exp:"Une association de fait n'a pas de personnalité juridique. Elle n'a pas été déclarée en préfecture. Elle ne peut ni recevoir de subventions ni ouvrir un compte bancaire en son nom."
+  },
+  {
+    id:19, txt:"Quel principal avantage offre la Reconnaissance d'Utilité Publique (RUP) ?",
+    ch:[{k:"a",t:"Exonération totale d'impôts"},{k:"b",t:"Possibilité de recevoir des legs et libéralités"},{k:"c",t:"Subvention automatique de l'État"}],
+    ok:"b",
+    exp:"La RUP permet à une association de recevoir des legs, donations et libéralités. C'est un avantage majeur pour la collecte à long terme. UNICEF France détient ce statut."
+  },
+  {
+    id:20, txt:"Quelle part du marché de la collecte le phoning représente-t-il aujourd'hui ?",
+    ch:[{k:"a",t:"25 %"},{k:"b",t:"40 %"},{k:"c",t:"55 %"}],
+    ok:"c",
+    exp:"Le phoning représente 55 % du marché de la collecte de fonds en France. C'est le canal dominant depuis les années 2000, devant le mailing postal et le face-à-face."
+  },
+  {
+    id:21, txt:"Quelle date correspond à la bataille de Solférino ?",
+    ch:[{k:"a",t:"14 juillet 1789"},{k:"b",t:"24 juin 1859"},{k:"c",t:"8 mai 1945"}],
+    ok:"b",
+    exp:"La bataille de Solférino eut lieu le 24 juin 1859 en Italie. Henry Dunant, témoin des souffrances des soldats blessés, fut à l'origine de la création de la Croix-Rouge."
+  },
+  {
+    id:22, txt:"Quelle expression Henry Dunant utilise-t-il pour décrire la fraternité humaine après Solférino ?",
+    ch:[{k:"a",t:"\"La paix universelle\""},{k:"b",t:"\"Tutti Fratelli\" (Tous frères)"},{k:"c",t:"\"La solidarité mondiale\""}],
+    ok:"b",
+    exp:"Henry Dunant reprend l'expression italienne \"Tutti Fratelli\" — Tous frères — pour décrire l'élan de solidarité des habitants qui soignaient les blessés sans distinction de nationalité."
+  },
+  {
+    id:23, txt:"Pourquoi le symbole de la Croix-Rouge est-il un drapeau suisse inversé ?",
+    ch:[{k:"a",t:"Pour rappeler la neutralité de la Suisse"},{k:"b",t:"En hommage à Henry Dunant, citoyen suisse"},{k:"c",t:"Pour des raisons de visibilité sur le terrain"}],
+    ok:"b",
+    exp:"La Croix-Rouge reprend les couleurs du drapeau suisse inversées (croix rouge sur fond blanc) en hommage à Henry Dunant, fondateur suisse de la Croix-Rouge."
+  },
+  {
+    id:24, txt:"En quelle année l'UNICEF a-t-il été créé ?",
+    ch:[{k:"a",t:"1919"},{k:"b",t:"1946"},{k:"c",t:"1963"}],
+    ok:"b",
+    exp:"L'UNICEF (Fonds des Nations Unies pour l'enfance) a été créé le 11 décembre 1946. Il est présent dans 190 pays et territoires pour défendre les droits des enfants."
+  },
+  {
+    id:25, txt:"Combien de pays l'UNICEF couvre-t-il dans le monde ?",
+    ch:[{k:"a",t:"120 pays"},{k:"b",t:"160 pays"},{k:"c",t:"190 pays"}],
+    ok:"c",
+    exp:"L'UNICEF est présent dans 190 pays et territoires, ce qui en fait l'une des organisations humanitaires les plus présentes au monde. Il agit pour chaque enfant, partout."
+  },
+  {
+    id:26, txt:"Quel est le rôle principal du CICR (Comité International de la Croix-Rouge) ?",
+    ch:[{k:"a",t:"Financer les associations caritatives"},{k:"b",t:"Intervenir en zones de conflit armé pour protéger les victimes"},{k:"c",t:"Organiser les collectes de fonds en France"}],
+    ok:"b",
+    exp:"Le CICR intervient en zones de conflit armé pour protéger les prisonniers de guerre, les civils et les blessés, en s'appuyant sur les Conventions de Genève."
+  },
+  {
+    id:27, txt:"Quel est le montant total collecté par les associations en France chaque année ?",
+    ch:[{k:"a",t:"1,5 milliard €"},{k:"b",t:"5,5 milliards €"},{k:"c",t:"12 milliards €"}],
+    ok:"b",
+    exp:"Les associations françaises collectent 5,5 milliards € par an. C'est un marché en croissance continue depuis les années 2000, porté notamment par le phoning."
+  },
+  {
+    id:28, txt:"Quel est le taux de conversion moyen en phoning fundraising ?",
+    ch:[{k:"a",t:"1 à 3 %"},{k:"b",t:"8 à 15 %"},{k:"c",t:"25 à 35 %"}],
+    ok:"b",
+    exp:"Le taux de conversion en phoning est de 8 à 15 %. Ce taux dépend de la qualité des fiches, du script, de la posture du fundraiser et du ciblage des donateurs potentiels."
+  },
+  {
+    id:29, txt:"Combien y a-t-il de donateurs réguliers en France ?",
+    ch:[{k:"a",t:"2 millions"},{k:"b",t:"5 millions"},{k:"c",t:"7,5 millions"}],
+    ok:"c",
+    exp:"La France compte 7,5 millions de donateurs réguliers. Ils versent un don mensuel par prélèvement automatique — c'est le mode de don que SHY Performance collecte exclusivement."
+  },
+  {
+    id:30, txt:"Quel est le don moyen annuel d'un donateur régulier en France ?",
+    ch:[{k:"a",t:"80 €"},{k:"b",t:"164 €"},{k:"c",t:"350 €"}],
+    ok:"b",
+    exp:"Le don moyen annuel d'un donateur régulier est de 164 €, soit environ 13,70 € par mois — un montant raisonnable qui permet une fidélisation sur le long terme."
+  },
+  {
+    id:31, txt:"Quel pourcentage des personnes de 65 ans et plus sont des donateurs réguliers ?",
+    ch:[{k:"a",t:"30 %"},{k:"b",t:"45 %"},{k:"c",t:"60 %"}],
+    ok:"c",
+    exp:"60 % des personnes de 65 ans et plus sont des donateurs réguliers. C'est la tranche d'âge la plus généreuse et la plus fidèle — une cible prioritaire en phoning humanitaire."
+  },
+  {
+    id:32, txt:"Quelle catégorie socio-professionnelle représente la plus grande part des donateurs réguliers ?",
+    ch:[{k:"a",t:"Ouvriers (30 %)"},{k:"b",t:"Cadres et professions libérales (55 %)"},{k:"c",t:"Étudiants (45 %)"}],
+    ok:"b",
+    exp:"Les cadres et professions libérales représentent 55 % des donateurs réguliers. Ils ont un revenu disponible plus élevé et une sensibilité forte aux causes humanitaires."
+  },
+  {
+    id:33, txt:"Quelle région concentre le plus grand nombre de donateurs réguliers ?",
+    ch:[{k:"a",t:"Provence-Alpes-Côte d'Azur"},{k:"b",t:"Île-de-France (52 %)"},{k:"c",t:"Occitanie"}],
+    ok:"b",
+    exp:"L'Île-de-France concentre 52 % des donateurs réguliers, contre 39 % en zone rurale. La densité de population et le niveau de revenus expliquent cette concentration."
+  },
+  {
+    id:34, txt:"Qu'est-ce qu'un CU (Contact Utile) en phoning fundraising ?",
+    ch:[{k:"a",t:"Tout appel décroché par un interlocuteur"},{k:"b",t:"Un appel strictement supérieur à 60 secondes"},{k:"c",t:"Un appel ayant abouti à un don"}],
+    ok:"b",
+    exp:"Un CU (Contact Utile) est défini comme un appel strictement supérieur à 60 secondes. En dessous de cette durée, l'appel n'est pas comptabilisé dans la performance du fundraiser."
+  },
+  {
+    id:35, txt:"Que signifie la qualification ABSENT dans la nomenclature Fidelis ?",
+    ch:[{k:"a",t:"La personne a refusé catégoriquement le don"},{k:"b",t:"La personne n'était pas disponible au moment de l'appel"},{k:"c",t:"Le numéro est invalide ou erroné"}],
+    ok:"b",
+    exp:"ABSENT signifie que la personne n'était pas disponible lors de l'appel. Cette qualification est différente d'un refus argumenté (RA). Il faut rappeler ultérieurement — ne jamais confondre ABSENT avec RA."
+  },
+  {
+    id:36, txt:"Combien de mois d'exclusion UNICEF s'appliquent après un Refus Argumenté (RA) ?",
+    ch:[{k:"a",t:"1 mois"},{k:"b",t:"2 mois"},{k:"c",t:"4 mois"}],
+    ok:"c",
+    exp:"Après un Refus Argumenté (RA), la fiche est exclue des appels UNICEF pendant 4 mois. La qualification RA doit être utilisée avec précision — une mauvaise qualification nuit à la qualité du fichier."
+  },
+  {
+    id:37, txt:"Que signifie l'acronyme PEL ?",
+    ch:[{k:"a",t:"Plan d'Épargne Logement"},{k:"b",t:"Prélèvement En Ligne"},{k:"c",t:"Processus d'Engagement Libre"}],
+    ok:"b",
+    exp:"PEL signifie Prélèvement En Ligne. C'est le lien envoyé au donateur pour saisir son IBAN directement depuis chez lui. Ce lien n'a pas de date d'expiration."
+  },
+  {
+    id:38, txt:"Combien de fiches SHY Performance et Nescall reçoivent-ils chacun par mois ?",
+    ch:[{k:"a",t:"50 000 à 100 000"},{k:"b",t:"300 000 à 400 000"},{k:"c",t:"1 million"}],
+    ok:"b",
+    exp:"SHY Performance et Nescall reçoivent chacun 300 000 à 400 000 fiches par mois. C'est pourquoi la qualification est cruciale : 50 % du travail qualité de Fidelis repose sur une qualification conforme."
+  },
+  {
+    id:39, txt:"Un don régulier peut-il être effectué au nom d'une entreprise ?",
+    ch:[{k:"a",t:"Oui, si le dirigeant l'autorise"},{k:"b",t:"Non, uniquement par des particuliers depuis leur compte personnel"},{k:"c",t:"Oui, avec un IBAN professionnel"}],
+    ok:"b",
+    exp:"Les dons réguliers sont exclusivement effectués par des particuliers depuis leur compte personnel. Si on tombe sur un professionnel, on demande l'IBAN PERSONNEL pour un don de son compte personnel."
+  },
+  {
+    id:40, txt:"Combien d'enfants l'UNICEF a-t-il aidé à vacciner dans le monde ?",
+    ch:[{k:"a",t:"100 millions"},{k:"b",t:"350 millions"},{k:"c",t:"560 millions"}],
+    ok:"c",
+    exp:"L'UNICEF a aidé à vacciner 560 millions d'enfants dans le monde. Grâce aux dons réguliers collectés en France, l'UNICEF peut planifier ses actions humanitaires sur le long terme."
+  }
+];
+
+const STORAGE_KEY = "quiz_fidelis_j2_results";
+const ADMIN_USER  = "Tamou Eljerrari";
+const ADMIN_PASS  = "1969";
+
+let st = { name:"", cur:0, answers:[], score:0 };
+let admLogged = false;
+
+function loadResults() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+  catch(e){ return []; }
+}
+function saveResult(r) {
+  const all = loadResults();
+  all.push(r);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+}
+
+function show(id) {
+  ["v-land","v-q","v-sc","v-adm-login","v-adm"].forEach(v =>
+    document.getElementById(v).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+function goLand(){ show("v-land"); history.replaceState(null,"",location.pathname); }
+function goAdmin(){ admLogged ? renderAdmin() : show("v-adm-login"); history.replaceState(null,"","#admin"); }
+
+function startQuiz() {
+  const n = document.getElementById("inp-name").value.trim();
+  if(!n){ alert("Merci d'entrer votre prénom et nom."); return; }
+  st = { name:n, cur:0, answers:[], score:0 };
+  renderQ();
+  show("v-q");
+}
+
+function renderQ() {
+  const q = QS[st.cur];
+  const total = QS.length;
+  document.getElementById("q-num").textContent = "Question " + (st.cur+1) + " / " + total;
+  document.getElementById("q-txt").textContent = q.txt;
+  document.getElementById("prog").style.width = (st.cur / total * 100) + "%";
+  const fb = document.getElementById("fb");
+  fb.className = "fb hidden";
+  document.getElementById("btn-next").classList.add("hidden");
+  document.getElementById("btn-fin").classList.add("hidden");
+  const div = document.getElementById("choices");
+  div.innerHTML = "";
+  q.ch.forEach(c => {
+    const el = document.createElement("div");
+    el.className = "ch fade";
+    el.id = "ch-" + c.k;
+    el.innerHTML = `<div class="bdg">${c.k.toUpperCase()}</div><div class="lbl">${c.t}</div>`;
+    el.onclick = () => answer(c.k);
+    div.appendChild(el);
+  });
+}
+
+function answer(key) {
+  const q = QS[st.cur];
+  const ok = key === q.ok;
+  if(ok) st.score++;
+  st.answers.push({ qid:q.id, chosen:key, correct:q.ok, pts: ok?1:0 });
+  q.ch.forEach(c => {
+    const el = document.getElementById("ch-" + c.k);
+    el.classList.add("done");
+    el.onclick = null;
+    if(c.k === q.ok) el.classList.add(ok && c.k===key ? "correct" : "show-ok");
+    if(c.k === key && !ok) el.classList.add("wrong");
+  });
+  const fb = document.getElementById("fb");
+  fb.className = "fb fade " + (ok ? "ok" : "ko");
+  document.getElementById("fb-t").textContent = ok ? "✅  Bonne réponse !" : "❌  Pas tout à fait…";
+  document.getElementById("fb-p").innerHTML = ok
+    ? '<span class="pts pts1">+1 point</span>'
+    : '<span class="pts pts0">0 point</span>';
+  document.getElementById("fb-e").textContent = q.exp;
+  const last = st.cur === QS.length - 1;
+  if(last) document.getElementById("btn-fin").classList.remove("hidden");
+  else      document.getElementById("btn-next").classList.remove("hidden");
+}
+
+function next(){ st.cur++; renderQ(); }
+
+function finish() {
+  document.getElementById("prog").style.width = "100%";
+  const s = st.score;
+  const circ = document.getElementById("sc-circle");
+  circ.className = "sc-circle";
+  void circ.offsetWidth;
+  circ.className = "sc-circle pop";
+  document.getElementById("sc-val").textContent = s;
+  let msg, sub;
+  if(s >= 36){
+    msg = "🏆 Excellent ! Bravo !";
+    sub = "Score parfait ou quasi-parfait ! Vous maîtrisez le module J2. Prêt(e) à convaincre avec légitimité et confiance !";
+  } else if(s >= 28){
+    msg = "🎉 Bravo ! Très bon score !";
+    sub = "Vous avez bien assimilé les points clés. Revoyez les questions ratées pour tout consolider.";
+  } else if(s >= 20){
+    msg = "💪 Tu peux faire mieux !";
+    sub = "Vous avez les bases, mais des points importants méritent d'être revus. Consultez vos supports de formation.";
+  } else {
+    msg = "📚 À retravailler !";
+    sub = "Score insuffisant. Prenez le temps de relire le module J2 — Le Monde Associatif & Humanitaire.";
+  }
+  document.getElementById("sc-msg").textContent = msg;
+  document.getElementById("sc-sub").textContent = sub;
+  const rl = document.getElementById("review");
+  rl.innerHTML = "";
+  st.answers.forEach((a,i) => {
+    const q = QS[i];
+    const ok = a.pts === 1;
+    const chosen = q.ch.find(c => c.k === a.chosen)?.t || "";
+    const correct = q.ch.find(c => c.k === a.correct)?.t || "";
+    rl.innerHTML += `<div class="review-item ${ok?'ok':'ko'}">
+      <div class="rq">Q${i+1} — ${q.txt}</div>
+      <div class="ra">${ok
+        ? "✅ " + chosen
+        : "❌ Votre réponse : " + chosen + "  |  ✅ Bonne réponse : " + correct}</div>
+    </div>`;
+  });
+  saveResult({
+    name: st.name, score: s, total: QS.length, answers: st.answers,
+    time: new Date().toLocaleString("fr-FR", {day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})
+  });
+  show("v-sc");
+}
+
+function restartSelf(){
+  st.cur = 0; st.answers = []; st.score = 0;
+  renderQ(); show("v-q");
+}
+
+function admLogin() {
+  const u = document.getElementById("adm-user").value.trim();
+  const p = document.getElementById("adm-pass").value.trim();
+  if(u === ADMIN_USER && p === ADMIN_PASS){
+    admLogged = true;
+    document.getElementById("adm-err").classList.add("hidden");
+    renderAdmin();
+  } else {
+    document.getElementById("adm-err").classList.remove("hidden");
+  }
+}
+
+function admLogout(){ admLogged = false; goLand(); }
+
+function renderAdmin() {
+  show("v-adm");
+  const rows = loadResults();
+  const total = rows.length;
+  const avg = total ? (rows.reduce((s,r)=>s+r.score,0)/total).toFixed(1) : 0;
+  const maxi = total ? Math.max(...rows.map(r=>r.score)) : 0;
+  const pct = total ? Math.round(rows.filter(r=>r.score>=28).length/total*100) : 0;
+  document.getElementById("adm-stats").innerHTML = `
+    <div class="st"><div class="sv">${total}</div><div class="sl">Participants</div></div>
+    <div class="st g"><div class="sv">${avg}</div><div class="sl">Score moyen</div></div>
+    <div class="st o"><div class="sv">${maxi}</div><div class="sl">Meilleur score</div></div>
+    <div class="st c"><div class="sv">${pct}%</div><div class="sl">Réussite ≥28/40</div></div>
+  `;
+  const bars = document.getElementById("adm-bars");
+  if(!total){ bars.innerHTML = ""; }
+  else {
+    bars.innerHTML = rows.map(r => {
+      const pct2 = Math.round(r.score/r.total*100);
+      const col = r.score>=28 ? "#27AE60" : r.score>=20 ? "#F7941D" : "#E74C3C";
+      return `<div class="q-bar-item">
+        <div class="q-bar-label" style="width:90px;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.name}">${r.name}</div>
+        <div class="q-bar-track">
+          <div class="q-bar-fill" style="width:${pct2}%;background:${col}">${r.score}/40</div>
+        </div>
+      </div>`;
+    }).join("");
+  }
+  const qBars = document.getElementById("q-bars");
+  if(!total){ qBars.innerHTML=""; }
+  else {
+    const qPcts = QS.map((_,i) => {
+      const ok = rows.reduce((s,r)=>s+(r.answers[i]?.pts||0),0);
+      return Math.round(ok/total*100);
+    });
+    qBars.innerHTML = qPcts.map((p,i) => {
+      const col = p>=70?"#27AE60":p>=50?"#F7941D":"#E74C3C";
+      return `<div class="q-bar-item">
+        <div class="q-bar-label">Q${i+1}</div>
+        <div class="q-bar-track">
+          <div class="q-bar-fill" style="width:${p}%;background:${col}">${p}%</div>
+        </div>
+      </div>`;
+    }).join("");
+  }
+  const tbody = document.getElementById("adm-tbody");
+  document.getElementById("adm-empty").classList.toggle("hidden", total > 0);
+  document.getElementById("adm-tbl").style.display = total ? "table" : "none";
+  tbody.innerHTML = rows.map((r,i) => {
+    const cls = r.score>=28?"sh":r.score>=20?"sm":"sl2";
+    const res = r.score>=28?"✅ Réussi":"⚠️ À améliorer";
+    return `<tr>
+      <td style="color:#999">${i+1}</td>
+      <td><strong>${r.name}</strong></td>
+      <td><span class="sbdg ${cls}">${r.score}/${r.total}</span></td>
+      <td>${res}</td>
+      <td style="color:#777;font-size:11px">${r.time}</td>
+    </tr>`;
+  }).join("");
+}
+
+function exportCSV() {
+  const rows = loadResults();
+  if(!rows.length){ alert("Aucun résultat à exporter."); return; }
+  const header = "Participant,Score,Total,%,Résultat,Heure," + QS.map((_,i)=>"Q"+(i+1)).join(",");
+  const lines = rows.map(r => {
+    const qPts = QS.map((_,i) => r.answers[i]?.pts ?? "").join(",");
+    const pct = Math.round(r.score/r.total*100);
+    const res = r.score>=28?"Réussi":"À améliorer";
+    return `"${r.name}",${r.score},${r.total},${pct}%,"${res}","${r.time}",${qPts}`;
+  });
+  const csv = [header,...lines].join("\n");
+  const blob = new Blob(["﻿"+csv],{type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "quiz_j2_resultats_" + new Date().toISOString().slice(0,10) + ".csv";
+  a.click();
+}
+
+function clearData() {
+  if(confirm("Supprimer TOUS les résultats ? Cette action est irréversible.")){
+    localStorage.removeItem(STORAGE_KEY);
+    renderAdmin();
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  if(location.hash === "#admin") goAdmin();
+});
+</script>
+</body>
+</html>
