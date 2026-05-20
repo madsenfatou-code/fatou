@@ -38,7 +38,7 @@ prs.slide_width  = W
 prs.slide_height = H
 BLANK = prs.slide_layouts[6]
 
-FOOTER_TXT = "J2 FIM — Matinée  |  Fidelis × SHY Performance  |  Le Monde Associatif & Humanitaire"
+FOOTER_TXT = "J2 FIM  |  Fidelis × SHY Performance  |  Le Monde Associatif & Humanitaire"
 
 
 def add_slide():
@@ -141,10 +141,10 @@ rect(sl, Inches(7.2), 0, Inches(.06), H, fill=C_CYAN)
 
 # Left panel
 tb(sl, Inches(.55), Inches(.85), Inches(6.4), Inches(.42),
-   "FORMATION INITIALE MODULE  ·  J2 MATINÉE", size=11, bold=True, color=C_ORANGE)
+   "FORMATION INITIALE MODULE  ·  J2", size=11, bold=True, color=C_ORANGE)
 
 tb_multi(sl, Inches(.55), Inches(1.35), Inches(6.4), Inches(2.2), [
-    {"text": "MODULE J2 — MATINÉE", "size": 32, "bold": True, "color": C_WHITE},
+    {"text": "MODULE J2", "size": 38, "bold": True, "color": C_WHITE},
     {"text": "Le Monde Associatif & Humanitaire en France", "size": 16, "bold": False, "color": C_CYAN},
 ])
 
@@ -722,7 +722,7 @@ footer(sl)
 
 
 # ════════════════════════════════════════════════════════════════════
-# SLIDE 11 — RÉCAPITULATIF MATINÉE
+# SLIDE 11 — RÉCAPITULATIF J2
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
 rect(sl, 0, 0, W, H, fill=C_BLUE_DARK)
@@ -732,7 +732,7 @@ rect(sl, Inches(6.62), 0, Inches(.055), H, fill=C_CYAN)
 
 # Left panel — mantra + key messages
 tb(sl, Inches(.5), Inches(.95), Inches(5.8), Inches(.4),
-   "MANTRA DE LA MATINÉE", size=11, bold=True, color=C_ORANGE)
+   "MANTRA J2", size=11, bold=True, color=C_ORANGE)
 rect(sl, Inches(.5), Inches(1.42), Inches(5.8), Inches(.04), fill=C_ORANGE)
 tb(sl, Inches(.5), Inches(1.56), Inches(5.8), Inches(.9),
    "COMPRENDRE\nPOUR CONVAINCRE",
@@ -785,21 +785,21 @@ for i, chiffre in enumerate(chiffres, 1):
        chiffre, size=10, color=C_WHITE)
     cy += Inches(.52)
 
-footer(sl, "J2 FIM — Récapitulatif Matinée  |  Fidelis × SHY Performance  |  Prêt(e) pour l'après-midi")
+footer(sl)
 
 
 # ════════════════════════════════════════════════════════════════════
 # SLIDE 12 — LA BATAILLE DE SOLFÉRINO (RÉCIT ILLUSTRÉ)
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
-rect(sl, 0, 0, W, H, fill=C_DARK)
+rect(sl, 0, 0, W, H, fill=C_GREY)
 rect(sl, 0, 0, W, Inches(.06), fill=C_RED)
 rect(sl, 0, H - Inches(.4), W, Inches(.4), fill=C_BLUE_DARK)
 tb(sl, Inches(.3), H - Inches(.38), W - Inches(.6), Inches(.34),
    FOOTER_TXT, size=9, color=RGBColor(0xAA, 0xBB, 0xDD), align=PP_ALIGN.CENTER)
 
 # Header
-rect(sl, 0, 0, W, Inches(1.15), fill=RGBColor(0x12, 0x05, 0x05))
+rect(sl, 0, 0, W, Inches(1.15), fill=C_BLUE_DARK)
 rect(sl, 0, 0, W, Inches(.06), fill=C_RED)
 tb(sl, Inches(.4), Inches(.1), Inches(10.0), Inches(.52),
    "LA BATAILLE DE SOLFÉRINO — 24 JUIN 1859", size=22, bold=True, color=C_WHITE)
@@ -955,8 +955,8 @@ tb(sl, Inches(.6), Inches(5.92), Inches(12.0), Inches(.3),
 tb(sl, Inches(.6), Inches(6.3), Inches(12.0), Inches(.72),
    "Lors de vos appels, vous pouvez tomber sur un PARTICULIER ou un PROFESSIONNEL (entreprise, cabinet, commerce). "
    "Les dons se font UNIQUEMENT par des particuliers — jamais au nom d'une entreprise. "
-   "Si vous atteignez un professionnel : restez courtois, demandez si vous pouvez rappeler sur un numéro personnel. "
-   "Ne qualifiez PAS une fiche professionnel comme refus — qualifiez : Absent / Rappel.",
+   "Si vous atteignez un professionnel : restez courtois et demandez l'IBAN PERSONNEL "
+   "pour un don de son compte personnel.",
    size=10, color=C_TEXT_LIGHT, wrap=True)
 
 
@@ -1068,7 +1068,7 @@ nomenclature = [
      "PARTICULIER : personne physique appelée à titre personnel — cible principale, peut faire un don.\n"
      "PROFESSIONNEL : entreprise, cabinet, commerce, artisan appelé sur numéro pro. "
      "Les dons se font UNIQUEMENT par les particuliers, jamais au nom d'une entreprise.",
-     "⚡ Si vous atteignez un professionnel : restez courtois, qualifiez ABSENT ou demandez le numéro personnel."),
+     "⚡ Si vous atteignez un professionnel : restez courtois et demandez l'IBAN PERSONNEL pour un don de son compte personnel."),
 ]
 ny = Inches(1.5)
 for accent, term, definition, detail, alert in nomenclature:
@@ -1085,6 +1085,249 @@ for accent, term, definition, detail, alert in nomenclature:
     tb(sl, Inches(10.35), ny + Inches(.1), Inches(2.4), Inches(1.12),
        alert, size=8.5, bold=False, color=accent, wrap=True)
     ny += Inches(1.45)
+
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 16 — LES OUTILS DE COLLECTE
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+section_top(sl, "→  LES OUTILS DE COLLECTE",
+            "Définition, formes des dons et causes — le cadre de votre action")
+footer(sl)
+
+# Définition box
+rect(sl, Inches(.35), Inches(1.5), Inches(12.6), Inches(1.02), fill=C_DARK, line=C_CYAN, line_w=Pt(1.2))
+rect(sl, Inches(.35), Inches(1.5), Inches(12.6), Inches(.05), fill=C_CYAN)
+tb(sl, Inches(.6), Inches(1.62), Inches(12.0), Inches(.24),
+   "DÉFINITION DE LA COLLECTE DE DONS", size=10, bold=True, color=C_CYAN)
+tb(sl, Inches(.6), Inches(1.9), Inches(12.0), Inches(.5),
+   "Action de donner, de céder quelque chose que l'on possède et, en particulier, "
+   "action de donner de l'argent à quelqu'un, à une institution ou à une œuvre.",
+   size=12, italic=True, color=C_WHITE, wrap=True)
+
+# 3 columns below
+# — Formes des dons
+rect(sl, Inches(.35), Inches(2.68), Inches(3.92), Inches(4.1), fill=C_BLUE_LIGHT, line=C_BLUE_MID, line_w=Pt(1.2))
+rect(sl, Inches(.35), Inches(2.68), Inches(3.92), Inches(.05), fill=C_BLUE_MID)
+tb(sl, Inches(.55), Inches(2.78), Inches(3.6), Inches(.3),
+   "💳  LES FORMES DES DONS", size=11, bold=True, color=C_BLUE_DARK)
+formes = [
+    "• Par chèque",
+    "• Par carte bancaire (CB)",
+    "• Par IBAN (Prélèvement En Ligne)",
+    "• En main propre (espèces)",
+    "• Dons en nature (vêtements, nourriture...)",
+    "• Legs (testament)",
+    "• Collecte sur les réseaux sociaux",
+    "• Bénévolat (don de temps)",
+]
+fy2 = Inches(3.18)
+for f in formes:
+    tb(sl, Inches(.55), fy2, Inches(3.6), Inches(.36), f, size=10, color=C_TEXT_LIGHT)
+    fy2 += Inches(.38)
+
+# — Les causes
+rect(sl, Inches(4.57), Inches(2.68), Inches(3.92), Inches(4.1), fill=C_GREEN_LIGHT, line=C_GREEN, line_w=Pt(1.2))
+rect(sl, Inches(4.57), Inches(2.68), Inches(3.92), Inches(.05), fill=C_GREEN)
+tb(sl, Inches(4.77), Inches(2.78), Inches(3.6), Inches(.3),
+   "🌍  LES CAUSES", size=11, bold=True, color=C_GREEN)
+causes = [
+    ("Solidarité humaine", "Aider les personnes en difficulté : pauvreté, exclusion, précarité"),
+    ("Santé & Recherche", "Maladies, cancer, handicap, recherche médicale"),
+    ("Tiers monde", "Pays en développement, accès à l'eau, éducation, nutrition"),
+    ("Enfance", "Protection, droits, éducation — UNICEF 1er acteur mondial"),
+    ("Environnement", "Climat, biodiversité, catastrophes naturelles"),
+]
+cy3 = Inches(3.18)
+for title2, desc2 in causes:
+    tb(sl, Inches(4.77), cy3, Inches(3.6), Inches(.22), f"▸ {title2}", size=10, bold=True, color=C_GREEN)
+    tb(sl, Inches(4.77), cy3 + Inches(.22), Inches(3.6), Inches(.26), desc2, size=9,
+       italic=True, color=C_TEXT_LIGHT, wrap=True)
+    cy3 += Inches(.56)
+
+# — Les facteurs du don
+rect(sl, Inches(8.79), Inches(2.68), Inches(4.19), Inches(4.1), fill=C_YELLOW_LIGHT, line=C_ORANGE, line_w=Pt(1.2))
+rect(sl, Inches(8.79), Inches(2.68), Inches(4.19), Inches(.05), fill=C_ORANGE)
+tb(sl, Inches(8.99), Inches(2.78), Inches(3.8), Inches(.3),
+   "📊  LES FACTEURS DU DON", size=11, bold=True, color=C_ORANGE)
+facteurs = [
+    ("65 ans et +", "Les plus fortement donateurs.\n60 % de cette tranche sont donateurs réguliers."),
+    ("Niveau de revenu", "Propension à donner augmente avec le revenu :\n30 % chez les ouvriers — 55 % chez les cadres sup."),
+    ("Région parisienne", "52 % à donner régulièrement\nvs 39 % en zones rurales."),
+    ("Religion catholique", "Pratique religieuse + proximité de la vie associative\n= facteurs déterminants au don."),
+]
+fdy = Inches(3.15)
+for label3, desc3 in facteurs:
+    rect(sl, Inches(8.99), fdy, Inches(.06), Inches(.78), fill=C_ORANGE)
+    tb(sl, Inches(9.18), fdy, Inches(3.6), Inches(.26), label3, size=10, bold=True, color=C_ORANGE_DARK)
+    tb(sl, Inches(9.18), fdy + Inches(.26), Inches(3.6), Inches(.52), desc3, size=9,
+       italic=True, color=C_TEXT_LIGHT, wrap=True)
+    fdy += Inches(.88)
+
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 17 — LE MARKETING TÉLÉPHONIQUE
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+section_top(sl, "→  LE MARKETING TÉLÉPHONIQUE",
+            "Pourquoi le phoning est le canal le plus efficace pour la collecte de dons", C_TEAL)
+footer(sl)
+
+# Left — 5 avantages
+rect(sl, Inches(.35), Inches(1.5), Inches(6.5), Inches(5.3), fill=C_TEAL_LIGHT, line=C_TEAL, line_w=Pt(1.2))
+rect(sl, Inches(.35), Inches(1.5), Inches(6.5), Inches(.05), fill=C_TEAL)
+tb(sl, Inches(.55), Inches(1.62), Inches(6.1), Inches(.3),
+   "5 AVANTAGES CLÉS DU MARKETING TÉLÉPHONIQUE", size=12, bold=True, color=C_TEAL)
+
+avantages = [
+    ("🗣", "Un contact réellement interactif",
+     "Échange en temps réel — questions, réponses, ajustements immédiats. "
+     "Impossible avec un mail ou un courrier."),
+    ("🎯", "Une approche personnalisée",
+     "Vous adaptez votre discours à chaque donateur : ton, vocabulaire, argumentaire. "
+     "Chaque appel est unique."),
+    ("❤️", "Une valorisation du donateur",
+     "Le donateur se sent écouté, reconnu, remercié. Le lien humain est le moteur du don régulier."),
+    ("📋", "Une sélection ciblée des appels",
+     "Plus efficace que les envois de mailing en masse non ciblés. "
+     "On contacte les profils propices au don régulier."),
+    ("🛡", "Une réponse aux objections en direct",
+     "Réponse spontanée-efficace aux questions et objections formulées par les donateurs. "
+     "L'objection traitée en live = conversion possible immédiate."),
+]
+ay = Inches(2.05)
+for icon2, title3, body3 in avantages:
+    rect(sl, Inches(.45), ay, Inches(.52), Inches(.52), fill=C_TEAL)
+    tb(sl, Inches(.45), ay + Inches(.07), Inches(.52), Inches(.36),
+       icon2, size=18, align=PP_ALIGN.CENTER)
+    tb(sl, Inches(1.1), ay + Inches(.04), Inches(5.6), Inches(.24),
+       title3, size=11, bold=True, color=C_TEAL)
+    tb(sl, Inches(1.1), ay + Inches(.28), Inches(5.6), Inches(.46),
+       body3, size=9.5, color=C_TEXT_LIGHT, wrap=True)
+    ay += Inches(.88)
+
+# Right — comparatif canaux
+rect(sl, Inches(7.15), Inches(1.5), Inches(5.85), Inches(5.3), fill=C_DARK)
+rect(sl, Inches(7.15), Inches(1.5), Inches(5.85), Inches(.05), fill=C_ORANGE)
+tb(sl, Inches(7.35), Inches(1.62), Inches(5.45), Inches(.3),
+   "COMPARATIF CANAUX DE COLLECTE", size=12, bold=True, color=C_ORANGE)
+
+# Header row
+for xi, (label4, w4) in enumerate([
+        ("CANAL", Inches(1.4)), ("TAUX CONVERSION", Inches(1.7)), ("COÛT", Inches(1.5))]):
+    rect(sl, Inches(7.25) + sum(
+        [Inches(1.4), Inches(1.7), Inches(1.5)][:xi]
+    ), Inches(2.02), w4, Inches(.36), fill=C_BLUE_MID)
+    tb(sl, Inches(7.25) + sum(
+        [Inches(1.4), Inches(1.7), Inches(1.5)][:xi]
+    ), Inches(2.1), w4, Inches(.24),
+       label4, size=8, bold=True, color=C_WHITE, align=PP_ALIGN.CENTER)
+
+canaux = [
+    ("Mailing postal", "0,5 – 1,5 %", "Très élevé", C_RED_LIGHT, C_RED),
+    ("Email", "1 – 3 %", "Faible", C_YELLOW_LIGHT, C_YELLOW),
+    ("Street (porte-à-porte)", "4 – 8 %", "Moyen", C_BLUE_LIGHT, C_BLUE_MID),
+    ("Phoning professionnel", "8 – 15 %", "Optimisé", C_GREEN_LIGHT, C_GREEN),
+    ("Don en ligne (web)", "2 – 5 %", "Très faible", C_TEAL_LIGHT, C_TEAL),
+]
+ry = Inches(2.42)
+for canal, tx, cout, bg3, acc3 in canaux:
+    rect(sl, Inches(7.25), ry, Inches(1.4), Inches(.44), fill=bg3, line=acc3, line_w=Pt(.5))
+    rect(sl, Inches(8.65), ry, Inches(1.7), Inches(.44), fill=bg3, line=acc3, line_w=Pt(.5))
+    rect(sl, Inches(10.35), ry, Inches(1.5), Inches(.44), fill=bg3, line=acc3, line_w=Pt(.5))
+    tb(sl, Inches(7.3), ry + Inches(.1), Inches(1.3), Inches(.26),
+       canal, size=9, bold=(canal == "Phoning professionnel"), color=C_BLUE_DARK)
+    tb(sl, Inches(8.7), ry + Inches(.1), Inches(1.6), Inches(.26),
+       tx, size=9, bold=(canal == "Phoning professionnel"), color=acc3, align=PP_ALIGN.CENTER)
+    tb(sl, Inches(10.4), ry + Inches(.1), Inches(1.4), Inches(.26),
+       cout, size=9, color=acc3, align=PP_ALIGN.CENTER)
+    ry += Inches(.46)
+
+rect(sl, Inches(7.25), Inches(4.68), Inches(4.6), Inches(.56), fill=C_GREEN)
+tb(sl, Inches(7.4), Inches(4.77), Inches(4.4), Inches(.38),
+   "Le phoning = meilleur taux de conversion\nà coût optimisé — 55 % du marché collecte",
+   size=10, bold=True, color=C_WHITE, wrap=True)
+
+rect(sl, Inches(7.25), Inches(5.38), Inches(4.6), Inches(1.3), fill=RGBColor(0x05, 0x18, 0x30))
+tb(sl, Inches(7.4), Inches(5.48), Inches(4.4), Inches(.28),
+   "CHIFFRES MARCHÉS (France)", size=9, bold=True, color=C_CYAN)
+for i2, line2 in enumerate([
+    "5,5 Mds € collectés / an en France",
+    "3 Mds € via le phoning (55 %)",
+    "SHY + Nescall : 600 000 – 800 000 fiches / mois",
+]):
+    tb(sl, Inches(7.4), Inches(5.82) + i2 * Inches(.28), Inches(4.4), Inches(.24),
+       f"• {line2}", size=9, color=C_WHITE)
+
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 18 — QUESTIONNAIRE DE CONNAISSANCE OFFICIEL
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+rect(sl, 0, 0, W, H, fill=C_WHITE)
+rect(sl, 0, 0, W, Inches(1.15), fill=C_BLUE_DARK)
+rect(sl, 0, 0, W, Inches(.06), fill=C_ORANGE)
+tb(sl, Inches(.4), Inches(.1), Inches(12.0), Inches(.52),
+   "QUESTIONNAIRE DE CONNAISSANCE — MODULE LE MONDE ASSOCIATIF", size=18, bold=True, color=C_WHITE)
+tb(sl, Inches(.4), Inches(.66), Inches(12.0), Inches(.36),
+   "10 questions — 1 seule bonne réponse — cochez la lettre correspondante", size=11, italic=True, color=C_CYAN)
+footer(sl)
+
+questions = [
+    ("1", "Qu'est-ce que le Fundraising ?",
+     [("a", "Vente par correspondance"), ("b", "Collecte de fonds"), ("c", "Relation clients")], "b"),
+    ("2", "En quelle année fut créé le Comité de la Charte ?",
+     [("a", "1989"), ("b", "1996"), ("c", "1995")], "a"),
+    ("3", "Quelle autorité reconnaît les associations d'utilité publique ?",
+     [("a", "Le Comité de la Charte"), ("b", "Le Conseil d'État"), ("c", "Le ministère des Affaires Sociales")], "b"),
+    ("4", "Combien y a-t-il d'associations en France ?",
+     [("a", "130 000"), ("b", "260 000"), ("c", "1 500 000")], "c"),
+    ("5", "Chasser l'intrus — Le don ouvre droit à une déduction fiscale de :",
+     [("a", "66 %"), ("b", "75 %"), ("c", "100 %")], "c"),
+    ("6", "Combien d'associations sont Reconnues d'Utilité Publique ?",
+     [("a", "20 000"), ("b", "2 000"), ("c", "200 000")], "b"),
+    ("7", "Quelle est la limite maximale ouvrant droit à la déduction de 75 % ?",
+     [("a", "100 €"), ("b", "2 000 €"), ("c", "513 €")], "c"),
+    ("8", "Quelle catastrophe réveille la générosité des donateurs ?",
+     [("a", "Tremblement de terre au Mexique"), ("b", "Le Tsunami"), ("c", "Tremblement de terre en Haïti")], "c"),
+    ("9", "Comment les associations collectaient-elles avant 1990 ?",
+     [("a", "Galas de bienfaisance"), ("b", "Shows télévisés"), ("c", "Le Mailing Postal")], "c"),
+    ("10", "Qui est Jacques Crozemarie ?",
+     [("a", "Fondateur de l'UNICEF"), ("b", "Directeur ARC — scandale détournements 1996"),
+      ("c", "Président du Comité de la Charte")], "b"),
+]
+
+qx_cols = [Inches(.3), Inches(6.75)]
+qy_start = Inches(1.22)
+q_h = Inches(.96)
+q_w = Inches(6.25)
+
+for i3, (num3, question3, choices3, correct3) in enumerate(questions):
+    col3 = i3 % 2
+    row3 = i3 // 2
+    qx3 = qx_cols[col3]
+    qy3 = qy_start + row3 * (q_h + Inches(.05))
+
+    bg4 = C_GREEN_LIGHT if correct3 else C_WHITE
+    rect(sl, qx3, qy3, q_w, q_h, fill=C_BLUE_LIGHT, line=C_BLUE_MID, line_w=Pt(.8))
+    rect(sl, qx3, qy3, Inches(.38), q_h, fill=C_BLUE_DARK)
+    tb(sl, qx3, qy3 + Inches(.3), Inches(.38), Inches(.36),
+       num3, size=12, bold=True, color=C_WHITE, align=PP_ALIGN.CENTER)
+    tb(sl, qx3 + Inches(.45), qy3 + Inches(.06), q_w - Inches(.55), Inches(.36),
+       question3, size=10, bold=True, color=C_BLUE_DARK, wrap=True)
+    cx3 = qx3 + Inches(.45)
+    for letter3, text3 in choices3:
+        is_correct3 = (letter3 == correct3)
+        bg5 = C_GREEN_LIGHT if is_correct3 else C_WHITE
+        acc5 = C_GREEN if is_correct3 else C_GREY_LINE
+        rect(sl, cx3, qy3 + Inches(.46), Inches(.22), Inches(.26), fill=bg5, line=acc5, line_w=Pt(.8))
+        tb(sl, cx3, qy3 + Inches(.48), Inches(.22), Inches(.22),
+           letter3, size=8, bold=is_correct3, color=C_GREEN if is_correct3 else C_TEXT_LIGHT,
+           align=PP_ALIGN.CENTER)
+        c_label_w = (q_w - Inches(.55) - Inches(.3)) / 3
+        tb(sl, cx3 + Inches(.24), qy3 + Inches(.48), c_label_w - Inches(.05), Inches(.28),
+           text3, size=8.5, bold=is_correct3, color=C_GREEN if is_correct3 else C_TEXT_LIGHT, wrap=True)
+        cx3 += c_label_w + Inches(.05)
 
 
 # ════════════════════════════════════════════════════════════════════

@@ -132,15 +132,15 @@ rect(sl, 0, H - Inches(.08), W, Inches(.08), fill=C_CYAN)
 rect(sl, Inches(7.2), 0, Inches(.06), H, fill=C_CYAN)
 
 tb(sl, Inches(.55), Inches(.85), Inches(6.4), Inches(.42),
-   "RÉVEIL PÉDAGOGIQUE  ·  PRÉ-SESSION J2 APRÈS-MIDI", size=10, bold=True, color=C_ORANGE)
+   "RÉVEIL PÉDAGOGIQUE  ·  PRÉ-SESSION J2", size=10, bold=True, color=C_ORANGE)
 tb_multi(sl, Inches(.55), Inches(1.35), Inches(6.4), Inches(2.2), [
     {"text": "SYNTHÈSE", "size": 52, "bold": True, "color": C_WHITE},
-    {"text": "MODULE J2 — MATINÉE", "size": 24, "bold": False, "color": C_CYAN},
+    {"text": "MODULE J2", "size": 28, "bold": False, "color": C_CYAN},
     {"text": "Le Monde Associatif & Humanitaire en France", "size": 14,
      "italic": True, "color": RGBColor(0xBB, 0xCC, 0xEE), "space_before": 8},
 ])
 tb(sl, Inches(.55), Inches(3.72), Inches(6.4), Inches(.55),
-   "Rappel des axes clés de la matinée avant de\ndémarrer la suite du programme.",
+   "Rappel des axes clés du J2 avant de\ndémarrer la suite du programme.",
    size=13, italic=True, color=RGBColor(0xBB, 0xCC, 0xEE), wrap=True)
 
 rect(sl, Inches(.55), Inches(4.45), Inches(6.4), Inches(.05), fill=C_CYAN)
@@ -425,7 +425,7 @@ for i, (accent, icon, stat, detail) in enumerate(impacts):
 # SLIDE 8 — QUIZ RÉVEIL PÉDAGOGIQUE
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
-section_top(sl, "QUIZ", "RÉVEIL PÉDAGOGIQUE — QUIZ FLASH", "Testez vos connaissances avant de démarrer l'après-midi")
+section_top(sl, "QUIZ", "RÉVEIL PÉDAGOGIQUE — QUIZ FLASH", "Testez vos connaissances — 6 questions clés")
 footer(sl)
 
 quiz = [
@@ -462,7 +462,7 @@ rect(sl, Inches(6.55), 0, Inches(.04), H, fill=C_CYAN)
 tb(sl, Inches(.4), Inches(.25), Inches(5.8), Inches(.42),
    "LES 10 POINTS ESSENTIELS", size=18, bold=True, color=C_ORANGE)
 tb(sl, Inches(.4), Inches(.72), Inches(5.8), Inches(.3),
-   "À retenir de la matinée J2", size=12, italic=True, color=C_CYAN)
+   "À retenir du Module J2", size=12, italic=True, color=C_CYAN)
 
 points_l = [
     ("1,5 M", "associations en France — 23 M bénévoles"),
@@ -497,16 +497,17 @@ for i, (stat, label) in enumerate(points_r):
 rect(sl, Inches(.4), Inches(4.25), Inches(12.5), Inches(.04), fill=C_CYAN)
 rect(sl, Inches(.4), Inches(4.38), Inches(12.5), Inches(1.25), fill=C_BLUE_DARK)
 tb(sl, Inches(.7), Inches(4.5), Inches(12.0), Inches(.32),
-   "MANTRA J2 MATINÉE", size=10, bold=True, color=C_CYAN)
+   "MANTRA J2", size=10, bold=True, color=C_CYAN)
 tb(sl, Inches(.7), Inches(4.88), Inches(12.0), Inches(.62),
    "« COMPRENDRE POUR CONVAINCRE — CHAQUE CITOYEN EST DIRECTEMENT OU INDIRECTEMENT CONCERNÉ »",
    size=16, bold=True, italic=True, color=C_WHITE, align=PP_ALIGN.CENTER, wrap=True)
 
-rect(sl, Inches(.4), Inches(5.82), Inches(12.5), Inches(1.2), fill=RGBColor(0x0A, 0x1F, 0x3A))
+rect(sl, Inches(.4), Inches(5.82), Inches(12.5), Inches(1.2), fill=C_BLUE_DARK)
 tb(sl, Inches(.7), Inches(5.95), Inches(12.0), Inches(.28),
-   "PROCHAINE ÉTAPE — APRÈS-MIDI J2", size=11, bold=True, color=C_ORANGE)
+   "LES OUTILS DE COLLECTE — À RETENIR", size=11, bold=True, color=C_ORANGE)
 tb(sl, Inches(.7), Inches(6.28), Inches(12.0), Inches(.62),
-   "Traitement des objections  •  Discours de conviction  •  Simulations téléphoniques  •  Plan d'action personnel",
+   "Collecte de dons = IBAN préféré  •  65 ans+ = 60 % de donateurs réguliers  "
+   "•  Phoning = 55 % du marché  •  Fundraising = Collecte de fonds",
    size=11, color=C_WHITE, align=PP_ALIGN.CENTER)
 
 footer(sl)
@@ -517,7 +518,7 @@ footer(sl)
 # ════════════════════════════════════════════════════════════════════
 sl = add_slide()
 section_top(sl, "→", "QUALIFICATION & NOMENCLATURE — POINTS CLÉS",
-            "50 % de la qualité Fidelis repose sur une qualification CONFORME", accent=C_RED)
+            "50 % de la qualité Fidelis repose sur une qualification CONFORME", C_RED)
 footer(sl)
 
 # Top warning
@@ -562,7 +563,7 @@ new_terms = [
     (C_TEAL, "ABSENT", "Répondeur, NRP, raccroché sans ID — recontacter, pas un refus"),
     (C_RED, "CICR", "Croix-Rouge internationale — zones de conflit, échanges d'otages, prisonniers de guerre"),
     (C_BLUE_MID, "COMITÉ DE LA CHARTE", "Créé 1989, renforcé 1996 — audits, label Don en Confiance, contrôle État"),
-    (C_ORANGE, "PARTICULIER / PRO", "Dons = particuliers uniquement. Pro atteint → ABSENT ou demander numéro perso"),
+    (C_ORANGE, "PARTICULIER / PRO", "Dons = particuliers uniquement. Pro atteint → demander l'IBAN PERSONNEL pour un don de son compte personnel"),
     (C_PURPLE, "FIDELIS = RUP", "Fidelis travaille EXCLUSIVEMENT avec associations Reconnues d'Utilité Publique"),
 ]
 ny = qy + Inches(.1)
