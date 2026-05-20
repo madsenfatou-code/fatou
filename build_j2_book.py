@@ -149,7 +149,7 @@ tb_multi(sl, Inches(.55), Inches(1.35), Inches(6.4), Inches(2.2), [
 ])
 
 tb(sl, Inches(.55), Inches(3.62), Inches(6.4), Inches(.36),
-   "9h30 – 13h30  |  4 heures  |  Fidelis mandaté par l'UNICEF",
+   "9h30 – 17h30  |  7 heures  |  1h pause déjeuner  |  Fidelis mandaté par l'UNICEF",
    size=12, italic=True, color=RGBColor(0xBB, 0xCC, 0xEE))
 
 # Mantra banner
