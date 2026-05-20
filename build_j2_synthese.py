@@ -512,6 +512,71 @@ tb(sl, Inches(.7), Inches(6.28), Inches(12.0), Inches(.62),
 footer(sl)
 
 
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 10 — QUALIFICATION & NOMENCLATURE COMPLÉMENTAIRE
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+section_top(sl, "→", "QUALIFICATION & NOMENCLATURE — POINTS CLÉS",
+            "50 % de la qualité Fidelis repose sur une qualification CONFORME", accent=C_RED)
+footer(sl)
+
+# Top warning
+rect(sl, Inches(.35), Inches(1.5), Inches(12.6), Inches(.88), fill=C_DARK, line=C_RED, line_w=Pt(1.5))
+rect(sl, Inches(.35), Inches(1.5), Inches(12.6), Inches(.05), fill=C_RED)
+tb(sl, Inches(.55), Inches(1.62), Inches(12.0), Inches(.24),
+   "IMPACT D'UNE FAUSSE QUALIFICATION", size=10, bold=True, color=C_RED)
+tb(sl, Inches(.55), Inches(1.9), Inches(12.0), Inches(.42),
+   "Refus Argumenté / Refus de Répondre = non contacté 4 mois UNICEF.  "
+   "SHY Performance & Nescall : 300 000 – 400 000 fiches/mois chacun. Chaque fiche mal qualifiée = contact perdu.",
+   size=10, color=C_WHITE, wrap=True)
+
+# Qualification table
+qual_rows = [
+    (C_GREEN, "✅  PEL", "Prélèvement En Ligne — mission accomplie"),
+    (C_GREEN, "✅  RIM", "Rappel Imminent — intéressé, à rappeler vite"),
+    (C_TEAL, "🕐  ABSENT", "Répondeur / NRP / Raccroché SANS identification — PAS un refus"),
+    (C_TEAL, "🕐  DEL", "Don En Ligne — préfère donner via lien web"),
+    (C_RED, "❌  RA", "Refus Argumenté — raison valide — 4 mois sans contact UNICEF"),
+    (C_RED, "❌  RR", "Refus de Répondre — raccroché / agressif — idem 4 mois"),
+]
+qy = Inches(2.52)
+for accent, code, desc in qual_rows:
+    clr = C_GREEN_LIGHT if accent == C_GREEN else (C_TEAL_LIGHT if accent == C_TEAL else C_RED_LIGHT)
+    rect(sl, Inches(.35), qy, Inches(12.6), Inches(.4), fill=clr, line=C_GREY_LINE, line_w=Pt(.5))
+    rect(sl, Inches(.35), qy, Inches(.06), Inches(.4), fill=accent)
+    tb(sl, Inches(.55), qy + Inches(.07), Inches(2.2), Inches(.26),
+       code, size=10, bold=True, color=C_BLUE_DARK)
+    tb(sl, Inches(2.85), qy + Inches(.07), Inches(9.8), Inches(.26),
+       desc, size=10, color=C_TEXT_LIGHT)
+    qy += Inches(.41)
+
+# Error example
+rect(sl, Inches(.35), qy + Inches(.08), Inches(12.6), Inches(.48), fill=C_ORANGE)
+tb(sl, Inches(.55), qy + Inches(.14), Inches(12.0), Inches(.36),
+   "EXEMPLE ERREUR : Répondeur → qualifié RA (FAUX) — le bon code est ABSENT. La personne n'a pas refusé, elle était absente.",
+   size=10, bold=True, color=C_WHITE, wrap=True)
+qy += Inches(.62)
+
+# Nomenclature complémentaire
+new_terms = [
+    (C_TEAL, "ABSENT", "Répondeur, NRP, raccroché sans ID — recontacter, pas un refus"),
+    (C_RED, "CICR", "Croix-Rouge internationale — zones de conflit, échanges d'otages, prisonniers de guerre"),
+    (C_BLUE_MID, "COMITÉ DE LA CHARTE", "Créé 1989, renforcé 1996 — audits, label Don en Confiance, contrôle État"),
+    (C_ORANGE, "PARTICULIER / PRO", "Dons = particuliers uniquement. Pro atteint → ABSENT ou demander numéro perso"),
+    (C_PURPLE, "FIDELIS = RUP", "Fidelis travaille EXCLUSIVEMENT avec associations Reconnues d'Utilité Publique"),
+]
+ny = qy + Inches(.1)
+for accent, term, desc in new_terms:
+    clr = C_BLUE_LIGHT
+    rect(sl, Inches(.35), ny, Inches(12.6), Inches(.38), fill=clr, line=accent, line_w=Pt(.8))
+    rect(sl, Inches(.35), ny, Inches(.06), Inches(.38), fill=accent)
+    tb(sl, Inches(.55), ny + Inches(.06), Inches(2.5), Inches(.26),
+       term, size=10, bold=True, color=accent)
+    tb(sl, Inches(3.1), ny + Inches(.06), Inches(9.6), Inches(.26),
+       desc, size=10, color=C_TEXT_LIGHT)
+    ny += Inches(.4)
+
+
 OUT = "/home/user/fatou/Synthese_J2_Matin_Fidelis.pptx"
 prs.save(OUT)
 print(f"Saved: {OUT}")

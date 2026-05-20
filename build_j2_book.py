@@ -789,6 +789,305 @@ footer(sl, "J2 FIM — Récapitulatif Matinée  |  Fidelis × SHY Performance  |
 
 
 # ════════════════════════════════════════════════════════════════════
+# SLIDE 12 — LA BATAILLE DE SOLFÉRINO (RÉCIT ILLUSTRÉ)
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+rect(sl, 0, 0, W, H, fill=C_DARK)
+rect(sl, 0, 0, W, Inches(.06), fill=C_RED)
+rect(sl, 0, H - Inches(.4), W, Inches(.4), fill=C_BLUE_DARK)
+tb(sl, Inches(.3), H - Inches(.38), W - Inches(.6), Inches(.34),
+   FOOTER_TXT, size=9, color=RGBColor(0xAA, 0xBB, 0xDD), align=PP_ALIGN.CENTER)
+
+# Header
+rect(sl, 0, 0, W, Inches(1.15), fill=RGBColor(0x12, 0x05, 0x05))
+rect(sl, 0, 0, W, Inches(.06), fill=C_RED)
+tb(sl, Inches(.4), Inches(.1), Inches(10.0), Inches(.52),
+   "LA BATAILLE DE SOLFÉRINO — 24 JUIN 1859", size=22, bold=True, color=C_WHITE)
+tb(sl, Inches(.4), Inches(.66), Inches(10.0), Inches(.36),
+   "L'événement fondateur du droit humanitaire international et de la Croix-Rouge", size=11, italic=True, color=C_RED)
+
+# Date badge
+rect(sl, Inches(11.0), Inches(.12), Inches(2.0), Inches(.88), fill=C_RED)
+tb(sl, Inches(11.0), Inches(.2), Inches(2.0), Inches(.36),
+   "24 JUIN 1859", size=11, bold=True, color=C_WHITE, align=PP_ALIGN.CENTER)
+tb(sl, Inches(11.0), Inches(.55), Inches(2.0), Inches(.36),
+   "SOLFÉRINO, ITALIE", size=9, italic=True, color=RGBColor(0xFF, 0xDD, 0xDD), align=PP_ALIGN.CENTER)
+
+# --- Left panel: THE BATTLE ---
+rect(sl, Inches(.3), Inches(1.22), Inches(4.1), Inches(5.55), fill=RGBColor(0x1A, 0x08, 0x08))
+rect(sl, Inches(.3), Inches(1.22), Inches(4.1), Inches(.04), fill=C_RED)
+tb(sl, Inches(.5), Inches(1.32), Inches(3.7), Inches(.28),
+   "⚔  LA BATAILLE", size=11, bold=True, color=C_RED)
+
+battle_facts = [
+    ("300 000 soldats", "Franco-Sardiniens (France + Piémont) contre l'Empire austro-hongrois"),
+    ("40 000 victimes", "Morts et blessés en une seule journée de combat acharné"),
+    ("Chaleur extrême", "38°C sous le soleil lombard — soif, épuisement, sang partout"),
+    ("Aucun soin", "Les blessés abandonnés sur le champ de bataille, sans médecins"),
+    ("Victoire française", "Napoléon III décide l'armistice de Villafranca — 11 juillet 1859"),
+]
+fy = Inches(1.72)
+for stat, desc in battle_facts:
+    rect(sl, Inches(.42), fy, Inches(.06), Inches(.72), fill=C_RED)
+    tb(sl, Inches(.6), fy, Inches(3.6), Inches(.28), stat, size=10, bold=True, color=C_WHITE)
+    tb(sl, Inches(.6), fy + Inches(.28), Inches(3.6), Inches(.42), desc, size=8.5,
+       italic=True, color=RGBColor(0xDD, 0xCC, 0xCC), wrap=True)
+    fy += Inches(.82)
+
+# --- Center panel: HENRY DUNANT ---
+rect(sl, Inches(4.6), Inches(1.22), Inches(4.1), Inches(5.55), fill=RGBColor(0x05, 0x0A, 0x1A))
+rect(sl, Inches(4.6), Inches(1.22), Inches(4.1), Inches(.04), fill=C_CYAN)
+tb(sl, Inches(4.8), Inches(1.32), Inches(3.7), Inches(.28),
+   "👤  HENRY DUNANT — LE TÉMOIN", size=11, bold=True, color=C_CYAN)
+
+# Visual: person icon (simplified)
+rect(sl, Inches(5.85), Inches(1.72), Inches(1.6), Inches(1.2), fill=RGBColor(0x0A, 0x25, 0x4F))
+tb(sl, Inches(5.85), Inches(1.82), Inches(1.6), Inches(.9),
+   "🇨🇭\nHenry\nDunant", size=10, bold=True, color=C_CYAN, align=PP_ALIGN.CENTER)
+tb(sl, Inches(4.8), Inches(1.76), Inches(.95), Inches(.9),
+   "Genevois\nHomme\nd'affaires\n31 ans", size=8, italic=True, color=RGBColor(0xAA, 0xBB, 0xDD))
+
+dunant_story = [
+    "De passage en Italie pour rencontrer Napoléon III,",
+    "Dunant arrive à Solférino le soir même de la bataille.",
+    "",
+    "Horrifié par les milliers de blessés abandonnés,",
+    "il organise les femmes des villages voisins.",
+    "",
+    "Mot d'ordre : « TUTTI FRATELLI »",
+    "— « Tous frères » —",
+    "Sans distinction de nationalité ni d'uniforme.",
+    "",
+    "Il finance les soins de sa propre fortune.",
+]
+dy = Inches(2.98)
+for line in dunant_story:
+    clr = C_ORANGE if "TUTTI FRATELLI" in line or "Tous frères" in line else (
+          C_CYAN if line.startswith("De passage") or line.startswith("Horrifié") or
+          line.startswith("il organise") or line.startswith("Il finance") else C_WHITE)
+    sz = 11 if "TUTTI FRATELLI" in line or "Tous frères" in line else 9.5
+    bd = True if "TUTTI FRATELLI" in line else False
+    tb(sl, Inches(4.8), dy, Inches(3.7), Inches(.32),
+       line, size=sz, bold=bd, color=clr, italic=("Tous frères" in line))
+    dy += Inches(.3)
+
+# --- Right panel: CONSÉQUENCES ---
+rect(sl, Inches(8.9), Inches(1.22), Inches(4.1), Inches(5.55), fill=RGBColor(0x05, 0x15, 0x05))
+rect(sl, Inches(8.9), Inches(1.22), Inches(4.1), Inches(.04), fill=C_GREEN)
+tb(sl, Inches(9.1), Inches(1.32), Inches(3.7), Inches(.28),
+   "🌍  CONSÉQUENCES HISTORIQUES", size=11, bold=True, color=C_GREEN)
+
+consequences = [
+    (C_YELLOW, "1862", "Publication de « Un Souvenir de Solférino »\nLivre choc — 1 600 exemplaires vendus en 3 jours"),
+    (C_GREEN, "1863", "Fondation de la Croix-Rouge à Genève\n5 pays fondateurs — Comité International"),
+    (C_CYAN, "1864", "Première Convention de Genève\nDroit humanitaire international — 12 États signataires"),
+    (C_WHITE, "Drapeau", "Drapeau suisse INVERSÉ\n🇨🇭 fond rouge → ✚ fond blanc\nEn hommage à Dunant"),
+    (C_ORANGE, "1901", "Nobel de la Paix — 1er prix jamais décerné\nHenry Dunant, 73 ans, mourait dans la pauvreté"),
+]
+cy2 = Inches(1.7)
+for accent, year, text in consequences:
+    rect(sl, Inches(9.0), cy2, Inches(.55), Inches(.82), fill=RGBColor(0x0A, 0x22, 0x0A))
+    tb(sl, Inches(9.0), cy2 + Inches(.12), Inches(.55), Inches(.28),
+       year, size=8, bold=True, color=accent, align=PP_ALIGN.CENTER)
+    tb(sl, Inches(9.65), cy2 + Inches(.05), Inches(3.2), Inches(.72),
+       text, size=9, color=C_WHITE, wrap=True)
+    cy2 += Inches(.9)
+
+# Bottom banner
+rect(sl, Inches(.3), Inches(6.62), Inches(12.7), Inches(.48), fill=C_RED)
+tb(sl, Inches(.5), Inches(6.7), Inches(12.3), Inches(.32),
+   "LEÇON CLÉS : Un seul homme témoin d'une tragédie peut changer le droit international. "
+   "La Croix-Rouge protège aujourd'hui 140+ millions de personnes dans 192 pays.",
+   size=10, bold=True, color=C_WHITE, align=PP_ALIGN.CENTER, wrap=True)
+
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 13 — COMITÉ DE LA CHARTE + FIDELIS + CICR
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+section_top(sl, "→  ACTEURS CLÉS & CONTRÔLE DU SECTEUR",
+            "Le Comité de la Charte, le CICR et l'engagement exclusif de Fidelis", C_TEAL)
+footer(sl)
+
+# Comité de la Charte
+rect(sl, Inches(.35), Inches(1.5), Inches(5.9), Inches(2.55), fill=C_BLUE_LIGHT, line=C_BLUE_MID, line_w=Pt(1.5))
+rect(sl, Inches(.35), Inches(1.5), Inches(5.9), Inches(.05), fill=C_BLUE_MID)
+tb(sl, Inches(.55), Inches(1.62), Inches(5.5), Inches(.3),
+   "🏛  COMITÉ DE LA CHARTE DU DON EN CONFIANCE", size=12, bold=True, color=C_BLUE_DARK)
+tb(sl, Inches(.55), Inches(2.0), Inches(5.5), Inches(1.85),
+   "Créé en 1989, renforcé après l'Affaire ARC en 1996.\n\n"
+   "Mission : renforcer le contrôle de l'État sur les associations collectant des dons. "
+   "Audit obligatoire des comptes, publication annuelle, transparence totale sur l'utilisation des fonds.\n\n"
+   "Label « Don en Confiance » : garantie pour le donateur que l'association est sérieuse et contrôlée. "
+   "UNICEF France en est membre — c'est votre argument de légitimité.",
+   size=10, color=C_TEXT_LIGHT, wrap=True)
+
+# CICR
+rect(sl, Inches(6.55), Inches(1.5), Inches(6.4), Inches(2.55), fill=C_RED_LIGHT, line=C_RED, line_w=Pt(1.5))
+rect(sl, Inches(6.55), Inches(1.5), Inches(6.4), Inches(.05), fill=C_RED)
+tb(sl, Inches(6.75), Inches(1.62), Inches(6.0), Inches(.3),
+   "✚  CICR — COMITÉ INTERNATIONAL DE LA CROIX-ROUGE", size=12, bold=True, color=C_RED)
+tb(sl, Inches(6.75), Inches(2.0), Inches(6.0), Inches(1.85),
+   "Fondé en 1863 à Genève par Henry Dunant — organisation distincte de la Croix-Rouge nationale.\n\n"
+   "Rôle spécifique : agit EXCLUSIVEMENT en zones de CONFLIT armé.\n"
+   "• Protection des prisonniers de guerre (Conventions de Genève)\n"
+   "• Échanges d'otages et visites de détenus\n"
+   "• Aide humanitaire aux civils en zones de guerre\n"
+   "• 192 pays — 20 000 collaborateurs sur le terrain",
+   size=10, color=C_TEXT_LIGHT, wrap=True)
+
+# Fidelis = RUP exclusivement
+rect(sl, Inches(.35), Inches(4.2), Inches(12.6), Inches(1.45), fill=C_DARK, line=C_ORANGE, line_w=Pt(1.5))
+rect(sl, Inches(.35), Inches(4.2), Inches(12.6), Inches(.05), fill=C_ORANGE)
+tb(sl, Inches(.6), Inches(4.32), Inches(12.0), Inches(.3),
+   "FIDELIS — ENGAGEMENT EXCLUSIF ASSOCIATIONS RECONNUES D'UTILITÉ PUBLIQUE (RUP)", size=13, bold=True, color=C_ORANGE)
+tb(sl, Inches(.6), Inches(4.7), Inches(12.0), Inches(.82),
+   "Fidelis travaille EXCLUSIVEMENT avec des associations Reconnues d'Utilité Publique (RUP) par décret d'État. "
+   "Cela garantit : contrôle de l'État renforcé, comptes certifiés, mission d'intérêt général prouvée. "
+   "Pour le fundraiser : votre démarche est 100% légitime — vous représentez des causes auditées, transparentes, reconnues.",
+   size=11, color=C_WHITE, wrap=True)
+
+# Particuliers vs Professionnels
+rect(sl, Inches(.35), Inches(5.82), Inches(12.6), Inches(1.28), fill=C_YELLOW_LIGHT, line=C_YELLOW, line_w=Pt(1.5))
+rect(sl, Inches(.35), Inches(5.82), Inches(12.6), Inches(.04), fill=C_YELLOW)
+tb(sl, Inches(.6), Inches(5.92), Inches(12.0), Inches(.3),
+   "⚡  PARTICULIERS & PROFESSIONNELS — RÈGLE FONDAMENTALE", size=11, bold=True, color=C_BLUE_DARK)
+tb(sl, Inches(.6), Inches(6.3), Inches(12.0), Inches(.72),
+   "Lors de vos appels, vous pouvez tomber sur un PARTICULIER ou un PROFESSIONNEL (entreprise, cabinet, commerce). "
+   "Les dons se font UNIQUEMENT par des particuliers — jamais au nom d'une entreprise. "
+   "Si vous atteignez un professionnel : restez courtois, demandez si vous pouvez rappeler sur un numéro personnel. "
+   "Ne qualifiez PAS une fiche professionnel comme refus — qualifiez : Absent / Rappel.",
+   size=10, color=C_TEXT_LIGHT, wrap=True)
+
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 14 — LA QUALIFICATION — ENJEU CRITIQUE
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+rect(sl, 0, 0, W, H, fill=C_WHITE)
+rect(sl, 0, 0, W, Inches(1.35), fill=C_RED)
+rect(sl, 0, 0, W, Inches(.06), fill=C_ORANGE)
+tb(sl, Inches(.4), Inches(.1), Inches(12.5), Inches(.58),
+   "LA QUALIFICATION — ENJEU CRITIQUE", size=22, bold=True, color=C_WHITE)
+tb(sl, Inches(.4), Inches(.72), Inches(12.5), Inches(.44),
+   "50 % de la qualité de travail Fidelis repose sur une qualification CONFORME", size=12, italic=True, color=RGBColor(0xFF, 0xDD, 0xDD))
+footer(sl)
+
+# Left — what it means
+rect(sl, Inches(.35), Inches(1.5), Inches(5.9), Inches(2.42), fill=C_DARK, line=C_RED, line_w=Pt(1.5))
+rect(sl, Inches(.35), Inches(1.5), Inches(5.9), Inches(.05), fill=C_RED)
+tb(sl, Inches(.55), Inches(1.62), Inches(5.5), Inches(.3),
+   "⚠  IMPACT D'UNE FAUSSE QUALIFICATION", size=12, bold=True, color=C_RED)
+tb(sl, Inches(.55), Inches(2.0), Inches(5.5), Inches(1.75),
+   "Une qualification erronée entraîne un impact FINANCIER DIRECT sur Fidelis.\n\n"
+   "• Refus argumenté / Refus de répondre = NON CONTACTÉ pendant 4 mois\n"
+   "• Peut être affecté à d'autres associations — mais PAS UNICEF\n"
+   "• SHY Performance + Nescall reçoivent chacun 300 000 à 400 000 fiches/mois\n"
+   "• Une fiche mal qualifiée = un contact perdu, une opportunité manquée",
+   size=10, color=C_WHITE, wrap=True)
+
+# Right — volumes
+rect(sl, Inches(6.55), Inches(1.5), Inches(6.4), Inches(2.42), fill=C_BLUE_LIGHT, line=C_BLUE_MID, line_w=Pt(1))
+rect(sl, Inches(6.55), Inches(1.5), Inches(6.4), Inches(.05), fill=C_BLUE_MID)
+tb(sl, Inches(6.75), Inches(1.62), Inches(6.0), Inches(.3),
+   "📊  VOLUMES — EXPLOITATION DES FICHES", size=12, bold=True, color=C_BLUE_DARK)
+
+volumes = [
+    ("SHY Performance", "300 000 – 400 000 fiches / mois", C_BLUE_MID),
+    ("Nescall", "300 000 – 400 000 fiches / mois", C_TEAL),
+    ("Total marché", "600 000 à 800 000 contacts / mois", C_ORANGE),
+    ("Exclusion UNICEF", "4 mois si refus argumenté / sans réponse", C_RED),
+]
+vy = Inches(2.02)
+for label, val, accent in volumes:
+    rect(sl, Inches(6.65), vy, Inches(.06), Inches(.5), fill=accent)
+    tb(sl, Inches(6.85), vy + Inches(.03), Inches(2.5), Inches(.24),
+       label, size=10, bold=True, color=C_BLUE_DARK)
+    tb(sl, Inches(6.85), vy + Inches(.28), Inches(5.8), Inches(.22),
+       val, size=10, italic=True, color=C_TEXT_LIGHT)
+    vy += Inches(.52)
+
+# Center — qualifications table
+rect(sl, Inches(.35), Inches(4.05), Inches(12.6), Inches(.38), fill=C_RED)
+tb(sl, Inches(.55), Inches(4.13), Inches(12.0), Inches(.24),
+   "RÈGLE D'OR : TABLEAU DES QUALIFICATIONS OBLIGATOIRES", size=11, bold=True, color=C_WHITE, align=PP_ALIGN.CENTER)
+
+qual_rows = [
+    (C_GREEN_LIGHT, C_GREEN, "✅  PEL — Prélèvement En Ligne", "Donateur accepte le prélèvement automatique — mission accomplie"),
+    (C_GREEN_LIGHT, C_GREEN, "✅  RIM — Rappel Imminent", "Intéressé, pas disponible, demande à être rappelé très vite"),
+    (C_YELLOW_LIGHT, C_YELLOW, "🕐  ABSENT", "Répondeur / NRP / Raccroché SANS identification — à rappeler"),
+    (C_YELLOW_LIGHT, C_YELLOW, "🕐  DEL — Don En Ligne", "Prêt à donner mais préfère le faire via lien web"),
+    (C_RED_LIGHT, C_RED, "❌  RA — Refus Argumenté", "Refuse avec une raison valide — NE PLUS CONTACTER 4 mois UNICEF"),
+    (C_RED_LIGHT, C_RED, "❌  RR — Refus de Répondre", "Raccroche sans raison / agressif — idem 4 mois UNICEF"),
+]
+qy = Inches(4.52)
+for bg, accent, code, desc in qual_rows:
+    rect(sl, Inches(.35), qy, Inches(12.6), Inches(.42), fill=bg, line=C_GREY_LINE, line_w=Pt(.5))
+    rect(sl, Inches(.35), qy, Inches(.06), Inches(.42), fill=accent)
+    tb(sl, Inches(.55), qy + Inches(.08), Inches(4.5), Inches(.28),
+       code, size=10, bold=True, color=C_BLUE_DARK)
+    tb(sl, Inches(5.15), qy + Inches(.08), Inches(7.6), Inches(.28),
+       desc, size=10, color=C_TEXT_LIGHT)
+    qy += Inches(.43)
+
+# Error example box
+rect(sl, Inches(.35), qy + Inches(.08), Inches(12.6), Inches(.62), fill=C_ORANGE, line=C_ORANGE_DARK, line_w=Pt(1.5))
+tb(sl, Inches(.55), qy + Inches(.16), Inches(12.0), Inches(.46),
+   "EXEMPLE D'ERREUR DE QUALIFICATION : Un appel tombe sur un répondeur → Le fundraiser qualifie 'RA' (Refus Argumenté). "
+   "FAUX ! Le répondeur = ABSENT. La personne n'a pas refusé — elle n'était pas là. Qualifier RA = perdre ce contact 4 mois.",
+   size=10, bold=True, color=C_WHITE, wrap=True)
+
+
+# ════════════════════════════════════════════════════════════════════
+# SLIDE 15 — NOMENCLATURE COMPLÉMENTAIRE J2
+# ════════════════════════════════════════════════════════════════════
+sl = add_slide()
+section_top(sl, "→  NOMENCLATURE COMPLÉMENTAIRE — J2",
+            "Nouveaux termes : ABSENT, CICR, Comité de la Charte, Particulier / Professionnel", C_PURPLE)
+footer(sl)
+
+nomenclature = [
+    (C_TEAL, "ABSENT",
+     "Qualification utilisée lorsqu'un appel n'aboutit pas à une identification réelle de la personne.",
+     "Répondeur téléphonique — NRP (No Response / pas de réponse) — Raccroché SANS identification de l'interlocuteur.",
+     "⚡ À NE PAS CONFONDRE avec RA (Refus Argumenté) ou RR (Refus de Répondre).\n"
+     "L'ABSENT doit être recontacté — il n'a pas refusé, il n'était simplement pas disponible."),
+    (C_RED, "CICR",
+     "Comité International de la Croix-Rouge — organisation humanitaire fondée à Genève en 1863.",
+     "Agit EXCLUSIVEMENT dans les zones de CONFLIT armé : protection des prisonniers de guerre, "
+     "échange d'otages, visites aux détenus, aide aux civils victimes de guerre.",
+     "⚡ DISTINCT de la Croix-Rouge française (action nationale, catastrophes) et de l'UNICEF (enfance, développement)."),
+    (C_BLUE_MID, "COMITÉ DE LA CHARTE",
+     "Comité de la Charte du Don en Confiance — organisme de régulation et de contrôle du secteur associatif.",
+     "Créé en 1989, renforcé après l'Affaire ARC (1996). Délivre le label « Don en Confiance ».\n"
+     "Renforce le contrôle de l'État sur les associations : audits annuels obligatoires, publication des comptes, "
+     "transparence sur l'utilisation des dons. UNICEF France est membre labellisé.",
+     "⚡ Pour le fundraiser : le label Don en Confiance est un argument fort face aux donateurs méfiants."),
+    (C_ORANGE, "PARTICULIER / PROFESSIONNEL",
+     "Distinction fondamentale lors de vos appels téléphoniques.",
+     "PARTICULIER : personne physique appelée à titre personnel — cible principale, peut faire un don.\n"
+     "PROFESSIONNEL : entreprise, cabinet, commerce, artisan appelé sur numéro pro. "
+     "Les dons se font UNIQUEMENT par les particuliers, jamais au nom d'une entreprise.",
+     "⚡ Si vous atteignez un professionnel : restez courtois, qualifiez ABSENT ou demandez le numéro personnel."),
+]
+ny = Inches(1.5)
+for accent, term, definition, detail, alert in nomenclature:
+    rect(sl, Inches(.35), ny, Inches(12.6), Inches(1.35), fill=C_WHITE, line=accent, line_w=Pt(1.2))
+    rect(sl, Inches(.35), ny, Inches(.06), Inches(1.35), fill=accent)
+    rect(sl, Inches(.41), ny, Inches(2.1), Inches(1.35), fill=C_GREY)
+    tb(sl, Inches(.5), ny + Inches(.08), Inches(1.95), Inches(.38),
+       term, size=13, bold=True, color=accent)
+    tb(sl, Inches(.5), ny + Inches(.5), Inches(1.95), Inches(.52),
+       definition, size=8, italic=True, color=C_TEXT_LIGHT, wrap=True)
+    tb(sl, Inches(2.65), ny + Inches(.06), Inches(7.5), Inches(.52),
+       detail, size=9.5, color=C_TEXT_LIGHT, wrap=True)
+    rect(sl, Inches(10.25), ny + Inches(.06), Inches(2.6), Inches(1.22), fill=C_GREY)
+    tb(sl, Inches(10.35), ny + Inches(.1), Inches(2.4), Inches(1.12),
+       alert, size=8.5, bold=False, color=accent, wrap=True)
+    ny += Inches(1.45)
+
+
+# ════════════════════════════════════════════════════════════════════
 # SAUVEGARDE
 # ════════════════════════════════════════════════════════════════════
 out = "/home/user/fatou/J2_Matin_Formation_Fidelis.pptx"
