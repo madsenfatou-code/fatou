@@ -116,7 +116,7 @@ body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#003087 0%
   <div class="hdr">
     <div class="logo">Fidelis × SHY Performance — Formation J2</div>
     <h1 id="hdr-title">Quiz — Le Monde Associatif &amp; Humanitaire</h1>
-    <p id="hdr-sub">10 questions · 1 point par bonne réponse · Score immédiat</p>
+    <p id="hdr-sub">40 questions · 1 point par bonne réponse · Score immédiat</p>
     <div class="prog-wrap"><div class="prog-bar" id="prog"></div></div>
   </div>
   <div class="body">
@@ -127,8 +127,8 @@ body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#003087 0%
       <div class="land">
         <h2>Bienvenue au Quiz J2 !</h2>
         <p>Testez vos connaissances sur le Monde Associatif &amp; Humanitaire.<br>
-           <strong>10 questions</strong> — 1 point par bonne réponse.<br>
-           <strong>≥ 7/10 = Bravo !</strong> &nbsp;|&nbsp; <strong>&lt; 7/10 = Tu peux faire mieux !</strong></p>
+           <strong>40 questions</strong> — 1 point par bonne réponse.<br>
+           <strong>≥ 28/40 = Bravo !</strong> &nbsp;|&nbsp; <strong>&lt; 28/40 = Tu peux faire mieux !</strong></p>
       </div>
       <div class="field" style="margin-bottom:14px">
         <label>Votre prénom et nom</label>
@@ -156,7 +156,7 @@ body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#003087 0%
     <div id="v-sc" class="hidden sc-wrap">
       <div class="sc-circle pop" id="sc-circle">
         <span id="sc-val"></span>
-        <small>/ 10</small>
+        <small>/ 40</small>
       </div>
       <div class="sc-msg" id="sc-msg"></div>
       <div class="sc-sub" id="sc-sub"></div>
@@ -284,6 +284,186 @@ const QS = [
     ch:[{k:"a",t:"Fondateur de l'UNICEF"},{k:"b",t:"Directeur de l'ARC impliqué dans le scandale 1996"},{k:"c",t:"Premier président du Comité de la Charte"}],
     ok:"b",
     exp:"Jacques Crozemarie était directeur de l'Association de Recherche sur le Cancer (ARC). Le scandale de détournements de fonds en 1996 a provoqué une crise de confiance majeure dans le secteur."
+  },
+  {
+    id:11, txt:"Combien y a-t-il de bénévoles en France ?",
+    ch:[{k:"a",t:"12 millions"},{k:"b",t:"22 millions"},{k:"c",t:"35 millions"}],
+    ok:"b",
+    exp:"La France compte 22 millions de bénévoles, ce qui en fait le 2e pays le plus associatif d'Europe. Le bénévolat est un pilier essentiel du monde associatif."
+  },
+  {
+    id:12, txt:"Combien y a-t-il de salariés dans le secteur associatif en France ?",
+    ch:[{k:"a",t:"500 000"},{k:"b",t:"1,8 million"},{k:"c",t:"3 millions"}],
+    ok:"b",
+    exp:"Le secteur associatif emploie 1,8 million de salariés en France, représentant environ 5 % de l'emploi total. C'est un secteur économique majeur."
+  },
+  {
+    id:13, txt:"Quel est le budget total annuel des associations en France ?",
+    ch:[{k:"a",t:"55 milliards €"},{k:"b",t:"113 milliards €"},{k:"c",t:"200 milliards €"}],
+    ok:"b",
+    exp:"Les associations françaises représentent 113 milliards € de budget annuel, soit 5 % du PIB. C'est un secteur économique de premier plan."
+  },
+  {
+    id:14, txt:"Quel secteur associatif regroupe le plus grand nombre d'associations en France ?",
+    ch:[{k:"a",t:"Culture et arts (28 %)"},{k:"b",t:"Action sociale (22 %)"},{k:"c",t:"Sport et loisirs (33 %)"}],
+    ok:"c",
+    exp:"Le sport et les loisirs représentent 33 % des associations en France. C'est le secteur le plus représenté, suivi par la culture/arts et l'action sociale."
+  },
+  {
+    id:15, txt:"Quelle part du financement des associations provient des dons privés ?",
+    ch:[{k:"a",t:"10 %"},{k:"b",t:"36 %"},{k:"c",t:"58 %"}],
+    ok:"b",
+    exp:"Les dons privés représentent 36 % du financement des associations. Les subventions publiques et les cotisations complètent le reste. La collecte privée est donc cruciale."
+  },
+  {
+    id:16, txt:"Combien de personnes minimum sont nécessaires pour créer une association loi 1901 ?",
+    ch:[{k:"a",t:"1 personne"},{k:"b",t:"2 personnes"},{k:"c",t:"5 personnes"}],
+    ok:"b",
+    exp:"La loi du 1er juillet 1901 exige au minimum 2 personnes pour créer une association. L'objet doit être non lucratif et ne pas contrevenir aux lois en vigueur."
+  },
+  {
+    id:17, txt:"Quelle est la caractéristique principale d'une association loi 1901 ?",
+    ch:[{k:"a",t:"Distribution de bénéfices entre membres"},{k:"b",t:"But non lucratif — partage de connaissances ou activité commune"},{k:"c",t:"Obligation d'avoir un local commercial"}],
+    ok:"b",
+    exp:"La loi 1901 définit l'association comme un groupement de personnes poursuivant un but non lucratif. Il n'y a pas de partage de bénéfices entre les membres."
+  },
+  {
+    id:18, txt:"Qu'est-ce qu'une association « de fait » ?",
+    ch:[{k:"a",t:"Une association avec statut RUP"},{k:"b",t:"Une association reconnue par l'État"},{k:"c",t:"Un groupement sans personnalité juridique ni déclaration officielle"}],
+    ok:"c",
+    exp:"Une association de fait n'a pas de personnalité juridique. Elle n'a pas été déclarée en préfecture. Elle ne peut ni recevoir de subventions ni ouvrir un compte bancaire en son nom."
+  },
+  {
+    id:19, txt:"Quel principal avantage offre la Reconnaissance d'Utilité Publique (RUP) ?",
+    ch:[{k:"a",t:"Exonération totale d'impôts"},{k:"b",t:"Possibilité de recevoir des legs et libéralités"},{k:"c",t:"Subvention automatique de l'État"}],
+    ok:"b",
+    exp:"La RUP permet à une association de recevoir des legs, donations et libéralités. C'est un avantage majeur pour la collecte à long terme. UNICEF France détient ce statut."
+  },
+  {
+    id:20, txt:"Quelle part du marché de la collecte le phoning représente-t-il aujourd'hui ?",
+    ch:[{k:"a",t:"25 %"},{k:"b",t:"40 %"},{k:"c",t:"55 %"}],
+    ok:"c",
+    exp:"Le phoning représente 55 % du marché de la collecte de fonds en France. C'est le canal dominant depuis les années 2000, devant le mailing postal et le face-à-face."
+  },
+  {
+    id:21, txt:"Quelle date correspond à la bataille de Solférino ?",
+    ch:[{k:"a",t:"14 juillet 1789"},{k:"b",t:"24 juin 1859"},{k:"c",t:"8 mai 1945"}],
+    ok:"b",
+    exp:"La bataille de Solférino eut lieu le 24 juin 1859 en Italie. Henry Dunant, témoin des souffrances des soldats blessés, fut à l'origine de la création de la Croix-Rouge."
+  },
+  {
+    id:22, txt:"Quelle expression Henry Dunant utilise-t-il pour décrire la fraternité humaine après Solférino ?",
+    ch:[{k:"a",t:"\"La paix universelle\""},{k:"b",t:"\"Tutti Fratelli\" (Tous frères)"},{k:"c",t:"\"La solidarité mondiale\""}],
+    ok:"b",
+    exp:"Henry Dunant reprend l'expression italienne \"Tutti Fratelli\" — Tous frères — pour décrire l'élan de solidarité des habitants qui soignaient les blessés sans distinction de nationalité."
+  },
+  {
+    id:23, txt:"Pourquoi le symbole de la Croix-Rouge est-il un drapeau suisse inversé ?",
+    ch:[{k:"a",t:"Pour rappeler la neutralité de la Suisse"},{k:"b",t:"En hommage à Henry Dunant, citoyen suisse"},{k:"c",t:"Pour des raisons de visibilité sur le terrain"}],
+    ok:"b",
+    exp:"La Croix-Rouge reprend les couleurs du drapeau suisse inversées (croix rouge sur fond blanc) en hommage à Henry Dunant, fondateur suisse de la Croix-Rouge."
+  },
+  {
+    id:24, txt:"En quelle année l'UNICEF a-t-il été créé ?",
+    ch:[{k:"a",t:"1919"},{k:"b",t:"1946"},{k:"c",t:"1963"}],
+    ok:"b",
+    exp:"L'UNICEF (Fonds des Nations Unies pour l'enfance) a été créé le 11 décembre 1946. Il est présent dans 190 pays et territoires pour défendre les droits des enfants."
+  },
+  {
+    id:25, txt:"Combien de pays l'UNICEF couvre-t-il dans le monde ?",
+    ch:[{k:"a",t:"120 pays"},{k:"b",t:"160 pays"},{k:"c",t:"190 pays"}],
+    ok:"c",
+    exp:"L'UNICEF est présent dans 190 pays et territoires, ce qui en fait l'une des organisations humanitaires les plus présentes au monde. Il agit pour chaque enfant, partout."
+  },
+  {
+    id:26, txt:"Quel est le rôle principal du CICR (Comité International de la Croix-Rouge) ?",
+    ch:[{k:"a",t:"Financer les associations caritatives"},{k:"b",t:"Intervenir en zones de conflit armé pour protéger les victimes"},{k:"c",t:"Organiser les collectes de fonds en France"}],
+    ok:"b",
+    exp:"Le CICR intervient en zones de conflit armé pour protéger les prisonniers de guerre, les civils et les blessés, en s'appuyant sur les Conventions de Genève."
+  },
+  {
+    id:27, txt:"Quel est le montant total collecté par les associations en France chaque année ?",
+    ch:[{k:"a",t:"1,5 milliard €"},{k:"b",t:"5,5 milliards €"},{k:"c",t:"12 milliards €"}],
+    ok:"b",
+    exp:"Les associations françaises collectent 5,5 milliards € par an. C'est un marché en croissance continue depuis les années 2000, porté notamment par le phoning."
+  },
+  {
+    id:28, txt:"Quel est le taux de conversion moyen en phoning fundraising ?",
+    ch:[{k:"a",t:"1 à 3 %"},{k:"b",t:"8 à 15 %"},{k:"c",t:"25 à 35 %"}],
+    ok:"b",
+    exp:"Le taux de conversion en phoning est de 8 à 15 %. Ce taux dépend de la qualité des fiches, du script, de la posture du fundraiser et du ciblage des donateurs potentiels."
+  },
+  {
+    id:29, txt:"Combien y a-t-il de donateurs réguliers en France ?",
+    ch:[{k:"a",t:"2 millions"},{k:"b",t:"5 millions"},{k:"c",t:"7,5 millions"}],
+    ok:"c",
+    exp:"La France compte 7,5 millions de donateurs réguliers. Ils versent un don mensuel par prélèvement automatique — c'est le mode de don que SHY Performance collecte exclusivement."
+  },
+  {
+    id:30, txt:"Quel est le don moyen annuel d'un donateur régulier en France ?",
+    ch:[{k:"a",t:"80 €"},{k:"b",t:"164 €"},{k:"c",t:"350 €"}],
+    ok:"b",
+    exp:"Le don moyen annuel d'un donateur régulier est de 164 €, soit environ 13,70 € par mois — un montant raisonnable qui permet une fidélisation sur le long terme."
+  },
+  {
+    id:31, txt:"Quel pourcentage des personnes de 65 ans et plus sont des donateurs réguliers ?",
+    ch:[{k:"a",t:"30 %"},{k:"b",t:"45 %"},{k:"c",t:"60 %"}],
+    ok:"c",
+    exp:"60 % des personnes de 65 ans et plus sont des donateurs réguliers. C'est la tranche d'âge la plus généreuse et la plus fidèle — une cible prioritaire en phoning humanitaire."
+  },
+  {
+    id:32, txt:"Quelle catégorie socio-professionnelle représente la plus grande part des donateurs réguliers ?",
+    ch:[{k:"a",t:"Ouvriers (30 %)"},{k:"b",t:"Cadres et professions libérales (55 %)"},{k:"c",t:"Étudiants (45 %)"}],
+    ok:"b",
+    exp:"Les cadres et professions libérales représentent 55 % des donateurs réguliers. Ils ont un revenu disponible plus élevé et une sensibilité forte aux causes humanitaires."
+  },
+  {
+    id:33, txt:"Quelle région concentre le plus grand nombre de donateurs réguliers ?",
+    ch:[{k:"a",t:"Provence-Alpes-Côte d'Azur"},{k:"b",t:"Île-de-France (52 %)"},{k:"c",t:"Occitanie"}],
+    ok:"b",
+    exp:"L'Île-de-France concentre 52 % des donateurs réguliers, contre 39 % en zone rurale. La densité de population et le niveau de revenus expliquent cette concentration."
+  },
+  {
+    id:34, txt:"Qu'est-ce qu'un CU (Contact Utile) en phoning fundraising ?",
+    ch:[{k:"a",t:"Tout appel décroché par un interlocuteur"},{k:"b",t:"Un appel strictement supérieur à 60 secondes"},{k:"c",t:"Un appel ayant abouti à un don"}],
+    ok:"b",
+    exp:"Un CU (Contact Utile) est défini comme un appel strictement supérieur à 60 secondes. En dessous de cette durée, l'appel n'est pas comptabilisé dans la performance du fundraiser."
+  },
+  {
+    id:35, txt:"Que signifie la qualification ABSENT dans la nomenclature Fidelis ?",
+    ch:[{k:"a",t:"La personne a refusé catégoriquement le don"},{k:"b",t:"La personne n'était pas disponible au moment de l'appel"},{k:"c",t:"Le numéro est invalide ou erroné"}],
+    ok:"b",
+    exp:"ABSENT signifie que la personne n'était pas disponible lors de l'appel. Cette qualification est différente d'un refus argumenté (RA). Il faut rappeler ultérieurement — ne jamais confondre ABSENT avec RA."
+  },
+  {
+    id:36, txt:"Combien de mois d'exclusion UNICEF s'appliquent après un Refus Argumenté (RA) ?",
+    ch:[{k:"a",t:"1 mois"},{k:"b",t:"2 mois"},{k:"c",t:"4 mois"}],
+    ok:"c",
+    exp:"Après un Refus Argumenté (RA), la fiche est exclue des appels UNICEF pendant 4 mois. La qualification RA doit être utilisée avec précision — une mauvaise qualification nuit à la qualité du fichier."
+  },
+  {
+    id:37, txt:"Que signifie l'acronyme PEL ?",
+    ch:[{k:"a",t:"Plan d'Épargne Logement"},{k:"b",t:"Prélèvement En Ligne"},{k:"c",t:"Processus d'Engagement Libre"}],
+    ok:"b",
+    exp:"PEL signifie Prélèvement En Ligne. C'est le lien envoyé au donateur pour saisir son IBAN directement depuis chez lui. Ce lien n'a pas de date d'expiration."
+  },
+  {
+    id:38, txt:"Combien de fiches SHY Performance et Nescall reçoivent-ils chacun par mois ?",
+    ch:[{k:"a",t:"50 000 à 100 000"},{k:"b",t:"300 000 à 400 000"},{k:"c",t:"1 million"}],
+    ok:"b",
+    exp:"SHY Performance et Nescall reçoivent chacun 300 000 à 400 000 fiches par mois. C'est pourquoi la qualification est cruciale : 50 % du travail qualité de Fidelis repose sur une qualification conforme."
+  },
+  {
+    id:39, txt:"Un don régulier peut-il être effectué au nom d'une entreprise ?",
+    ch:[{k:"a",t:"Oui, si le dirigeant l'autorise"},{k:"b",t:"Non, uniquement par des particuliers depuis leur compte personnel"},{k:"c",t:"Oui, avec un IBAN professionnel"}],
+    ok:"b",
+    exp:"Les dons réguliers sont exclusivement effectués par des particuliers depuis leur compte personnel. Si on tombe sur un professionnel, on demande l'IBAN PERSONNEL pour un don de son compte personnel."
+  },
+  {
+    id:40, txt:"Combien d'enfants l'UNICEF a-t-il aidé à vacciner dans le monde ?",
+    ch:[{k:"a",t:"100 millions"},{k:"b",t:"350 millions"},{k:"c",t:"560 millions"}],
+    ok:"c",
+    exp:"L'UNICEF a aidé à vacciner 560 millions d'enfants dans le monde. Grâce aux dons réguliers collectés en France, l'UNICEF peut planifier ses actions humanitaires sur le long terme."
   }
 ];
 
@@ -396,13 +576,13 @@ function finish() {
   document.getElementById("sc-val").textContent = s;
 
   let msg, sub;
-  if(s >= 9){
+  if(s >= 36){
     msg = "🏆 Excellent ! Bravo !";
     sub = "Score parfait ou quasi-parfait ! Vous maîtrisez le module J2. Prêt(e) à convaincre avec légitimité et confiance !";
-  } else if(s >= 7){
+  } else if(s >= 28){
     msg = "🎉 Bravo ! Très bon score !";
     sub = "Vous avez bien assimilé les points clés. Revoyez les questions ratées pour tout consolider.";
-  } else if(s >= 5){
+  } else if(s >= 20){
     msg = "💪 Tu peux faire mieux !";
     sub = "Vous avez les bases, mais des points importants méritent d'être revus. Consultez vos supports de formation.";
   } else {
@@ -470,12 +650,12 @@ function renderAdmin() {
   const total = rows.length;
   const avg = total ? (rows.reduce((s,r)=>s+r.score,0)/total).toFixed(1) : 0;
   const maxi = total ? Math.max(...rows.map(r=>r.score)) : 0;
-  const pct = total ? Math.round(rows.filter(r=>r.score>=7).length/total*100) : 0;
+  const pct = total ? Math.round(rows.filter(r=>r.score>=28).length/total*100) : 0;
   document.getElementById("adm-stats").innerHTML = `
     <div class="st"><div class="sv">${total}</div><div class="sl">Participants</div></div>
     <div class="st g"><div class="sv">${avg}</div><div class="sl">Score moyen</div></div>
     <div class="st o"><div class="sv">${maxi}</div><div class="sl">Meilleur score</div></div>
-    <div class="st c"><div class="sv">${pct}%</div><div class="sl">Réussite ≥7/10</div></div>
+    <div class="st c"><div class="sv">${pct}%</div><div class="sl">Réussite ≥28/40</div></div>
   `;
 
   // Bar chart per participant
@@ -484,11 +664,11 @@ function renderAdmin() {
   else {
     bars.innerHTML = rows.map(r => {
       const pct2 = Math.round(r.score/r.total*100);
-      const col = r.score>=7 ? "#27AE60" : r.score>=5 ? "#F7941D" : "#E74C3C";
+      const col = r.score>=28 ? "#27AE60" : r.score>=20 ? "#F7941D" : "#E74C3C";
       return `<div class="q-bar-item">
         <div class="q-bar-label" style="width:90px;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.name}">${r.name}</div>
         <div class="q-bar-track">
-          <div class="q-bar-fill" style="width:${pct2}%;background:${col}">${r.score}/10</div>
+          <div class="q-bar-fill" style="width:${pct2}%;background:${col}">${r.score}/40</div>
         </div>
       </div>`;
     }).join("");
@@ -518,8 +698,8 @@ function renderAdmin() {
   document.getElementById("adm-empty").classList.toggle("hidden", total > 0);
   document.getElementById("adm-tbl").style.display = total ? "table" : "none";
   tbody.innerHTML = rows.map((r,i) => {
-    const cls = r.score>=7?"sh":r.score>=5?"sm":"sl2";
-    const res = r.score>=7?"✅ Réussi":"⚠️ À améliorer";
+    const cls = r.score>=28?"sh":r.score>=20?"sm":"sl2";
+    const res = r.score>=28?"✅ Réussi":"⚠️ À améliorer";
     return `<tr>
       <td style="color:#999">${i+1}</td>
       <td><strong>${r.name}</strong></td>
@@ -537,7 +717,7 @@ function exportCSV() {
   const lines = rows.map(r => {
     const qPts = QS.map((_,i) => r.answers[i]?.pts ?? "").join(",");
     const pct = Math.round(r.score/r.total*100);
-    const res = r.score>=7?"Réussi":"À améliorer";
+    const res = r.score>=28?"Réussi":"À améliorer";
     return `"${r.name}",${r.score},${r.total},${pct}%,"${res}","${r.time}",${qPts}`;
   });
   const csv = [header,...lines].join("\n");
