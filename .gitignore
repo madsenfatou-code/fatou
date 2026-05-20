@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+quiz_results.db
+*.db
