@@ -495,8 +495,8 @@ function show(id) {
     document.getElementById(v).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
 }
-function goLand(){ show("v-land"); }
-function goAdmin(){ admLogged ? renderAdmin() : show("v-adm-login"); }
+function goLand(){ show("v-land"); history.replaceState(null,"",location.pathname); }
+function goAdmin(){ admLogged ? renderAdmin() : show("v-adm-login"); history.replaceState(null,"","#admin"); }
 
 // ══════════════════════════════════════════════════
 //  QUIZ LOGIC
@@ -734,6 +734,11 @@ function clearData() {
     renderAdmin();
   }
 }
+
+// Routing : ouvre directement l'admin si l'URL contient #admin
+window.addEventListener("DOMContentLoaded", () => {
+  if(location.hash === "#admin") goAdmin();
+});
 </script>
 </body>
 </html>
