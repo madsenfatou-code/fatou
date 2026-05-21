@@ -6,26 +6,16 @@
   <title>Script Fundraising – UNICEF</title>
   <style>
     :root {
-      --blue: #009EDB;
+      --blue:      #009EDB;
       --blue-dark: #00618A;
-      --blue-light: #E8F6FC;
-      --yellow: #FFC200;
-      --white: #FFFFFF;
-      --gray: #F4F6F8;
-      --text: #1A2530;
-      --text-muted: #5A7184;
-      --radius: 10px;
-      --c1: #D4500A;
-      --c2: #8B1A8B;
-      --c3: #1A7A4A;
-      --c4: #C0392B;
-      --c5: #0D6E7A;
-      --c6: #6A3500;
-      --c7: #1A237E;
-      --c8: #2E7D32;
-      --c9: #37474F;
+      --blue-light:#E8F6FC;
+      --yellow:    #FFC200;
+      --white:     #FFFFFF;
+      --gray:      #F2F4F7;
+      --text:      #1A2530;
+      --muted:     #4A6070;
+      --r:         10px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -33,108 +23,81 @@
       background: var(--gray);
       color: var(--text);
       font-size: 17px;
-      line-height: 1.8;
+      line-height: 1.85;
     }
 
-    .num {
-      color: #D32F2F;
-      font-size: 1.15em;
-      font-weight: 700;
-    }
+    /* ─── CHIFFRES EN ROUGE ─── */
+    .num { color: #C62828; font-size: 1.15em; font-weight: 800; }
 
-    /* ── HEADER ── */
+    /* ─── HEADER ─── */
     header {
       background: var(--blue);
       color: var(--white);
-      padding: 30px 44px 26px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
+      padding: 28px 44px 24px;
+      display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
     }
-    header .logo-block { display: flex; align-items: center; gap: 14px; }
-    header .logo-circle {
-      width: 68px; height: 68px;
-      border-radius: 50%;
-      background: var(--white);
+    .logo-circle {
+      width: 66px; height: 66px; border-radius: 50%;
+      background: var(--white); color: var(--blue);
       display: flex; align-items: center; justify-content: center;
-      font-size: 30px; font-weight: 900;
-      color: var(--blue);
-      letter-spacing: -1px;
-      flex-shrink: 0;
+      font-size: 28px; font-weight: 900; flex-shrink: 0;
     }
-    header h1 { font-size: 24px; font-weight: 800; letter-spacing: 0.3px; }
-    header p.subtitle { font-size: 15px; opacity: .88; margin-top: 4px; }
-    header .contact-box {
-      margin-left: auto;
-      font-size: 14px;
-      opacity: .92;
-      text-align: right;
-      line-height: 1.9;
+    header h1  { font-size: 23px; font-weight: 800; }
+    header .sub { font-size: 14px; opacity: .88; margin-top: 3px; }
+    .contact-box {
+      margin-left: auto; text-align: right;
+      font-size: 14px; opacity: .92; line-height: 1.9;
     }
 
-    /* ── MAIN ── */
+    /* ─── MAIN ─── */
     main {
-      max-width: 980px;
-      margin: 32px auto;
-      padding: 0 22px 60px;
-      display: grid;
-      gap: 24px;
+      max-width: 980px; margin: 30px auto;
+      padding: 0 22px 64px;
+      display: grid; gap: 22px;
     }
 
-    /* ── CARD ── */
+    /* ─── CARD ─── */
     .card {
       background: var(--white);
-      border-radius: var(--radius);
-      padding: 28px 32px;
+      border-radius: var(--r);
+      padding: 28px 34px;
       box-shadow: 0 2px 10px rgba(0,0,0,.07);
     }
 
+    /* ─── TITRES COLORÉS ─── */
     .card h2 {
-      font-size: 20px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .7px;
-      border-bottom: 3px solid var(--blue-light);
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 20px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: .7px;
+      padding-bottom: 10px; margin-bottom: 20px;
+      border-bottom: 3px solid;
+      display: flex; align-items: center; gap: 10px;
     }
-
-    main > div:nth-child(1)  h2 { color: var(--c1); border-color: #FAD5C0; }
-    main > div:nth-child(2)  h2 { color: var(--c2); border-color: #EDD5ED; }
-    main > div:nth-child(3)  h2 { color: var(--c3); border-color: #C0E8D2; }
-    main > div:nth-child(5)  h2 { color: var(--c4); border-color: #F5C6C2; }
-    main > div:nth-child(6)  h2 { color: var(--c5); border-color: #B8E3EA; }
-    main > div:nth-child(7)  h2 { color: var(--c6); border-color: #E8D5B0; }
-    main > div:nth-child(8)  h2 { color: var(--c7); border-color: #C5CAE9; }
-    main > div:nth-child(9)  h2 { color: var(--c8); border-color: #C8E6C9; }
-    main > div:nth-child(10) h2 { color: var(--c9); border-color: #CFD8DC; }
-
-    .card h2 .step {
-      border-radius: 50%;
-      width: 30px; height: 30px;
-      font-size: 14px;
-      font-weight: 800;
+    .card h2 .badge {
+      width: 30px; height: 30px; border-radius: 50%;
+      font-size: 14px; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      color: var(--white);
-      background: currentColor;
+      color: var(--white); flex-shrink: 0;
     }
 
-    /* ── SOUS-TITRE DE SECTION ── */
+    .t1 { color: #C84B00; border-color: #F8D0B8; } .t1 .badge { background: #C84B00; }
+    .t2 { color: #7B1FA2; border-color: #E8CAEE; } .t2 .badge { background: #7B1FA2; }
+    .t3 { color: #1B6B3A; border-color: #BAE0CE; } .t3 .badge { background: #1B6B3A; }
+    .t4 { color: #B71C1C; border-color: #F5C2C2; } .t4 .badge { background: #B71C1C; }
+    .t5 { color: #006064; border-color: #B2DFDB; } .t5 .badge { background: #006064; }
+    .t6 { color: #4527A0; border-color: #C9C0EC; } .t6 .badge { background: #4527A0; }
+    .t7 { color: #1A237E; border-color: #C5CAE9; } .t7 .badge { background: #1A237E; }
+
+    /* ─── SOUS-TITRE ─── */
     .card h3 {
-      font-size: 16px;
-      font-weight: 800;
+      font-size: 16px; font-weight: 800;
       color: var(--blue-dark);
-      margin: 18px 0 8px;
-      text-transform: uppercase;
-      letter-spacing: .4px;
+      text-transform: uppercase; letter-spacing: .5px;
+      margin: 22px 0 10px;
+      padding-left: 10px;
+      border-left: 4px solid var(--blue);
     }
 
-    /* ── SPEECH BUBBLE (dialogue agent) ── */
+    /* ─── PAROLE AGENT ─── */
     .speech {
       background: var(--blue-light);
       border-left: 5px solid var(--blue);
@@ -142,426 +105,392 @@
       padding: 14px 18px;
       font-style: italic;
       color: #1A3040;
-      font-size: 16.5px;
+      font-size: 17px;
       margin: 10px 0;
-      line-height: 1.75;
+      line-height: 1.8;
     }
 
-    /* ── BRANCHE CONDITIONNELLE ── */
-    .branch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin: 12px 0;
+    /* ─── BRANCHES OUI / NON ─── */
+    .branches { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+    .br {
+      border-radius: 7px; padding: 14px 16px;
+      font-size: 16.5px; line-height: 1.75;
     }
+    .br.oui  { background: #E8F5E9; border-left: 5px solid #388E3C; }
+    .br.non  { background: #FFF8E1; border-left: 5px solid #F9A825; }
+    .br.warn { background: #FFF3E0; border-left: 5px solid #EF6C00; }
+    .br strong { display: block; font-weight: 800; margin-bottom: 6px; }
+    .br.oui  strong { color: #1B5E20; }
+    .br.non  strong { color: #E65100; }
+    .br.warn strong { color: #BF360C; }
 
-    .branch {
-      border-radius: 7px;
-      padding: 14px 16px;
-      line-height: 1.7;
-      font-size: 16px;
-    }
-    .branch.oui  { background: #EAFAF1; border-left: 5px solid #27AE60; }
-    .branch.non  { background: #FEF9E7; border-left: 5px solid #F39C12; }
-    .branch.info { background: var(--blue-light); border-left: 5px solid var(--blue); }
-
-    .branch strong {
-      display: block;
-      font-size: 15px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .branch.oui  strong { color: #1D8348; }
-    .branch.non  strong { color: #9A7D0A; }
-    .branch.info strong { color: var(--blue-dark); }
-
-    /* ── NOTE INTERNE (instruction agent) ── */
+    /* ─── NOTE INTERNE ─── */
     .note {
-      background: #FFF8E1;
-      border-left: 5px solid #FFC200;
+      background: #FFFDE7;
+      border-left: 5px solid var(--yellow);
       border-radius: 7px;
       padding: 10px 16px;
-      font-size: 15px;
-      color: #5D4037;
+      font-size: 15.5px;
+      color: #4E342E;
       margin: 10px 0;
-      line-height: 1.65;
+      line-height: 1.7;
     }
 
-    /* ── HIGHLIGHT BOX (don) ── */
+    /* ─── HIGHLIGHT DON ─── */
     .highlight {
-      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      background: linear-gradient(135deg, #009EDB, #00618A);
       color: var(--white);
-      border-radius: var(--radius);
-      padding: 26px 36px;
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
+      border-radius: var(--r);
+      padding: 26px 38px;
+      display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
     }
-    .highlight .big-number {
-      font-size: 68px;
-      font-weight: 900;
-      line-height: 1;
-      color: #FFE066;
-      flex-shrink: 0;
-    }
-    .highlight .big-number span {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--white);
-    }
-    .highlight .big-text { font-size: 20px; font-weight: 700; line-height: 1.4; }
-    .highlight .sub-text { font-size: 16px; opacity: .92; margin-top: 10px; line-height: 1.7; }
+    .big-num { font-size: 72px; font-weight: 900; line-height: 1; color: #FFE566; flex-shrink: 0; }
+    .big-num span { font-size: 26px; font-weight: 700; color: var(--white); }
+    .big-label { font-size: 21px; font-weight: 700; line-height: 1.4; }
+    .big-sub   { font-size: 16px; opacity: .92; margin-top: 10px; line-height: 1.75; }
 
-    /* ── TABLEAU PA ── */
-    .pa-table { width: 100%; border-collapse: collapse; font-size: 16px; margin-top: 8px; }
-    .pa-table th {
-      background: var(--blue-dark);
-      color: var(--white);
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 700;
+    /* ─── TABLEAU CAS ─── */
+    .cas-table { width: 100%; border-collapse: collapse; font-size: 16.5px; margin: 10px 0; }
+    .cas-table th {
+      background: var(--blue-dark); color: var(--white);
+      padding: 10px 14px; text-align: left; font-weight: 700;
     }
-    .pa-table th:first-child { border-radius: 7px 0 0 0; }
-    .pa-table th:last-child  { border-radius: 0 7px 0 0; }
-    .pa-table tr:nth-child(even) td { background: var(--blue-light); }
-    .pa-table td {
-      padding: 10px 14px;
-      vertical-align: top;
-      border-bottom: 1px solid #D8EAF5;
-      line-height: 1.65;
+    .cas-table th:first-child { border-radius: 7px 0 0 0; }
+    .cas-table th:last-child  { border-radius: 0 7px 0 0; }
+    .cas-table tr:nth-child(even) td { background: var(--blue-light); }
+    .cas-table td {
+      padding: 10px 14px; vertical-align: top;
+      border-bottom: 1px solid #D0E8F5; line-height: 1.7;
     }
-    .pa-table td:first-child { font-weight: 700; color: var(--blue-dark); white-space: nowrap; }
+    .cas-table td:first-child { font-weight: 700; color: var(--blue-dark); white-space: nowrap; }
 
-    /* ── PILLS ── */
-    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-    .pill {
-      background: var(--blue-light);
-      color: var(--blue-dark);
-      border-radius: 20px;
-      padding: 5px 16px;
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    /* ── FOOTER ── */
+    /* ─── FOOTER ─── */
     footer {
-      text-align: center;
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 12px;
-      padding-bottom: 16px;
+      text-align: center; font-size: 14px;
+      color: var(--muted); margin-top: 10px; padding-bottom: 16px;
     }
-    footer span { color: var(--blue); font-weight: 700; }
-
-    p + p { margin-top: 10px; }
+    footer strong { color: var(--blue); }
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════ HEADER ══════════════════════ -->
+<!-- ══ HEADER ══ -->
 <header>
-  <div class="logo-block">
-    <div class="logo-circle">UN</div>
-    <div>
-      <h1>UNICEF — Script de Collecte de Dons</h1>
-      <p class="subtitle">Campagne d'information humanitaire · Malnutrition infantile</p>
-    </div>
+  <div class="logo-circle">UN</div>
+  <div>
+    <h1>UNICEF — Script de Collecte de Dons</h1>
+    <p class="sub">Campagne d'information humanitaire · Malnutrition infantile</p>
   </div>
   <div class="contact-box">
     <strong>Fonds des Nations Unies pour l'Enfance</strong><br>
-    3 rue Duguay-Trouin — 75282 Paris Cedex 06<br>
-    Tél : 09 69 36 84 68 · <a href="mailto:unicef.tmk@unicef.fr" style="color:#fff;">unicef.tmk@unicef.fr</a><br>
-    DG : Ann Avril · Présidente : Adeline Hazan
+    3 RUE DUGUAY-TROUIN — 75282 PARIS CEDEX 06<br>
+    TEL : 09 69 36 84 68 · <a href="mailto:Unicef.tmk@Unicef.fr" style="color:#fff;">Unicef.tmk@Unicef.fr</a><br>
+    DG : ANN AVRIL · Présidente : Adeline Hazan
   </div>
 </header>
 
-<!-- ══════════════════════ MAIN ══════════════════════ -->
 <main>
 
-  <!-- ── 1. ACCROCHE ── -->
-  <div class="card">
-    <h2><span class="step">1</span>Accroche &amp; Présentation</h2>
+<!-- ══ 1. ACCROCHE ══ -->
+<div class="card">
+  <h2 class="t1"><span class="badge">1</span>Accroche &amp; Présentation</h2>
 
-    <div class="speech">
-      Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire. Cet appel est enregistré à des fins de qualité et de formation, si vous ne le souhaitez pas… je vous prie de me le signaler 😊
+  <div class="speech">
+    Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire. Cet appel est enregistré à des fins de qualité et de formation, si vous ne le souhaitez pas… je vous prie de me le signaler 😊
+  </div>
+
+  <div class="speech">
+    Je suppose que vous connaissez biensur l'UNICEF ? le fond des nations unies pour l'enfance…
+  </div>
+
+  <div class="branches">
+    <div class="br oui">
+      <strong>★ Si oui :</strong>
+      Très bien ! comme vous le savez, L'UNICEF intervient dans plus de 190 pays pour aider les enfants en détresse, notamment dans les zones de conflits et de catastrophes.
     </div>
+    <div class="br non">
+      <strong>★ Si non :</strong>
+      L'UNICEF est l'organisation des Nations Unies dédiée à la protection des droits des enfants dans le monde entier. Nous intervenons pour offrir aux enfants l'accès aux soins, à l'éducation et à la protection, en particulier en période de crise.
+    </div>
+  </div>
+</div>
 
-    <p>Je suppose que vous connaissez bien sûr l'UNICEF ? le fond des nations unies pour l'enfance…</p>
+<!-- ══ 2. MALNUTRITION ══ -->
+<div class="card">
+  <h2 class="t2"><span class="badge">2</span>La Malnutrition Infantile</h2>
 
-    <div class="branch-grid" style="margin-top:14px;">
-      <div class="branch oui">
-        <strong>✔ Si oui :</strong>
-        Très bien ! Comme vous le savez, L'UNICEF intervient dans plus de 190 pays pour aider les enfants en détresse, notamment dans les zones de conflits et de catastrophes.
-      </div>
-      <div class="branch non">
-        <strong>✘ Si non :</strong>
-        L'UNICEF est l'organisation des Nations Unies dédiée à la protection des droits des enfants dans le monde entier. Nous intervenons pour offrir aux enfants l'accès aux soins, à l'éducation et à la protection, en particulier en période de crise.
-      </div>
+  <div class="speech">
+    Nous vous appelons aujourd'hui M/MME [Nom] pour vous parler de la malnutrition qui touche chaque année, plus d'un million d'enfants âgés de 3 mois à 5 ans et qui sont confrontés à une mort évitable… C'est l'une des principales causes de décès chez les enfants de moins de cinq ans…
+  </div>
+
+  <div class="speech">
+    La malnutrition se propagent très rapidement… notamment avec les catastrophes naturelles de plus en plus fréquentes, les conflits armés et les guerres, ou les enfants sont malheureusement les premières victimes…
+  </div>
+
+  <div class="speech">
+    Comme vous le savez, L'UNICEF joue un rôle crucial depuis de longues années, dans la prise en charge d'enfants souffrants de malnutrition aigüe sévère, grâce notamment, à la distribution quotidienne d'aliments thérapeutique prêts à l'emploi, en avez-vous déjà entendu parler Mr / Mme XX ??
+  </div>
+</div>
+
+<!-- ══ 3. ALIMENT THÉRAPEUTIQUE ══ -->
+<div class="card">
+  <h2 class="t3"><span class="badge">3</span>L'Aliment Thérapeutique — Les Sachets RUTF</h2>
+
+  <div class="speech">
+    Ces petits sachets de 92 grammes peuvent littéralement sauver des vies Mr / Mme… C'est un mélange de pointe, qui contient, pate d'arachide, matière grasse végétale, lait écrémé en poudre et des vitamines, il peut être consommé directement depuis le sachet, et ne nécessite, ni électricité, ni cuisson, ni eau… ce qui est un atout majeur dans les zones frappées par la sécheresse, ou l'eau est une denrée rare.
+  </div>
+
+  <div class="speech">
+    Ce formidable traitement a amélioré de manière spectaculaire la prise en charge des enfants atteints de malnutrition aiguë sévère.
+  </div>
+
+  <div class="speech">
+    Notre engagement est permanent Mr /Mme… mais il reste du chemin à parcourir… et de belles choses encore à réaliser…
+  </div>
+</div>
+
+<!-- ══ HIGHLIGHT DON ══ -->
+<div class="highlight">
+  <div class="big-num">15<span>€ /Mois</span></div>
+  <div>
+    <div class="big-label">Seulement 50 centimes d'euros par jour</div>
+    <div class="big-sub">
+      Soit <strong>3,75 € après la déduction fiscale</strong> — offrir la chance de grandir à un enfant qui n'a pas choisi de naitre dans la pauvreté.<br>
+      Un don de <strong>10 € par mois</strong> = <strong>2,50 € après déduction fiscale</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4. APPEL AU SOUTIEN ══ -->
+<div class="card">
+  <h2 class="t4"><span class="badge">4</span>Appel au Soutien</h2>
+
+  <div class="speech">
+    Et c'est dans ce cadre-là que vous contacte, vous l'avez compris Mr/Mme XXX… J'aimerais vous inviter, si cela vous fait plaisir, à apporter votre pierre à l'édifice, avec une cotisation accessible de 50 centimes d'euros par jour soit 15€ /Mois, cela ne vous reviendra qu'a 3,75€ après la déduction fiscale, mais offrira la chance de grandir à un enfant qui n'a pas choisi de naitre dans la pauvreté. Alors peut-on compter sur votre contribution MME// Mr… ?
+  </div>
+
+  <div class="branches">
+    <div class="br oui">
+      <strong>→ SI OUI : C'est FORMIDABLE 😊</strong>
+      Un grand merci pour votre générosité<br><br>
+      <strong>Verrouillage :</strong> Je peux donc enregistrer M/Mme un don régulier de X € par mois pour la Protection et l'éducation des enfants ? (Attendre un oui ferme)
+    </div>
+    <div class="br non">
+      <strong>→ Si oui pas ferme :</strong>
+      en fait, je vous pose cette question car nous établissons un budget prévisionnel, ceci nous permet de parfaitement planifier nos actions dans la durée, et d'être ainsi très efficace, alors, puis je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF Mr / Mme XX ?
     </div>
   </div>
 
-  <!-- ── 2. LE PROBLÈME ── -->
-  <div class="card">
-    <h2><span class="step">2</span>Le Problème — La Malnutrition Infantile</h2>
+  <h3>Arguments supplémentaires</h3>
 
-    <div class="speech">
-      Nous vous appelons aujourd'hui M/Mme [Nom] pour vous parler de la malnutrition qui touche chaque année, plus d'un million d'enfants âgés de 3 mois à 5 ans et qui sont confrontés à une mort évitable… C'est l'une des principales causes de décès chez les enfants de moins de cinq ans…
-    </div>
+  <div class="speech">
+    Aujourd'hui, des millions d'enfants à travers le monde vivent un cauchemar quotidien. Ils sont les premières victimes de crises particulièrement graves : réchauffement climatique, conflits armés et épidémies meurtrières. Ces crises dévastent des vies, détruisent des communautés, et brisent l'innocence de ceux qui devraient avoir un avenir radieux. Chaque jour, des enfants sont tués, grièvement blessés, amputés sans anesthésie. Chaque jour, des familles sont anéanties, séparées par la violence, ou forcées à fuir des régions devenues des zones de guerre. Pour certains, la situation est encore plus sombre : ils sont enrôlés de force dans des groupes armés, perdant ainsi leur enfance et leur innocence.
+  </div>
+</div>
 
-    <div class="speech">
-      La malnutrition se propage très rapidement… notamment avec les catastrophes naturelles de plus en plus fréquentes, les conflits armés et les guerres, où les enfants sont malheureusement les premières victimes…
-    </div>
+<!-- ══ 5. DON PONCTUEL ══ -->
+<div class="card">
+  <h2 class="t5"><span class="badge">5</span>Si Préfère Don Ponctuel</h2>
 
-    <div class="speech">
-      Comme vous le savez, L'UNICEF joue un rôle crucial depuis de longues années, dans la prise en charge d'enfants souffrant de malnutrition aiguë sévère, grâce notamment, à la distribution quotidienne d'aliments thérapeutiques prêts à l'emploi, en avez-vous déjà entendu parler M./Mme [Nom] ?
-    </div>
+  <div class="speech">
+    Je l'entends bien M./Mme XX, et c'est bien naturel de vouloir garder la liberté de donner quand vous le sentez, je comprends parfaitement, et je ne souhaite en rien modifier vos habitudes caritatives 😊. Ce que je peux vous dire au sujet du don mensuel, et ce qui est génial avec ce type de don, c'est qu'il est totalement flexible, et selon votre situation financière, vous pouvez ajuster le montant, ou le suspendre à tout moment, depuis votre espace donateur.
   </div>
 
-  <!-- ── 3. LA SOLUTION ── -->
-  <div class="card">
-    <h2><span class="step">3</span>La Solution — L'Aliment Thérapeutique RUTF</h2>
-
-    <div class="speech">
-      Ces petits sachets de 92 grammes peuvent littéralement sauver des vies M./Mme… C'est un mélange de pointe, qui contient, pâte d'arachide, matière grasse végétale, lait écrémé en poudre et des vitamines, il peut être consommé directement depuis le sachet, et ne nécessite, ni électricité, ni cuisson, ni eau… ce qui est un atout majeur dans les zones frappées par la sécheresse, où l'eau est une denrée rare.
-    </div>
-
-    <div class="pills" style="margin-bottom:14px;">
-      <span class="pill">Pâte d'arachide</span>
-      <span class="pill">Lait écrémé en poudre</span>
-      <span class="pill">Matière grasse végétale</span>
-      <span class="pill">Vitamines &amp; minéraux</span>
-      <span class="pill">Sans eau ni cuisson</span>
-      <span class="pill">Consommé directement</span>
-    </div>
-
-    <div class="speech">
-      Ce formidable traitement a amélioré de manière spectaculaire la prise en charge des enfants atteints de malnutrition aiguë sévère.
-    </div>
-
-    <div class="speech">
-      Notre engagement est permanent M./Mme… mais il reste du chemin à parcourir… et de belles choses encore à réaliser…
-    </div>
+  <div class="speech">
+    Selon vos envies ou si votre situation évolue, vous gardez un contrôle total sur votre don mensuel.
   </div>
 
-  <!-- ── APPEL AU DON ── -->
-  <div class="highlight">
-    <div>
-      <div class="big-number">15<span>€ /mois</span></div>
-    </div>
-    <div>
-      <div class="big-text">Seulement 50 centimes par jour</div>
-      <div class="sub-text">
-        Soit <strong>3,75 € après déduction fiscale (75 %)</strong> — offrir la chance de grandir à un enfant qui n'a pas choisi de naître dans la pauvreté.<br>
-        Un don de <strong>10 €/mois</strong> revient à <strong>2,50 €/mois</strong> après déduction fiscale.
-      </div>
-    </div>
+  <div class="speech">
+    Mais ce qui rend ce soutien régulier, si impactant ! c'est qu'il permet à nos équipes d'anticiper, et agir sur le long terme auprès des enfants, parce que lorsqu'il s'agit de faim, de maladie, ou de manque de soins, les besoins sont présent jour après jour…
   </div>
 
-  <!-- ── 4. APPEL AU SOUTIEN ── -->
-  <div class="card">
-    <h2><span class="step">4</span>Appel au Soutien &amp; Verrouillage</h2>
-
-    <div class="speech">
-      Et c'est dans ce cadre-là que je vous contacte, vous l'avez compris M./Mme [Nom]… J'aimerais vous inviter, si cela vous fait plaisir, à apporter votre pierre à l'édifice, avec une cotisation accessible de 50 centimes d'euros par jour soit 15 €/Mois, cela ne vous reviendra qu'à 3,75 € après la déduction fiscale, mais offrira la chance de grandir à un enfant qui n'a pas choisi de naître dans la pauvreté. Alors peut-on compter sur votre contribution M./Mme… ?
-    </div>
-
-    <div class="branch-grid">
-      <div class="branch oui">
-        <strong>✔ Si OUI :</strong>
-        C'est FORMIDABLE 😊 Un grand merci pour votre générosité.<br><br>
-        <em>Verrouillage :</em> « Je peux donc enregistrer M./Mme [Nom] un don régulier de X € par mois pour la Protection et l'éducation des enfants ? » (Attendre un oui ferme)
-      </div>
-      <div class="branch non">
-        <strong>↩ Si oui pas ferme :</strong>
-        En fait, je vous pose cette question car nous établissons un budget prévisionnel, ceci nous permet de parfaitement planifier nos actions dans la durée, et d'être ainsi très efficace, alors, puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF M./Mme [Nom] ?
-      </div>
-    </div>
-
-    <h3 style="margin-top:20px;">Arguments supplémentaires</h3>
-
-    <div class="speech">
-      Aujourd'hui, des millions d'enfants à travers le monde vivent un cauchemar quotidien. Ils sont les premières victimes de crises particulièrement graves : réchauffement climatique, conflits armés et épidémies meurtrières. Ces crises dévastent des vies, détruisent des communautés, et brisent l'innocence de ceux qui devraient avoir un avenir radieux. Chaque jour, des enfants sont tués, grièvement blessés, amputés sans anesthésie. Chaque jour, des familles sont anéanties, séparées par la violence, ou forcées à fuir des régions devenues des zones de guerre. Pour certains, la situation est encore plus sombre : ils sont enrôlés de force dans des groupes armés, perdant ainsi leur enfance et leur innocence.
-    </div>
+  <div class="speech">
+    Alors ce don mensuel même modeste ! est très puissant, car il vous permet d'accompagner un enfant durant toutes les étapes de sa guérison, avec un petit don mensuel de 10€ par exemple, soit 2,50€ après déduction fiscale vous offrez chaque mois, une véritable lueur d'espoir à ces enfants., Alors Mr / Mme XX, peut-on compter sur votre précieux soutien ?
   </div>
 
-  <!-- ── 5. OBJECTION : DON PONCTUEL ── -->
-  <div class="card">
-    <h2><span class="step">5</span>Objection — Préfère un Don Ponctuel</h2>
-
-    <div class="speech">
-      Je l'entends bien M./Mme [Nom], et c'est bien naturel de vouloir garder la liberté de donner quand vous le sentez, je comprends parfaitement, et je ne souhaite en rien modifier vos habitudes caritatives 😊. Ce que je peux vous dire au sujet du don mensuel, et ce qui est génial avec ce type de don, c'est qu'il est totalement flexible, et selon votre situation financière, vous pouvez ajuster le montant, ou le suspendre à tout moment, depuis votre espace donateur.
+  <div class="branches">
+    <div class="br oui">
+      <strong>→ SI OUI : C'est FORMIDABLE 😊</strong>
+      vous n'imaginez pas l'impact qu'a votre soutien aujourd'hui. Un grand merci pour votre générosité…<br><br>
+      <strong>Verrouillage :</strong> Je peux donc enregistrer M/Mme un don régulier de X€ par mois pour la Protection et l'éducation des enfants ? (Attendre un oui ferme)
     </div>
-
-    <div class="speech">
-      Selon vos envies ou si votre situation évolue, vous gardez un contrôle total sur votre don mensuel.
-    </div>
-
-    <div class="speech">
-      Mais ce qui rend ce soutien régulier, si impactant ! c'est qu'il permet à nos équipes d'anticiper, et agir sur le long terme auprès des enfants, parce que lorsqu'il s'agit de faim, de maladie, ou de manque de soins, les besoins sont présents jour après jour…
-    </div>
-
-    <div class="speech">
-      Alors ce don mensuel même modeste ! est très puissant, car il vous permet d'accompagner un enfant durant toutes les étapes de sa guérison, avec un petit don mensuel de 10 € par exemple, soit 2,50 € après déduction fiscale vous offrez chaque mois, une véritable lueur d'espoir à ces enfants. Alors M./Mme [Nom], peut-on compter sur votre précieux soutien ?
-    </div>
-
-    <div class="branch-grid">
-      <div class="branch oui">
-        <strong>✔ Si OUI :</strong>
-        C'est FORMIDABLE 😊, vous n'imaginez pas l'impact qu'a votre soutien aujourd'hui. Un grand merci pour votre générosité…<br><br>
-        <em>Verrouillage :</em> « Je peux donc enregistrer M./Mme [Nom] un don régulier de X € par mois pour la Protection et l'éducation des enfants ? » (Attendre un oui ferme)
-      </div>
-      <div class="branch non">
-        <strong>↩ Si réponse hésitante :</strong>
-        Je vous pose cette question afin de le noter dans notre budget prévisionnel et prévoir nos actions. Aussi puis-je enregistrer une promesse de don régulier de XX € de votre part ?<br><br>
-        <em>Si ne promet pas :</em> CLASSER INDÉCIS « doit réfléchir »
-      </div>
+    <div class="br non">
+      <strong>→ Si réponse hésitante :</strong>
+      Je vous pose cette question afin de le noter dans notre budget prévisionnel et prévoir nos actions. Aussi puis-je enregistrer une promesse de don régulier de XX € de votre part ?<br><br>
+      <em>Si ne promet pas :</em> CLASSER INDÉCIS « doit réfléchir »<br>
+      <em>Si oui :</em> Une nouvelle fois, merci pour votre générosité au nom de toute l'équipe de l'UNICEF.
     </div>
   </div>
+</div>
 
-  <!-- ── 6. INDÉCIS ── -->
-  <div class="card">
-    <h2><span class="step">6</span>Indécis — Souhaite Réfléchir</h2>
+<!-- ══ 6. INDÉCIS ══ -->
+<div class="card">
+  <h2 class="t6"><span class="badge">6</span>Indécis — Souhaite Réfléchir / Je vais voir / Je ne sais pas</h2>
 
-    <div class="speech">
-      Il est vrai que je vous prends au dépourvu avec mon appel 😊, mais permettez-moi de vous remercier pour votre bonne volonté d'agir car vous ne nous fermez pas la porte et cela témoigne de votre sensibilité à la détresse de ces enfants, sachez M./Mme [Nom]. Que votre présence à nos côtés est extrêmement importante pour tous ces enfants en bas âge qui ont le droit à un avenir meilleur, en bonne santé et par exemple, un don de 10 € par mois soit 2,50 € après déduction fiscale, c'est une main tendue chaque mois vers un enfant qui n'a rien. Alors, M./Mme [Nom]… seriez-vous prêt(e) à poser ce petit geste régulier, à votre rythme, pour leur offrir avec l'UNICEF cette stabilité si précieuse ?
-    </div>
+  <div class="speech">
+    Il est vrai que je vous prends au dépourvue avec mon appel ☺, mais permettez-moi de vous remercier pour votre bonne volonté d'agir car vous ne nous fermez pas la porte et cela témoigne de votre sensibilité à la détresse de ces enfants, sachez Mr/Mme XX. Que votre présence à nos coté est extrêmement importante pour tous ces enfants en bas âge qui ont le droit à un avenir meilleur, en bonne santé et par exemple, un don de 10€ par mois soit 2,50€ après déduction fiscale, c'est une main tendue chaque mois vers un enfant qui n'a rien. Alors, M./Mme XX… seriez-vous prêt(e) à poser ce petit geste régulier, à votre rythme, pour leur offrir avec l'UNICEF cette stabilité si précieuse ?
+  </div>
+</div>
+
+<!-- ══ 7. VALIDATION DES COORDONNÉES ══ -->
+<div class="card">
+  <h2 class="t7"><span class="badge">7</span>Validation des Coordonnées</h2>
+
+  <div class="note">
+    Mme/M, sachez que le premier prélèvement se fera à partir du 10, chaque 10 du mois.
   </div>
 
-  <!-- ── 7. VALIDATION DES COORDONNÉES ── -->
-  <div class="card">
-    <h2><span class="step">7</span>Validation des Coordonnées &amp; Prélèvement</h2>
+  <!-- 1 -->
+  <h3>1 — PA EN LIGNE fait en direct par agent</h3>
 
-    <div class="note">
-      Mme/M, sachez que le premier prélèvement se fera à partir du 10, chaque 10 du mois.
-    </div>
-
-    <h3>1 — PA en ligne fait en direct par l'agent</h3>
-
-    <div class="speech">
-      Pour valider votre don régulier on a simplement besoin de votre IBAN, c'est une série de 27 chiffres qui commence par FR et qui se trouve sur les deux dernières pages de votre chéquier ou sur votre relevé d'identité bancaire, je vous laisse aller le récupérer le temps que je prépare votre formulaire 😊
-    </div>
-
-    <div class="note">
-      L'agent doit ouvrir son formulaire de soutien (bouton : autre action → IBAN PROMESSE), vérifier les données, prendre l'IBAN en présence du SUPERVISEUR avec coupure de l'enregistrement au moment de la prise de l'IBAN.
-    </div>
-
-    <div class="speech">
-      <strong>Blindage :</strong> M'autorisez-vous à enregistrer un prélèvement mensuel de X € au profit de l'UNICEF ? OUI → Je vous remercie du fond du cœur pour votre solidarité M./Mme [Nom], au nom de toute l'équipe UNICEF… (envoyer SMS félicitation)
-    </div>
-
-    <h3>Objection — Je préfère le faire par courrier</h3>
-
-    <div class="speech">
-      Je vous explique M./Mme [Nom]… En fait, vu les impératifs écologiques et financiers actuels, nous sommes contraints de restreindre les envois de courriers parce que cela génère des frais non négligeables que nous préférons éviter, afin de consacrer plus de moyens à nos missions sur le terrain. En fait, le soutien régulier se fait par validation IBAN, votre IBAN se trouve sur un relevé bancaire ou un carnet de chèque, et il s'agit uniquement d'enregistrer votre soutien pour L'UNICEF, et je vous rassure aucun prélèvement ne s'effectuera aujourd'hui, le premier prélèvement aura lieu le 10 du mois prochain, puis le 10 de chaque mois. Je patiente le temps que vous puissiez le récupérer 😊
-    </div>
-
-    <h3>Objection — Méfiance IBAN</h3>
-
-    <div class="speech">
-      Je comprends que vous puissiez être prudent(e), et c'est tout à fait légitime 😊 Cependant, vous savez M./Mme [Nom], que nos IBAN figurent déjà sur de nombreux documents administratifs, comme les factures d'énergie, téléphonie, internet, sur nos contrats d'assurance et mutuelle 😊 votre IBAN ne permet en aucun cas d'accéder à votre compte, mais simplement d'autoriser un virement SEPA pour l'UNICEF avec votre accord verbal sans équivoque bien sûr 😊 et juste pour vous rassurer M./Mme [Nom], aucun prélèvement n'aura lieu aujourd'hui, il s'agit uniquement, D'ENREGISTRER ensemble votre soutien pour l'UNICEF, et le premier prélèvement n'est planifié qu'à partir du 10 du mois prochain, puis le 10 de chaque mois 😊 cette procédure standard est strictement encadrée et protégée par nos institutions financières, et accordée exclusivement aux associations Françaises reconnues d'utilité publique…
-    </div>
-
-    <div class="speech">
-      … Enfin, vous recevez un document récapitulatif par mail et par SMS à la fin de notre conversation 😊 Je vous laisse alors le récupérer, le temps pour moi de valider votre formulaire de soutien, d'accord 😊
-    </div>
-
-    <h3>2 — PA en ligne fait en direct par le donateur</h3>
-
-    <div class="speech">
-      Je comprends M./Mme 😊, je vous envoie alors tout de suite le lien de notre site internet qui vous permettra de compléter votre IBAN vous-même, pouvez-vous me confirmer svp que vous l'avez bien reçu ? (Si oui :) Parfait, veuillez alors juste cliquer sur le lien qui y figure… Vous serez tout de suite redirigé vers notre site internet, allez-y, vous y êtes 😊, il suffit maintenant de valider votre soutien en introduisant votre IBAN sur le champ… (Orienter et guider le donateur)
-    </div>
-
-    <div class="branch-grid">
-      <div class="branch non">
-        <strong>↩ Objection : Je préfère le faire plus tard !</strong>
-        Rassurez-vous ça ne prendra pas plus de 30 secondes d'autant plus que le formulaire est pré-rempli. D'accord ?? Pouvez-vous me confirmer que vous avez bien reçu le lien ? Parfait, je reste avec vous en ligne afin de vous guider si nécessaire.
-      </div>
-    </div>
-
-    <div class="speech">
-      <strong>Verrouillage :</strong> Pour l'envoi de votre reçu fiscal, pouvez-vous me confirmer le montant de votre soutien ?<br>
-      <strong>Blindage :</strong> Avez-vous bien reçu le mail de confirmation du service donateur (en actualisant la page) ? Cela peut prendre quelques minutes.
-    </div>
-
-    <h3>3 — Promesse PA en ligne (rappel personnel)</h3>
-
-    <div class="speech">
-      Très bien 😊 À quel moment pourrez-vous valider votre soutien à L'UNICEF M./Mme [Nom] ? (Réponses possibles : ce soir, demain, ce weekend)<br><br>
-      Formidable M./Mme [Nom] 😊, je vous laisse alors le faire de votre côté, et je vous dis un grand merci au nom de l'UNICEF et de tous les enfants qui bénéficieront de votre accompagnement, merci du fond du cœur :)<br><br>
-      Quant à moi je vous rappellerai d'ici … pour savoir si tout s'est bien passé pour vous d'accord ? Nous comptons vraiment sur vous M./Mme [Nom] 😊
-    </div>
-
-    <h3>4 — PA en ligne fait en différé (lors du rappel personnel)</h3>
-
-    <div class="speech">
-      Bonjour, je suis [Prénom] de l'UNICEF, je vous rappelle comme convenu pour voir si tout s'est bien passé lors de la validation de votre soutien en ligne pour l'UNICEF ?
-    </div>
-
-    <table class="pa-table">
-      <thead>
-        <tr>
-          <th>Cas</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>✔ Don validé</td>
-          <td><strong>Verrouillage :</strong> Pour l'envoi de votre reçu fiscal, pouvez-vous me confirmer le montant de votre soutien ? <strong>Blindage :</strong> Avez-vous bien reçu le mail de confirmation du service donateur relationsdonateurs@unicef.fr (en actualisant la page) ? Cela peut prendre quelques minutes.</td>
-        </tr>
-        <tr>
-          <td>✘ Pas de réponse / ne veut pas être rappelé</td>
-          <td>L'AGENT DOIT CLASSER LA FICHE EN PROMESSE PA EN LIGNE.</td>
-        </tr>
-        <tr>
-          <td>↩ N'a pas encore validé</td>
-          <td>Très bien dans ce cas-là je vous invite à le valider ensemble, vous avez toujours le mail ou SMS que je vous ai envoyé ?</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>5 — PA Courrier (exceptionnel)</h3>
-
-    <div class="speech">
-      EXCEPTIONNELLEMENT Nous allons vous faire parvenir un courrier pour confirmer notre entretien téléphonique. Vous trouverez dans ce courrier une autorisation de prélèvement, qu'il suffira de remplir, de dater, de signer et de renvoyer, avec votre RIB, dans l'enveloppe retour qui y sera jointe.
-    </div>
-
-    <div class="speech">
-      Vous engagez-vous à nous retourner votre autorisation de prélèvement à réception de notre courrier ? (Attendre OUI FERME)
-    </div>
-
-    <div class="branch-grid">
-      <div class="branch non">
-        <strong>↩ Si non :</strong>
-        Je vous pose cette question car nous essayons de prévoir au mieux nos ressources à venir grâce à un budget prévisionnel. C'est très important pour que nos équipes puissent agir efficacement sur le terrain. Puis-je compter sur vous pour nous retourner votre soutien à réception de votre courrier ? (Attendre OUI ferme)
-      </div>
-      <div class="branch oui">
-        <strong>✔ Si oui :</strong>
-        Merci encore ! L'un de mes collègues vous contactera dans une dizaine de jours pour voir si vous avez bien reçu tous les éléments 😊
-      </div>
-    </div>
+  <div class="speech">
+    Validation du PEL : Pour valider votre don régulier on a simplement besoin de votre IBAN, c'est une série de 27 chiffres qui commence par FR et qui se trouve sur les deux dernières pages de votre chéquier ou sur votre relevé d'identité bancaire, je vous laisse aller le récupérer le temps que je prépare votre formulaire 😊
   </div>
 
-  <!-- ── 8. PRISE DE CONGÉ ── -->
-  <div class="card">
-    <h2><span class="step">8</span>Prise de Congé</h2>
+  <div class="note">
+    Si OUI : L'agent doit ouvrir son formulaire de soutien (bouton : autre action → IBAN PROMESSE) vérifier les données, prendre l'IBAN en la présence du SUPERVISEUR avec coupure de l'enregistrement au moment de la prise de l'IBAN.
+  </div>
 
-    <div class="speech">
-      Au nom de toute l'équipe de L'UNICEF ainsi que des populations qui reçoivent notre soutien, je vous remercie pour votre accueil et votre générosité et je vous souhaite une excellente journée / fin de journée / soirée ! 😊
+  <div class="speech">
+    <strong>Blindage :</strong> M'autorisez-vous à enregistrer un prélèvement mensuel de x € au profit de l'UNICEF ? OUI → Je vous remercie du fond du cœur pour votre solidarité Mr / Mme X, au nom de toute l'équipe UNICEF…… (envoyer SMS félicitation)
+  </div>
+
+  <h3>Objection — Je le fais par courrier</h3>
+
+  <div class="speech">
+    Je vous explique Mr/Mme X… en fait, vu les impératifs écologiques et financiers actuels, nous sommes contraints de restreindre les envois de courriers parce que cela génère des frais non négligeables que nous préférons éviter, afin de consacrer plus de moyens à nos missions sur le terrain. En fait, le soutien régulier se fait par validation IBAN, votre IBAN se trouve sur un relevé bancaire ou un carnet de chèque, et il s'agit uniquement d'enregistrer votre soutien pour L'UNICEF, et je vous rassure aucun prélèvement ne s'effectuera aujourd'hui, le premier prélèvement aura lieu le 10 du mois prochain, puis le 10 de chaque mois. Je patiente le temps que vous puissiez le récupérer ☺
+  </div>
+
+  <div class="note">
+    SI (Méfiance IBAN – Je ne donne pas mon IBAN – je ne fais rien par téléphone…) : Aller à méfiance IBAN
+  </div>
+
+  <h3>Méfiance IBAN</h3>
+
+  <div class="speech">
+    Je comprends que vous puissiez être prudent(e), et c'est tout à fait légitime 😊 cependant, Vous savez Mr / Mme XX, que nos IBAN figurent déjà sur de nombreux documents administratifs, comme les factures d'énergie, téléphonie, internet, sur nos contrats d'assurance et mutuelle 😊 votre IBAN ne permet en aucun cas d'accéder à votre compte, mais simplement d'autoriser un virement SEPA pour l'UNICEF avec votre accord verbal sans équivoque biensur 😊 et juste pour vous rassurer Mr/Mme (nom), aucun prélèvement n'aura lieu aujourd'hui, il s'agit uniquement, D'ENREGISTRER ensemble votre soutien pour l'UNICEF, et le premier prélèvement n'est planifié qu'à partir du 10 du mois prochain, puis le 10 de chaque mois 😊 cette procédure standard est strictement encadrée et protégée par nos institutions financière, et accordée exclusivement aux associations Françaises reconnues d'utilité publique…
+  </div>
+
+  <div class="speech">
+    … Enfin, vous recevez un document récapitulatif par mail et par SMS à la fin de notre conversation 😊 Je vous laisse alors le récupérer, le temps pour moi de valider votre formulaire de soutien, d'accord 😊
+  </div>
+
+  <div class="note">SI TOUJOURS NON → Aller à PA EN LIGNE FAIT EN DIRECT PAR DONATEUR.</div>
+
+  <!-- 2 -->
+  <h3>2 — PA EN LIGNE fait en direct par donateur</h3>
+
+  <div class="note">
+    Si donateur ne veut pas communiquer son IBAN par téléphone : L'agent doit avoir le lien du site devant lui afin de guider le prospect, et l'accompagner pour le faire en direct en ligne, il ne doit pas demander les coordonnées bancaires du donateur et si ce dernier insiste, l'agent doit tout simplement lui préciser qu'il peut les noter directement sur le champ concerné.
+  </div>
+
+  <div class="speech">
+    Je comprends Mr/Mme 😊, je vous envoie alors tout de suite le lien de notre site internet qui vous permettra de compléter votre IBAN vous-même, pouvez-vous me confirmer svp que vous l'avez bien reçu ? SI oui : parfait, veuillez alors juste cliquer sur le lien qui y figure… Vous serez tout de suite redirigé vers notre site internet, allez-y, vous y êtes 😊, si oui il suffit maintenant de valider votre soutien en introduisant votre IBAN sur le champes…. Orienter et guider le donateur → Nous devons accompagner le donateur pour le faire en direct en ligne avec nous.
+  </div>
+
+  <div class="br warn" style="margin: 10px 0;">
+    <strong>Objection → Oui mais je préfère le faire plus tard ! Je n'ai pas le temps pour le faire immédiatement !</strong>
+    Rassurez-vous ça ne prendra pas plus de 30 secondes d'autant plus que le formulaire est pré-rempli. D'accord ?? Pouvez-vous me confirmer que vous avez bien reçu le lien ? Parfait, je reste avec vous en ligne afin de vous guider si nécessaire. Très bien, il suffit de mettre vos coordonnées, je peux vous aider… (L'agent doit avoir le lien du site devant lui afin de guider le prospect, il ne doit pas demander les coordonnées bancaires du donateur et si ce dernier insiste, l'agent doit tout simplement lui préciser qu'il peut les noter directement sur le champ concerné.)
+  </div>
+
+  <div class="speech">
+    <strong>Verrouillage :</strong> Pour l'envoi de votre reçu fiscal, pouvez-vous me confirmer le montant de votre soutien ?<br>
+    <strong>Blindage :</strong> Avez-vous bien reçu le mail de confirmation du service donateur (en actualisant la page) ? Cela peut prendre quelques minutes.<br><br>
+    Au nom de toute l'équipe de L'UNICEF ainsi que des populations qui reçoivent notre soutien, je vous remercie pour votre accueil et votre générosité et je vous souhaite une excellente journée / fin de journée / soirée ! 😊
+  </div>
+
+  <div class="note">Si ne peut pas le faire en direct (souhaite le faire seul, plus tard) : Avant tout l'agent doit confirmer que le prospect a bien reçu son formulaire de soutien. → Aller à Promesse PA en ligne.</div>
+
+  <!-- 3 -->
+  <h3>3 — PROMESSE PA EN LIGNE (Classer la fiche en rappel personnel)</h3>
+
+  <div class="speech">
+    Très bien 😊 A quel moment pourrez-vous valider votre soutien à L'UNICEF Mr / Mme XX ? (Réponses possibles : ce soir, demain, ce weekend)
+  </div>
+
+  <div class="speech">
+    Formidable Mr / Mme XX 😊, je vous laisse alors le faire de votre côté, et je vous dis un grand merci au nom de l'UNICEF et de tous les enfants qui bénéficieront de votre accompagnement, merci du fond du cœur :)
+  </div>
+
+  <div class="speech">
+    Quant à moi je vous rappellerais d'ici … pour savoir si tout c'est bien passé pour vous d'accord ? Nous comptons vraiment sur vous Mr / Mme XX 😊 Je vous souhaite une excellente journée, fin de journée, soirée… au nom de l'UNICEF, au revoir 😊
+  </div>
+
+  <!-- 4 -->
+  <h3>4 — PA EN LIGNE fait en différé par donateur (lors du rappel personnel)</h3>
+
+  <div class="speech">
+    Bonjour, je suis X de l'UNICEF, je vous rappelle comme convenu pour voir si tout c'est bien passé lors de la validation de votre soutien en ligne pour l'UNICEF ?
+  </div>
+
+  <table class="cas-table">
+    <thead>
+      <tr><th>Cas</th><th>Action / Dialogue</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1er cas : la personne précise avoir validé son soutien</td>
+        <td>
+          <strong>Verrouillage :</strong> Pour l'envoi de votre reçu fiscal, pouvez-vous me confirmer le montant de votre soutien ?<br>
+          <strong>Blindage :</strong> Avez-vous bien reçu le mail de confirmation du service donateur ? relationsdonateurs@unicef.fr (en actualisant la page) ? La personne doit préciser avoir fait un PA de X euros sur le site et avoir reçu un mail de confirmation. Cela peut prendre quelques minutes.<br>
+          Au nom de toute l'équipe de L'UNICEF ainsi que des populations qui reçoivent notre soutien, je vous remercie pour votre accueil et votre générosité et je vous souhaite une excellente journée / fin de journée / soirée ! 😊
+        </td>
+      </tr>
+      <tr>
+        <td>2ème cas : la personne ne décroche pas ou souhaite le faire seule et ne pas être rappelée</td>
+        <td>L'AGENT DOIT CLASSER LA FICHE EN PROMESSE PA EN LIGNE.</td>
+      </tr>
+      <tr>
+        <td>3ème cas : le prospect dit ne pas avoir validé son don</td>
+        <td>Très bien dans ce cas-là je vous invite à le valider ensemble, vous avez toujours le mail ou sms que je vous ai envoyé ?</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 5 -->
+  <h3>5 — PA Courrier</h3>
+
+  <div class="speech">
+    EXCEPTIONNELLEMENT Nous allons vous faire parvenir un courrier pour confirmer notre entretien téléphonique. Vous trouverez dans ce courrier une autorisation de prélèvement, qu'il suffira de remplir, de dater, de signer et de renvoyer, avec votre RIB, dans l'enveloppe retour qui y sera jointe.
+  </div>
+
+  <div class="speech">
+    Vous engagez-vous à nous retourner votre autorisation de prélèvement à réception de notre courrier ? attendre OUI FERME
+  </div>
+
+  <div class="branches">
+    <div class="br non">
+      <strong>→ Si non :</strong>
+      je vous pose cette question car nous essayons de prévoir au mieux nos ressources à venir grâce à un budget prévisionnel. C'est très important pour que nos équipes puissent agir efficacement sur le terrain, Puis-je compter sur vous pour nous retourner votre soutien à réception de votre courrier ? attendre OUI ferme
+    </div>
+    <div class="br oui">
+      <strong>→ Si oui :</strong>
+      Merci encore ! l'un de mes collègues vous contactera dans une dizaine de jours pour voir si vous avez bien reçu tous les éléments 😊.
     </div>
   </div>
+</div>
+
+<!-- ══ PRISE DE CONGÉ ══ -->
+<div class="card" style="border-left: 6px solid #009EDB;">
+  <h2 style="color:#00618A; border-bottom:3px solid #B2DFEC; padding-bottom:10px; margin-bottom:18px; font-size:20px; font-weight:900; text-transform:uppercase; letter-spacing:.7px;">
+    → Prise de Congé
+  </h2>
+
+  <div class="speech">
+    Au nom de toute l'équipe de L'UNICEF ainsi que des populations qui reçoivent notre soutien, je vous remercie pour votre accueil et votre générosité et je vous souhaite une excellente journée / fin de journée / soirée ! 😊
+  </div>
+</div>
 
 </main>
 
 <footer>
   Document interne — Usage strictement réservé aux agents UNICEF ·
-  <span>UNICEF France</span> · 3 rue Duguay-Trouin, 75282 Paris Cedex 06
+  <strong>UNICEF France</strong> · 3 rue Duguay-Trouin, 75282 Paris Cedex 06
 </footer>
 
 <script>
   (function () {
-    const skip = new Set(['SCRIPT','STYLE','A']);
+    const skip = new Set(['SCRIPT','STYLE','A','STRONG','B']);
     function walk(node) {
       if (node.nodeType === Node.TEXT_NODE) {
         const txt = node.data;
