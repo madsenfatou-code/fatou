@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Module Traitement des Objections — UNICEF PPA</title>
+<style>
+:root{
+  --bleu-unicef:#009EDB;
+  --bleu-fonce:#005B8E;
+  --bleu-clair:#e8f5fb;
+  --orange:#e07b00;
+  --orange-clair:#fff4e0;
+  --violet:#6d28d9;
+  --violet-clair:#ede9fe;
+  --vert:#065f46;
+  --vert-clair:#d1fae5;
+  --rouge:#b91c1c;
+  --rouge-clair:#fee2e2;
+  --gris:#374151;
+  --gris-clair:#f3f4f6;
+  --border:#dde3ea;
+  --bg:#f0f4f8;
+  --card:#fff;
+  --text:#1a2332;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.7}
+
+/* ===== HEADER ===== */
+header{
+  background:linear-gradient(135deg,#003d6b,#009EDB);
+  color:#fff;padding:44px 32px 36px;text-align:center
+}
+.logo-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  border-radius:24px;padding:6px 20px;font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:18px
+}
+header h1{font-size:26px;font-weight:900;margin-bottom:8px;letter-spacing:.5px}
+header p{color:rgba(255,255,255,.72);font-size:14px}
+.header-meta{
+  margin-top:16px;display:flex;justify-content:center;gap:24px;
+  flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.55)
+}
+.header-meta span{display:flex;align-items:center;gap:5px}
+
+/* ===== NAV RAPIDE ===== */
+.quick-nav{
+  background:#fff;border-bottom:2px solid var(--bleu-unicef);
+  padding:0 24px;display:flex;flex-wrap:wrap;gap:0;justify-content:center
+}
+.quick-nav a{
+  display:block;padding:12px 16px;font-size:13px;font-weight:600;
+  color:var(--bleu-fonce);text-decoration:none;border-bottom:3px solid transparent;
+  transition:all .2s;white-space:nowrap
+}
+.quick-nav a:hover{color:var(--bleu-unicef);border-bottom-color:var(--bleu-unicef)}
+
+/* ===== SECTIONS ===== */
+.section{padding:36px 24px 12px;max-width:1100px;margin:0 auto}
+
+.section-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:24px;padding-bottom:14px;
+  border-bottom:3px solid currentColor
+}
+.section-icon{font-size:26px;line-height:1}
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;opacity:.7;margin-bottom:3px
+}
+.section-header h2{font-size:18px;font-weight:800;color:inherit}
+
+/* Couleurs de section */
+.s-init   {color:var(--bleu-fonce)}
+.s-init   .section-header{border-color:var(--bleu-unicef)}
+.s-nopa   {color:var(--orange)}
+.s-nopa   .section-header{border-color:var(--orange)}
+.s-pa     {color:var(--violet)}
+.s-pa     .section-header{border-color:var(--violet)}
+.s-iban   {color:var(--vert)}
+.s-iban   .section-header{border-color:var(--vert)}
+.s-conflit{color:var(--rouge)}
+.s-conflit .section-header{border-color:var(--rouge)}
+
+/* ===== GRILLE DE CARTES ===== */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(460px,1fr));
+  gap:20px;margin-bottom:32px
+}
+.card-full{grid-column:1/-1}
+
+/* ===== CARTE OBJECTION ===== */
+.obj-card{
+  background:var(--card);border-radius:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,.07);
+  overflow:hidden;border:1px solid var(--border);
+  transition:box-shadow .2s
+}
+.obj-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.13)}
+
+/* En-tête carte */
+.card-head{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:16px 20px 14px;
+}
+.card-num{
+  min-width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;flex-shrink:0;margin-top:2px
+}
+.card-title{font-size:18px;font-weight:800;line-height:1.3}
+
+/* Corps carte */
+.card-body{padding:0 20px 18px 20px}
+.label-small{
+  font-size:10px;font-weight:700;letter-spacing:1.8px;
+  text-transform:uppercase;margin-bottom:6px;opacity:.75
+}
+.response-text{
+  font-size:14px;line-height:1.75;color:var(--text)
+}
+.highlight{
+  display:inline;background:rgba(255,220,80,.45);
+  border-radius:3px;padding:0 3px;font-weight:600
+}
+.action-chip{
+  display:inline-block;margin-top:10px;padding:4px 12px;
+  border-radius:20px;font-size:12px;font-weight:700;
+  letter-spacing:.5px
+}
+.tip-box{
+  margin-top:12px;padding:10px 14px;border-radius:8px;
+  font-size:13px;border-left:4px solid;
+}
+.tip-box strong{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+
+/* Variantes couleur par section */
+/* Init — bleu */
+.s-init .card-head{background:var(--bleu-clair)}
+.s-init .card-num{background:var(--bleu-unicef);color:#fff}
+.s-init .card-title{color:var(--bleu-fonce)}
+.s-init .action-chip{background:var(--bleu-clair);color:var(--bleu-fonce)}
+.s-init .tip-box{background:#e0f3fc;border-color:var(--bleu-unicef);color:var(--bleu-fonce)}
+
+/* No-PA — orange */
+.s-nopa .card-head{background:var(--orange-clair)}
+.s-nopa .card-num{background:var(--orange);color:#fff}
+.s-nopa .card-title{color:#92400e}
+.s-nopa .action-chip{background:var(--orange-clair);color:#92400e}
+.s-nopa .tip-box{background:#fff0d0;border-color:var(--orange);color:#7c2d12}
+
+/* PA — violet */
+.s-pa .card-head{background:var(--violet-clair)}
+.s-pa .card-num{background:var(--violet);color:#fff}
+.s-pa .card-title{color:#4c1d95}
+.s-pa .action-chip{background:var(--violet-clair);color:#4c1d95}
+.s-pa .tip-box{background:#f0ebff;border-color:var(--violet);color:#3b0764}
+
+/* IBAN — vert */
+.s-iban .card-head{background:var(--vert-clair)}
+.s-iban .card-num{background:var(--vert);color:#fff}
+.s-iban .card-title{color:#064e3b}
+.s-iban .action-chip{background:var(--vert-clair);color:#064e3b}
+.s-iban .tip-box{background:#d1fae5;border-color:var(--vert);color:#064e3b}
+
+/* Conflit — rouge */
+.s-conflit .card-head{background:var(--rouge-clair)}
+.s-conflit .card-num{background:var(--rouge);color:#fff}
+.s-conflit .card-title{color:#7f1d1d}
+.s-conflit .action-chip{background:var(--rouge-clair);color:#7f1d1d}
+.s-conflit .tip-box{background:#ffe4e4;border-color:var(--rouge);color:#7f1d1d}
+
+/* ===== ENCART CONTACTS ===== */
+.contacts-bar{
+  max-width:1100px;margin:0 auto 40px;padding:0 24px
+}
+.contacts-inner{
+  background:linear-gradient(135deg,#003d6b,#0071a8);
+  color:#fff;border-radius:14px;padding:24px 28px;
+  display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between
+}
+.contacts-inner h3{font-size:18px;font-weight:800;margin-bottom:4px}
+.contacts-inner p{font-size:14px;opacity:.8}
+.contact-pills{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pill{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  border-radius:24px;padding:8px 16px;font-size:14px;font-weight:600
+}
+.pill a{color:#fff;text-decoration:none}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;padding:24px;font-size:12px;
+  color:var(--muted);border-top:1px solid var(--border);
+  background:#fff
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  .cards-grid{grid-template-columns:1fr}
+  header h1{font-size:20px}
+  .section-header h2{font-size:16px}
+  .card-title{font-size:16px}
+  .quick-nav a{padding:10px 10px;font-size:12px}
+}
+
+/* ===== SEPARATEUR ===== */
+.sep{
+  max-width:1100px;margin:0 auto;padding:0 24px
+}
+.sep hr{border:none;border-top:1px dashed var(--border);margin:8px 0 0}
+</style>
+</head>
+<body>
+
+<!-- ===== EN-TÊTE ===== -->
+<header>
+  <div class="logo-badge">&#127891; UNICEF France — PPA</div>
+  <h1>Module Traitement des Objections</h1>
+  <p>Guide complet — Prélèvement Automatique &amp; Don Régulier</p>
+  <div class="header-meta">
+    <span>📞 Campagne téléphonique nationale</span>
+    <span>🌍 Programme Protection de l'Enfance</span>
+    <span>💡 15 objections couvertes</span>
+  </div>
+</header>
+
+<!-- ===== NAVIGATION RAPIDE ===== -->
+<nav class="quick-nav">
+  <a href="#init">🔵 Objections initiales</a>
+  <a href="#nopa">🟠 Après appel au don (non contre PA)</a>
+  <a href="#pa">🟣 Contre le don régulier (PA)</a>
+  <a href="#iban">🟢 Méfiance IBAN</a>
+  <a href="#conflit">🔴 Objections conflictuelles</a>
+</nav>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 1 — OBJECTIONS INITIALES                            -->
+<!-- ============================================================ -->
+<section class="section s-init" id="init">
+  <div class="section-header">
+    <div class="section-icon">🔵</div>
+    <div>
+      <div class="section-label">Phase d'accroche</div>
+      <h2>Objections Initiales — Avant le Script</h2>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- 1 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">1</div>
+        <div class="card-title">« Je ne suis pas intéressé(e) / Je n'ai pas le temps »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Permettez-moi de vous expliquer <span class="highlight">rapidement</span> ce dont il s'agit, puis vous me direz ce que vous en pensez… votre avis est très important pour nous. Il me tient à cœur de vous parler brièvement des missions que nous menons en faveur des enfants du monde entier, votre avis compte beaucoup, <span class="highlight">je serai très bref(ve)</span>.
+        </p>
+        <span class="action-chip">↪ Enchaîner sur le script</span>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">2</div>
+        <div class="card-title">« Faux numéro »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Très bien — en réalité <span class="highlight">mon appel n'est pas nominatif</span> : nous appelons dans toute la France dans le cadre d'une campagne d'information et de sensibilisation. Je vous prendrais qu'une toute petite minute 😊
+        </p>
+        <span class="action-chip">↪ Enchaîner sur le script</span>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">3</div>
+        <div class="card-title">« Vous m'appelez pour un don ? »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Avant toute chose, je vous contacte afin de <span class="highlight">vous faire part de nos missions et avoir votre avis</span> 😊<br><br>
+          En fait nous menons une campagne d'information et de sensibilisation partout en France, et nous savons bien que ce n'est pas tout le monde qui aura la possibilité de nous soutenir…
+        </p>
+        <span class="action-chip">↪ Enchaîner : « Comme je vous le disais… »</span>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">4</div>
+        <div class="card-title">« Je donne déjà à d'autres associations / Je ne peux pas donner plus »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Et bien je vous remercie pour ce que vous faites déjà M. / Mme XX, et je vous rassure, <span class="highlight">il ne s'agit pas seulement de faire un don</span> — je me permets de vous contacter aujourd'hui dans le cadre d'une campagne d'information et de sensibilisation au sujet de la situation des enfants vulnérables, et votre avis est très important pour nous 😊
+        </p>
+        <span class="action-chip">↪ Enchaîner sur le script</span>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">5</div>
+        <div class="card-title">« C'est une arnaque ! »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Je peux comprendre votre inquiétude M. / Mme (NOM), mais <span class="highlight">soyez rassuré(e)</span> — je vous appelle bien de la part d'UNICEF France. Cette campagne téléphonique est d'ailleurs annoncée sur notre site officiel <strong>www.unicef.fr</strong>, vous pouvez le constater immédiatement si vous avez la possibilité de vous y connecter maintenant 😊<br><br>
+          Pour plus d'informations, vous pouvez également contacter notre service relations donateurs par mail et par téléphone 😊
+        </p>
+        <div class="tip-box">
+          <strong>📧 Contacts SRD</strong>
+          ServiceRelationDonateurs@unicef.fr &nbsp;|&nbsp; 09 69 36 84 68
+        </div>
+        <span class="action-chip">↪ Enchaîner : « Comme je vous le disais… »</span>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">6</div>
+        <div class="card-title">« Je ne donne pas d'argent par téléphone »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Je vous rassure, <span class="highlight">il n'est pas question que vous donniez de l'argent par téléphone</span>. Le téléphone représente pour nous le moyen le plus simple et le plus efficace pour porter le message de notre noble cause au plus grand nombre de personnes. Cela me permet également de répondre à vos questions 😊
+        </p>
+        <span class="action-chip">↪ Enchaîner : « Comme je vous le disais… »</span>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">7</div>
+        <div class="card-title">« Je ne fais pas confiance aux associations »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Je comprends que vous vous posiez des questions quant à l'affectation des dons, mais permettez-moi de vous rappeler quelques éléments pour vous rassurer :<br><br>
+          ✔ Depuis notre création en <span class="highlight">1946</span>, UNICEF agit pour les enfants.<br>
+          ✔ UNICEF France existe depuis <span class="highlight">1964</span> — nos comptes sont certifiés par un commissaire aux comptes indépendant.<br>
+          ✔ Notre vocation : sauver des enfants sous-alimentés, garantir l'accès à l'eau potable, à l'alimentation, à la formation et à la santé.
+        </p>
+        <span class="action-chip">↪ Enchaîner : « Comme je vous le disais… »</span>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">8</div>
+        <div class="card-title">« Je n'aime pas être contacté(e) par téléphone »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Je comprends que vous ne souhaitiez pas être dérangé(e) 😊 — mais si nous nous sommes permis de vous contacter aujourd'hui M. / Mme (NOM), c'est parce que <span class="highlight">l'UNICEF a un message important à diffuser</span>, et le téléphone représente pour nous le moyen le plus simple et le plus efficace pour rassembler de nouvelles personnes autour de notre noble cause. Cela me permet également de répondre à vos questions…
+        </p>
+        <span class="action-chip">↪ Enchaîner : « Comme je vous le disais… »</span>
+      </div>
+    </div>
+
+  </div><!-- /cards-grid -->
+</section>
+
+<div class="sep"><hr></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 2 — APRÈS APPEL AU DON — NON CONTRE PA             -->
+<!-- ============================================================ -->
+<section class="section s-nopa" id="nopa">
+  <div class="section-header">
+    <div class="section-icon">🟠</div>
+    <div>
+      <div class="section-label">Après appel au don régulier — Pas spécialement contre le PA</div>
+      <h2>Objections Financières &amp; Engagement Caritatif</h2>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- 9 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">9</div>
+        <div class="card-title">« Je donne déjà à d'autres associations / Je me suis engagé avec X »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Et bien je comprends tout à fait, c'est tout à votre honneur M. / Mme XX — je vous remercie sincèrement pour ce que vous faites, car votre implication démontre votre engagement pour de nobles causes. Sachez que <span class="highlight">nous ne souhaitons en aucun cas modifier vos habitudes caritatives</span>.<br><br>
+          Maintenant que vous me le dites, c'est vrai que 15 € par mois n'est pas une somme anodine — mais ce n'était qu'un exemple. Aujourd'hui, <span class="highlight">300 millions de personnes</span> sont en insécurité alimentaire dans le monde, provoquée par les guerres, les conflits armés, et les catastrophes naturelles… qui réduisent l'accès à l'eau potable et à l'alimentation.<br><br>
+          Nos équipes sur le terrain accompagnent ces enfants tout au long de l'année et leur permettent de redécouvrir l'insouciance qui devrait faire partie de la vie de chaque enfant. Chaque don, aussi modeste soit-il, a un <span class="highlight">impact inestimable</span>.
+        </p>
+        <div class="tip-box">
+          <strong>💡 Repositionnement montant</strong>
+          Si je vous évoque un soutien de <strong>10 € par mois</strong>, soit <strong>2,50 € après déduction fiscale</strong>, cela vous semble-t-il plus envisageable ?
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">10</div>
+        <div class="card-title">« Je n'ai pas les moyens » (petite retraite, chômage…)</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          J'entends bien ce que vous dites M. / Mme XX, et il est vrai que dans de telles conditions, ce n'est pas toujours évident de répondre favorablement — et dans ce cas-là, bien sûr, je comprends que 15 € par mois n'est pas une somme anodine, mais ce n'était qu'un exemple.<br><br>
+          J'aimerais seulement que vous sachiez que nous étions contraints de lancer cette campagne téléphonique à cause du <span class="highlight">grand chaos qui touche plusieurs pays</span> : l'Ukraine, le Congo, le Soudan, le Proche-Orient et bien d'autres que les médias ne relayent pas chaque jour, où des millions d'enfants sont pris au piège des conflits.<br><br>
+          Notre objectif est de prendre en charge ces enfants qui ne dépassent pas les cinq ans et qui souffrent déjà de <span class="highlight">retards de croissance sévères</span> dus à un grand manque d'alimentation.
+        </p>
+        <div class="tip-box">
+          <strong>💡 Exemple d'impact concret</strong>
+          Avec <strong>10 €</strong> (soit <strong>2,50 € après déduction fiscale</strong>), vous prenez en charge <strong>4 enfants</strong>. Peut-on compter sur ce geste de votre part ?
+        </div>
+      </div>
+    </div>
+
+    <!-- 10b Dernier positionnement -->
+    <div class="obj-card card-full">
+      <div class="card-head">
+        <div class="card-num">★</div>
+        <div class="card-title">Dernier Positionnement — Si la personne reste hésitante (objection financière)</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Script de fermeture — Ton engagé et bienveillant</div>
+        <p class="response-text">
+          Je comprends parfaitement M. / Mme, que le moment n'est peut-être pas le plus simple, et si je me permets d'être un peu plus engagé(e), c'est parce que <span class="highlight">nous parlons de vies humaines</span>, de milliers d'enfants en insécurité alimentaire, dont la plupart n'ont pas encore cinq ans.<br><br>
+          Et aussi bouleversant que cela puisse paraître… <span class="highlight">une personne meurt de faim dans le monde toutes les 13 secondes</span>, mais il existe des solutions simples, efficaces, et peu coûteuses, comme les <strong>aliments thérapeutiques prêts à l'emploi</strong>.<br><br>
+          C'est pour cela que votre soutien, aussi modeste soit-il, peut tout changer — redonner un sourire, une chance de vivre et un avenir… Alors, dites-moi simplement ce qui vous semble le plus adapté à votre budget aujourd'hui…<br><br>
+          Chaque geste compte, et le vôtre fera une vraie différence M. / Mme (NOM)… peut-être <span class="highlight">8 €, ou même 6 € par mois</span> vous semblent envisageables ? 6 € ne vous reviennent qu'à <span class="highlight">1,50 € par mois après déduction fiscale</span>.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /cards-grid -->
+</section>
+
+<div class="sep"><hr></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 3 — CONTRE LE PA                                    -->
+<!-- ============================================================ -->
+<section class="section s-pa" id="pa">
+  <div class="section-header">
+    <div class="section-icon">🟣</div>
+    <div>
+      <div class="section-label">Après appel au don régulier — Contre le Prélèvement Automatique</div>
+      <h2>Objections contre le Don Mensuel Régulier (PA)</h2>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- 11 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">11</div>
+        <div class="card-title">« Je vous ferai un don ponctuel, pas régulier »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée — Ton enthousiaste et reconnaissant</div>
+        <p class="response-text">
+          C'est déjà formidable, M. / Mme XX, que vous envisagiez de nous aider — cela montre à quel point vous êtes sensible à la détresse de ces enfants. Un don ponctuel, c'est une impulsion précieuse.<br><br>
+          Mais sachez qu'un <span class="highlight">don régulier, même très modeste, c'est ce qui sauve vraiment sur le long terme</span>, parce que la faim, la maladie, le manque de soins… ça ne s'arrête pas après une aide ponctuelle. Ces enfants ont besoin de stabilité.<br><br>
+          Et ce qui est génial avec ce mode de soutien, c'est que vous gardez toujours la flexibilité de gérer votre don : par un simple appel au service donateur, vous stoppez ou modifiez le montant quand vous voulez.
+        </p>
+        <div class="tip-box">
+          <strong>💡 Exemple d'impact</strong>
+          Avec <strong>10 € par mois</strong> — quelques centimes par jour après déduction fiscale — vous avez un impact inestimable dans le quotidien de ces enfants. Peut-on compter sur vous pour poser ce geste simple qui change tout ?
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">12</div>
+        <div class="card-title">« Je préfère donner quand je le veux / Je n'aime pas ce type d'engagement mensuel »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Je l'entends bien M. / Mme XX, et c'est bien naturel de vouloir garder la liberté de donner quand vous le sentez — je comprends parfaitement, et je ne souhaite en rien modifier vos habitudes caritatives 😊<br><br>
+          Ce que je peux vous dire au sujet du don mensuel, c'est qu'<span class="highlight">il n'est en aucun cas un engagement rigide ou contraignant</span> : vous pouvez l'ajuster ou l'arrêter à tout moment. Selon vos envies ou si votre situation évolue, vous gardez un contrôle total.<br><br>
+          Mais ce qui rend ce soutien régulier si impactant ! c'est qu'il permet à nos équipes d'<span class="highlight">agir avec continuité</span> auprès des enfants, sur le long terme. Il vous permet d'accompagner un enfant durant toutes les étapes de sa guérison…
+        </p>
+        <div class="tip-box">
+          <strong>💡 Repositionnement</strong>
+          Avec <strong>10 € par mois</strong> (soit <strong>2,50 € après déduction fiscale</strong>), vous faites une réelle différence. Tout en sachant que vous pouvez stopper à tout moment, peut-on compter sur votre adhésion ?
+        </div>
+      </div>
+    </div>
+
+    <!-- 12b Dernier positionnement PA -->
+    <div class="obj-card card-full">
+      <div class="card-head">
+        <div class="card-num">★</div>
+        <div class="card-title">Dernier Positionnement PA — Si la personne reste réticente au don régulier</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Script de fermeture — Ton engagé, chaleureux</div>
+        <p class="response-text">
+          Je comprends parfaitement votre réticence à l'idée de faire un don régulier M. / Mme XX, et que le moment n'est peut-être pas opportun. Si je me permets d'être un peu plus engagé(e), c'est parce que <span class="highlight">nous parlons ici de vies humaines</span>, de milliers d'enfants en insécurité alimentaire dont la plupart n'ont pas encore cinq ans.<br><br>
+          Et aussi bouleversant que cela puisse paraître… <span class="highlight">une personne meurt de faim toutes les 13 secondes dans le monde</span>, alors qu'il existe des solutions simples, efficaces, et peu coûteuses, comme l'aliment thérapeutique prêt à l'emploi.<br><br>
+          C'est pour cela que votre soutien, aussi modeste soit-il, peut tout changer — redonner un sourire, une chance de vivre et un avenir…<br><br>
+          Alors, sachant que chaque geste compte, que le vôtre fera une vraie différence, et que vous pouvez <span class="highlight">suspendre votre soutien à tout moment</span> M. / Mme (NOM) — dites-moi simplement si peut-être <span class="highlight">8 €, ou même 6 € par mois</span> vous semblent envisageables pour cette noble cause ?
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /cards-grid -->
+</section>
+
+<div class="sep"><hr></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 4 — MÉFIANCE IBAN                                   -->
+<!-- ============================================================ -->
+<section class="section s-iban" id="iban">
+  <div class="section-header">
+    <div class="section-icon">🟢</div>
+    <div>
+      <div class="section-label">Sécurisation du prélèvement</div>
+      <h2>Méfiance vis-à-vis de l'IBAN</h2>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- 13 -->
+    <div class="obj-card card-full">
+      <div class="card-head">
+        <div class="card-num">13</div>
+        <div class="card-title">« Je ne veux pas donner mon IBAN » / Méfiance IBAN (PEL en direct par agent)</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée — Rassurer avec précision</div>
+        <p class="response-text">
+          Je comprends que vous puissiez être prudent(e), et c'est tout à fait légitime 😊<br><br>
+          Tout d'abord M. / Mme XX, <span class="highlight">sans accord verbal clair de votre part, rien n'est possible</span> 🙂<br><br>
+          Il est très important de préciser que votre IBAN <span class="highlight">ne permet en aucun cas d'accéder à votre compte</span>, mais simplement d'autoriser un virement SEPA pour l'UNICEF 😊 — cette procédure standard est strictement encadrée et protégée par nos institutions financières, et accordée exclusivement aux organisations françaises reconnues d'utilité publique.<br><br>
+          Sachez également que <span class="highlight">nos IBAN sont présents sur de nombreux documents administratifs sans être censurés</span> : factures d'énergie, d'internet, contrats de mutuelle, avis de virement CAF, impôts, Pôle Emploi, contrats d'assurance…
+        </p>
+        <div class="tip-box">
+          <strong>📅 Calendrier des prélèvements</strong>
+          Aucun prélèvement n'est effectué aujourd'hui — il s'agit uniquement d'<strong>enregistrer votre soutien</strong> à l'aide de votre IBAN. Le premier prélèvement est planifié pour le <strong>10 du mois prochain</strong>, puis le 10 de chaque mois. Vous recevrez un document récapitulatif par e-mail et SMS avant la clôture de notre conversation 😊
+        </div>
+        <div class="tip-box" style="margin-top:8px">
+          <strong>📌 Note agent PEL</strong>
+          Si PEL en direct par agent (prise d'IBAN) → envoyer SMS de félicitations depuis la fiche.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cards-grid -->
+</section>
+
+<div class="sep"><hr></div>
+
+
+<!-- ============================================================ -->
+<!-- SECTION 5 — OBJECTIONS CONFLICTUELLES                       -->
+<!-- ============================================================ -->
+<section class="section s-conflit" id="conflit">
+  <div class="section-header">
+    <div class="section-icon">🔴</div>
+    <div>
+      <div class="section-label">Situations délicates — Rester calme et professionnel</div>
+      <h2>Objections Conflictuelles &amp; Questions Sensibles</h2>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- 14a -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14a</div>
+        <div class="card-title">« D'où m'appelez-vous ? »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          De <span class="highlight">Paris</span> 😊<br><br>
+          <em>Si l'on vous demande où exactement :</em> dans le <strong>6ème arrondissement</strong> — du siège de l'UNICEF France, <strong>3 rue Duguay-Trouin</strong>.<br><br>
+          <em>Si la personne connaît le secteur :</em> Ah et bien moi je viens tout juste d'arriver à Paris, je ne connais pas du tout 😊 mais j'ai vraiment hâte de découvrir cette superbe ville !
+        </p>
+        <div class="tip-box">
+          <strong>⚠️ Attention</strong>
+          Enchaîner sur l'argumentaire sans s'empêtrer dans l'objection ni sortir du cadre 👌
+        </div>
+      </div>
+    </div>
+
+    <!-- 14b -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14b</div>
+        <div class="card-title">« D'où avez-vous eu mon numéro ? » / Source des coordonnées</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse générale</div>
+        <p class="response-text">
+          Je comprends votre question et celle-ci est tout à fait légitime. Je recherche l'information. En attendant, je veille à ce que l'ensemble de nos prestataires respectent le <span class="highlight">RGPD</span> et nous avons à cœur de protéger vos données personnelles.
+        </p>
+        <div class="tip-box">
+          <strong>📋 Sources selon fiche</strong>
+          • <strong>Rakuten, M6 Boutique, Comparez-Economisez…</strong> → « Vos coordonnées nous ont été transmises par notre partenaire X. »<br>
+          • <strong>Annuaire</strong> → « Vos coordonnées sont disponibles sur l'annuaire et les pages blanches. »<br>
+          • <strong>Joint Fidelis 2020 (cases vides)</strong> → « Je n'ai pas cette information en tant que chargé de communication. Nous travaillons avec plusieurs prestataires spécialisés conformes au RGPD. Pour connaître l'origine précise, contactez : <strong>dpo@groupe-fidelis.fr</strong> »
+        </div>
+        <div class="tip-box" style="margin-top:8px">
+          <strong>🔒 Si insistant(e) — Blocage</strong>
+          Classer en demande SRD → 09 69 36 84 68 ou www.unicef.fr
+        </div>
+      </div>
+    </div>
+
+    <!-- 14c -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14c</div>
+        <div class="card-title">« Vous n'avez pas le droit de m'appeler »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Je comprends votre réaction. Sachez que vous pouvez faire une demande auprès de votre opérateur pour <span class="highlight">ne plus apparaître dans l'annuaire</span>.
+        </p>
+        <div class="tip-box">
+          <strong>✅ Si la personne est rassurée</strong>
+          → Enchaîner avec le script<br><br>
+          <strong>❌ Si la personne reste fermée</strong>
+          → Prendre congé + confirmer que la personne <strong>ne sera plus appelée</strong> par UNICEF (fiche retirée des appels UNICEF CQT PA).
+        </div>
+      </div>
+    </div>
+
+    <!-- 14d BLOCTEL -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14d</div>
+        <div class="card-title">« Je suis sur liste Bloctel / Opposé tél »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Très bien M. / Mme — sachez seulement que les appels émanant d'<span class="highlight">associations à but non lucratif</span> (comme l'UNICEF) sont autorisés par Bloctel, tout comme ceux d'un service public ou d'instituts d'études et de sondage.<br><br>
+          Ces informations sont disponibles sur le site même de Bloctel : <strong>https://www.conso.bloctel.fr/</strong>
+        </p>
+        <div class="tip-box">
+          <strong>📜 Extrait Bloctel (si insistant)</strong>
+          « Pour des motifs qui ne concernent pas la vente de biens ou de services tels que : les appels émanant d'un service public / d'instituts d'études et de sondage / d'associations à but non lucratif. »
+        </div>
+      </div>
+    </div>
+
+    <!-- 14e Liste rouge -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14e</div>
+        <div class="card-title">« Je suis sur liste rouge »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Ah, je ne le savais pas — il se pourrait que nos fichiers ne soient pas mis à jour. Je vais donc <span class="highlight">remonter l'information</span> afin que vous ne soyez plus recontacté(e) de notre part. Bonne journée / soirée à vous 🙂
+        </p>
+      </div>
+    </div>
+
+    <!-- 14f Accent -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14f</div>
+        <div class="card-title">« Vous avez un accent ! » (parfois suivi de : « Vous appelez d'où ? »)</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          En effet M. / Mme ☺ vous l'avez bien détecté… <span class="highlight">Je suis d'ascendance (pays)</span>, vous connaissez (le pays) ? ☺
+        </p>
+        <span class="action-chip">↪ Enchaîner sur le script sans s'attarder</span>
+      </div>
+    </div>
+
+    <!-- 14g Connaît un membre -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14g</div>
+        <div class="card-title">« Je connais personnellement un membre de l'association »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Dans ce cas vous devez certainement connaître les <span class="highlight">actions menées par l'UNICEF</span> — je ne vous apprendrai rien de nouveau !<br><br>
+          <em>Selon l'attitude :</em> Nous menons une campagne afin d'informer et rassembler de nouvelles personnes autour de notre cause. Je vous remercie de votre accueil et je vous souhaite une bonne fin de journée.
+        </p>
+      </div>
+    </div>
+
+    <!-- 14h Qui êtes-vous -->
+    <div class="obj-card">
+      <div class="card-head">
+        <div class="card-num">14h</div>
+        <div class="card-title">« Qui êtes-vous exactement ? »</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Je suis mandaté par l'UNICEF M. / Mme, et je vous contacte afin de vous présenter les <span class="highlight">actions menées sur le terrain par notre association depuis sa création en 1946</span>.
+        </p>
+        <div class="tip-box">
+          <strong>🔍 Si insistant(e)</strong>
+          Soyez rassuré(e), je vous appelle bien de la part de l'UNICEF — vous pouvez d'ailleurs le vérifier sur notre site : <strong>www.unicef.fr</strong><br>
+          Je vous propose de soutenir les missions d'accompagnement que nous menons auprès des enfants partout dans le monde. Et si vous souhaitez le faire, je peux vous aider à faire votre don en ligne sur notre site.<br><br>
+          ⚠️ <em>C'est une procédure délicate — faire bloc avec le sourire sans perdre patience.</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14i Si souhaite plus de détails sur source -->
+    <div class="obj-card card-full">
+      <div class="card-head">
+        <div class="card-num">14i</div>
+        <div class="card-title">Si la personne conteste la source ou veut plus de détails</div>
+      </div>
+      <div class="card-body">
+        <div class="label-small">Réponse recommandée</div>
+        <p class="response-text">
+          Vous avez demandé en toute légitimité la source de vos coordonnées et je vous ai répondu, comme l'exige le RGPD. J'aurais aimé pouvoir vous renseigner davantage, mais à mon niveau <span class="highlight">je n'ai pas plus de détails</span> que ce que je viens de vous donner.
+        </p>
+        <div class="tip-box">
+          <strong>✅ Si rassurée</strong> → Enchaîner avec le script<br><br>
+          <strong>❌ Si blocage persistant</strong> → Transmettre les coordonnées UNICEF (classer en demande SRD) :<br>
+          &nbsp;&nbsp;📞 <strong>0969 368 468</strong> &nbsp;|&nbsp; 🌐 <strong>www.unicef.fr</strong><br><br>
+          <strong>😠 Si personne agacée / énervée</strong> → Prendre congé et préciser qu'elle sera <strong>exclue des appels de la campagne</strong> :<br>
+          « Désolé de ne pas avoir pu vous donner plus d'informations, mais en tant qu'agent, vous le comprendrez, j'ai accès uniquement aux informations de base que je vous ai transmises. Je vous remercie de votre compréhension. »<br>
+          → Fiche retirée des appels UNICEF CQT PA.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cards-grid -->
+</section>
+
+<div class="sep"><hr></div>
+
+
+<!-- ===== BARRE CONTACTS ===== -->
+<div class="contacts-bar">
+  <div class="contacts-inner">
+    <div>
+      <h3>Contacts Utiles — Service Relations Donateurs</h3>
+      <p>À communiquer en cas de blocage, de demande de vérification ou de contestation</p>
+    </div>
+    <div class="contact-pills">
+      <div class="pill">📞 <a href="tel:0969368468">09 69 36 84 68</a></div>
+      <div class="pill">📧 <a href="mailto:ServiceRelationDonateurs@unicef.fr">ServiceRelationDonateurs@unicef.fr</a></div>
+      <div class="pill">🌐 <a href="https://www.unicef.fr" target="_blank">www.unicef.fr</a></div>
+      <div class="pill">📧 RGPD : <a href="mailto:dpo@groupe-fidelis.fr">dpo@groupe-fidelis.fr</a></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  Module Traitement des Objections — UNICEF PPA &nbsp;|&nbsp; Usage interne — Agents téléphoniques &nbsp;|&nbsp; Campagne nationale de sensibilisation
+</footer>
+
+</body>
+</html>
