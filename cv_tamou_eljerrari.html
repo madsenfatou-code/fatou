@@ -12,7 +12,7 @@
   --bg:#f4f5f9;--card:#fff;--border:#e4e7ee;--light:#f8f9fc;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5}
 @media print{body{background:#fff}@page{margin:12mm;size:A4}}
 
 .page{max-width:860px;margin:0 auto;background:var(--card);box-shadow:0 4px 32px rgba(0,0,0,.1)}
@@ -23,8 +23,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .header-content{padding:32px 36px 28px;display:flex;align-items:flex-start;gap:28px}
 .avatar{width:88px;height:88px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:2rem}
 .header-text{flex:1}
-.header-text h1{font-size:1.75rem;font-weight:800;letter-spacing:-.5px;line-height:1.1}
-.header-text .title{color:var(--gold);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 12px}
+.header-text h1{font-size:2.2rem;font-weight:800;letter-spacing:-.5px;line-height:1.1}
+.header-text .title{color:var(--gold);font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 12px}
 .tagline{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6;max-width:520px}
 .contact-bar{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px}
 .contact-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:rgba(255,255,255,.65)}
@@ -34,8 +34,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .kpi-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--blue)}
 .kpi{padding:14px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
 .kpi:last-child{border-right:none}
-.kpi .n{font-size:1.5rem;font-weight:800;color:var(--gold);line-height:1}
-.kpi .l{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-top:3px}
+.kpi .n{font-size:1.8rem;font-weight:800;color:var(--gold);line-height:1}
+.kpi .l{font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-top:3px}
 
 /* ── BODY ── */
 .body{display:grid;grid-template-columns:260px 1fr}
@@ -43,7 +43,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 /* ── SIDEBAR ── */
 .sidebar{background:var(--light);padding:24px 20px;border-right:1px solid var(--border)}
 .sec{margin-bottom:22px}
-.sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--blue);border-left:3px solid var(--gold);padding-left:8px;margin-bottom:12px}
+.sec-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--blue);border-left:4px solid var(--gold);padding-left:10px;margin-bottom:12px}
 
 .skill-item{margin-bottom:8px}
 .skill-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;font-weight:500}
@@ -61,7 +61,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .cert-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;padding:8px;background:var(--card);border-radius:8px;border:1px solid var(--border)}
 .cert-icon{font-size:18px;flex-shrink:0}
 .cert-text{font-size:11px}
-.cert-text strong{display:block;font-size:11px;color:var(--text)}
+.cert-text strong{display:block;font-size:13px;color:var(--text)}
 .cert-text span{color:var(--muted);font-size:10px}
 
 .contact-side{font-size:11px;color:var(--muted)}
@@ -73,7 +73,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .main-sec{margin-bottom:22px}
 
 .profile-box{background:linear-gradient(135deg,#f8f3e0,#fff8e8);border:1px solid rgba(200,159,20,.3);border-radius:10px;padding:14px 16px;margin-bottom:20px}
-.profile-box p{font-size:12.5px;line-height:1.7;color:var(--text)}
+.profile-box p{font-size:14.5px;line-height:1.7;color:var(--text)}
 .profile-box strong{color:var(--navy)}
 
 .exp-item{margin-bottom:16px;padding-left:14px;border-left:2px solid var(--border);position:relative}
@@ -81,11 +81,11 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .exp-item.current::before{background:var(--red)}
 .exp-item.current{border-left-color:var(--red)}
 .exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
-.exp-title{font-size:12.5px;font-weight:700;color:var(--navy)}
+.exp-title{font-size:15px;font-weight:700;color:var(--navy)}
 .exp-date{font-size:10px;color:var(--muted);white-space:nowrap;margin-left:8px}
-.exp-company{font-size:11px;color:var(--blue);font-weight:600;margin-bottom:4px}
+.exp-company{font-size:13px;color:var(--blue);font-weight:600;margin-bottom:4px}
 .exp-bullets{padding-left:0;list-style:none}
-.exp-bullets li{font-size:11.5px;color:var(--muted);line-height:1.55;padding-left:12px;position:relative;margin-bottom:2px}
+.exp-bullets li{font-size:13.5px;color:var(--muted);line-height:1.55;padding-left:12px;position:relative;margin-bottom:2px}
 .exp-bullets li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:10px}
 
 .impact-badge{display:inline-block;background:var(--navy);color:var(--gold);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle}
@@ -97,7 +97,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .chip-ope{background:rgba(29,78,216,.1);color:var(--blue)}
 .chip-mot{background:rgba(217,119,6,.1);color:var(--mot,#d97706)}
 
-.verbatim-box{background:var(--light);border-left:3px solid var(--gold);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-style:italic;font-size:11px;color:var(--muted)}
+.verbatim-box{background:var(--light);border-left:3px solid var(--gold);padding:8px 12px;border-radius:0 6px 6px 0;margin-top:8px;font-style:italic;font-size:13px;color:var(--muted)}
 .verbatim-box strong{color:var(--text);font-style:normal}
 
 .edu-item{margin-bottom:10px}
