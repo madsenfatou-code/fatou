@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNICEF PPA — Guide Complet Script & Traitement des Objections</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:14px;line-height:1.75;color:#2c3e50;background:#eef2f7;}
+.header{background:linear-gradient(135deg,#009DE0 0%,#1C2A6E 100%);color:white;padding:50px 40px;text-align:center;}
+.header .badge{background:rgba(255,255,255,0.2);display:inline-block;padding:5px 22px;border-radius:20px;font-size:0.8em;letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;}
+.header h1{font-size:3em;font-weight:900;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;}
+.header h2{font-size:1.5em;font-weight:300;margin-bottom:18px;}
+.header .meta{font-size:0.85em;opacity:0.8;border-top:1px solid rgba(255,255,255,0.3);padding-top:14px;margin-top:14px;}
+.container{max-width:1100px;margin:0 auto;padding:30px 20px;}
+
+/* LEGEND */
+.legend{background:white;border-radius:10px;padding:18px 25px;margin-bottom:25px;box-shadow:0 2px 10px rgba(0,0,0,0.08);}
+.legend h3{color:#1C2A6E;font-size:1em;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;}
+.legend-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.legend-item{display:flex;align-items:center;gap:7px;background:#f4f6f8;padding:5px 12px;border-radius:5px;font-size:0.82em;}
+.ldot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+
+/* TOC */
+.toc{background:white;border-radius:10px;padding:25px 30px;margin-bottom:30px;box-shadow:0 2px 10px rgba(0,0,0,0.08);}
+.toc h2{color:#1C2A6E;font-size:1.6em;margin-bottom:15px;padding-bottom:10px;border-bottom:3px solid #009DE0;}
+.toc ul{list-style:none;}
+.toc li{padding:3px 0 3px 15px;}
+.toc a{color:#009DE0;text-decoration:none;font-size:0.88em;}
+.toc a:hover{text-decoration:underline;}
+.toc-section{font-weight:700;color:#1C2A6E;font-size:0.9em;margin-top:10px;padding-left:0!important;}
+
+/* SECTION DIVIDERS */
+.sd{border-radius:10px;padding:18px 28px;margin:40px 0 20px;color:white;font-size:1.6em;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.sd-blue{background:linear-gradient(135deg,#009DE0,#1C2A6E);}
+.sd-orange{background:linear-gradient(135deg,#F39C12,#E67E22);}
+.sd-purple{background:linear-gradient(135deg,#9B59B6,#8E44AD);}
+.sd-teal{background:linear-gradient(135deg,#1ABC9C,#16A085);}
+.sd-red{background:linear-gradient(135deg,#E74C3C,#C0392B);}
+
+/* CAS CARD */
+.cas-card{background:white;border-radius:12px;box-shadow:0 3px 15px rgba(0,0,0,0.1);margin-bottom:35px;overflow:hidden;}
+.cas-header{padding:22px 30px;color:white;display:flex;align-items:flex-start;gap:15px;}
+.ch-blue{background:#1C2A6E;}
+.ch-cyan{background:#009DE0;}
+.ch-orange{background:#E67E22;}
+.ch-purple{background:#8E44AD;}
+.ch-teal{background:#16A085;}
+.ch-red{background:#C0392B;}
+.cas-num{background:rgba(255,255,255,0.25);border-radius:8px;padding:8px 18px;font-size:1.4em;font-weight:900;white-space:nowrap;}
+.cas-ht h3{font-size:1.65em;font-weight:700;margin-bottom:4px;}
+.cas-ht p{font-size:0.88em;opacity:0.85;}
+
+/* STEPS */
+.step{padding:20px 30px;border-bottom:1px solid #eef0f3;}
+.step:last-child{border-bottom:none;}
+.sl{font-size:1.1em;font-weight:700;margin-bottom:12px;padding:6px 16px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;color:white;}
+.sl-ac{background:#009DE0;}
+.sl-cause{background:#2980B9;}
+.sl-ob{background:#E74C3C;}
+.sl-tr{background:#27AE60;}
+.sl-pr{background:#8E44AD;}
+.sl-co{background:#1C2A6E;}
+.sl-qu{background:#E67E22;}
+.sl-ib{background:#16A085;}
+.sl-su{background:#7F8C8D;}
+
+/* TEXT BOXES */
+.sb{background:#F8FBFF;border-left:5px solid #009DE0;padding:14px 18px;border-radius:0 8px 8px 0;font-style:italic;line-height:1.9;margin:8px 0;}
+.ob{background:#FFF0EE;border-left:5px solid #E74C3C;padding:14px 18px;border-radius:0 8px 8px 0;font-size:1.1em;font-style:italic;font-weight:600;color:#C0392B;margin:8px 0;}
+.tb{background:#F0FFF4;border-left:5px solid #27AE60;padding:14px 18px;border-radius:0 8px 8px 0;font-style:italic;line-height:1.9;margin:8px 0;}
+.ab{background:#EBF8FF;border:1px dashed #009DE0;padding:10px 15px;border-radius:8px;text-align:center;color:#1C2A6E;font-weight:600;margin:8px 0;font-size:0.92em;}
+.tip{background:#FFFDE7;border:1px solid #F5A623;padding:10px 15px;border-radius:8px;margin:8px 0;font-size:0.88em;color:#7D5A00;}
+.sb2{background:#FFF8F0;border-left:5px solid #F39C12;padding:14px 18px;border-radius:0 8px 8px 0;font-style:italic;line-height:1.9;margin:8px 0;}
+.sb3{background:#FFF0F8;border-left:5px solid #E74C3C;padding:14px 18px;border-radius:0 8px 8px 0;font-style:italic;line-height:1.9;margin:8px 0;}
+
+/* QUALIFICATION GRID */
+.qgrid{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;}
+.qbox{flex:1;min-width:210px;border-radius:10px;padding:16px;border:2px solid;}
+.qpa{background:#E8F5E9;border-color:#27AE60;}
+.qpr{background:#E3F2FD;border-color:#1976D2;}
+.qcu{background:#FFF3E0;border-color:#E67E22;}
+.qbox h4{font-size:1em;font-weight:700;margin-bottom:8px;}
+.qpa h4{color:#27AE60;}
+.qpr h4{color:#1976D2;}
+.qcu h4{color:#E67E22;}
+.qbox p{font-size:0.83em;line-height:1.65;}
+
+/* TWO COL */
+.tc{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0;}
+.tc-g{flex:1;min-width:220px;background:#E8F5E9;border:1px solid #27AE60;border-radius:8px;padding:12px 14px;}
+.tc-b{flex:1;min-width:220px;background:#E3F2FD;border:1px solid #1976D2;border-radius:8px;padding:12px 14px;}
+.tc-o{flex:1;min-width:220px;background:#FFF3E0;border:1px solid #E67E22;border-radius:8px;padding:12px 14px;}
+.tc-r{flex:1;min-width:220px;background:#FFF0EE;border:1px solid #E74C3C;border-radius:8px;padding:12px 14px;}
+.tc-g h4,.tc-b h4,.tc-o h4,.tc-r h4{font-size:0.9em;font-weight:700;margin-bottom:5px;}
+.tc-g h4{color:#27AE60;}.tc-b h4{color:#1976D2;}.tc-o h4{color:#E67E22;}.tc-r h4{color:#C0392B;}
+
+.footer{background:#1C2A6E;color:white;text-align:center;padding:25px;font-size:0.85em;opacity:0.95;margin-top:20px;}
+@media print{.cas-card{break-inside:avoid;}.sd{break-after:avoid;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">UNICEF France — Document interne — Usage strictement réservé aux agents</div>
+  <h1>Guide Complet</h1>
+  <h2>Script &amp; Traitement des Objections — PPA</h2>
+  <div class="meta">Prélèvement Automatique · Don Régulier · Campagne nationale · 25 scénarios couverts<br>
+  Sources : Script de Collecte de Dons + Module Traitement des Objections PPA</div>
+</div>
+
+<div class="container">
+
+<!-- LÉGENDE -->
+<div class="legend">
+  <h3>Légende — Code couleur</h3>
+  <div class="legend-grid">
+    <div class="legend-item"><div class="ldot" style="background:#009DE0"></div>Accroche &amp; Présentation</div>
+    <div class="legend-item"><div class="ldot" style="background:#E74C3C"></div>Objection du prospect</div>
+    <div class="legend-item"><div class="ldot" style="background:#27AE60"></div>Traitement de l'objection</div>
+    <div class="legend-item"><div class="ldot" style="background:#8E44AD"></div>Proposition / Appel au soutien</div>
+    <div class="legend-item"><div class="ldot" style="background:#1C2A6E"></div>Conclusion / Verrouillage</div>
+    <div class="legend-item"><div class="ldot" style="background:#E67E22"></div>Qualification — PA / Promesse / CU</div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>SOMMAIRE DES SCÉNARIOS</h2>
+  <ul>
+    <li><a href="#cas1"><strong>CAS 1 — Parcours sans objection (appel fluide)</strong></a></li>
+    <li class="toc-section">🔵 OBJECTIONS INITIALES — PHASE D'ACCROCHE</li>
+    <li><a href="#cas2">CAS 2 — "Je ne suis pas intéressé(e) / Je n'ai pas le temps"</a></li>
+    <li><a href="#cas3">CAS 3 — "Faux numéro"</a></li>
+    <li><a href="#cas4">CAS 4 — "Vous m'appelez pour un don ?"</a></li>
+    <li><a href="#cas5">CAS 5 — "Je donne déjà à d'autres associations" (phase accroche)</a></li>
+    <li><a href="#cas6">CAS 6 — "C'est une arnaque !"</a></li>
+    <li><a href="#cas7">CAS 7 — "Je ne donne pas d'argent par téléphone"</a></li>
+    <li><a href="#cas8">CAS 8 — "Je ne fais pas confiance aux associations"</a></li>
+    <li><a href="#cas9">CAS 9 — "Je n'aime pas être contacté(e) par téléphone"</a></li>
+    <li class="toc-section">🟠 OBJECTIONS FINANCIÈRES — APRÈS APPEL AU DON</li>
+    <li><a href="#cas10">CAS 10 — "Je donne déjà / Je me suis engagé(e) avec X"</a></li>
+    <li><a href="#cas11">CAS 11 — "Je n'ai pas les moyens (petite retraite, chômage…)"</a></li>
+    <li><a href="#cas12">CAS 12 — Dernier positionnement financier (si reste hésitant)</a></li>
+    <li class="toc-section">🟣 CONTRE LE DON RÉGULIER — PA</li>
+    <li><a href="#cas13">CAS 13 — "Je ferai un don ponctuel, pas régulier"</a></li>
+    <li><a href="#cas14">CAS 14 — "Je préfère donner quand je veux / Je n'aime pas l'engagement mensuel"</a></li>
+    <li><a href="#cas15">CAS 15 — Dernier positionnement PA (si reste réticent au mensuel)</a></li>
+    <li class="toc-section">🟢 MÉFIANCE IBAN</li>
+    <li><a href="#cas16">CAS 16 — "Je ne veux pas donner mon IBAN / Méfiance IBAN"</a></li>
+    <li class="toc-section">🔴 OBJECTIONS CONFLICTUELLES</li>
+    <li><a href="#cas17">CAS 17 — "D'où m'appelez-vous ?"</a></li>
+    <li><a href="#cas18">CAS 18 — "D'où avez-vous eu mon numéro ?"</a></li>
+    <li><a href="#cas19">CAS 19 — "Vous n'avez pas le droit de m'appeler"</a></li>
+    <li><a href="#cas20">CAS 20 — "Je suis sur liste Bloctel / Opposé tél"</a></li>
+    <li><a href="#cas21">CAS 21 — "Je suis sur liste rouge"</a></li>
+    <li><a href="#cas22">CAS 22 — "Vous avez un accent !"</a></li>
+    <li><a href="#cas23">CAS 23 — "Je connais personnellement un membre de l'association"</a></li>
+    <li><a href="#cas24">CAS 24 — "Qui êtes-vous exactement ?"</a></li>
+    <li><a href="#cas25">CAS 25 — Contestation de la source / demande de détails</a></li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     CAS 1 — PARCOURS SANS OBJECTION
+═══════════════════════════════════════════════════════ -->
+<div class="cas-card" id="cas1">
+  <div class="cas-header ch-blue">
+    <div class="cas-num">CAS 1</div>
+    <div class="cas-ht">
+      <h3>PARCOURS SANS OBJECTION</h3>
+      <p>Le prospect écoute, adhère et s'engage — Appel fluide de bout en bout</p>
+    </div>
+  </div>
+
+  <!-- ACCROCHE -->
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE &amp; PRÉSENTATION</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire. Cet appel est enregistré à des fins de qualité et de formation, si vous ne le souhaitez pas… je vous prie de me le signaler 😊</em><br><br>
+    <em>Je suppose que vous connaissez bien sûr l'UNICEF ? le fond des nations unies pour l'enfance…</em></div>
+    <div class="tc">
+      <div class="tc-g"><h4>★ Si OUI :</h4><em>Très bien ! comme vous le savez, L'UNICEF intervient dans plus de <strong>190 pays</strong> pour aider les enfants en détresse, notamment dans les zones de conflits et de catastrophes.</em></div>
+      <div class="tc-b"><h4>★ Si NON :</h4><em>L'UNICEF est l'organisation des Nations Unies dédiée à la protection des droits des enfants dans le monde entier. Nous intervenons pour offrir aux enfants l'accès aux soins, à l'éducation et à la protection, en particulier en période de crise.</em></div>
+    </div>
+  </div>
+
+  <!-- PRÉSENTATION DE LA CAUSE -->
+  <div class="step">
+    <div class="sl sl-cause">🌍 PRÉSENTATION DE LA CAUSE — LA MALNUTRITION INFANTILE</div>
+    <div class="sb"><em>Nous vous appelons aujourd'hui M/Mme [Nom] pour vous parler de la malnutrition qui touche chaque année, plus d'un million d'enfants âgés de <strong>3 mois à 5 ans</strong> et qui sont confrontés à une mort évitable… C'est l'une des principales causes de décès chez les enfants de moins de cinq ans…</em><br><br>
+    <em>La malnutrition se propagent très rapidement… notamment avec les catastrophes naturelles de plus en plus fréquentes, les conflits armés et les guerres, où les enfants sont malheureusement les premières victimes…</em><br><br>
+    <em>Comme vous le savez, L'UNICEF joue un rôle crucial depuis de longues années, dans la prise en charge d'enfants souffrants de malnutrition aiguë sévère, grâce notamment, à la distribution quotidienne d'aliments thérapeutiques prêts à l'emploi, en avez-vous déjà entendu parler Mr / Mme XX ??</em></div>
+  </div>
+
+  <!-- RUTF -->
+  <div class="step">
+    <div class="sl sl-cause">🟡 L'ALIMENT THÉRAPEUTIQUE — LES SACHETS RUTF</div>
+    <div class="sb"><em>Ces petits sachets de <strong>92 grammes</strong> peuvent littéralement sauver des vies Mr / Mme… C'est un mélange de pointe, qui contient, pâte d'arachide, matière grasse végétale, lait écrémé en poudre et des vitamines, il peut être consommé directement depuis le sachet, et ne nécessite, ni électricité, ni cuisson, ni eau… ce qui est un atout majeur dans les zones frappées par la sécheresse, où l'eau est une denrée rare.</em><br><br>
+    <em>Ce formidable traitement a amélioré de manière spectaculaire la prise en charge des enfants atteints de malnutrition aiguë sévère.</em><br><br>
+    <em>Notre engagement est permanent Mr /Mme… mais il reste du chemin à parcourir… et de belles choses encore à réaliser…</em></div>
+  </div>
+
+  <!-- PROPOSITION -->
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>Et c'est dans ce cadre-là que je vous contacte, vous l'avez compris Mr/Mme XXX… J'aimerais vous inviter, si cela vous fait plaisir, à apporter votre pierre à l'édifice, avec une cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, cela ne vous reviendra qu'à <strong>3,75€</strong> après la déduction fiscale, mais offrira la chance de grandir à un enfant qui n'a pas choisi de naître dans la pauvreté. Alors peut-on compter sur votre contribution Mme / Mr… ?</em></div>
+    <div class="tip">💡 Un don de <strong>10 € par mois = 2,50 € après déduction fiscale</strong></div>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> C'est FORMIDABLE 😊 vous n'imaginez pas l'impact qu'a votre soutien aujourd'hui. Un grand merci pour votre générosité…<br><br>
+    <strong>Verrouillage :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois pour la Protection et l'éducation des enfants ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>En fait, je vous pose cette question car nous établissons un budget prévisionnel, ceci nous permet de parfaitement planifier nos actions dans la durée, et d'être ainsi très efficace, alors, puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF Mr / Mme XX ?</em></div>
+    <div class="sb3"><strong>→ Si INDÉCIS / souhaite réfléchir :</strong> <em>Il est vrai que je vous prends au dépourvu avec mon appel ☺, mais permettez-moi de vous remercier pour votre bonne volonté d'agir car vous ne nous fermez pas la porte et cela témoigne de votre sensibilité à la détresse de ces enfants, sachez Mr/Mme XX. Que votre présence à nos côtés est extrêmement importante pour tous ces enfants en bas âge qui ont le droit à un avenir meilleur, en bonne santé et par exemple, un don de 10€ par mois soit 2,50€ après déduction fiscale, c'est une main tendue chaque mois vers un enfant qui n'a rien. Alors, M./Mme XX… seriez-vous prêt(e) à poser ce petit geste régulier, à votre rythme, pour leur offrir avec l'UNICEF cette stabilité si précieuse ?</em></div>
+  </div>
+
+  <!-- QUALIFICATION -->
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa">
+        <h4>✅ PA DIRECT</h4>
+        <p><em>La personne accepte et communique son IBAN</em><br><br>
+        <strong>Validation :</strong> <em>Pour valider votre don régulier on a simplement besoin de votre IBAN, c'est une série de 27 chiffres qui commence par FR et qui se trouve sur les deux dernières pages de votre chéquier ou sur votre relevé d'identité bancaire, je vous laisse aller le récupérer le temps que je prépare votre formulaire 😊</em><br><br>
+        <strong>Blindage :</strong> <em>M'autorisez-vous à enregistrer un prélèvement mensuel de X € au profit de l'UNICEF ?</em> OUI → <em>Je vous remercie du fond du cœur pour votre solidarité Mr / Mme X, au nom de toute l'équipe UNICEF…</em> → Envoyer SMS félicitation</p>
+      </div>
+      <div class="qbox qpr">
+        <h4>🔵 PROMESSE DE PAIEMENT</h4>
+        <p><em>La personne accepte mais préfère ne pas donner l'IBAN par téléphone ou souhaite le faire plus tard</em><br><br>
+        <strong>PA en ligne par donateur :</strong> <em>Je vous envoie tout de suite le lien de notre site internet qui vous permettra de compléter votre IBAN vous-même… Je reste avec vous en ligne afin de vous guider si nécessaire.</em><br><br>
+        <strong>Promesse PA en ligne (différé) :</strong> <em>Très bien 😊 À quel moment pourrez-vous valider votre soutien à L'UNICEF Mr / Mme XX ?</em> → Classer la fiche en rappel personnel<br><br>
+        <strong>PA Courrier (exceptionnel) :</strong> Envoi d'un courrier avec autorisation de prélèvement + enveloppe retour + RIB</p>
+      </div>
+      <div class="qbox qcu">
+        <h4>❌ CU — INDÉCIS</h4>
+        <p><em>La personne ne s'engage pas</em><br><br>
+        Classer INDÉCIS : <strong>« doit réfléchir »</strong><br><br>
+        <strong>Prise de congé :</strong> <em>Au nom de toute l'équipe de L'UNICEF ainsi que des populations qui reçoivent notre soutien, je vous remercie pour votre accueil et votre générosité et je vous souhaite une excellente journée / fin de journée / soirée ! 😊</em></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION OBJECTIONS INITIALES
+═══════════════════════════════════════════ -->
+<div class="sd sd-blue">🔵 OBJECTIONS INITIALES — PHASE D'ACCROCHE</div>
+
+<!-- CAS 2 -->
+<div class="cas-card" id="cas2">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 2</div>
+    <div class="cas-ht"><h3>"Je ne suis pas intéressé(e) / Je n'ai pas le temps"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je ne suis pas intéressé(e) / Je n'ai pas le temps ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Permettez-moi de vous expliquer rapidement ce dont il s'agit, puis vous me direz ce que vous en pensez…<br><br>
+    Votre avis est très important pour nous. Il me tient à cœur de vous parler brièvement des missions que nous menons en faveur des enfants du monde entier — je serai très bref(ve).</em></div>
+    <div class="ab">↪ Enchaîner sur le script — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte, vous l'avez compris Mr/Mme XXX… J'aimerais vous inviter, si cela vous fait plaisir, à apporter votre pierre à l'édifice, avec une cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, cela ne vous reviendra qu'à <strong>3,75€</strong> après la déduction fiscale, mais offrira la chance de grandir à un enfant qui n'a pas choisi de naître dans la pauvreté. Alors peut-on compter sur votre contribution Mme / Mr… ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> C'est FORMIDABLE 😊 <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois pour la Protection et l'éducation des enfants ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF Mr / Mme XX ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 3 -->
+<div class="cas-card" id="cas3">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 3</div>
+    <div class="cas-ht"><h3>"Faux numéro"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Faux numéro ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Très bien — en réalité mon appel n'est pas nominatif : nous appelons dans toute la France dans le cadre d'une campagne d'information et de sensibilisation.<br><br>
+    Je vous prendrais qu'une toute petite minute 😊</em></div>
+    <div class="ab">↪ Enchaîner sur le script — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale. Alors peut-on compter sur votre contribution ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 4 -->
+<div class="cas-card" id="cas4">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 4</div>
+    <div class="cas-ht"><h3>"Vous m'appelez pour un don ?"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Vous m'appelez pour un don ? ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Avant toute chose, je vous contacte afin de vous faire part de nos missions et avoir votre avis 😊<br><br>
+    En fait, nous menons une campagne d'information et de sensibilisation partout en France, et nous savons bien que ce n'est pas tout le monde qui aura la possibilité de nous soutenir…</em></div>
+    <div class="ab">↪ Enchaîner : « Comme je vous le disais… » — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale. Alors peut-on compter sur votre contribution ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 5 -->
+<div class="cas-card" id="cas5">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 5</div>
+    <div class="cas-ht"><h3>"Je donne déjà à d'autres associations / Je ne peux pas donner plus"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je donne déjà à d'autres associations / Je ne peux pas donner plus ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Et bien je vous remercie pour ce que vous faites déjà M. / Mme XX, et je vous rassure — il ne s'agit pas seulement de faire un don.<br><br>
+    Je me permets de vous contacter dans le cadre d'une campagne d'information et de sensibilisation au sujet de la situation des enfants vulnérables, et votre avis est très important pour nous 😊</em></div>
+    <div class="ab">↪ Enchaîner sur le script — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale. Alors peut-on compter sur votre contribution ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 6 -->
+<div class="cas-card" id="cas6">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 6</div>
+    <div class="cas-ht"><h3>"C'est une arnaque !"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ C'est une arnaque ! ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je peux comprendre votre inquiétude M. / Mme (NOM), mais soyez rassuré(e) — je vous appelle bien de la part d'UNICEF France.<br><br>
+    Cette campagne téléphonique est annoncée sur notre site officiel <strong>www.unicef.fr</strong>, vous pouvez le constater immédiatement.<br><br>
+    Pour plus d'informations : <strong>ServiceRelationDonateurs@unicef.fr</strong> ou au <strong>09 69 36 84 68</strong></em></div>
+    <div class="ab">↪ Enchaîner : « Comme je vous le disais… » — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale. Alors peut-on compter sur votre contribution ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 7 -->
+<div class="cas-card" id="cas7">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 7</div>
+    <div class="cas-ht"><h3>"Je ne donne pas d'argent par téléphone"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je ne donne pas d'argent par téléphone ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je vous rassure, il n'est pas question que vous donniez de l'argent par téléphone.<br><br>
+    Le téléphone représente pour nous le moyen le plus simple et le plus efficace pour porter le message de notre noble cause au plus grand nombre de personnes.<br><br>
+    Cela me permet également de répondre à vos questions 😊</em></div>
+    <div class="ab">↪ Enchaîner : « Comme je vous le disais… » — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale. Alors peut-on compter sur votre contribution ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 8 -->
+<div class="cas-card" id="cas8">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 8</div>
+    <div class="cas-ht"><h3>"Je ne fais pas confiance aux associations"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je ne fais pas confiance aux associations ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je comprends que vous vous posiez des questions quant à l'affectation des dons — permettez-moi de vous rassurer :<br><br>
+    ✔ UNICEF agit pour les enfants depuis <strong>1946</strong><br>
+    ✔ UNICEF France créée en <strong>1964</strong> — comptes certifiés par un commissaire aux comptes indépendant<br>
+    ✔ Notre mission : eau potable, alimentation, formation, santé</em></div>
+    <div class="ab">↪ Enchaîner : « Comme je vous le disais… » — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale. Alors peut-on compter sur votre contribution ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 9 -->
+<div class="cas-card" id="cas9">
+  <div class="cas-header ch-cyan">
+    <div class="cas-num">CAS 9</div>
+    <div class="cas-ht"><h3>"Je n'aime pas être contacté(e) par téléphone"</h3><p>Objection initiale — Phase d'accroche</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je n'aime pas être contacté(e) par téléphone ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je comprends que vous ne souhaitiez pas être dérangé(e) 😊<br><br>
+    Mais si nous nous sommes permis de vous contacter aujourd'hui, c'est parce que l'UNICEF a un message important à diffuser, et le téléphone représente le moyen le plus efficace pour rassembler de nouvelles personnes autour de notre noble cause.<br><br>
+    Cela me permet également de répondre à vos questions…</em></div>
+    <div class="ab">↪ Enchaîner : « Comme je vous le disais… » — reprendre depuis la présentation de la cause</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>[Présenter la malnutrition + les sachets RUTF — voir CAS 1]</em><br><br>
+    <em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale. Alors peut-on compter sur votre contribution ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION OBJECTIONS FINANCIÈRES
+═══════════════════════════════════════════ -->
+<div class="sd sd-orange">🟠 OBJECTIONS FINANCIÈRES — APRÈS APPEL AU DON</div>
+
+<!-- CAS 10 -->
+<div class="cas-card" id="cas10">
+  <div class="cas-header ch-orange">
+    <div class="cas-num">CAS 10</div>
+    <div class="cas-ht"><h3>"Je donne déjà à d'autres associations / Je me suis engagé(e) avec X"</h3><p>Objection financière — après la proposition d'appel au don</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE &amp; PRÉSENTATION</div>
+    <div class="ab">↪ Script complet d'accroche + présentation de la cause + sachets RUTF (identique à CAS 1 — sections 1 à 3)</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>, soit <strong>3,75€</strong> après déduction fiscale…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je donne déjà à d'autres associations / Je me suis engagé(e) avec X ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Et bien je comprends tout à fait — c'est tout à votre honneur M. / Mme XX. Nous ne souhaitons en aucun cas modifier vos habitudes caritatives.<br><br>
+    15 € par mois n'est pas une somme anodine — mais ce n'était qu'un exemple. Aujourd'hui, 300 millions de personnes sont en insécurité alimentaire dans le monde, provoquée par les guerres, les conflits armés, et les catastrophes naturelles qui réduisent l'accès à l'eau et à l'alimentation. Chaque don, aussi modeste soit-il, a un impact inestimable.</em></div>
+    <div class="tip">💡 <strong>10 € par mois = 2,50 € après déduction fiscale</strong> — Cela vous semble-t-il plus envisageable ?</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 11 -->
+<div class="cas-card" id="cas11">
+  <div class="cas-header ch-orange">
+    <div class="cas-num">CAS 11</div>
+    <div class="cas-ht"><h3>"Je n'ai pas les moyens (petite retraite, chômage…)"</h3><p>Objection financière — après la proposition d'appel au don</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE &amp; PRÉSENTATION</div>
+    <div class="ab">↪ Script complet d'accroche + présentation de la cause + sachets RUTF (identique à CAS 1 — sections 1 à 3)</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je n'ai pas les moyens (petite retraite, chômage…) ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>J'entends bien ce que vous dites M. / Mme XX.<br><br>
+    15 € par mois n'est pas une somme anodine — mais ce n'était qu'un exemple. Nous étions contraints de lancer cette campagne à cause du grand chaos qui touche l'Ukraine, le Congo, le Soudan, le Proche-Orient… Des millions d'enfants pris au piège des conflits, dont beaucoup ont moins de 5 ans et souffrent de retards de croissance sévères.</em></div>
+    <div class="tip">💡 Avec <strong>10 € (= 2,50 € / mois après déduction fiscale)</strong>, vous prenez en charge 4 enfants. Peut-on compter sur ce geste de votre part ?</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 12 -->
+<div class="cas-card" id="cas12">
+  <div class="cas-header ch-orange">
+    <div class="cas-num">CAS 12</div>
+    <div class="cas-ht"><h3>Dernier positionnement financier — Si la personne reste hésitante</h3><p>Dernière tentative financière — montants minimums</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE &amp; PRÉSENTATION</div>
+    <div class="ab">↪ Script complet + CAS 10 ou CAS 11 traité — la personne reste hésitante malgré le traitement</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ SITUATION</div>
+    <div class="ob">❝ La personne reste hésitante après le premier traitement de l'objection financière ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ DERNIER POSITIONNEMENT</div>
+    <div class="tb"><em>Je comprends parfaitement que le moment n'est peut-être pas le plus simple.<br><br>
+    Si je me permets d'être un peu plus engagé(e), c'est parce que nous parlons de vies humaines — de milliers d'enfants en insécurité alimentaire dont la plupart n'ont pas encore cinq ans.<br><br>
+    ⏱ Une personne meurt de faim dans le monde toutes les 13 secondes. Il existe des solutions simples : les aliments thérapeutiques prêts à l'emploi.</em></div>
+    <div class="tip">💡 <em>« Dites-moi simplement ce qui vous semble le plus adapté à votre budget… »</em><br>
+    <strong>8 € ou même 6 € par mois ?</strong> → 6 € = <strong>1,50 € après déduction fiscale</strong></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X € par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si oui pas ferme :</strong> <em>puis-je inscrire une promesse de don mensuel de XX € au profit de l'UNICEF ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION CONTRE LE DON RÉGULIER
+═══════════════════════════════════════════ -->
+<div class="sd sd-purple">🟣 CONTRE LE DON RÉGULIER — PRÉLÈVEMENT AUTOMATIQUE (PA)</div>
+
+<!-- CAS 13 -->
+<div class="cas-card" id="cas13">
+  <div class="cas-header ch-purple">
+    <div class="cas-num">CAS 13</div>
+    <div class="cas-ht"><h3>"Je vous ferai un don ponctuel, pas régulier"</h3><p>Contre le PA — Lever les réticences au mensuel</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE &amp; PRÉSENTATION</div>
+    <div class="ab">↪ Script complet d'accroche + présentation de la cause + sachets RUTF (identique à CAS 1)</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION — APPEL AU SOUTIEN</div>
+    <div class="sb"><em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je vous ferai un don ponctuel, pas régulier ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>C'est déjà formidable, M. / Mme XX, que vous envisagiez de nous aider ! Un don ponctuel, c'est une impulsion précieuse.<br><br>
+    Mais un don régulier, même très modeste, c'est ce qui sauve vraiment sur le long terme — la faim, la maladie, le manque de soins… ça ne s'arrête pas après une aide ponctuelle.<br><br>
+    Et ce qui est génial : vous pouvez stopper ou modifier le montant à tout moment, par un simple appel au service donateur.</em></div>
+    <div class="tip">💡 <strong>10 € / mois = quelques centimes par jour après déduction fiscale</strong> → Impact inestimable dans le quotidien de ces enfants.<br>Peut-on compter sur vous pour poser ce geste simple ?</div>
+    <p style="margin-top:10px;font-size:0.88em;color:#555;">Voir aussi le script "Si préfère don ponctuel" (script page 3) :</p>
+    <div class="tb"><em>Je l'entends bien M./Mme XX, et c'est bien naturel de vouloir garder la liberté de donner quand vous le sentez, je comprends parfaitement, et je ne souhaite en rien modifier vos habitudes caritatives 😊. Ce que je peux vous dire au sujet du don mensuel, et ce qui est génial avec ce type de don, c'est qu'il est totalement flexible, et selon votre situation financière, vous pouvez ajuster le montant, ou le suspendre à tout moment, depuis votre espace donateur.<br><br>
+    Selon vos envies ou si votre situation évolue, vous gardez un contrôle total sur votre don mensuel.<br><br>
+    Mais ce qui rend ce soutien régulier, si impactant ! c'est qu'il permet à nos équipes d'anticiper, et agir sur le long terme auprès des enfants, parce que lorsqu'il s'agit de faim, de maladie, ou de manque de soins, les besoins sont présents jour après jour…<br><br>
+    Alors ce don mensuel même modeste ! est très puissant, car il vous permet d'accompagner un enfant durant toutes les étapes de sa guérison, avec un petit don mensuel de <strong>10€</strong> par exemple, soit <strong>2,50€</strong> après déduction fiscale vous offrez chaque mois, une véritable lueur d'espoir à ces enfants. Alors Mr / Mme XX, peut-on compter sur votre précieux soutien ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> C'est FORMIDABLE 😊 vous n'imaginez pas l'impact qu'a votre soutien aujourd'hui.<br>
+    <em>Je peux donc enregistrer M/Mme un don régulier de X€ par mois pour la Protection et l'éducation des enfants ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si réponse hésitante :</strong> <em>Je vous pose cette question afin de le noter dans notre budget prévisionnel et prévoir nos actions. Aussi puis-je enregistrer une promesse de don régulier de XX € de votre part ?</em></div>
+    <div class="sb3"><strong>→ Si ne promet pas :</strong> Classer INDÉCIS « doit réfléchir »</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 14 -->
+<div class="cas-card" id="cas14">
+  <div class="cas-header ch-purple">
+    <div class="cas-num">CAS 14</div>
+    <div class="cas-ht"><h3>"Je préfère donner quand je veux / Je n'aime pas l'engagement mensuel"</h3><p>Contre le PA — Lever les réticences au mensuel</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE &amp; PRÉSENTATION</div>
+    <div class="ab">↪ Script complet d'accroche + présentation de la cause + sachets RUTF (identique à CAS 1)</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-pr">💙 PROPOSITION</div>
+    <div class="sb"><em>Et c'est dans ce cadre-là que je vous contacte… cotisation accessible de <strong>50 centimes d'euros par jour soit 15€ /Mois</strong>…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je préfère donner quand je veux / Je n'aime pas l'engagement mensuel ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je l'entends bien M. / Mme XX — c'est bien naturel de vouloir garder la liberté de donner quand vous le sentez.<br><br>
+    Ce que je peux vous dire : le don mensuel n'est en aucun cas un engagement rigide ou contraignant. Vous pouvez l'ajuster ou l'arrêter à tout moment — vous gardez un contrôle total.<br><br>
+    Ce soutien régulier permet à nos équipes d'agir avec continuité et d'accompagner un enfant durant toutes les étapes de sa guérison.</em></div>
+    <div class="tip">💡 <strong>10 € / mois = 2,50 € après déduction fiscale.</strong><br>
+    Tout en sachant que vous pouvez stopper à tout moment, peut-on compter sur votre adhésion ?</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X€ par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si réponse hésitante :</strong> <em>puis-je enregistrer une promesse de don régulier de XX € de votre part ?</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 15 -->
+<div class="cas-card" id="cas15">
+  <div class="cas-header ch-purple">
+    <div class="cas-num">CAS 15</div>
+    <div class="cas-ht"><h3>Dernier positionnement PA — Si la personne reste réticente au don régulier</h3><p>Dernière tentative — montants minimums PA</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE &amp; PRÉSENTATION</div>
+    <div class="ab">↪ Script complet + CAS 13 ou CAS 14 traité — la personne reste réticente au mensuel</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ SITUATION</div>
+    <div class="ob">❝ La personne reste réticente au don régulier malgré le premier traitement ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ DERNIER POSITIONNEMENT PA</div>
+    <div class="tb"><em>Je comprends parfaitement votre réticence à l'idée d'un don régulier.<br><br>
+    Si je me permets d'être un peu plus engagé(e), c'est parce que nous parlons de vies humaines — de milliers d'enfants en insécurité alimentaire dont la plupart n'ont pas encore cinq ans.<br><br>
+    ⏱ Une personne meurt de faim toutes les 13 secondes dans le monde, alors qu'il existe des solutions simples comme l'aliment thérapeutique.<br><br>
+    Votre soutien, aussi modeste soit-il, peut tout changer — et vous pouvez suspendre votre soutien à tout moment.</em></div>
+    <div class="tip">💡 <strong>8 € ou même 6 € / mois</strong> vous semblent envisageables ?</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-co">🔒 CONCLUSION — VERROUILLAGE</div>
+    <div class="sb"><strong>→ SI OUI :</strong> <em>Je peux donc enregistrer M/Mme un don régulier de X€ par mois ? (Attendre un oui ferme)</em></div>
+    <div class="sb2"><strong>→ Si réponse hésitante :</strong> <em>puis-je enregistrer une promesse de don régulier de XX € de votre part ?</em></div>
+    <div class="sb3"><strong>→ Si ne promet pas :</strong> Classer INDÉCIS « doit réfléchir »</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa"><h4>✅ PA DIRECT</h4><p>Accord + IBAN → Validation PEL → Blindage → SMS félicitation</p></div>
+      <div class="qbox qpr"><h4>🔵 PROMESSE DE PAIEMENT</h4><p>PA en ligne (lien envoyé) ou Promesse PA différée (rappel personnel)</p></div>
+      <div class="qbox qcu"><h4>❌ CU — INDÉCIS</h4><p>Classer indécis « doit réfléchir » → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION MÉFIANCE IBAN
+═══════════════════════════════════════════ -->
+<div class="sd sd-teal">🟢 MÉFIANCE IBAN — SÉCURISATION DU PRÉLÈVEMENT SEPA</div>
+
+<!-- CAS 16 -->
+<div class="cas-card" id="cas16">
+  <div class="cas-header ch-teal">
+    <div class="cas-num">CAS 16</div>
+    <div class="cas-ht"><h3>"Je ne veux pas donner mon IBAN / Méfiance IBAN"</h3><p>Objection lors de la validation des coordonnées bancaires</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE, PRÉSENTATION &amp; ACCORD OBTENU</div>
+    <div class="ab">↪ Script complet (CAS 1) — La personne a accepté de soutenir l'UNICEF. On passe à la validation des coordonnées.</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ib">🏦 VALIDATION DES COORDONNÉES — DEMANDE IBAN</div>
+    <div class="sb"><em>Mme/M, sachez que le premier prélèvement se fera à partir du <strong>10</strong>, chaque 10 du mois.<br><br>
+    Pour valider votre don régulier on a simplement besoin de votre IBAN, c'est une série de <strong>27 chiffres</strong> qui commence par FR et qui se trouve sur les deux dernières pages de votre chéquier ou sur votre relevé d'identité bancaire, je vous laisse aller le récupérer le temps que je prépare votre formulaire 😊</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je ne veux pas donner mon IBAN / Je ne fais rien par téléphone / Méfiance IBAN ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT — MÉFIANCE IBAN</div>
+    <div class="tb"><em>Je comprends que vous puissiez être prudent(e), c'est tout à fait légitime 😊<br><br>
+    • Sans accord verbal clair de votre part, rien n'est possible.<br>
+    • Votre IBAN ne permet PAS d'accéder à votre compte — il autorise uniquement un virement SEPA pour l'UNICEF.<br>
+    • Procédure encadrée par nos institutions financières, accordée exclusivement aux organisations françaises reconnues d'utilité publique.<br><br>
+    Vous savez Mr / Mme XX, que nos IBAN figurent déjà sur de nombreux documents administratifs, comme les factures d'énergie, téléphonie, internet, sur nos contrats d'assurance et mutuelle 😊<br><br>
+    Votre IBAN ne permet en aucun cas d'accéder à votre compte, mais simplement d'autoriser un virement SEPA pour l'UNICEF avec votre accord verbal sans équivoque bien sûr 😊<br><br>
+    Juste pour vous rassurer Mr/Mme (nom), aucun prélèvement n'aura lieu aujourd'hui, il s'agit uniquement d'ENREGISTRER ensemble votre soutien pour l'UNICEF, et le premier prélèvement n'est planifié qu'à partir du <strong>10 du mois prochain</strong>, puis le 10 de chaque mois 😊</em></div>
+    <div class="tip">📅 Aucun prélèvement aujourd'hui — 1er prélèvement le 10 du mois prochain.<br>
+    Vous recevez un récapitulatif par e-mail et SMS avant la clôture.<br>
+    <em>Je vous laisse alors le récupérer, le temps pour moi de valider votre formulaire de soutien, d'accord 😊</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-qu">🎯 QUALIFICATION</div>
+    <div class="qgrid">
+      <div class="qbox qpa">
+        <h4>✅ PA DIRECT (IBAN accepté)</h4>
+        <p>Agent ouvre formulaire de soutien (bouton : autre action → IBAN PROMESSE) → Prendre l'IBAN en présence du SUPERVISEUR avec coupure de l'enregistrement → Blindage : <em>M'autorisez-vous à enregistrer un prélèvement mensuel de X € au profit de l'UNICEF ?</em> → SMS félicitation</p>
+      </div>
+      <div class="qbox qpr">
+        <h4>🔵 PA EN LIGNE PAR DONATEUR</h4>
+        <p><em>Si toujours non à communiquer l'IBAN :</em><br>
+        <em>Je comprends Mr/Mme 😊, je vous envoie alors tout de suite le lien de notre site internet qui vous permettra de compléter votre IBAN vous-même, pouvez-vous me confirmer svp que vous l'avez bien reçu ?</em><br>
+        → Guider le donateur en direct sur le site<br><br>
+        <em>Si souhaite le faire seul plus tard :</em> Classer la fiche en Promesse PA en ligne — rappel personnel</p>
+      </div>
+      <div class="qbox qcu">
+        <h4>❌ CU — REFUS DÉFINITIF</h4>
+        <p>Prise de congé : <em>Au nom de toute l'équipe de L'UNICEF, je vous remercie pour votre accueil et votre générosité et je vous souhaite une excellente journée / soirée ! 😊</em></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION OBJECTIONS CONFLICTUELLES
+═══════════════════════════════════════════ -->
+<div class="sd sd-red">🔴 OBJECTIONS CONFLICTUELLES — RESTER CALME ET PROFESSIONNEL</div>
+
+<!-- CAS 17 -->
+<div class="cas-card" id="cas17">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 17</div>
+    <div class="cas-ht"><h3>"D'où m'appelez-vous ?"</h3><p>Objection conflictuelle — Rester calme, souriant et professionnel</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ D'où m'appelez-vous ? ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>De Paris 😊<br><br>
+    <strong>Si on vous demande où exactement :</strong><br>
+    → Dans le 6ème arrondissement — siège UNICEF France, 3 rue Duguay-Trouin.<br><br>
+    <strong>Si la personne connaît le secteur :</strong><br>
+    → <em>« Ah, moi je viens tout juste d'arriver à Paris, je ne connais pas du tout 😊 mais j'ai vraiment hâte de découvrir cette ville ! »</em></em></div>
+    <div class="tip">⚠️ Enchaîner sur l'argumentaire sans s'empêtrer dans l'objection 👌</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc">
+      <div class="tc-g"><h4>✅ Si la personne est satisfaite de la réponse</h4><p>Reprendre le script depuis la présentation de la cause → Proposition → Conclusion → Qualification</p></div>
+      <div class="tc-r"><h4>❌ Si blocage persistant</h4><p>Prise de congé bienveillante</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 18 -->
+<div class="cas-card" id="cas18">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 18</div>
+    <div class="cas-ht"><h3>"D'où avez-vous eu mon numéro ? / Source des coordonnées"</h3><p>Objection conflictuelle — RGPD et origine des données</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ D'où avez-vous eu mon numéro ? / Source des coordonnées ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je comprends votre question — elle est tout à fait légitime. Nous veillons à ce que nos prestataires respectent le RGPD.<br><br>
+    • <strong>Rakuten, M6 Boutique, Comparez-Economisez…</strong> → <em>« Vos coordonnées nous ont été transmises par notre partenaire X. »</em><br><br>
+    • <strong>Annuaire</strong> → <em>« Vos coordonnées sont disponibles sur l'annuaire. »</em><br><br>
+    • <strong>Joint Fidelis 2020 (cases vides)</strong> → <em>« Je n'ai pas cette information en tant que chargé de communication. Pour l'origine précise : dpo@groupe-fidelis.fr »</em></em></div>
+    <div class="tip">🔒 Si blocage → Classer en demande SRD : 📞 09 69 36 84 68 | 🌐 www.unicef.fr</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc">
+      <div class="tc-g"><h4>✅ Si rassurée</h4><p>Reprendre le script depuis la présentation de la cause → Proposition → Conclusion → Qualification</p></div>
+      <div class="tc-r"><h4>❌ Si blocage</h4><p>SRD : 09 69 36 84 68 | www.unicef.fr → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 19 -->
+<div class="cas-card" id="cas19">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 19</div>
+    <div class="cas-ht"><h3>"Vous n'avez pas le droit de m'appeler"</h3><p>Objection conflictuelle</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Vous n'avez pas le droit de m'appeler ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je comprends votre réaction. Sachez que vous pouvez faire une demande auprès de votre opérateur pour ne plus apparaître dans l'annuaire.</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc">
+      <div class="tc-g"><h4>✅ Si rassurée</h4><p>Reprendre le script depuis la présentation de la cause → Proposition → Conclusion → Qualification</p></div>
+      <div class="tc-r"><h4>❌ Si reste fermée</h4><p>Prendre congé + confirmer l'exclusion des appels (fiche retirée des appels UNICEF CQT PA)</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 20 -->
+<div class="cas-card" id="cas20">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 20</div>
+    <div class="cas-ht"><h3>"Je suis sur liste Bloctel / Opposé tél"</h3><p>Objection conflictuelle — Clarification Bloctel</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je suis sur liste Bloctel / Opposé tél ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Très bien M. / Mme — sachez que les appels émanant d'associations à but non lucratif (comme l'UNICEF) sont autorisés par Bloctel, tout comme ceux d'un service public ou d'instituts d'études.<br><br>
+    Ces informations sont disponibles sur : <strong>https://www.conso.bloctel.fr/</strong></em></div>
+    <div class="tip">📜 Extrait Bloctel (si insistant) :<br>
+    <em>« Pour des motifs ne concernant pas la vente de biens ou services : appels d'un service public / instituts de sondage / associations à but non lucratif. »</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc">
+      <div class="tc-g"><h4>✅ Si rassurée</h4><p>Reprendre le script depuis la présentation de la cause → Proposition → Conclusion → Qualification</p></div>
+      <div class="tc-r"><h4>❌ Si blocage</h4><p>Prise de congé bienveillante</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 21 -->
+<div class="cas-card" id="cas21">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 21</div>
+    <div class="cas-ht"><h3>"Je suis sur liste rouge"</h3><p>Objection conflictuelle</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je suis sur liste rouge ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Ah, je ne le savais pas — il se pourrait que nos fichiers ne soient pas mis à jour.<br><br>
+    Je vais remonter l'information afin que vous ne soyez plus recontacté(e) de notre part.<br><br>
+    Bonne journée / soirée à vous 🙂</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc-r" style="border-radius:8px;padding:12px 14px;">
+      <h4 style="color:#C0392B;">❌ Prise de congé immédiate</h4>
+      <p>Retirer la fiche des appels UNICEF CQT PA</p>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 22 -->
+<div class="cas-card" id="cas22">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 22</div>
+    <div class="cas-ht"><h3>"Vous avez un accent !" (parfois suivi de : "Vous appelez d'où ?")</h3><p>Objection conflictuelle — Désamorcer avec humour et légèreté</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Vous avez un accent ! ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>En effet M. / Mme ☺ vous l'avez bien détecté…<br><br>
+    Je suis d'ascendance (pays), vous connaissez (le pays) ? ☺</em></div>
+    <div class="ab">↪ Enchaîner sur le script sans s'attarder</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc-g" style="border-radius:8px;padding:12px 14px;">
+      <h4 style="color:#27AE60;">✅ Reprendre le script immédiatement</h4>
+      <p>Présentation de la cause → Proposition → Conclusion → Qualification</p>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 23 -->
+<div class="cas-card" id="cas23">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 23</div>
+    <div class="cas-ht"><h3>"Je connais personnellement un membre de l'association"</h3><p>Objection conflictuelle — Adapter le ton</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Je connais personnellement un membre de l'association ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Dans ce cas vous devez certainement connaître les actions menées par l'UNICEF — je ne vous apprendrai rien de nouveau !</em></div>
+    <div class="tc">
+      <div class="tc-g"><h4>→ Si attitude positive (possibilité de poursuivre) :</h4><p><em>« Nous menons une campagne afin d'informer et rassembler de nouvelles personnes autour de notre cause. »</em><br>→ Reprendre le script</p></div>
+      <div class="tc-o"><h4>→ Ou prendre congé :</h4><p><em>« Je vous remercie de votre accueil et vous souhaite une bonne journée. »</em></p></div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE (si on poursuit)</div>
+    <div class="ab">Présentation de la cause → Proposition → Conclusion → Qualification</div>
+  </div>
+</div>
+
+<!-- CAS 24 -->
+<div class="cas-card" id="cas24">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 24</div>
+    <div class="cas-ht"><h3>"Qui êtes-vous exactement ?"</h3><p>Objection conflictuelle — Vérification d'identité</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 ACCROCHE</div>
+    <div class="sb"><em>Allô, M./Mme [Nom] ? Bonjour, je suis [votre nom] pour l'UNICEF…</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ OBJECTION</div>
+    <div class="ob">❝ Qui êtes-vous exactement ? ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Je suis mandaté par l'UNICEF M. / Mme, et je vous contacte afin de vous présenter les actions menées sur le terrain par notre association depuis sa création en <strong>1946</strong>.<br><br>
+    <strong>Si insistant(e) :</strong><br>
+    Soyez rassuré(e), je vous appelle bien de la part de l'UNICEF. Vous pouvez le vérifier sur notre site : <strong>www.unicef.fr</strong></em></div>
+    <div class="tip">⚠️ Procédure délicate — faire bloc avec le SOURIRE sans perdre patience.<br>
+    Si la personne veut faire le don en ligne → l'aider sur www.unicef.fr</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc">
+      <div class="tc-g"><h4>✅ Si rassurée</h4><p>Reprendre le script depuis la présentation de la cause → Proposition → Conclusion → Qualification</p></div>
+      <div class="tc-r"><h4>❌ Si blocage</h4><p>SRD : 09 69 36 84 68 | www.unicef.fr → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAS 25 -->
+<div class="cas-card" id="cas25">
+  <div class="cas-header ch-red">
+    <div class="cas-num">CAS 25</div>
+    <div class="cas-ht"><h3>La personne conteste la source ou veut plus de détails sur l'origine des coordonnées</h3><p>Objection conflictuelle — Après traitement CAS 18</p></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ac">📞 CONTEXTE</div>
+    <div class="ab">↪ Suite de CAS 18 — La personne n'est pas satisfaite de la réponse sur l'origine des coordonnées</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-ob">⚡ SITUATION</div>
+    <div class="ob">❝ La personne conteste la source de ses coordonnées ou demande plus de précisions ❞</div>
+  </div>
+  <div class="step">
+    <div class="sl sl-tr">✅ TRAITEMENT</div>
+    <div class="tb"><em>Vous avez demandé en toute légitimité la source de vos coordonnées et je vous ai répondu, comme l'exige le RGPD.<br><br>
+    J'aurais aimé pouvoir vous renseigner davantage, mais à mon niveau je n'ai pas plus de détails que ce que je viens de vous donner.</em></div>
+  </div>
+  <div class="step">
+    <div class="sl sl-su">↪ SUITE</div>
+    <div class="tc">
+      <div class="tc-g"><h4>✅ Si rassurée</h4><p>Reprendre le script → Proposition → Conclusion → Qualification</p></div>
+      <div class="tc-o"><h4>⚠️ Si agacée</h4><p><em>« Désolé de ne pas avoir pu vous donner plus d'informations, en tant qu'agent j'ai accès uniquement aux infos de base. Je vous remercie de votre compréhension. »</em><br>→ Prise de congé + exclure des appels (fiche CQT PA)</p></div>
+      <div class="tc-r"><h4>❌ Si blocage total</h4><p>SRD : 📞 0969 368 468 | 🌐 www.unicef.fr → Prise de congé</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTS UTILES -->
+<div class="cas-card" style="margin-top:40px;">
+  <div class="cas-header" style="background:#34495E;">
+    <div class="cas-ht"><h3>📋 CONTACTS UTILES — SERVICE RELATIONS DONATEURS</h3></div>
+  </div>
+  <div class="step">
+    <div style="display:flex;flex-wrap:wrap;gap:15px;margin-top:5px;">
+      <div style="background:#EBF8FF;border:1px solid #009DE0;border-radius:8px;padding:12px 18px;flex:1;min-width:200px;">
+        <div style="font-weight:700;color:#009DE0;margin-bottom:5px;">📞 Téléphone SRD</div>
+        <div>09 69 36 84 68</div>
+      </div>
+      <div style="background:#E8F5E9;border:1px solid #27AE60;border-radius:8px;padding:12px 18px;flex:1;min-width:200px;">
+        <div style="font-weight:700;color:#27AE60;margin-bottom:5px;">📧 E-mail SRD</div>
+        <div>ServiceRelationDonateurs@unicef.fr</div>
+      </div>
+      <div style="background:#FFF3E0;border:1px solid #E67E22;border-radius:8px;padding:12px 18px;flex:1;min-width:200px;">
+        <div style="font-weight:700;color:#E67E22;margin-bottom:5px;">🌐 Site officiel</div>
+        <div>www.unicef.fr</div>
+      </div>
+      <div style="background:#FFF0EE;border:1px solid #E74C3C;border-radius:8px;padding:12px 18px;flex:1;min-width:200px;">
+        <div style="font-weight:700;color:#C0392B;margin-bottom:5px;">📧 RGPD / Fidelis</div>
+        <div>dpo@groupe-fidelis.fr</div>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:15px;">
+      💡 <strong>RAPPELS CLÉS :</strong> Toujours enchaîner sur le script après l'objection · Sourire dans la voix · Prendre congé avec bienveillance si blocage persistant · Fiche retirée des appels CQT PA en cas d'opposition explicite
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  Document interne — Usage strictement réservé aux agents UNICEF PPA<br>
+  UNICEF France · 3 rue Duguay-Trouin, 75282 Paris Cedex 06 · 09 69 36 84 68 · www.unicef.fr
+</div>
+
+</body>
+</html>
