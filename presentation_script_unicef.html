@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script Fundraising – UNICEF</title>
+  <style>
+    :root {
+      --blue: #009EDB;
+      --blue-dark: #00618A;
+      --blue-light: #E8F6FC;
+      --yellow: #FFC200;
+      --white: #FFFFFF;
+      --gray: #F4F6F8;
+      --text: #1A2530;
+      --text-muted: #5A7184;
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--gray);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 28px 40px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    header .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    header .logo-circle {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: 900;
+      color: var(--blue);
+      letter-spacing: -1px;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    header p.subtitle {
+      font-size: 13px;
+      opacity: .85;
+      margin-top: 3px;
+    }
+
+    header .contact-box {
+      margin-left: auto;
+      font-size: 12.5px;
+      opacity: .9;
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 0 20px 50px;
+      display: grid;
+      gap: 20px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .card h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      border-bottom: 2px solid var(--blue-light);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h2 .step {
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      font-size: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── PHASE GRID ── */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .phase-item {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 6px;
+      padding: 12px 14px;
+    }
+
+    .phase-item strong {
+      display: block;
+      font-size: 13px;
+      color: var(--blue-dark);
+      margin-bottom: 4px;
+    }
+
+    .phase-item p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ── SPEECH BUBBLE ── */
+    .speech {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      margin: 10px 0;
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .highlight .big-number {
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--yellow);
+      flex-shrink: 0;
+    }
+
+    .highlight .big-number span {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .highlight .big-text {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .highlight .sub-text {
+      font-size: 13px;
+      opacity: .85;
+      margin-top: 6px;
+    }
+
+    /* ── OBJECTION TABLE ── */
+    .obj-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .obj-table th {
+      background: var(--blue);
+      color: var(--white);
+      padding: 9px 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .obj-table th:first-child { border-radius: 6px 0 0 0; }
+    .obj-table th:last-child  { border-radius: 0 6px 0 0; }
+    .obj-table tr:nth-child(even) td { background: var(--blue-light); }
+    .obj-table td {
+      padding: 9px 14px;
+      vertical-align: top;
+      border-bottom: 1px solid #E0EEF7;
+    }
+    .obj-table td:first-child { font-weight: 600; color: var(--blue-dark); }
+
+    /* ── FLOW ── */
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .flow-step {
+      flex: 1 1 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -10px;
+      top: 22px;
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .flow-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .flow-step p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .flow-step strong {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* ── PILLS ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .pill {
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    footer span { color: var(--blue); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header>
+  <div class="logo-block">
+    <div class="logo-circle">UN</div>
+    <div>
+      <h1>UNICEF — Script de Collecte de Dons</h1>
+      <p class="subtitle">Campagne d'information humanitaire · Malnutrition infantile</p>
+    </div>
+  </div>
+  <div class="contact-box">
+    <strong>Fonds des Nations Unies pour l'Enfance</strong><br>
+    3 rue Duguay-Trouin — 75282 Paris Cedex 06<br>
+    Tél : 09 69 36 84 68 · <a href="mailto:unicef.tmk@unicef.fr" style="color:#fff;">unicef.tmk@unicef.fr</a><br>
+    DG : Ann Avril · Présidente : Adeline Hazan
+  </div>
+</header>
+
+<!-- ══════════════════════ MAIN ══════════════════════ -->
+<main>
+
+  <!-- ÉTAPE 1 : ACCROCHE -->
+  <div class="card">
+    <h2><span class="step">1</span>Accroche &amp; Présentation</h2>
+    <div class="speech">
+      « Allô M./Mme [Nom] ? Bonjour, je suis [Prénom] pour l'UNICEF. Je vous appelle dans le cadre
+      d'une campagne d'information humanitaire. Cet appel est enregistré à des fins de qualité —
+      si vous ne le souhaitez pas, signalez-le moi. »
+    </div>
+    <div class="phase-grid">
+      <div class="phase-item">
+        <strong>Si UNICEF connu</strong>
+        <p>Rappeler les 190 pays d'intervention et le rôle en zones de conflits / catastrophes.</p>
+      </div>
+      <div class="phase-item">
+        <strong>Si UNICEF inconnu</strong>
+        <p>Expliquer : organisation ONU dédiée aux droits des enfants — soins, éducation, protection en période de crise.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 : LE PROBLÈME -->
+  <div class="card">
+    <h2><span class="step">2</span>Le Problème — La Malnutrition Infantile</h2>
+    <div class="phase-grid">
+      <div class="phase-item">
+        <strong>Ampleur</strong>
+        <p>Plus d'<strong>1 million d'enfants</strong> de 3 mois à 5 ans touchés chaque année par la malnutrition aiguë sévère.</p>
+      </div>
+      <div class="phase-item">
+        <strong>Facteurs aggravants</strong>
+        <p>Catastrophes naturelles, conflits armés, guerres — les enfants sont les <strong>premières victimes</strong>.</p>
+      </div>
+      <div class="phase-item">
+        <strong>Conséquences</strong>
+        <p>Principale cause de décès chez les moins de 5 ans. Blessures, amputations, enrôlements forcés.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 3 : LA SOLUTION -->
+  <div class="card">
+    <h2><span class="step">3</span>La Solution — L'Aliment Thérapeutique RUTF</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+      <div>
+        <p style="margin-bottom:10px;">L'UNICEF distribue des <strong>sachets RUTF de 92 g</strong>
+        — aliment thérapeutique prêt à l'emploi qui <em>peut littéralement sauver des vies</em>.</p>
+        <div class="pills">
+          <span class="pill">Pâte d'arachide</span>
+          <span class="pill">Lait écrémé en poudre</span>
+          <span class="pill">Matière grasse végétale</span>
+          <span class="pill">Vitamines &amp; minéraux</span>
+        </div>
+      </div>
+      <div class="phase-item" style="border-left-color: var(--yellow); background:#FFFBEA;">
+        <strong style="color:#7A5800;">Avantages clés</strong>
+        <p>✔ Aucune cuisson ni eau requise<br>
+           ✔ Consommé directement depuis le sachet<br>
+           ✔ Idéal en zones de sécheresse<br>
+           ✔ Efficacité prouvée et spectaculaire</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPEL AU DON -->
+  <div class="highlight">
+    <div>
+      <div class="big-number">15<span>€ /mois</span></div>
+    </div>
+    <div>
+      <div class="big-text">Seulement 50 centimes par jour</div>
+      <div class="sub-text">
+        Soit <strong>3,75 € après déduction fiscale (75 %)</strong> — offrir la chance de grandir à un enfant
+        qui n'a pas choisi de naître dans la pauvreté.<br>
+        Un don de <strong>10 €/mois</strong> revient à <strong>2,50 €/mois</strong> après déduction fiscale.
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 4 : OBJECTIONS -->
+  <div class="card">
+    <h2><span class="step">4</span>Gestion des Objections Principales</h2>
+    <table class="obj-table">
+      <thead>
+        <tr>
+          <th>Objection</th>
+          <th>Réponse clé</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Préfère un don ponctuel</td>
+          <td>Le don mensuel est <strong>flexible</strong> : montant ajustable ou suspension à tout moment depuis l'espace donateur. Il permet d'accompagner l'enfant sur toute la durée de sa guérison.</td>
+        </tr>
+        <tr>
+          <td>Hésitant / doit réfléchir</td>
+          <td>Valoriser sa bonne volonté, rappeler l'urgence quotidienne des besoins (faim, maladie, soins). Proposer un petit montant symbolique (10 €/mois). Planifier un rappel.</td>
+        </tr>
+        <tr>
+          <td>Méfiance envers l'IBAN</td>
+          <td>L'IBAN ne donne pas accès au compte. Il autorise uniquement un virement SEPA encadré par les institutions financières, réservé aux associations d'utilité publique. Premier prélèvement le 10 du mois suivant. Confirmation par mail + SMS.</td>
+        </tr>
+        <tr>
+          <td>Préfère un courrier</td>
+          <td>Pour des raisons écologiques et financières, les envois courriers sont limités. Proposer la validation en ligne (lien envoyé par SMS/mail) ou accompagnement en direct.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ÉTAPE 5 : VALIDATION -->
+  <div class="card">
+    <h2><span class="step">5</span>Parcours de Validation du Don</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-icon">📞</div>
+        <strong>IBAN par téléphone</strong>
+        <p>Agent collecte l'IBAN en présence du superviseur (enregistrement coupé).<br>Blindage oral + SMS de confirmation.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">🔗</div>
+        <strong>Lien en ligne direct</strong>
+        <p>Lien envoyé par SMS/mail. Donateur valide son IBAN lui-même en direct, guidé par l'agent.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">📅</div>
+        <strong>Promesse en ligne</strong>
+        <p>Donateur valide plus tard seul. Rappel planifié par l'agent pour confirmer la réception du mail.</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">✉️</div>
+        <strong>Courrier (exception)</strong>
+        <p>Formulaire + RIB envoyés par voie postale. Relance à J+10 pour confirmer le retour.</p>
+      </div>
+    </div>
+    <div class="speech" style="margin-top:16px;">
+      <strong>Verrouillage systématique :</strong> « Puis-je enregistrer un don régulier de X€/mois pour la protection et l'éducation des enfants ? »
+      — Attendre un <strong>OUI ferme</strong> avant de clôturer.
+    </div>
+  </div>
+
+  <!-- ÉTAPE 6 : CLÔTURE -->
+  <div class="card">
+    <h2><span class="step">6</span>Prise de Congé</h2>
+    <div class="speech">
+      « Au nom de toute l'équipe de l'UNICEF ainsi que des populations qui reçoivent notre soutien,
+      je vous remercie pour votre accueil et votre générosité. Je vous souhaite une excellente
+      journée / fin de journée / soirée ! »
+    </div>
+    <div class="phase-grid" style="margin-top:12px;">
+      <div class="phase-item">
+        <strong>Confirmation don validé</strong>
+        <p>Vérifier réception du mail <a href="mailto:relationsdonateurs@unicef.fr">relationsdonateurs@unicef.fr</a> + SMS. Prélèvement le 10 de chaque mois.</p>
+      </div>
+      <div class="phase-item">
+        <strong>Indécis classé en rappel</strong>
+        <p>Planifier le rappel selon l'échéance indiquée par le prospect. Formulaire de soutien pré-envoyé.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Document interne — Usage strictement réservé aux agents UNICEF ·
+  <span>UNICEF France</span> · 3 rue Duguay-Trouin, 75282 Paris Cedex 06
+</footer>
+
+</body>
+</html>
