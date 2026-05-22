@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Itinéraire Pédagogique — FIM UNICEF × Fidelis</title>
+  <style>
+    :root {
+      --unicef-blue: #1CABE2;
+      --unicef-dark: #003D6B;
+      --unicef-yellow: #F6C244;
+      --unicef-green: #00833D;
+      --unicef-red: #E2231A;
+      --unicef-orange: #F26A21;
+      --light-bg: #F4F9FD;
+      --text: #1a1a2e;
+      --border: #d0e8f5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f4f8;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: linear-gradient(135deg, var(--unicef-dark) 0%, var(--unicef-blue) 100%);
+      color: #fff;
+      padding: 60px 40px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .cover-badge {
+      display: inline-block;
+      background: var(--unicef-yellow);
+      color: var(--unicef-dark);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+    }
+    .cover h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .cover h2 {
+      font-size: 18px;
+      font-weight: 400;
+      opacity: 0.85;
+      margin-bottom: 28px;
+    }
+    .cover-meta {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .cover-meta-item {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 12px 20px;
+      text-align: center;
+    }
+    .cover-meta-item .val {
+      font-size: 22px;
+      font-weight: 800;
+      display: block;
+    }
+    .cover-meta-item .lbl {
+      font-size: 11px;
+      opacity: 0.75;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      margin: 40px 0 20px;
+      border-left: 5px solid var(--unicef-blue);
+      padding-left: 16px;
+    }
+    .section-header h2 { font-size: 20px; font-weight: 700; color: var(--unicef-dark); }
+    .section-header p { font-size: 13px; color: #555; margin-top: 4px; }
+
+    /* ── INFO BOX ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+    .info-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .info-card .icon { font-size: 26px; flex-shrink: 0; }
+    .info-card .val { font-size: 17px; font-weight: 700; color: var(--unicef-dark); display: block; }
+    .info-card .lbl { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.8px; }
+
+    /* ── DAY CARD ── */
+    .day-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      margin-bottom: 36px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,61,107,0.07);
+    }
+
+    .day-header {
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .day-badge {
+      width: 58px; height: 58px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #fff;
+      font-weight: 800;
+    }
+    .day-badge .day-num { font-size: 22px; line-height: 1; }
+    .day-badge .day-lbl { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.85; }
+
+    .day-j1 .day-badge, .day-j1 .day-header { background: linear-gradient(135deg, #003D6B, #1CABE2); }
+    .day-j2 .day-badge, .day-j2 .day-header { background: linear-gradient(135deg, #00833D, #3ec878); }
+    .day-j3 .day-badge, .day-j3 .day-header { background: linear-gradient(135deg, #F26A21, #f6a34f); }
+    .day-j4 .day-badge, .day-j4 .day-header { background: linear-gradient(135deg, #9B2D8E, #c86ac2); }
+    .day-j5 .day-badge, .day-j5 .day-header { background: linear-gradient(135deg, #C8102E, #e84c68); }
+
+    .day-header .day-title { color: #fff; }
+    .day-header .day-title h3 { font-size: 18px; font-weight: 800; }
+    .day-header .day-title p { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+
+    .day-objective {
+      background: var(--light-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 28px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--unicef-dark);
+    }
+    .day-objective strong { font-weight: 700; }
+
+    /* ── SCHEDULE TABLE ── */
+    .schedule { width: 100%; border-collapse: collapse; }
+    .schedule th {
+      background: #f7fafd;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    .schedule td { padding: 10px 16px; border-bottom: 1px solid #eef3f8; vertical-align: top; }
+    .schedule tr:last-child td { border-bottom: none; }
+    .schedule tr:hover td { background: #fafcff; }
+
+    .time-cell {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--unicef-dark);
+      white-space: nowrap;
+      width: 140px;
+    }
+    .duration-cell {
+      font-size: 11px;
+      color: #888;
+      white-space: nowrap;
+      width: 55px;
+    }
+    .type-cell { width: 90px; }
+
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-module   { background: #E8F4FD; color: #003D6B; }
+    .tag-exo      { background: #E8F9EF; color: #00572B; }
+    .tag-break    { background: #FFF3E0; color: #9E4B00; }
+    .tag-quiz     { background: #F3E8FF; color: #5B1F8A; }
+    .tag-synthese { background: #FFEAEA; color: #8A1F1F; }
+    .tag-training { background: #FFE5E5; color: #C8102E; }
+    .tag-accueil  { background: #FFF8E1; color: #856B00; }
+    .tag-rappel   { background: #E3F0FF; color: #1a4a80; }
+
+    .activity-title { font-weight: 700; font-size: 13px; color: #1a1a2e; margin-bottom: 4px; }
+    .activity-detail { font-size: 12px; color: #555; }
+    .activity-detail ul { margin: 4px 0 0 16px; }
+    .activity-detail li { margin-bottom: 2px; }
+
+    /* ── BREAK ROWS ── */
+    .break-row td { background: #FFF8F0 !important; }
+    .break-row:hover td { background: #FFF3E7 !important; }
+
+    /* ── FOOTER CARDS ── */
+    .day-footer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      border-top: 2px solid var(--border);
+    }
+    .footer-stat {
+      padding: 14px 20px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-stat:last-child { border-right: none; }
+    .footer-stat .fs-val { font-size: 20px; font-weight: 800; color: var(--unicef-dark); }
+    .footer-stat .fs-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.8px; }
+
+    /* ── QUIZ SUMMARY ── */
+    .quiz-summary {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      box-shadow: 0 2px 12px rgba(0,61,107,0.07);
+    }
+    .quiz-summary .qs-header {
+      background: linear-gradient(135deg, #5B1F8A, #9B2D8E);
+      color: #fff;
+      padding: 18px 28px;
+    }
+    .quiz-summary .qs-header h3 { font-size: 17px; font-weight: 800; }
+    .quiz-summary .qs-header p { font-size: 12px; opacity: 0.8; margin-top: 3px; }
+    .quiz-table { width: 100%; border-collapse: collapse; }
+    .quiz-table th {
+      background: #f7fafd;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #666;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    .quiz-table td { padding: 11px 16px; border-bottom: 1px solid #eef3f8; font-size: 13px; }
+    .quiz-table tr:last-child td { border-bottom: none; }
+    .quiz-badge {
+      display: inline-block;
+      background: #F3E8FF;
+      color: #5B1F8A;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 3px 12px;
+      border-radius: 8px;
+    }
+
+    /* ── EVAL GRID ── */
+    .eval-grid {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      box-shadow: 0 2px 12px rgba(0,61,107,0.07);
+    }
+    .eval-grid .eg-header {
+      background: linear-gradient(135deg, #C8102E, #e84c68);
+      color: #fff;
+      padding: 18px 28px;
+    }
+    .eval-grid .eg-header h3 { font-size: 17px; font-weight: 800; }
+    .eval-grid .eg-header p { font-size: 12px; opacity: 0.8; margin-top: 3px; }
+    .eval-table { width: 100%; border-collapse: collapse; }
+    .eval-table th {
+      background: #f7fafd;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #666;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    .eval-table td { padding: 10px 16px; border-bottom: 1px solid #eef3f8; font-size: 12px; vertical-align: top; }
+    .eval-table tr:last-child td { border-bottom: none; }
+    .stars { color: #F6C244; font-size: 15px; letter-spacing: 2px; }
+    .criterion { font-weight: 700; font-size: 13px; color: var(--unicef-dark); display: block; margin-bottom: 3px; }
+    .crit-detail { color: #555; font-size: 11px; }
+    .score-box {
+      display: inline-block;
+      width: 36px; height: 36px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 32px;
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    /* ── MANTRA BOX ── */
+    .mantra {
+      background: linear-gradient(135deg, #003D6B, #1CABE2);
+      color: #fff;
+      border-radius: 16px;
+      padding: 32px 40px;
+      text-align: center;
+      margin: 30px 0;
+    }
+    .mantra p { font-size: 20px; font-style: italic; font-weight: 600; margin-bottom: 8px; }
+    .mantra span { font-size: 12px; opacity: 0.7; }
+
+    /* ── LEGEND ── */
+    .legend {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .legend h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-right: 8px; flex-basis: 100%; }
+
+    @media print {
+      .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .day-card { page-break-inside: avoid; }
+    }
+    @media (max-width: 640px) {
+      .schedule .duration-cell { display: none; }
+      .cover h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="cover-badge">Document Interne — Usage Réservé Formateurs</div>
+  <h1>Itinéraire Pédagogique — FIM</h1>
+  <h2>Formation Initiale Module · Campagne UNICEF × Fidelis · Collecte de Dons Humanitaires</h2>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="val">5</span>
+      <span class="lbl">Jours de formation</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="val">7h</span>
+      <span class="lbl">Par jour</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="val">5h35</span>
+      <span class="lbl">Formation effective/jour</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="val">90+</span>
+      <span class="lbl">Questions de quiz</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="val">7</span>
+      <span class="lbl">Critères d'évaluation</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ── Contraintes horaires ── -->
+  <div class="section-header">
+    <h2>Cadre Horaire & Organisation</h2>
+    <p>Structure quotidienne applicable sur les 5 jours de formation</p>
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <span class="icon">🕘</span>
+      <div>
+        <span class="val">9h30 – 16h30</span>
+        <span class="lbl">Amplitude journalière</span>
+      </div>
+    </div>
+    <div class="info-card">
+      <span class="icon">🍽️</span>
+      <div>
+        <span class="val">1h00 · 12h15–13h15</span>
+        <span class="lbl">Pause déjeuner</span>
+      </div>
+    </div>
+    <div class="info-card">
+      <span class="icon">☕</span>
+      <div>
+        <span class="val">15 min · ~11h00</span>
+        <span class="lbl">Pausette matin</span>
+      </div>
+    </div>
+    <div class="info-card">
+      <span class="icon">🧃</span>
+      <div>
+        <span class="val">10 min · ~15h15</span>
+        <span class="lbl">Pausette après-midi</span>
+      </div>
+    </div>
+    <div class="info-card">
+      <span class="icon">✅</span>
+      <div>
+        <span class="val">5h35 / jour</span>
+        <span class="lbl">Temps effectif formation</span>
+      </div>
+    </div>
+    <div class="info-card">
+      <span class="icon">📊</span>
+      <div>
+        <span class="val">27h45 total</span>
+        <span class="lbl">Formation × 5 jours</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Légende ── -->
+  <div class="legend">
+    <h4>Légende des activités</h4>
+    <span class="tag tag-module">Module</span>
+    <span class="tag tag-exo">Exercice pratique</span>
+    <span class="tag tag-training">Training / Jeu de rôle</span>
+    <span class="tag tag-quiz">Quiz</span>
+    <span class="tag tag-synthese">Synthèse</span>
+    <span class="tag tag-break">Pause</span>
+    <span class="tag tag-accueil">Accueil / Rappel</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ JOUR 1 -->
+  <div class="day-card day-j1">
+    <div class="day-header">
+      <div class="day-badge">
+        <span class="day-num">J1</span>
+        <span class="day-lbl">Jour 1</span>
+      </div>
+      <div class="day-title">
+        <h3>Fondamentaux de la Campagne — KPIs, Qualifications & Accroche</h3>
+        <p>Fidelis × UNICEF · Module J1 FIM · 9h30 – 16h30</p>
+      </div>
+    </div>
+    <div class="day-objective">
+      🎯 <strong>Objectif du jour :</strong>&nbsp;Maîtriser l'environnement professionnel, la nomenclature, les 3 KPIs, les qualifications d'appel et la phrase d'accroche officielle en 5 étapes.
+    </div>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th>Horaire</th>
+          <th>Durée</th>
+          <th>Type</th>
+          <th>Contenu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">09h30 – 10h00</td>
+          <td class="duration-cell">30 min</td>
+          <td class="type-cell"><span class="tag tag-accueil">Accueil</span></td>
+          <td>
+            <div class="activity-title">Accueil & Tour de table</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Présentation du formateur et des stagiaires</li>
+                <li>Présentation du programme FIM 5 jours et des objectifs globaux</li>
+                <li>Règles de vie en formation, distribution des supports</li>
+                <li>Ice-breaker : "Pourquoi j'ai choisi ce métier ?" (1 min/stagiaire)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">10h00 – 10h45</td>
+          <td class="duration-cell">45 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 1 — Mission & Finalité de la Campagne</div>
+            <div class="activity-detail">
+              <ul>
+                <li>L'UNICEF : ONU créée en 1946, présente dans 190 pays, programmes nutrition/santé/eau/éducation</li>
+                <li>Fidelis : mandataire UNICEF — rôle, responsabilité, image de l'association lors de chaque appel</li>
+                <li>Finalité officielle : obtenir des prélèvements automatiques réguliers (PA régulier uniquement)</li>
+                <li>Objectif individuel et collectif : 9 CU/H minimum — "le refus d'aujourd'hui peut être le don de demain"</li>
+                <li>Expression libre (5 min) : "En 2 phrases, comment je présenterais l'UNICEF à un ami"</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">10h45 – 11h00</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 2 — Nomenclature Officielle (1/2)</div>
+            <div class="activity-detail">
+              <ul>
+                <li>FIM, CU (Contact Utile &gt; 60 sec.), CU/H, PDC (Plan de Charge), TX (Taux de Transformation)</li>
+                <li>Explication de chaque terme + valeur/objectif associé</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">11h00 – 11h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette ☕</span></td>
+          <td><div class="activity-title">Pause du matin</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11h15 – 12h00</td>
+          <td class="duration-cell">45 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 2 (suite) — Nomenclature (2/2) + KPIs</div>
+            <div class="activity-detail">
+              <ul>
+                <li>PEL, PA (prélèvement automatique), IBAN, DEL, DON, REF ARG., INDÉCIS, ERR</li>
+                <li>KPI 1 : CU/H = CU réalisés ÷ heures production → objectif : 9 CU/H (exemple agent Philippe : 68 CU / 7h = 9,71)</li>
+                <li>KPI 2 : Taux de transformation = (PA × 100) ÷ CU (exemple agent Michel : 1 PEL / 72 CU = 1,39%)</li>
+                <li>KPI 3 : Plan de Charge (PDC) = CU/H moyen × heures totales équipe (ex : 1 800 CU / 200h = 9 CU/H)</li>
+                <li><strong>Exercice pratique :</strong> calcul de KPIs sur 5 cas chiffrés (tableau individuel)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">12h00 – 12h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-exo">Exercice</span></td>
+          <td>
+            <div class="activity-title">Exercice — Carte Bancaire & IBAN</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Composants d'une carte bancaire : IBAN, puce, cryptogramme, hologramme, date d'expiration</li>
+                <li>Où trouver l'IBAN : chéquier (2 dernières pages), relevé d'identité bancaire</li>
+                <li>Exercice : légender un schéma de carte bancaire</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">12h15 – 13h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-break">Déjeuner 🍽️</span></td>
+          <td><div class="activity-title">Pause déjeuner</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">13h15 – 14h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 3 — Les 3 Qualifications & Le Produit PA Régulier</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Les 3 qualifications :</strong> DON (PA confirmé — IBAN ou lien + engagement verbal) / REFUS ARGUMENTÉ (au moins 1 contre-argument présenté) / INDÉCIS (hésite, potentiel futur)</li>
+                <li>Règle absolue : qualifier DON uniquement si PA effectivement initié — tout doute = INDÉCIS</li>
+                <li><strong>Le Produit :</strong> SEUL le PA régulier sur cette campagne (aucun don ponctuel)</li>
+                <li>Mode A — PA à chaud (IBAN collecté pendant l'appel) — prioritaire</li>
+                <li>Mode B — Promesse par lien (aucune date d'expiration, e-mail de confirmation automatique)</li>
+                <li>Types d'opérations : Conquête (nouveaux donateurs) vs Fidélisation/Réactivation</li>
+                <li><strong>Exercice :</strong> qualification de 10 scénarios d'appel (DON / REF ARG. / INDÉCIS)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">14h15 – 15h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 4 — La Phrase d'Accroche Officielle (5 étapes)</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Étape 1 — "Allô ?" → attendre la réponse, identifier la voix (M./Mme)</li>
+                <li>Étape 2 — Identification : Prénom + Nom (jamais l'inverse) ex. "Bonjour M. Manuel Macron ?"</li>
+                <li>Étape 3 — Présentation : "[Prénom], j'appelle de la part de Fidelis, mandaté par l'UNICEF"</li>
+                <li>Étape 4 — Création du lien : "Avez-vous des connaissances sur les actions humanitaires de l'UNICEF ?"</li>
+                <li>Étape 5 — Présentation de la mission : "L'UNICEF est présent dans 190 pays pour protéger les enfants…"</li>
+                <li>Lecture collective à voix haute + exercice binômes : répéter sans support</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">15h15 – 15h25</td>
+          <td class="duration-cell">10 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette 🧃</span></td>
+          <td><div class="activity-title">Pause de l'après-midi</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">15h25 – 16h00</td>
+          <td class="duration-cell">35 min</td>
+          <td class="type-cell"><span class="tag tag-exo">Exercice</span></td>
+          <td>
+            <div class="activity-title">Exercice Pratique — Simulation Accroche en Trinômes</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Format : trinômes tournants — agent / donateur / observateur</li>
+                <li>Objectif : délivrer les 5 étapes de l'accroche sans support écrit</li>
+                <li>Grille d'observation : respect des 5 règles, ton, formulation Prénom + Nom</li>
+                <li>Feedback croisé immédiat (2 min par passage)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h00 – 16h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-quiz">Quiz J1</span></td>
+          <td>
+            <div class="activity-title">Quiz du Jour 1 — 10 Questions</div>
+            <div class="activity-detail">
+              Thèmes : nomenclature, KPIs (calcul CU/H et TX), 3 qualifications, composants IBAN, 5 étapes accroche, PA régulier — Correction collective commentée
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h15 – 16h30</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-synthese">Synthèse</span></td>
+          <td>
+            <div class="activity-title">Synthèse J1 & Clôture</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Les 6 chiffres clés à retenir : 9 CU/H · &gt;60s · 3 qualifications · 2 modes PA · 5 étapes · ∞ validité lien</li>
+                <li>Tour de table : "Ce que je retiens de J1 en une phrase"</li>
+                <li>Distribution de la fiche mémo J1 (à emporter)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="day-footer">
+      <div class="footer-stat"><span class="fs-val">4</span><br><span class="fs-lbl">Modules</span></div>
+      <div class="footer-stat"><span class="fs-val">3</span><br><span class="fs-lbl">Exercices pratiques</span></div>
+      <div class="footer-stat"><span class="fs-val">10</span><br><span class="fs-lbl">Questions quiz</span></div>
+      <div class="footer-stat"><span class="fs-val">5h35</span><br><span class="fs-lbl">Temps effectif</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ JOUR 2 -->
+  <div class="day-card day-j2">
+    <div class="day-header">
+      <div class="day-badge">
+        <span class="day-num">J2</span>
+        <span class="day-lbl">Jour 2</span>
+      </div>
+      <div class="day-title">
+        <h3>Le Monde Associatif & Humanitaire — Comprendre pour Convaincre</h3>
+        <p>Fidelis × UNICEF · Module J2 FIM · 9h30 – 16h30</p>
+      </div>
+    </div>
+    <div class="day-objective">
+      🎯 <strong>Objectif du jour :</strong>&nbsp;Comprendre le secteur associatif, l'histoire humanitaire et les enjeux de la collecte de dons pour convaincre avec légitimité et culture.
+    </div>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th>Horaire</th>
+          <th>Durée</th>
+          <th>Type</th>
+          <th>Contenu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">09h30 – 09h50</td>
+          <td class="duration-cell">20 min</td>
+          <td class="type-cell"><span class="tag tag-rappel">Rappel J1</span></td>
+          <td>
+            <div class="activity-title">Rappel J1 & Warm-up</div>
+            <div class="activity-detail">
+              Quiz flash oral : 5 questions sur J1 (KPIs, 3 qualifications, accroche) — correction immédiate — retour sur les points de confusion identifiés
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">09h50 – 11h00</td>
+          <td class="duration-cell">70 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 5 — Le Monde Associatif en France & Loi 1901</div>
+            <div class="activity-detail">
+              <ul>
+                <li>France : 1,5 million d'associations actives, 1,8 million de salariés, 22 millions de bénévoles</li>
+                <li>Loi du 1er juillet 1901 — Article 1er : "deux ou plusieurs personnes… but autre que de partager des bénéfices"</li>
+                <li>3 types d'associations : de fait / déclarée / Reconnue d'Utilité Publique (RUP)</li>
+                <li>L'UNICEF : statut RUP — avantages (donations, legs, contrôle État, comptes certifiés)</li>
+                <li>Les ressources des associations : cotisations, subventions, dons, legs, mécénat, ventes</li>
+                <li>Le Comité de la Charte du Don en Confiance : argument face aux donateurs méfiants</li>
+                <li><strong>Exercice :</strong> "Cartographie associative" — identifier et classer 6 associations connues par type</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">11h00 – 11h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette ☕</span></td>
+          <td><div class="activity-title">Pause du matin</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11h15 – 12h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 6 — Histoire Humanitaire & Marché de la Collecte</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Origines médiévales : associations caritatives d'émanation religieuse</li>
+                <li><strong>1859 — Bataille de Solférino :</strong> Henry Dunant, "Tutti Fratelli", 40 000 victimes, naissance de la Croix-Rouge et du droit humanitaire international</li>
+                <li>1901 : cadre légal, explosion des ONG modernes</li>
+                <li>Avant 1990 : boom associatif, outil quasi-unique = mailing postal</li>
+                <li>1989-1995 : Création Comité de la Charte, Téléthon, pleine expansion</li>
+                <li><strong>1996 — Affaire ARC :</strong> Jacques Crozemarie, détournements, crise de confiance majeure — pourquoi l'éthique est non-négociable</li>
+                <li>Depuis 2000 : saturation marché, concurrence accrue → le fundraiser professionnel devient indispensable</li>
+                <li>Principes humanitaires : humanité, impartialité, neutralité, indépendance</li>
+                <li>Discussion : "Qu'est-ce que la confiance se mérite pour un donateur ?" (10 min)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">12h15 – 13h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-break">Déjeuner 🍽️</span></td>
+          <td><div class="activity-title">Pause déjeuner</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">13h15 – 14h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 7 — Impact UNICEF & Pourquoi le Don Régulier est Vital</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Tout citoyen est concerné : santé, enfance, catastrophes, handicap, éducation, personnes âgées — exemples concrets France</li>
+                <li>UNICEF : 75 ans, 190 pays — résultats chiffrés et vérifiables :</li>
+                <li>→ Vaccination : 45% des enfants du monde, 2,2 milliards de vaccins 2022</li>
+                <li>→ Nutrition : 3 millions d'enfants/an souffrent de malnutrition sévère — sachets Plumpy'Nut à 5€</li>
+                <li>→ Eau : 6,4 millions de personnes bénéficient de l'eau potable</li>
+                <li>→ Éducation : 244 millions d'enfants n'iraient pas à l'école sans aide humanitaire</li>
+                <li>→ Urgences : intervention dans les 72h (Haïti, Syrie, Ukraine, Gaza, Yémen)</li>
+                <li>10€/mois = 120€/an = 1 enfant vacciné et nourri pendant 4 mois</li>
+                <li>Le fundraiser : messager, pas vendeur — votre conviction fait la différence</li>
+                <li>Marketing téléphonique : taux de conversion 8-15% vs mailing postal 0,5-1,5%</li>
+                <li>Marché France : 5,5 Mds€/an collectés · 3 Mds€ via phoning (55%)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">14h15 – 15h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 8 — La Qualification : Enjeu Critique & Nomenclature J2</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Impact d'une fausse qualification :</strong> exclusion UNICEF 4 mois si RA ou RR → perte du contact</li>
+                <li>Volumes : SHY Performance + Nescall = 600 000 à 800 000 fiches/mois</li>
+                <li>Tableau obligatoire : PEL (don validé) / RIM (rappel imminent) / ABSENT (répondeur/NRP) / DEL (lien web) / RA (refus argumenté) / RR (refus de répondre)</li>
+                <li>Cas pratique classique : répondeur ≠ Refus Argumenté → toujours qualifier ABSENT</li>
+                <li>CICR : Comité International de la Croix-Rouge — zones de conflit armé uniquement (≠ Croix-Rouge française ≠ UNICEF)</li>
+                <li>Particulier vs Professionnel : si professionnel atteint → demander IBAN personnel</li>
+                <li>Formes de dons : chèque, CB, IBAN, espèces, nature, legs, réseaux sociaux, bénévolat</li>
+                <li><strong>Exercice :</strong> 12 scénarios d'appel à qualifier (avec justification)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">15h15 – 15h25</td>
+          <td class="duration-cell">10 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette 🧃</span></td>
+          <td><div class="activity-title">Pause de l'après-midi</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">15h25 – 16h00</td>
+          <td class="duration-cell">35 min</td>
+          <td class="type-cell"><span class="tag tag-quiz">Quiz J2</span></td>
+          <td>
+            <div class="activity-title">Quiz Officiel J2 — Questionnaire Monde Associatif (10 questions)</div>
+            <div class="activity-detail">
+              Questions officielles du module J2 : fundraising, Comité de la Charte (1989), autorité RUP (Conseil d'État), nombre d'associations (1,5M), déductions fiscales (66%/75%), associations RUP (2 000), limite 75% (513€), catastrophes et générosité, histoire collecte, affaire ARC — correction commentée
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h00 – 16h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-quiz">Quiz J1+J2</span></td>
+          <td>
+            <div class="activity-title">Quiz Cumulatif J1 + J2 — 10 Questions Supplémentaires</div>
+            <div class="activity-detail">
+              Révision croisée : KPIs (J1) + nomenclature J2 + qualifications — correction collective
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h15 – 16h30</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-synthese">Synthèse</span></td>
+          <td>
+            <div class="activity-title">Synthèse J2 & Clôture</div>
+            <div class="activity-detail">
+              5 messages clés + 10 chiffres à retenir (1,5M asso · 22M bénévoles · Loi 1901 · 2 pers. min. · 1859 Dunant · 1996 ARC · 190 pays · 45% vaccins · 3M malnutrition · 10€/mois impact) — Tour de table : "Ce que j'ai appris aujourd'hui"
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="day-footer">
+      <div class="footer-stat"><span class="fs-val">4</span><br><span class="fs-lbl">Modules</span></div>
+      <div class="footer-stat"><span class="fs-val">2</span><br><span class="fs-lbl">Exercices pratiques</span></div>
+      <div class="footer-stat"><span class="fs-val">20</span><br><span class="fs-lbl">Questions quiz</span></div>
+      <div class="footer-stat"><span class="fs-val">5h35</span><br><span class="fs-lbl">Temps effectif</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ JOUR 3 -->
+  <div class="day-card day-j3">
+    <div class="day-header">
+      <div class="day-badge">
+        <span class="day-num">J3</span>
+        <span class="day-lbl">Jour 3</span>
+      </div>
+      <div class="day-title">
+        <h3>Le Script de Collecte — Maîtrise du Script Complet de A à Z</h3>
+        <p>Fidelis × UNICEF · Script de Collecte de Dons · 9h30 – 16h30</p>
+      </div>
+    </div>
+    <div class="day-objective">
+      🎯 <strong>Objectif du jour :</strong>&nbsp;Mémoriser et restituer les 7 parties du script officiel UNICEF, maîtriser les montants, formulations-clés, modes de validation et la prise de congé.
+    </div>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th>Horaire</th>
+          <th>Durée</th>
+          <th>Type</th>
+          <th>Contenu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">09h30 – 09h50</td>
+          <td class="duration-cell">20 min</td>
+          <td class="type-cell"><span class="tag tag-rappel">Rappel J2</span></td>
+          <td>
+            <div class="activity-title">Rappel J2 & Introduction Script</div>
+            <div class="activity-detail">
+              Quiz flash oral : 5 questions J1+J2 — Présentation de la structure en 7 parties du script — "Pourquoi chaque mot compte dans un appel"
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">09h50 – 11h00</td>
+          <td class="duration-cell">70 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 9 — Script Parties 1 à 3 : Accroche → Malnutrition → RUTF</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Partie 1 — Accroche & Présentation :</strong> "Allô M./Mme [Nom] ? Bonjour, je suis [prénom] pour l'UNICEF…" — enregistrement à des fins de qualité — question sur connaissance UNICEF (si oui / si non)</li>
+                <li><strong>Partie 2 — La Malnutrition Infantile :</strong> plus d'1 million d'enfants de 3 mois à 5 ans confrontés à une mort évitable · 1ère cause de décès &lt;5 ans · propagation via catastrophes naturelles, conflits, guerres · rôle crucial UNICEF (distribution quotidienne d'aliments thérapeutiques)</li>
+                <li><strong>Partie 3 — L'Aliment Thérapeutique RUTF :</strong> sachet de 92g · composition : pâte d'arachide + matière grasse végétale + lait écrémé + vitamines · sans eau / sans cuisson / sans électricité → atout zones de sécheresse</li>
+                <li>Lecture collective à voix haute · Memorisation des chiffres clés</li>
+                <li><strong>Exercice binômes :</strong> l'un lit le script parties 1-3, l'autre joue le donateur (enthousiaste ou curieux) — 2 rotations</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">11h00 – 11h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette ☕</span></td>
+          <td><div class="activity-title">Pause du matin</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11h15 – 12h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 10 — Script Parties 4 à 5 : Appel au Soutien & Don Ponctuel</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Partie 4 — Appel au Soutien :</strong> "50 centimes d'euros par jour soit <strong>15€/mois</strong>" · 3,75€ après déduction fiscale · ne pas oublier le verrouillage : "puis-je enregistrer un don régulier de X€/mois ?" (attendre un OUI FERME)</li>
+                <li>Si oui ferme → félicitation + blindage · Si oui pas ferme → budget prévisionnel + relance promesse de don</li>
+                <li>Arguments supplémentaires : enfants victimes de conflits, rechauffement climatique, épidémies, enfants soldats</li>
+                <li><strong>Partie 5 — Si Préfère Don Ponctuel :</strong> "liberté de donner, je comprends" · flexibilité totale du PA (ajustement / suspension depuis espace donateur) · soutien régulier = anticiper et agir sur le long terme · montant 10€/mois = 2,50€ après déduction fiscale</li>
+                <li><strong>Exercice :</strong> les montants clés à mémoriser — flashcards (15€ / 3,75€ / 10€ / 2,50€) et formulations de verrouillage</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">12h15 – 13h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-break">Déjeuner 🍽️</span></td>
+          <td><div class="activity-title">Pause déjeuner</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">13h15 – 14h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 11 — Script Parties 6 à 7 : Indécis & Validation Coordonnées</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Partie 6 — Indécis / Souhaite Réfléchir :</strong> "vous me prenez au dépourvu… votre présence à nos côtés est importante" · proposer 10€/mois = 2,50€ net · "seriez-vous prêt(e) à poser ce petit geste régulier, à votre rythme ?" · CLASSER INDÉCIS si ne promet pas</li>
+                <li><strong>Partie 7 — Validation des Coordonnées :</strong> premier prélèvement le 10 de chaque mois</li>
+                <li>Mode 1 — PA en ligne par agent (à chaud) : récupérer l'IBAN (27 chiffres, commence par FR) — formulaire de soutien — PRÉSENCE DU SUPERVISEUR — coupure enregistrement pour la prise IBAN — blindage final</li>
+                <li>Mode 2 — PA en ligne par donateur : envoyer le lien du site officiel — guider le donateur en direct — formulaire pré-rempli — 30 secondes — verrouillage + blindage e-mail confirmation</li>
+                <li>Mode 3 — Promesse PA en ligne : "à quel moment pouvez-vous valider ?" → rappel personnel planifié</li>
+                <li>Mode 4 — PA différé (lors du rappel) : 3 cas (validé / non joignable / non validé)</li>
+                <li>Mode 5 — PA Courrier (exceptionnel) : autorisation de prélèvement + RIB — attendre OUI FERME</li>
+                <li>Prise de congé : "au nom de toute l'équipe de l'UNICEF… excellente journée/soirée"</li>
+                <li><strong>Exercice :</strong> cartographier les 5 modes sur un schéma décisionnel</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">14h15 – 15h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-exo">Exercice</span></td>
+          <td>
+            <div class="activity-title">Exercice Pratique — Simulation Script Complet en Binômes</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Scénario A : donateur enthousiaste → VA jusqu'au PA à chaud (IBAN)</li>
+                <li>Scénario B : donateur hésitant → INDÉCIS → Promesse PA en ligne</li>
+                <li>Grille d'observation : structure des 7 parties / ton / chiffres corrects / verrouillage</li>
+                <li>Feedback formateur à chaud après chaque passage</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">15h15 – 15h25</td>
+          <td class="duration-cell">10 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette 🧃</span></td>
+          <td><div class="activity-title">Pause de l'après-midi</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">15h25 – 16h00</td>
+          <td class="duration-cell">35 min</td>
+          <td class="type-cell"><span class="tag tag-exo">Exercice</span></td>
+          <td>
+            <div class="activity-title">Exercice — Appel à Froid Sans Support Écrit</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Chaque stagiaire passe une fois (script imposé, sans notes)</li>
+                <li>Observation collective : groupe note les points forts et à améliorer</li>
+                <li>Formateur joue le donateur (profil tiré au sort : enthousiaste / neutre)</li>
+                <li>Débriefing collectif bienveillant après chaque passage</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h00 – 16h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-quiz">Quiz J3</span></td>
+          <td>
+            <div class="activity-title">Quiz du Jour 3 — 15 Questions</div>
+            <div class="activity-detail">
+              Thèmes : montants (15€, 3,75€, 10€, 2,50€), 7 parties du script, 5 modes de validation, formules de verrouillage/blindage, qualification post-appel, prise de congé — correction commentée
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h15 – 16h30</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-synthese">Synthèse</span></td>
+          <td>
+            <div class="activity-title">Synthèse J3 & Clôture</div>
+            <div class="activity-detail">
+              Récapitulatif des 7 étapes du script — points de vigilance collectifs — annonce J4 (objections) — "L'objection est une porte entrouverte"
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="day-footer">
+      <div class="footer-stat"><span class="fs-val">3</span><br><span class="fs-lbl">Modules</span></div>
+      <div class="footer-stat"><span class="fs-val">3</span><br><span class="fs-lbl">Exercices pratiques</span></div>
+      <div class="footer-stat"><span class="fs-val">15</span><br><span class="fs-lbl">Questions quiz</span></div>
+      <div class="footer-stat"><span class="fs-val">5h35</span><br><span class="fs-lbl">Temps effectif</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ JOUR 4 -->
+  <div class="day-card day-j4">
+    <div class="day-header">
+      <div class="day-badge">
+        <span class="day-num">J4</span>
+        <span class="day-lbl">Jour 4</span>
+      </div>
+      <div class="day-title">
+        <h3>Traitement des Objections — Les 5 Catégories & La Méthode ERR</h3>
+        <p>Fidelis × UNICEF · Module Objections PPA · 9h30 – 16h30</p>
+      </div>
+    </div>
+    <div class="day-objective">
+      🎯 <strong>Objectif du jour :</strong>&nbsp;Maîtriser les 15 objections répertoriées dans les 5 catégories officielles et appliquer la méthode ERR (Écouter–Reformuler–Rebondir) avec fluidité.
+    </div>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th>Horaire</th>
+          <th>Durée</th>
+          <th>Type</th>
+          <th>Contenu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">09h30 – 09h50</td>
+          <td class="duration-cell">20 min</td>
+          <td class="type-cell"><span class="tag tag-rappel">Rappel J3</span></td>
+          <td>
+            <div class="activity-title">Rappel J3 & Introduction aux Objections</div>
+            <div class="activity-detail">
+              Quiz flash oral : 5 questions sur le script J3 — Cadrage du jour : "Une objection = une opportunité de créer du lien" — Présentation des 5 catégories et de la méthode ERR
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">09h50 – 11h00</td>
+          <td class="duration-cell">70 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 12 — Méthode ERR & Section 1 : Objections Initiales (8 objections)</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Méthode ERR :</strong> Écouter (sans interrompre) → Reformuler (valider l'émotion) → Rebondir (argument + enchaîner sur le script) — "Ne jamais interrompre, toujours reformuler avant de répondre"</li>
+                <li><strong>Objection 1 :</strong> "Je ne suis pas intéressé(e) / Je n'ai pas le temps" → enchaîner sur le script</li>
+                <li><strong>Objection 2 :</strong> "Faux numéro" → enchaîner sur le script</li>
+                <li><strong>Objection 3 :</strong> "Vous m'appelez pour un don ?" → "Comme je vous le disais…"</li>
+                <li><strong>Objection 4 :</strong> "Je donne déjà à d'autres associations / Je ne peux pas donner plus" → enchaîner</li>
+                <li><strong>Objection 5 :</strong> "C'est une arnaque !" → rassurer + "Comme je vous le disais…"</li>
+                <li><strong>Objection 6 :</strong> "Je ne donne pas d'argent par téléphone" → "Comme je vous le disais…"</li>
+                <li><strong>Objection 7 :</strong> "Je ne fais pas confiance aux associations" → "Comme je vous le disais…"</li>
+                <li><strong>Objection 8 :</strong> "Je n'aime pas être contacté(e) par téléphone" → "Comme je vous le disais…"</li>
+                <li><strong>Exercice :</strong> flashcards — l'objection est dite, le stagiaire rebondit (30 sec. max)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">11h00 – 11h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette ☕</span></td>
+          <td><div class="activity-title">Pause du matin</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11h15 – 12h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 13 — Section 2 : Objections Financières & Section 3 : Contre le PA</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Section 2 — Objections Financières</strong> (après appel au don, pas contre le PA) :</li>
+                <li>Objection 9 : "Je donne déjà à d'autres associations / Je me suis engagé avec X" → complémentarité, pas concurrence</li>
+                <li>Objection 10 : "Je n'ai pas les moyens (petite retraite, chômage…)" → montant symbolique, déduction fiscale, 50 centimes/jour</li>
+                <li>★ Dernier positionnement financier si hésitation persistante</li>
+                <li><strong>Section 3 — Contre le Don Régulier PA</strong> :</li>
+                <li>Objection 11 : "Je vous ferai un don ponctuel, pas régulier" → régularité = impact à long terme, planification des actions</li>
+                <li>Objection 12 : "Je préfère donner quand je veux / Je n'aime pas l'engagement mensuel" → flexibilité totale, ajustement/suspension depuis espace donateur</li>
+                <li>★ Dernier positionnement PA : "8€ ou même 6€/mois vous semblent envisageables ?"</li>
+                <li><strong>Exercice jeu de rôle binômes :</strong> scénarios A et B — objections financières enchaînées</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">12h15 – 13h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-break">Déjeuner 🍽️</span></td>
+          <td><div class="activity-title">Pause déjeuner</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">13h15 – 14h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-module">Module</span></td>
+          <td>
+            <div class="activity-title">Module 14 — Section 4 : Méfiance IBAN & Section 5 : Objections Conflictuelles (9 cas)</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Section 4 — Méfiance IBAN :</strong> Objection 13 : "Je ne veux pas donner mon IBAN / méfiance IBAN" → IBAN ≠ accès compte · virement SEPA avec accord verbal · procédure : coupure enregistrement + présence superviseur · associations françaises RUP seulement · document récapitulatif mail + SMS · fallback : PA en ligne par donateur (lien site)</li>
+                <li><strong>Section 5 — Objections Conflictuelles</strong> (rester calme, souriant, professionnel) :</li>
+                <li>14a : "D'où m'appelez-vous ?" → enchaîner sans s'empêtrer</li>
+                <li>14b : "D'où avez-vous eu mon numéro ?" → explication fichier · enchaîner</li>
+                <li>14c : "Vous n'avez pas le droit de m'appeler" → cadre légal</li>
+                <li>14d : "Je suis sur liste Bloctel / Opposé tél" → explication droits UNICEF (association RUP)</li>
+                <li>14e : "Je suis sur liste rouge" → distinction liste rouge / Bloctel</li>
+                <li>14f : "Vous avez un accent !" → sourire, enchaîner sur le script sans s'attarder</li>
+                <li>14g : "Je connais personnellement un membre de l'association" → valoriser + enchaîner</li>
+                <li>14h : "Qui êtes-vous exactement ?" → présentation claire Fidelis × UNICEF</li>
+                <li>14i : "Si la personne conteste la source" → contact SRD 09 69 36 84 68</li>
+                <li>Règle d'or : en cas de blocage persistant → prendre congé avec bienveillance, fiche retirée des appels</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">14h15 – 15h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-exo">Exercice</span></td>
+          <td>
+            <div class="activity-title">Exercice Pratique — Gestion d'Objections Multiples Enchaînées</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Scénario complexe : 3 objections enchaînées sur un même appel (initiale + financière + méfiance IBAN)</li>
+                <li>Scénario conflictuel : donateur agressif (Bloctel + accent + "qui êtes-vous")</li>
+                <li>Grille de traitement ERR : Écouter / Reformuler / Rebondir → noté par l'observateur</li>
+                <li>Feedback croisé structuré (2 points forts + 1 point d'amélioration)</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">15h15 – 15h25</td>
+          <td class="duration-cell">10 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette 🧃</span></td>
+          <td><div class="activity-title">Pause de l'après-midi</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">15h25 – 16h00</td>
+          <td class="duration-cell">35 min</td>
+          <td class="type-cell"><span class="tag tag-exo">Exercice</span></td>
+          <td>
+            <div class="activity-title">Exercice — Cas Complexe "Le Donateur Difficile"</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Simulation complète : objections enchaînées + tentative de validation coordonnées</li>
+                <li>Formateur joue un donateur "difficile" devant le groupe</li>
+                <li>Le groupe observe et complète la grille d'évaluation (méthode ERR)</li>
+                <li>Débriefing collectif : ce qui a fonctionné, ce qui peut être amélioré</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h00 – 16h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-quiz">Quiz J4</span></td>
+          <td>
+            <div class="activity-title">Quiz du Jour 4 — 15 Questions</div>
+            <div class="activity-detail">
+              Thèmes : 5 catégories d'objections, méthode ERR, méfiance IBAN (procédures), Bloctel vs liste rouge, qualification après objections conflictuelles, contacts SRD — correction commentée
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h15 – 16h30</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-synthese">Synthèse</span></td>
+          <td>
+            <div class="activity-title">Synthèse J4 & Préparation J5</div>
+            <div class="activity-detail">
+              Récapitulatif des 15 objections et 5 catégories — présentation du format J5 (training certification) — distribution de la grille d'auto-évaluation J5 — "Demain vous êtes prêts !"
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="day-footer">
+      <div class="footer-stat"><span class="fs-val">3</span><br><span class="fs-lbl">Modules</span></div>
+      <div class="footer-stat"><span class="fs-val">3</span><br><span class="fs-lbl">Exercices pratiques</span></div>
+      <div class="footer-stat"><span class="fs-val">15</span><br><span class="fs-lbl">Questions quiz</span></div>
+      <div class="footer-stat"><span class="fs-val">5h35</span><br><span class="fs-lbl">Temps effectif</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ JOUR 5 -->
+  <div class="day-card day-j5">
+    <div class="day-header">
+      <div class="day-badge">
+        <span class="day-num">J5</span>
+        <span class="day-lbl">Jour 5</span>
+      </div>
+      <div class="day-title">
+        <h3>Training — Jeux de Rôle, Simulations d'Appel & Certification</h3>
+        <p>Fidelis × UNICEF · Journée Training & Évaluation · 9h30 – 16h30</p>
+      </div>
+    </div>
+    <div class="day-objective">
+      🎯 <strong>Objectif du jour :</strong>&nbsp;Valider les acquis des 4 jours par des simulations d'appel réalistes, réaliser l'auto-évaluation sur grille, passer le quiz de certification (seuil 70%) et recevoir un coaching individualisé.
+    </div>
+    <table class="schedule">
+      <thead>
+        <tr>
+          <th>Horaire</th>
+          <th>Durée</th>
+          <th>Type</th>
+          <th>Contenu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">09h30 – 09h50</td>
+          <td class="duration-cell">20 min</td>
+          <td class="type-cell"><span class="tag tag-rappel">Warm-up</span></td>
+          <td>
+            <div class="activity-title">Révision Globale & Cadrage du J5</div>
+            <div class="activity-detail">
+              Tour de table : "Ma zone de confort et mon point de vigilance" — rappel des 4 jours en 10 chiffres clés — présentation du format et de la grille d'évaluation J5 — "Aujourd'hui vous simulez, demain vous produisez"
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">09h50 – 11h00</td>
+          <td class="duration-cell">70 min</td>
+          <td class="type-cell"><span class="tag tag-training">Training</span></td>
+          <td>
+            <div class="activity-title">Séquence 1 — Simulations d'Appel : Profils Positifs</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Format :</strong> jeu de rôle tournant — 5 à 7 min/agent — formateur ou pair senior joue le donateur</li>
+                <li><strong>Scénario A :</strong> Donateur enthousiaste → maîtrise de l'accroche → script complet → PA à chaud (IBAN) → verrouillage + blindage</li>
+                <li><strong>Scénario B :</strong> Donateur hésitant → gestion de l'indécision → Promesse PA en ligne → prise de congé</li>
+                <li>Chaque stagiaire observe avec la grille d'évaluation et donne un retour structuré</li>
+                <li>Critères évalués : 5 étapes accroche · 7 parties script · ton/empathie · montants corrects · qualification correcte</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">11h00 – 11h15</td>
+          <td class="duration-cell">15 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette ☕</span></td>
+          <td><div class="activity-title">Pause du matin</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11h15 – 12h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-training">Training</span></td>
+          <td>
+            <div class="activity-title">Séquence 2 — Simulations avec Objections Multiples</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Format :</strong> jeu de rôle en binômes avec rotation, grille ERR complétée par l'observateur</li>
+                <li><strong>Scénario C :</strong> Objections initiales enchaînées (arnaque + confiance + téléphone) → méthode ERR → rebond vers script</li>
+                <li><strong>Scénario D :</strong> Objections financières ("pas les moyens" + "donne déjà") → dernier positionnement → qualification</li>
+                <li><strong>Scénario E :</strong> Méfiance IBAN → procédure sécurisation → fallback lien donateur</li>
+                <li><strong>Scénario F :</strong> Objection conflictuelle (Bloctel + accent + "d'où mon numéro") → calme + professionnel + enchaîner</li>
+                <li>Feedback de l'observateur : 2 points forts + 1 axe d'amélioration par scénario</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">12h15 – 13h15</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-break">Déjeuner 🍽️</span></td>
+          <td><div class="activity-title">Pause déjeuner</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">13h15 – 14h00</td>
+          <td class="duration-cell">45 min</td>
+          <td class="type-cell"><span class="tag tag-training">Training</span></td>
+          <td>
+            <div class="activity-title">Séquence 3 — Appel Complet Chronométré Sans Support</div>
+            <div class="activity-detail">
+              <ul>
+                <li><strong>Format :</strong> simulation "appel réel" — chaque agent effectue 1 appel complet de 5 à 7 min</li>
+                <li>Donateur joué par le formateur — profil tiré au sort (facile / moyen / difficile)</li>
+                <li>Aucun support écrit autorisé — simulation réaliste d'une production</li>
+                <li>Observation collective : tout le groupe note sur la grille d'évaluation</li>
+                <li>Auto-évaluation immédiate par le stagiaire avant le retour du groupe</li>
+                <li>Débriefing collectif bienveillant : convergence auto-éval / éval groupe</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">14h00 – 15h00</td>
+          <td class="duration-cell">60 min</td>
+          <td class="type-cell"><span class="tag tag-synthese">Coaching</span></td>
+          <td>
+            <div class="activity-title">Auto-Évaluation Individuelle & Coaching Personnalisé</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Chaque stagiaire complète sa grille d'auto-évaluation sur les 7 critères</li>
+                <li>Entretien individuel formateur/stagiaire : 5 à 7 min par personne</li>
+                <li>Identification des points forts et des 1 ou 2 axes prioritaires d'amélioration</li>
+                <li>Co-construction d'un plan d'action personnel pour les premiers jours de production</li>
+                <li>Remise du résultat du quiz final J5</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr class="break-row">
+          <td class="time-cell">15h00 – 15h10</td>
+          <td class="duration-cell">10 min</td>
+          <td class="type-cell"><span class="tag tag-break">Pausette 🧃</span></td>
+          <td><div class="activity-title">Pause de l'après-midi</div></td>
+        </tr>
+        <tr>
+          <td class="time-cell">15h10 – 15h50</td>
+          <td class="duration-cell">40 min</td>
+          <td class="type-cell"><span class="tag tag-quiz">Quiz Certif.</span></td>
+          <td>
+            <div class="activity-title">Quiz de Certification Finale — 30 Questions (J1 à J4)</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Thèmes couverts : nomenclature J1 · KPIs · qualifications · script (montants, parties, modes) · objections (5 catégories, méthode ERR) · IBAN procédure · Monde associatif</li>
+                <li><strong>Seuil de réussite : 70% (21/30)</strong> — résultat "Réussi" ou "À améliorer" (comme le quiz J2 ci-dessus)</li>
+                <li>Correction commentée collective — explication de chaque réponse fausse</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">15h50 – 16h20</td>
+          <td class="duration-cell">30 min</td>
+          <td class="type-cell"><span class="tag tag-synthese">Synthèse</span></td>
+          <td>
+            <div class="activity-title">Débriefing Collectif & Bilan de Formation</div>
+            <div class="activity-detail">
+              <ul>
+                <li>Résultats des quiz (partagés anonymement si souhaité) — bilan progression J1→J5</li>
+                <li>Points forts collectifs de la promotion</li>
+                <li>Rappel des ressources disponibles : SRD 09 69 36 84 68 · unicef.tmk@unicef.fr · www.unicef.fr</li>
+                <li>Conseils du formateur pour les premiers jours de production : 9 CU/H minimum, ERR systématique, sourire dans la voix</li>
+                <li>Tour de table final : "Ce que je retiens de cette formation en une phrase"</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="time-cell">16h20 – 16h30</td>
+          <td class="duration-cell">10 min</td>
+          <td class="type-cell"><span class="tag tag-synthese">Clôture</span></td>
+          <td>
+            <div class="activity-title">Remise des Attestations & Mot de Clôture</div>
+            <div class="activity-detail">
+              Mot du formateur — remise des attestations de formation FIM — photo de groupe — "Le refus d'aujourd'hui peut être le don de demain. Bonne production à tous !"
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="day-footer">
+      <div class="footer-stat"><span class="fs-val">3</span><br><span class="fs-lbl">Séquences training</span></div>
+      <div class="footer-stat"><span class="fs-val">6</span><br><span class="fs-lbl">Scénarios simulés</span></div>
+      <div class="footer-stat"><span class="fs-val">30</span><br><span class="fs-lbl">Questions certification</span></div>
+      <div class="footer-stat"><span class="fs-val">5h35</span><br><span class="fs-lbl">Temps effectif</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ QUIZ SUMMARY -->
+  <div class="section-header">
+    <h2>Récapitulatif des Quiz par Journée</h2>
+    <p>Distribution des questions et thèmes couverts — progression cumulative J1→J5</p>
+  </div>
+  <div class="quiz-summary">
+    <div class="qs-header">
+      <h3>Plan de Progression des Évaluations</h3>
+      <p>Total : 90 questions sur 5 jours + auto-évaluation qualitative J5</p>
+    </div>
+    <table class="quiz-table">
+      <thead>
+        <tr>
+          <th>Journée</th>
+          <th>Questions</th>
+          <th>Thèmes couverts</th>
+          <th>Seuil réussite</th>
+          <th>Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Quiz J1</strong></td>
+          <td><span class="quiz-badge">10</span></td>
+          <td>Nomenclature · KPIs (calcul CU/H, TX) · 3 qualifications · IBAN · 5 étapes accroche · PA régulier</td>
+          <td>6/10 (60%)</td>
+          <td>QCM individuel · correction collective</td>
+        </tr>
+        <tr>
+          <td><strong>Quiz J2 officiel</strong></td>
+          <td><span class="quiz-badge">10</span></td>
+          <td>Fundraising · Comité de la Charte · RUP · Nombre d'associations · Déductions fiscales · Affaire ARC</td>
+          <td>6/10 (60%)</td>
+          <td>QCM module (questionnaire officiel J2)</td>
+        </tr>
+        <tr>
+          <td><strong>Quiz J2 cumulatif</strong></td>
+          <td><span class="quiz-badge">10</span></td>
+          <td>Révision croisée J1 + J2 : KPIs · qualification · monde associatif · nomenclature J2</td>
+          <td>6/10 (60%)</td>
+          <td>QCM individuel · correction collective</td>
+        </tr>
+        <tr>
+          <td><strong>Quiz J3</strong></td>
+          <td><span class="quiz-badge">15</span></td>
+          <td>7 parties du script · Montants clés · Formules verrouillage/blindage · 5 modes de validation · Qualification post-appel</td>
+          <td>9/15 (60%)</td>
+          <td>QCM individuel · correction commentée</td>
+        </tr>
+        <tr>
+          <td><strong>Quiz J4</strong></td>
+          <td><span class="quiz-badge">15</span></td>
+          <td>5 catégories d'objections · Méthode ERR · Méfiance IBAN (procédures) · Bloctel · Contacts SRD</td>
+          <td>9/15 (60%)</td>
+          <td>QCM individuel · correction commentée</td>
+        </tr>
+        <tr>
+          <td><strong>Quiz J5 — Certification</strong></td>
+          <td><span class="quiz-badge">30</span></td>
+          <td>Révision complète J1 à J4 : tout le programme FIM</td>
+          <td><strong>21/30 (70%)</strong></td>
+          <td>QCM individuel · "Réussi" / "À améliorer"</td>
+        </tr>
+        <tr>
+          <td><strong>Auto-évaluation J5</strong></td>
+          <td><span class="quiz-badge">7</span> critères</td>
+          <td>Accroche · Script · Qualification · Objections (ERR) · IBAN procédure · Relation donateur · Prise de congé</td>
+          <td>Qualitatif 1→5</td>
+          <td>Grille individuelle + entretien formateur</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ GRILLE EVAL -->
+  <div class="section-header">
+    <h2>Grille d'Auto-Évaluation — Journée 5</h2>
+    <p>À compléter par le stagiaire après chaque simulation · Cotation de 1 (à travailler) à 5 (maîtrisé)</p>
+  </div>
+  <div class="eval-grid">
+    <div class="eg-header">
+      <h3>Grille d'Évaluation FIM — Simulation d'Appel UNICEF × Fidelis</h3>
+      <p>Nom du stagiaire : _____________________________________________ · Date : _____________ · Formateur : _____________</p>
+    </div>
+    <table class="eval-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Critère</th>
+          <th>Indicateurs observables</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>Observations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td>
+            <span class="criterion">Phrase d'Accroche</span>
+            <span class="crit-detail">5 étapes officielles</span>
+          </td>
+          <td class="crit-detail">"Allô ?" → attente · Prénom + Nom (bon ordre) · Présentation Fidelis/UNICEF · Question connaissance · Présentation mission 190 pays</td>
+          <td><span class="score-box">1</span></td>
+          <td><span class="score-box">2</span></td>
+          <td><span class="score-box">3</span></td>
+          <td><span class="score-box">4</span></td>
+          <td><span class="score-box">5</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td>
+            <span class="criterion">Script de Collecte</span>
+            <span class="crit-detail">7 parties · montants · formulations</span>
+          </td>
+          <td class="crit-detail">Malnutrition (1M enfants/3mois-5ans) · RUTF (92g/composition/atouts) · 15€/mois – 3,75€ net · Verrouillage correct · Gestion indécis · Validation coordonnées · Prise de congé</td>
+          <td><span class="score-box">1</span></td>
+          <td><span class="score-box">2</span></td>
+          <td><span class="score-box">3</span></td>
+          <td><span class="score-box">4</span></td>
+          <td><span class="score-box">5</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td>
+            <span class="criterion">Qualification</span>
+            <span class="crit-detail">DON / REF ARG. / INDÉCIS</span>
+          </td>
+          <td class="crit-detail">DON uniquement si PA initié · REF ARG. uniquement si contre-argument présenté · INDÉCIS si doute · Différence ABSENT vs RA maîtrisée</td>
+          <td><span class="score-box">1</span></td>
+          <td><span class="score-box">2</span></td>
+          <td><span class="score-box">3</span></td>
+          <td><span class="score-box">4</span></td>
+          <td><span class="score-box">5</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td>
+            <span class="criterion">Traitement des Objections</span>
+            <span class="crit-detail">Méthode ERR</span>
+          </td>
+          <td class="crit-detail">Écoute sans interruption · Reformulation de l'objection · Rebond argumenté · Enchaîne sur le script · Calme et professionnel face aux objections conflictuelles</td>
+          <td><span class="score-box">1</span></td>
+          <td><span class="score-box">2</span></td>
+          <td><span class="score-box">3</span></td>
+          <td><span class="score-box">4</span></td>
+          <td><span class="score-box">5</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>5</strong></td>
+          <td>
+            <span class="criterion">Procédure IBAN</span>
+            <span class="crit-detail">Sécurisation & modes de validation</span>
+          </td>
+          <td class="crit-detail">IBAN = 27 chiffres FR · Présence superviseur · Coupure enregistrement · Blindage final · Méfiance IBAN traitée correctement · Fallback lien donateur si refus</td>
+          <td><span class="score-box">1</span></td>
+          <td><span class="score-box">2</span></td>
+          <td><span class="score-box">3</span></td>
+          <td><span class="score-box">4</span></td>
+          <td><span class="score-box">5</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>6</strong></td>
+          <td>
+            <span class="criterion">Relation Donateur</span>
+            <span class="crit-detail">Ton · Empathie · Posture</span>
+          </td>
+          <td class="crit-detail">Ton chaleureux et posé · Sourire dans la voix · Empathie exprimée · Personnalisation (prénom utilisé) · Pas de débit trop rapide · Conviction sincère</td>
+          <td><span class="score-box">1</span></td>
+          <td><span class="score-box">2</span></td>
+          <td><span class="score-box">3</span></td>
+          <td><span class="score-box">4</span></td>
+          <td><span class="score-box">5</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>7</strong></td>
+          <td>
+            <span class="criterion">Prise de Congé</span>
+            <span class="crit-detail">Clôture de l'appel</span>
+          </td>
+          <td class="crit-detail">Remerciement chaleureux · Mention équipe UNICEF · Souhait de bonne journée/soirée · SMS félicitation si DON · Rappel planifié si INDÉCIS · Bienveillance même en cas de refus</td>
+          <td><span class="score-box">1</span></td>
+          <td><span class="score-box">2</span></td>
+          <td><span class="score-box">3</span></td>
+          <td><span class="score-box">4</span></td>
+          <td><span class="score-box">5</span></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="padding: 16px 20px; border-top: 1px solid #eef3f8; display: flex; gap: 30px; font-size: 12px; color: #555;">
+      <div><strong>Total / 35 :</strong> <span style="display:inline-block; width:50px; border-bottom:1px solid #aaa;"></span></div>
+      <div><strong>Points forts :</strong> <span style="display:inline-block; width:200px; border-bottom:1px solid #aaa;"></span></div>
+      <div><strong>Axe prioritaire :</strong> <span style="display:inline-block; width:200px; border-bottom:1px solid #aaa;"></span></div>
+    </div>
+    <div style="padding: 10px 20px 18px; font-size: 11px; color: #888; border-top: 1px solid #eef3f8;">
+      Cotation : 1 = À travailler · 2 = En cours d'acquisition · 3 = Acquis avec efforts · 4 = Maîtrisé · 5 = Excellent — Seuil de mise en production recommandé : ≥ 21/35
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ MANTRA -->
+  <div class="mantra">
+    <p>"Le refus d'aujourd'hui peut être le don de demain."</p>
+    <span>Fidelis × SHY Performance | Formation Initiale Module | Campagne UNICEF France</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ FOOTER RECAP -->
+  <div class="section-header">
+    <h2>Vue Synthétique — 5 Jours de Formation</h2>
+    <p>Récapitulatif des contenus, exercices et évaluations par journée</p>
+  </div>
+  <div style="background:#fff; border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow: 0 2px 12px rgba(0,61,107,0.07); margin-bottom: 40px;">
+    <table style="width:100%; border-collapse:collapse; font-size:13px;">
+      <thead>
+        <tr style="background:#003D6B; color:#fff;">
+          <th style="padding:12px 16px; text-align:left;">Journée</th>
+          <th style="padding:12px 16px; text-align:left;">Thème Principal</th>
+          <th style="padding:12px 16px; text-align:left;">Modules / Contenus</th>
+          <th style="padding:12px 16px; text-align:center;">Exercices</th>
+          <th style="padding:12px 16px; text-align:center;">Quiz</th>
+          <th style="padding:12px 16px; text-align:center;">Temps Effectif</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #eef3f8;">
+          <td style="padding:12px 16px; font-weight:700; color:#003D6B;">J1</td>
+          <td style="padding:12px 16px;">Fondamentaux campagne</td>
+          <td style="padding:12px 16px; color:#555;">Mission · Nomenclature · KPIs · Qualifications · Carte bancaire · Types d'op. · PA régulier · Accroche (5 étapes)</td>
+          <td style="padding:12px 16px; text-align:center;">3</td>
+          <td style="padding:12px 16px; text-align:center; font-weight:700;">10 Q</td>
+          <td style="padding:12px 16px; text-align:center;">5h35</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eef3f8; background:#fafcff;">
+          <td style="padding:12px 16px; font-weight:700; color:#00833D;">J2</td>
+          <td style="padding:12px 16px;">Monde associatif & humanitaire</td>
+          <td style="padding:12px 16px; color:#555;">Loi 1901 · Types d'asso. · Histoire humanitaire · Marché collecte · Impact UNICEF · Don régulier vital · Qualification critique · Marketing tél.</td>
+          <td style="padding:12px 16px; text-align:center;">2</td>
+          <td style="padding:12px 16px; text-align:center; font-weight:700;">20 Q</td>
+          <td style="padding:12px 16px; text-align:center;">5h35</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eef3f8;">
+          <td style="padding:12px 16px; font-weight:700; color:#F26A21;">J3</td>
+          <td style="padding:12px 16px;">Script de collecte complet</td>
+          <td style="padding:12px 16px; color:#555;">7 parties script · Montants clés · Verrouillage/Blindage · 5 modes validation · Prise de congé</td>
+          <td style="padding:12px 16px; text-align:center;">3</td>
+          <td style="padding:12px 16px; text-align:center; font-weight:700;">15 Q</td>
+          <td style="padding:12px 16px; text-align:center;">5h35</td>
+        </tr>
+        <tr style="border-bottom:1px solid #eef3f8; background:#fafcff;">
+          <td style="padding:12px 16px; font-weight:700; color:#9B2D8E;">J4</td>
+          <td style="padding:12px 16px;">Traitement des objections</td>
+          <td style="padding:12px 16px; color:#555;">Méthode ERR · 5 catégories (15 objections) · Méfiance IBAN · Objections conflictuelles · Contacts SRD</td>
+          <td style="padding:12px 16px; text-align:center;">3</td>
+          <td style="padding:12px 16px; text-align:center; font-weight:700;">15 Q</td>
+          <td style="padding:12px 16px; text-align:center;">5h35</td>
+        </tr>
+        <tr style="background:#FFF0F0;">
+          <td style="padding:12px 16px; font-weight:700; color:#C8102E;">J5</td>
+          <td style="padding:12px 16px;">Training & Certification</td>
+          <td style="padding:12px 16px; color:#555;">6 scénarios simulés · Auto-évaluation 7 critères · Coaching individuel · Quiz certification · Remise attestations</td>
+          <td style="padding:12px 16px; text-align:center;">6 scénarios</td>
+          <td style="padding:12px 16px; text-align:center; font-weight:700;">30 Q</td>
+          <td style="padding:12px 16px; text-align:center;">5h35</td>
+        </tr>
+        <tr style="background:#F4F9FD; font-weight:700;">
+          <td style="padding:12px 16px; color:#003D6B;">TOTAL</td>
+          <td style="padding:12px 16px;">5 jours · 5 thèmes</td>
+          <td style="padding:12px 16px; color:#003D6B;">14 modules · Script complet · 15 objections · 5 modes validation</td>
+          <td style="padding:12px 16px; text-align:center; color:#003D6B;">17</td>
+          <td style="padding:12px 16px; text-align:center; color:#003D6B;">90 Q + grille</td>
+          <td style="padding:12px 16px; text-align:center; color:#003D6B;">27h45</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="text-align:center; font-size:11px; color:#aaa; margin-bottom:20px;">
+    Document interne — Usage strictement réservé aux formateurs Fidelis × SHY Performance · UNICEF France · 3 rue Duguay-Trouin, 75282 Paris Cedex 06 · SRD : 09 69 36 84 68 · unicef.tmk@unicef.fr
+  </p>
+
+</div>
+</body>
+</html>
