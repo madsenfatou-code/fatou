@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Grille d'Évaluation Script Donateur UNICEF | SHyperformance</title>
+<style>
+:root{
+  --navy:#0d1b2a;--blue:#1b3a6b;--gold:#c89f14;--red:#C1272D;
+  --green:#00853F;--orange:#d97706;
+  --c:#16a34a;--c-bg:#dcfce7;--c-bd:#86efac;
+  --p:#d97706;--p-bg:#fef3c7;--p-bd:#fbbf24;
+  --nc:#dc2626;--nc-bg:#fee2e2;--nc-bd:#fca5a5;
+  --na:#6b7280;--na-bg:#f3f4f6;--na-bd:#d1d5db;
+  --text:#1e2533;--muted:#5a6478;--bg:#f0f2f5;--card:#fff;--border:#dde1ea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:13px}
+
+/* ── HEADER ── */
+header{background:linear-gradient(135deg,var(--navy),#1b3a6b 70%,#009edb);color:#fff;padding:32px 36px 26px}
+.unicef-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 16px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+header h1{font-size:1.75rem;font-weight:800;margin-bottom:4px}
+header .sub{color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:18px}
+.meta-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.meta-field label{display:block;font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.meta-field input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:7px 10px;color:#fff;font-size:11.5px;font-family:inherit}
+.meta-field input::placeholder{color:rgba(255,255,255,.3)}
+
+/* ── SCORE BAR ── */
+.score-bar{background:var(--blue);display:grid;grid-template-columns:repeat(4,1fr);border-bottom:3px solid var(--gold)}
+.scard{padding:14px 18px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.scard:last-child{border-right:none}
+.scard .n{font-size:1.8rem;font-weight:800;line-height:1}
+.scard .l{font-size:10px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.7px;margin-top:3px}
+.n-c{color:#4ade80}.n-p{color:#fcd34d}.n-nc{color:#f87171}.n-w{color:rgba(255,255,255,.9)}
+
+/* ── LEGEND ── */
+.legend-bar{background:#fff;border-bottom:2px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.legend-bar .lbl{font-size:11px;font-weight:700;color:var(--muted);margin-right:4px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:4px 12px;border-radius:99px;font-weight:700;border:1px solid transparent}
+.chip-c{background:var(--c-bg);color:var(--c);border-color:var(--c-bd)}
+.chip-p{background:var(--p-bg);color:var(--p);border-color:var(--p-bd)}
+.chip-nc{background:var(--nc-bg);color:var(--nc);border-color:var(--nc-bd)}
+.chip-na{background:var(--na-bg);color:var(--na);border-color:var(--na-bd)}
+
+/* ── CONTEXT ── */
+.ctx{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:0 8px 8px 0;padding:12px 18px;margin:18px 28px;font-size:12px;color:#1e3a5f;line-height:1.7}
+.ctx code{background:#dbeafe;border-radius:4px;padding:1px 5px;font-family:monospace;font-size:11px}
+
+/* ── SECTION ── */
+main{max-width:1060px;margin:0 auto;padding:20px 16px 60px}
+.section{background:var(--card);border-radius:12px;border:1px solid var(--border);margin-bottom:20px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.sec-hd{display:flex;align-items:center;gap:10px;padding:12px 18px;background:#f8f9fc;border-bottom:2px solid var(--border)}
+.sec-icon{font-size:1.2rem}
+.sec-title{font-size:13px;font-weight:700;color:var(--navy);flex:1}
+.sec-stat{font-size:11px;color:var(--muted);display:flex;gap:10px}
+.sec-stat span{font-weight:700}
+
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);background:#fafbfc;border-bottom:1px solid var(--border);text-align:left}
+th.th-eval{text-align:center;min-width:240px}
+tbody tr{border-bottom:1px solid #f0f2f5}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#fafbfc}
+td{padding:11px 14px;vertical-align:top}
+.item-num{font-size:10px;font-weight:700;color:var(--muted);white-space:nowrap;padding-top:13px}
+.item-name{font-size:12.5px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px}
+.item-desc{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.55}
+.tag-c{display:inline-block;background:#fee2e2;color:#991b1b;border-radius:3px;font-size:9px;font-weight:800;text-transform:uppercase;padding:1px 5px;letter-spacing:.4px}
+.tag-ref{background:#fef3c7;color:#78350f;font-family:monospace;border-radius:3px;font-size:10px;padding:2px 5px;display:inline-block;margin-top:4px;border:1px solid #fbbf24}
+
+/* ── EVAL BUTTONS ── */
+.eval-group{display:flex;gap:5px;justify-content:center;flex-wrap:nowrap}
+.ev-btn{border:2px solid var(--border);background:#fafbfc;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:11px;font-weight:700;white-space:nowrap;transition:all .15s;user-select:none;line-height:1.2;text-align:center}
+.ev-btn:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.1)}
+.ev-c.active{background:var(--c-bg);border-color:var(--c);color:var(--c)}
+.ev-p.active{background:var(--p-bg);border-color:var(--p);color:var(--p)}
+.ev-nc.active{background:var(--nc-bg);border-color:var(--nc);color:var(--nc)}
+.ev-na.active{background:var(--na-bg);border-color:var(--na);color:var(--na)}
+
+/* ── COMMENT ── */
+.cmt-row td{padding:2px 14px 10px;background:#fafbfc}
+textarea.cmt{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:11px;font-family:inherit;resize:vertical;min-height:34px;color:var(--text);background:#fff}
+textarea.cmt:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,.1)}
+
+/* ── SYNTH ── */
+.synth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.synth-cell{background:var(--card);padding:16px;text-align:center}
+.synth-n{font-size:1.5rem;font-weight:800;line-height:1}
+.synth-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
+.progress-wrap{background:#f0f2f5;border-radius:99px;height:10px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:99px;transition:width .4s ease;background:linear-gradient(90deg,var(--c),#16a34a)}
+.sec-bars{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px 20px}
+.sec-bar-row{display:flex;align-items:center;gap:10px}
+.sec-bar-lbl{font-size:11px;color:var(--muted);min-width:110px;font-weight:500}
+.sec-bar-bg{flex:1;background:#f0f2f5;border-radius:99px;height:7px;overflow:hidden}
+.sec-bar-fill{height:100%;border-radius:99px;background:var(--blue)}
+.sec-bar-val{font-size:11px;font-weight:700;color:var(--navy);min-width:50px;text-align:right}
+
+.reco{border-radius:8px;padding:14px 18px;font-size:12px;line-height:1.75;margin:0 20px 16px}
+.reco-c{background:var(--c-bg);border:1px solid var(--c-bd)}
+.reco-p{background:var(--p-bg);border:1px solid var(--p-bd)}
+.reco-nc{background:var(--nc-bg);border:1px solid var(--nc-bd)}
+
+.action-row{display:flex;gap:10px;padding:0 20px 20px;flex-wrap:wrap}
+.btn-print{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-reset{background:#f3f4f6;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:10px 20px;font-size:12px;font-weight:600;cursor:pointer}
+.signature-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:0 20px 20px}
+.sig-field{font-size:10px;color:var(--muted)}
+.sig-field .sig-name{font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.sig-line{border-bottom:1px solid var(--border);height:36px;margin-bottom:4px}
+
+@media print{
+  body{background:#fff;font-size:11px}
+  .section{box-shadow:none;break-inside:avoid}
+  header,.score-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ev-btn.active{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .action-row{display:none}
+}
+@media(max-width:768px){
+  .meta-grid{grid-template-columns:1fr 1fr}
+  .score-bar{grid-template-columns:1fr 1fr}
+  .synth-grid{grid-template-columns:1fr}
+  .sec-bars{grid-template-columns:1fr}
+  .signature-row{grid-template-columns:1fr}
+  .eval-group{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="unicef-badge">🔵 UNICEF · Campagne Dons · SHyperformance</div>
+  <h1>Grille d'Évaluation — Script Appel Donateur</h1>
+  <div class="sub">Évaluation de la conformité au script de collecte de dons · Marché France</div>
+  <div class="meta-grid">
+    <div class="meta-field"><label>Conseiller évalué</label><input id="m-agent" type="text" placeholder="Prénom Nom"/></div>
+    <div class="meta-field"><label>Évaluateur (RQ)</label><input id="m-eval" type="text" placeholder="Responsable qualité"/></div>
+    <div class="meta-field"><label>Date</label><input id="m-date" type="date"/></div>
+    <div class="meta-field"><label>Réf. appel</label><input id="m-ref" type="text" placeholder="ID / horodatage"/></div>
+    <div class="meta-field"><label>Campagne</label><input id="m-camp" type="text" placeholder="Campagne UNICEF…"/></div>
+  </div>
+</header>
+
+<!-- ══ SCORE BAR ══ -->
+<div class="score-bar">
+  <div class="scard"><div class="n n-c" id="cnt-c">0</div><div class="l">✅ Conforme</div></div>
+  <div class="scard"><div class="n n-p" id="cnt-p">0</div><div class="l">⚠️ Part. conforme</div></div>
+  <div class="scard"><div class="n n-nc" id="cnt-nc">0</div><div class="l">❌ Non conforme</div></div>
+  <div class="scard"><div class="n n-w" id="cnt-total">0 / 28</div><div class="l">Items évalués</div></div>
+</div>
+
+<!-- ══ LÉGENDE ══ -->
+<div class="legend-bar">
+  <span class="lbl">Barème :</span>
+  <span class="chip chip-c">✅ Conforme — exécution correcte et complète</span>
+  <span class="chip chip-p">⚠️ Partiellement conforme — écart mineur, à améliorer</span>
+  <span class="chip chip-nc">❌ Non conforme — critère non respecté ou absent</span>
+  <span class="chip chip-na">— N/A — non applicable à cet appel</span>
+  <span style="margin-left:auto;font-size:11px;color:var(--nc);font-weight:700">🔴 Item critique : 1 NC = action corrective immédiate</span>
+</div>
+
+<!-- ══ CONTEXTE CAPTURE ══ -->
+<div class="ctx">
+  <strong>📌 Instruction analysée (capture Mehdi AYAD, 11h55) :</strong>
+  "Si le prospect ne souhaite pas communiquer son adresse postale" →
+  saisir l'adresse par défaut <code>Le bourg, 75999, Paris</code> dans le système.
+  Cette instruction est évaluée à l'<strong>item 4.3</strong> (Gestion du refus d'adresse postale).
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════
+     SECTION 1 — OUVERTURE DE L'APPEL
+═══════════════════════════════ -->
+<div class="section">
+  <div class="sec-hd">
+    <div class="sec-icon">📞</div>
+    <div class="sec-title">1. Ouverture de l'appel</div>
+    <div class="sec-stat">
+      <span class="n-c" id="s1-c">0</span>C &nbsp;
+      <span class="n-p" id="s1-p">0</span>P &nbsp;
+      <span class="n-nc" id="s1-nc">0</span>NC
+    </div>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:40px">#</th>
+      <th>Item</th>
+      <th>Critère d'évaluation</th>
+      <th class="th-eval">Évaluation</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-item="1.1" data-sec="1">
+        <td class="item-num">1.1</td>
+        <td><div class="item-name">Salutation &amp; identification <span class="tag-c">critique</span></div>
+          <div class="item-desc">Bonjour formulé · Nom du conseiller annoncé · Nom de la structure (SHyperformance / UNICEF) mentionné</div></td>
+        <td>L'agent dit : "Bonjour, je suis [prénom] de [structure]" dès les premières secondes</td>
+        <td><div class="eval-group" data-item="1.1" data-sec="1">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="1.2" data-sec="1">
+        <td class="item-num">1.2</td>
+        <td><div class="item-name">Vérification de l'identité du donateur</div>
+          <div class="item-desc">Le conseiller confirme qu'il parle bien à la personne concernée (nom + prénom) avant de poursuivre</div></td>
+        <td>"Suis-je bien avec M./Mme [Nom] ?" · Si mauvais interlocuteur : prise de congé professionnelle</td>
+        <td><div class="eval-group" data-item="1.2" data-sec="1">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="1.3" data-sec="1">
+        <td class="item-num">1.3</td>
+        <td><div class="item-name">Objet de l'appel — présentation de l'UNICEF</div>
+          <div class="item-desc">Le motif est expliqué clairement : appel pour la collecte de dons au profit de l'UNICEF, cause humanitaire présentée en 1-2 phrases percutantes</div></td>
+        <td>Cause UNICEF nommée · Bénéficiaires mentionnés (enfants, pays, action terrain) · Ton sincère et engagé</td>
+        <td><div class="eval-group" data-item="1.3" data-sec="1">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="1.4" data-sec="1">
+        <td class="item-num">1.4</td>
+        <td><div class="item-name">Ton, élocution &amp; qualité vocale</div>
+          <div class="item-desc">Voix chaleureuse, posée, articulée. Pas de lecture mécanique du script. Rythme adapté au prospect.</div></td>
+        <td>Chaleur humaine perceptible · Pas de débit trop rapide · Aisance orale · Pas de "euh" excessifs</td>
+        <td><div class="eval-group" data-item="1.4" data-sec="1">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════
+     SECTION 2 — ARGUMENTATION & ENGAGEMENT
+═══════════════════════════════ -->
+<div class="section">
+  <div class="sec-hd">
+    <div class="sec-icon">💙</div>
+    <div class="sec-title">2. Argumentation &amp; engagement du donateur</div>
+    <div class="sec-stat">
+      <span class="n-c" id="s2-c">0</span>C &nbsp;
+      <span class="n-p" id="s2-p">0</span>P &nbsp;
+      <span class="n-nc" id="s2-nc">0</span>NC
+    </div>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:40px">#</th><th>Item</th><th>Critère d'évaluation</th><th class="th-eval">Évaluation</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-item="2.1" data-sec="2">
+        <td class="item-num">2.1</td>
+        <td><div class="item-name">Impact &amp; chiffres UNICEF</div>
+          <div class="item-desc">Le conseiller utilise des données factuelles (chiffres d'impact, pays aidés, bénéficiaires) pour incarner la cause</div></td>
+        <td>Au moins 1 chiffre/donnée concret mentionné · Source UNICEF · Formulation émotionnelle et factuelle</td>
+        <td><div class="eval-group" data-item="2.1" data-sec="2">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="2.2" data-sec="2">
+        <td class="item-num">2.2</td>
+        <td><div class="item-name">Présentation des paliers de don <span class="tag-c">critique</span></div>
+          <div class="item-desc">Les montants de don sont présentés correctement (paliers définis dans le script : ex. 5 €, 10 €, 20 €/mois). L'agent commence par le palier haut et descend si nécessaire.</div></td>
+        <td>Paliers conformes au script · Ordre haut → bas · Bénéfice associé à chaque palier</td>
+        <td><div class="eval-group" data-item="2.2" data-sec="2">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="2.3" data-sec="2">
+        <td class="item-num">2.3</td>
+        <td><div class="item-name">Avantage fiscal mentionné</div>
+          <div class="item-desc">Le conseiller informe le donateur de la déductibilité fiscale du don (66 % de réduction d'impôt pour les dons à l'UNICEF France) si applicable au profil</div></td>
+        <td>Réduction fiscale mentionnée correctement · Montant net expliqué si possible · Non sur-vendu</td>
+        <td><div class="eval-group" data-item="2.3" data-sec="2">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="2.4" data-sec="2">
+        <td class="item-num">2.4</td>
+        <td><div class="item-name">Écoute active &amp; adaptation au donateur</div>
+          <div class="item-desc">Le conseiller reformule, rebondit sur les réponses, adapte son discours au profil (nouveau donateur, donateur fidèle, ancien donateur). Ne coupe pas la parole.</div></td>
+        <td>Reformulation présente · Adaptation du ton · Pas d'interruption · Silence bienveillant si émotion</td>
+        <td><div class="eval-group" data-item="2.4" data-sec="2">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════
+     SECTION 3 — TRAITEMENT DES OBJECTIONS
+═══════════════════════════════ -->
+<div class="section">
+  <div class="sec-hd">
+    <div class="sec-icon">🛡️</div>
+    <div class="sec-title">3. Traitement des objections</div>
+    <div class="sec-stat">
+      <span class="n-c" id="s3-c">0</span>C &nbsp;
+      <span class="n-p" id="s3-p">0</span>P &nbsp;
+      <span class="n-nc" id="s3-nc">0</span>NC
+    </div>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:40px">#</th><th>Item</th><th>Critère d'évaluation</th><th class="th-eval">Évaluation</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-item="3.1" data-sec="3">
+        <td class="item-num">3.1</td>
+        <td><div class="item-name">Accueil de l'objection</div>
+          <div class="item-desc">"Je n'ai pas les moyens / je ne fais pas confiance / j'ai déjà donné ailleurs" — le conseiller accueille sans nier, reformule avant de répondre</div></td>
+        <td>Empathie exprimée · Reformulation de l'objection · Pas de confrontation · Pas d'interruption</td>
+        <td><div class="eval-group" data-item="3.1" data-sec="3">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="3.2" data-sec="3">
+        <td class="item-num">3.2</td>
+        <td><div class="item-name">Réponse à l'objection (argument script)</div>
+          <div class="item-desc">Le conseiller utilise les réponses prévues dans le script (transparence UNICEF, petits montants possibles, aide en ligne, etc.)</div></td>
+        <td>Réponse factuelle · Argument conforme au script · Relance vers le don après réponse</td>
+        <td><div class="eval-group" data-item="3.2" data-sec="3">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="3.3" data-sec="3">
+        <td class="item-num">3.3</td>
+        <td><div class="item-name">Refus définitif — prise de congé</div>
+          <div class="item-desc">Face à un refus définitif, le conseiller prend congé poliment, sans pression, et remercie le prospect pour son temps</div></td>
+        <td>Aucune insistance abusive · Prise de congé chaleureuse · Motif noté dans le système</td>
+        <td><div class="eval-group" data-item="3.3" data-sec="3">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════
+     SECTION 4 — COLLECTE DES DONNÉES DONATEUR
+═══════════════════════════════ -->
+<div class="section">
+  <div class="sec-hd">
+    <div class="sec-icon">📋</div>
+    <div class="sec-title">4. Collecte des données donateur &amp; saisie système
+      <span style="font-size:11px;color:var(--nc);font-weight:700;margin-left:8px">⚡ Section clé — capture analysée</span>
+    </div>
+    <div class="sec-stat">
+      <span class="n-c" id="s4-c">0</span>C &nbsp;
+      <span class="n-p" id="s4-p">0</span>P &nbsp;
+      <span class="n-nc" id="s4-nc">0</span>NC
+    </div>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:40px">#</th><th>Item</th><th>Critère d'évaluation</th><th class="th-eval">Évaluation</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-item="4.1" data-sec="4">
+        <td class="item-num">4.1</td>
+        <td><div class="item-name">Identité du donateur (Nom / Prénom) <span class="tag-c">critique</span></div>
+          <div class="item-desc">Recueil du Nom et Prénom exacts · Orthographe vérifiée par épellation si nécessaire · Saisie en temps réel</div></td>
+        <td>Nom + Prénom demandés · Confirmation orthographe · Saisie immédiate et vérifiée</td>
+        <td><div class="eval-group" data-item="4.1" data-sec="4">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="4.2" data-sec="4">
+        <td class="item-num">4.2</td>
+        <td><div class="item-name">Demande de l'adresse postale</div>
+          <div class="item-desc">Le conseiller demande l'adresse postale complète (numéro, rue, code postal, ville). Il justifie brièvement l'utilité (envoi du reçu fiscal, courrier de remerciement UNICEF).</div></td>
+        <td>Question formulée · Justification donnée · Saisie répétée pour vérification</td>
+        <td><div class="eval-group" data-item="4.2" data-sec="4">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="4.3" data-sec="4" style="background:#fffbeb">
+        <td class="item-num">4.3</td>
+        <td>
+          <div class="item-name">Gestion du refus d'adresse postale <span class="tag-c">critique</span></div>
+          <div class="item-desc">Quand le donateur refuse de communiquer son adresse postale, le conseiller applique l'instruction du script : saisit l'adresse par défaut dans le système.</div>
+          <div class="tag-ref">Adresse par défaut : "Le bourg, 75999, Paris"</div>
+        </td>
+        <td>
+          <ul style="font-size:11px;color:var(--muted);padding-left:14px;line-height:1.9">
+            <li>Tentative d'obtention de l'adresse réelle (min. 1 essai)</li>
+            <li>Refus confirmé → saisie immédiate de <strong style="font-family:monospace">Le bourg, 75999, Paris</strong></li>
+            <li>Aucune pression sur le donateur</li>
+            <li>Don non annulé pour ce seul motif</li>
+          </ul>
+        </td>
+        <td><div class="eval-group" data-item="4.3" data-sec="4">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row" style="background:#fffbeb"><td colspan="4"><textarea class="cmt" placeholder="Ex. : a-t-il bien saisi 'Le bourg, 75999, Paris' après le refus ?…"></textarea></td></tr>
+
+      <tr data-item="4.4" data-sec="4">
+        <td class="item-num">4.4</td>
+        <td><div class="item-name">Email &amp; téléphone du donateur</div>
+          <div class="item-desc">Recueil de l'email (envoi du reçu fiscal UNICEF) et du numéro de téléphone. Chaque donnée est répétée pour confirmation avant saisie.</div></td>
+        <td>Email demandé · Téléphone demandé · Données répétées et confirmées par le donateur</td>
+        <td><div class="eval-group" data-item="4.4" data-sec="4">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="4.5" data-sec="4">
+        <td class="item-num">4.5</td>
+        <td><div class="item-name">Mode de paiement &amp; IBAN <span class="tag-c">critique</span></div>
+          <div class="item-desc">Le conseiller recueille les informations de paiement (prélèvement automatique / CB) dans le respect strict du protocole de sécurité. Aucune information n'est répétée à voix haute inutilement.</div></td>
+        <td>IBAN / CB demandé selon procédure · Sécurité respectée · Données non répétées à voix haute</td>
+        <td><div class="eval-group" data-item="4.5" data-sec="4">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="4.6" data-sec="4">
+        <td class="item-num">4.6</td>
+        <td><div class="item-name">Consentement &amp; RGPD</div>
+          <div class="item-desc">Le donateur est informé de l'utilisation de ses données personnelles par l'UNICEF. Le consentement est recueilli explicitement si non déjà obtenu.</div></td>
+        <td>Mention RGPD faite · Consentement oral confirmé · Droit d'opposition rappelé si requis</td>
+        <td><div class="eval-group" data-item="4.6" data-sec="4">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="4.7" data-sec="4">
+        <td class="item-num">4.7</td>
+        <td><div class="item-name">Fiabilité &amp; complétude de la saisie système <span class="tag-c">critique</span></div>
+          <div class="item-desc">Tous les champs obligatoires du système sont renseignés · Pas de champ vide sur données critiques · Saisie effectuée en temps réel pendant l'appel</div></td>
+        <td>Dossier complet et saisissable · 0 champ critique vide · Saisie en temps réel vérifiable</td>
+        <td><div class="eval-group" data-item="4.7" data-sec="4">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════
+     SECTION 5 — CLOSING & CONFIRMATION
+═══════════════════════════════ -->
+<div class="section">
+  <div class="sec-hd">
+    <div class="sec-icon">✅</div>
+    <div class="sec-title">5. Closing &amp; confirmation du don</div>
+    <div class="sec-stat">
+      <span class="n-c" id="s5-c">0</span>C &nbsp;
+      <span class="n-p" id="s5-p">0</span>P &nbsp;
+      <span class="n-nc" id="s5-nc">0</span>NC
+    </div>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:40px">#</th><th>Item</th><th>Critère d'évaluation</th><th class="th-eval">Évaluation</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-item="5.1" data-sec="5">
+        <td class="item-num">5.1</td>
+        <td><div class="item-name">Technique de closing utilisée</div>
+          <div class="item-desc">Le conseiller utilise une technique naturelle pour obtenir l'engagement (alternative, récapitulatif valorisant, question ouverte vers le don) sans pression</div></td>
+        <td>Technique de closing identifiable · Naturelle et non agressive · Adaptée au donateur</td>
+        <td><div class="eval-group" data-item="5.1" data-sec="5">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="5.2" data-sec="5">
+        <td class="item-num">5.2</td>
+        <td><div class="item-name">Récapitulatif &amp; accord oral <span class="tag-c">critique</span></div>
+          <div class="item-desc">Avant de clore, le conseiller récapitule le montant du don, la fréquence, le mode de paiement et obtient un accord oral clair et explicite du donateur</div></td>
+        <td>Récapitulatif complet · Montant confirmé · Fréquence confirmée · Accord oral prononcé</td>
+        <td><div class="eval-group" data-item="5.2" data-sec="5">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="5.3" data-sec="5">
+        <td class="item-num">5.3</td>
+        <td><div class="item-name">Information post-don &amp; prochaines étapes</div>
+          <div class="item-desc">Le donateur est informé de ce qui suit (email de confirmation, reçu fiscal, premier prélèvement, courrier UNICEF). Délai mentionné si applicable.</div></td>
+        <td>Prochaines étapes expliquées · Délai de réception mentionné · Aucune promesse hors script</td>
+        <td><div class="eval-group" data-item="5.3" data-sec="5">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="5.4" data-sec="5">
+        <td class="item-num">5.4</td>
+        <td><div class="item-name">Remerciements &amp; clôture de l'appel</div>
+          <div class="item-desc">La clôture est chaleureuse, sincère, valorisante pour le geste du donateur. Le conseiller remercie pour le don et incarne la gratitude de l'UNICEF.</div></td>
+        <td>Remerciements sincères · Valorisation du geste · Prise de congé positive · Ton professionnel et humain</td>
+        <td><div class="eval-group" data-item="5.4" data-sec="5">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════
+     SECTION 6 — CONFORMITÉ GLOBALE & ÉTHIQUE
+═══════════════════════════════ -->
+<div class="section">
+  <div class="sec-hd">
+    <div class="sec-icon">⚖️</div>
+    <div class="sec-title">6. Conformité globale &amp; éthique de l'appel</div>
+    <div class="sec-stat">
+      <span class="n-c" id="s6-c">0</span>C &nbsp;
+      <span class="n-p" id="s6-p">0</span>P &nbsp;
+      <span class="n-nc" id="s6-nc">0</span>NC
+    </div>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:40px">#</th><th>Item</th><th>Critère d'évaluation</th><th class="th-eval">Évaluation</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-item="6.1" data-sec="6">
+        <td class="item-num">6.1</td>
+        <td><div class="item-name">Respect de la durée du script</div>
+          <div class="item-desc">L'appel respecte la durée cible définie par le script (ni trop court = bâclé, ni trop long = inefficace). L'agent gère son temps de parole et celui du donateur.</div></td>
+        <td>Durée dans la cible · Pas de hors-script excessif · Gestion du temps de parole</td>
+        <td><div class="eval-group" data-item="6.1" data-sec="6">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="6.2" data-sec="6">
+        <td class="item-num">6.2</td>
+        <td><div class="item-name">Absence de manipulation ou pression <span class="tag-c">critique</span></div>
+          <div class="item-desc">Aucune technique de pression émotionnelle abusive, culpabilisation, urgence artificielle ou manipulation. Le don est sollicité de façon éthique et sincère.</div></td>
+        <td>0 technique de manipulation · 0 pression excessive · 0 promesse non tenue · Sincérité perceptible</td>
+        <td><div class="eval-group" data-item="6.2" data-sec="6">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+      <tr data-item="6.3" data-sec="6">
+        <td class="item-num">6.3</td>
+        <td><div class="item-name">Application correcte de toutes les consignes script</div>
+          <div class="item-desc">Toutes les instructions spécifiques du script sont respectées (adresse par défaut, paliers de don, mentions obligatoires, protocole de sécurité paiement)</div></td>
+        <td>Consignes spécifiques toutes appliquées · Dont adresse par défaut si cas de refus · Aucune improvisation hors périmètre</td>
+        <td><div class="eval-group" data-item="6.3" data-sec="6">
+          <button class="ev-btn ev-c" data-val="C">✅ Conforme</button>
+          <button class="ev-btn ev-p" data-val="P">⚠️ Partiel</button>
+          <button class="ev-btn ev-nc" data-val="NC">❌ N.C.</button>
+          <button class="ev-btn ev-na" data-val="NA">— N/A</button>
+        </div></td>
+      </tr>
+      <tr class="cmt-row"><td colspan="4"><textarea class="cmt" placeholder="Observation…"></textarea></td></tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════
+     SYNTHÈSE
+═══════════════════════════════ -->
+<div class="section">
+  <div class="sec-hd">
+    <div class="sec-icon">📊</div>
+    <div class="sec-title">Synthèse globale &amp; Décision</div>
+  </div>
+
+  <!-- Synth stats -->
+  <div class="synth-grid">
+    <div class="synth-cell">
+      <div class="synth-n n-c" id="sy-c">0</div>
+      <div class="synth-l">✅ Conforme</div>
+      <div class="progress-wrap"><div class="progress-fill" id="bar-c" style="width:0%"></div></div>
+    </div>
+    <div class="synth-cell">
+      <div class="synth-n n-p" id="sy-p">0</div>
+      <div class="synth-l">⚠️ Partiellement conforme</div>
+      <div class="progress-wrap"><div class="progress-fill" id="bar-p" style="width:0%;background:var(--orange)"></div></div>
+    </div>
+    <div class="synth-cell">
+      <div class="synth-n n-nc" id="sy-nc">0</div>
+      <div class="synth-l">❌ Non conforme</div>
+      <div class="progress-wrap"><div class="progress-fill" id="bar-nc" style="width:0%;background:var(--red)"></div></div>
+    </div>
+  </div>
+
+  <!-- Par section -->
+  <div class="sec-bars">
+    <div class="sec-bar-row"><div class="sec-bar-lbl">§1 · Ouverture</div><div class="sec-bar-bg"><div class="sec-bar-fill" id="sb-1" style="width:0%"></div></div><div class="sec-bar-val" id="sv-1">—</div></div>
+    <div class="sec-bar-row"><div class="sec-bar-lbl">§2 · Argumentation</div><div class="sec-bar-bg"><div class="sec-bar-fill" id="sb-2" style="width:0%;background:var(--purple,#7c3aed)"></div></div><div class="sec-bar-val" id="sv-2">—</div></div>
+    <div class="sec-bar-row"><div class="sec-bar-lbl">§3 · Objections</div><div class="sec-bar-bg"><div class="sec-bar-fill" id="sb-3" style="width:0%;background:var(--orange)"></div></div><div class="sec-bar-val" id="sv-3">—</div></div>
+    <div class="sec-bar-row"><div class="sec-bar-lbl">§4 · Données / CRM</div><div class="sec-bar-bg"><div class="sec-bar-fill" id="sb-4" style="width:0%;background:var(--gold)"></div></div><div class="sec-bar-val" id="sv-4">—</div></div>
+    <div class="sec-bar-row"><div class="sec-bar-lbl">§5 · Closing</div><div class="sec-bar-bg"><div class="sec-bar-fill" id="sb-5" style="width:0%;background:var(--green)"></div></div><div class="sec-bar-val" id="sv-5">—</div></div>
+    <div class="sec-bar-row"><div class="sec-bar-lbl">§6 · Conformité</div><div class="sec-bar-bg"><div class="sec-bar-fill" id="sb-6" style="width:0%;background:var(--red)"></div></div><div class="sec-bar-val" id="sv-6">—</div></div>
+  </div>
+
+  <!-- Recommandation -->
+  <div class="reco" id="reco-box" style="background:#f3f4f6;border:1px solid var(--border)">
+    <strong>Décision :</strong> Évaluez les items pour obtenir la décision automatique.
+  </div>
+
+  <!-- Commentaire global -->
+  <div style="padding:0 20px 16px">
+    <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px">Commentaire du responsable qualité</div>
+    <textarea class="cmt" style="min-height:80px;width:100%" placeholder="Points forts identifiés · Axes d'amélioration prioritaires · Plan d'action · Date de suivi…"></textarea>
+  </div>
+
+  <!-- Signatures -->
+  <div class="signature-row">
+    <div class="sig-field"><div class="sig-name">Évaluateur (RQ)</div><div class="sig-line"></div><div id="sig-eval" style="font-size:10px;color:var(--muted)"></div></div>
+    <div class="sig-field"><div class="sig-name">Conseiller</div><div class="sig-line"></div><div id="sig-agent" style="font-size:10px;color:var(--muted)"></div></div>
+    <div class="sig-field"><div class="sig-name">Date</div><div class="sig-line"></div><div id="sig-date" style="font-size:10px;color:var(--muted)"></div></div>
+  </div>
+
+  <!-- Actions -->
+  <div class="action-row">
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimer / Exporter PDF</button>
+    <button class="btn-reset" onclick="resetAll()">🔄 Réinitialiser la grille</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ── STATE ──
+const state = {}; // item → 'C' | 'P' | 'NC' | 'NA'
+const SECTIONS = {1:4, 2:4, 3:3, 4:7, 5:4, 6:3}; // items per section
+const TOTAL_ITEMS = 28;
+
+// ── CLICKS ──
+document.querySelectorAll('.eval-group').forEach(g => {
+  g.querySelectorAll('.ev-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.dataset.val;
+      const item = g.dataset.item;
+      const sec = g.dataset.sec;
+      g.querySelectorAll('.ev-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state[item] = {val, sec: parseInt(sec)};
+      updateAll();
+    });
+  });
+});
+
+// ── META → SIGS ──
+document.getElementById('m-eval').addEventListener('input', e => { document.getElementById('sig-eval').textContent = e.target.value; });
+document.getElementById('m-agent').addEventListener('input', e => { document.getElementById('sig-agent').textContent = e.target.value; });
+document.getElementById('m-date').addEventListener('input', e => {
+  const d = new Date(e.target.value);
+  document.getElementById('sig-date').textContent = isNaN(d) ? '' :
+    d.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+});
+
+// ── UPDATE ──
+function updateAll() {
+  let c=0, p=0, nc=0, total=0;
+  const secC={1:0,2:0,3:0,4:0,5:0,6:0};
+  const secTotal={1:0,2:0,3:0,4:0,5:0,6:0};
+
+  for (const [item, {val, sec}] of Object.entries(state)) {
+    if (val==='NA') continue;
+    total++;
+    secTotal[sec]++;
+    if (val==='C') { c++; secC[sec]++; }
+    else if (val==='P') p++;
+    else if (val==='NC') nc++;
+  }
+
+  // Header
+  document.getElementById('cnt-c').textContent = c;
+  document.getElementById('cnt-p').textContent = p;
+  document.getElementById('cnt-nc').textContent = nc;
+  document.getElementById('cnt-total').textContent = Object.keys(state).length + ' / ' + TOTAL_ITEMS;
+
+  // Synth
+  document.getElementById('sy-c').textContent = c;
+  document.getElementById('sy-p').textContent = p;
+  document.getElementById('sy-nc').textContent = nc;
+  const t = total || 1;
+  document.getElementById('bar-c').style.width = Math.round(c/t*100)+'%';
+  document.getElementById('bar-p').style.width = Math.round(p/t*100)+'%';
+  document.getElementById('bar-nc').style.width = Math.round(nc/t*100)+'%';
+
+  // Section stats & bars
+  for (let s=1; s<=6; s++) {
+    const sc = secC[s], st = secTotal[s], max = SECTIONS[s];
+    const pct = max ? Math.round(sc/max*100) : 0;
+    document.getElementById('sb-'+s).style.width = pct+'%';
+    document.getElementById('sv-'+s).textContent = sc + 'C / ' + st + ' éval.';
+
+    // Count section NC items for header display
+    const secCnt = {C:0,P:0,NC:0};
+    for (const [item, {val, sec}] of Object.entries(state)) {
+      if (parseInt(sec)===s && val!=='NA') secCnt[val]=(secCnt[val]||0)+1;
+    }
+    if (document.getElementById('s'+s+'-c')) {
+      document.getElementById('s'+s+'-c').textContent = secCnt.C||0;
+      document.getElementById('s'+s+'-p').textContent = secCnt.P||0;
+      document.getElementById('s'+s+'-nc').textContent = secCnt.NC||0;
+    }
+  }
+
+  // Reco
+  const recoEl = document.getElementById('reco-box');
+  const r = getReco(c, p, nc, total, secC);
+  recoEl.className = 'reco ' + r.cls;
+  recoEl.innerHTML = r.html;
+}
+
+function getReco(c, p, nc, total, secC) {
+  if (total === 0) return {cls:'', html:'<strong>Décision :</strong> Évaluez les items pour obtenir la décision.'};
+
+  const pctC = Math.round(c / (total||1) * 100);
+  const criticalNC = [];
+
+  // Check critical items
+  const critItems = {'1.1':'Identification (§1)','2.2':'Paliers de don (§2)','4.1':'Identité donateur (§4)','4.3':'Adresse par défaut (§4)','4.5':'IBAN / Paiement (§4)','4.7':'Saisie système (§4)','5.2':'Accord oral (§5)','6.2':'Éthique appel (§6)'};
+  for (const [item, label] of Object.entries(critItems)) {
+    if (state[item] && state[item].val === 'NC') criticalNC.push(label);
+  }
+
+  const critAlert = criticalNC.length ?
+    `<br/>🚨 <strong>Items critiques NC :</strong> ${criticalNC.join(', ')} — action corrective immédiate requise.` : '';
+
+  // Item 4.3 specific
+  const i43 = state['4.3'];
+  const addr = (i43 && i43.val==='NC') ?
+    `<br/>⚠️ <strong>Item 4.3 :</strong> L'adresse par défaut <code style="font-family:monospace;background:rgba(0,0,0,.06);padding:1px 4px;border-radius:3px">Le bourg, 75999, Paris</code> n'est pas appliquée en cas de refus. Recalibrage immédiat.` : '';
+
+  if (nc === 0 && p <= 1) return {cls:'reco-c', html:`<strong>✅ CONFORME — Excellent appel.</strong> ${pctC}% d'items conformes. Aucun item non conforme détecté. L'appel respecte l'intégralité du script donateur UNICEF. Valoriser en réunion d'équipe.${critAlert}${addr}`};
+  if (nc === 0 && p <= 3) return {cls:'reco-c', html:`<strong>✅ GLOBALEMENT CONFORME — Bon appel.</strong> ${pctC}% conformes · ${p} item(s) partiellement conforme(s) à améliorer. Coaching ciblé recommandé. Pas de recalibrage urgent.${critAlert}${addr}`};
+  if (nc <= 2 && !criticalNC.length) return {cls:'reco-p', html:`<strong>⚠️ PARTIELLEMENT CONFORME — Coaching renforcé requis.</strong> ${nc} item(s) non conforme(s) · ${p} partiel(s). Prévoir une session de recalibrage sous 48h sur les items écart + double écoute encadrée.${critAlert}${addr}`};
+  return {cls:'reco-nc', html:`<strong>❌ NON CONFORME — Recalibrage immédiat.</strong> ${nc} item(s) NC dont ${criticalNC.length} critique(s). Retour en formation avant reprise de la campagne recommandé. Contacter le responsable qualité.${critAlert}${addr}`};
+}
+
+function resetAll() {
+  if (!confirm('Réinitialiser toute la grille ?')) return;
+  for (const k in state) delete state[k];
+  document.querySelectorAll('.ev-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cmt').forEach(t => t.value = '');
+  document.querySelectorAll('.meta-field input').forEach(i => i.value = '');
+  ['cnt-c','cnt-p','cnt-nc'].forEach(id => document.getElementById(id).textContent = '0');
+  document.getElementById('cnt-total').textContent = '0 / '+TOTAL_ITEMS;
+  ['sy-c','sy-p','sy-nc'].forEach(id => document.getElementById(id).textContent = '0');
+  ['bar-c','bar-p','bar-nc'].forEach(id => document.getElementById(id).style.width='0%');
+  for (let s=1;s<=6;s++){document.getElementById('sb-'+s).style.width='0%';document.getElementById('sv-'+s).textContent='—';}
+  document.getElementById('reco-box').className='reco';
+  document.getElementById('reco-box').style.background='#f3f4f6';
+  document.getElementById('reco-box').style.border='1px solid var(--border)';
+  document.getElementById('reco-box').innerHTML='<strong>Décision :</strong> Évaluez les items pour obtenir la décision automatique.';
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('m-date').value = today;
+  document.getElementById('sig-date').textContent = new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('sig-eval').textContent='';
+  document.getElementById('sig-agent').textContent='';
+  updateAll();
+}
+
+// Init date
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('m-date').value = today;
+document.getElementById('sig-date').textContent = new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+</script>
+</body>
+</html>
