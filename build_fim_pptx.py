@@ -197,6 +197,104 @@ def slide_section(prs, number, title, items, note="", is_regle_dor=False):
     add_interdiction(sl)
     return sl
 
+def slide_cards(prs, number, title, cards, kpi_bar=None, note=""):
+    """
+    Modèle type carte pédagogique :
+    - cards = liste de dict {icon, label, sub, color (opt)}
+    - kpi_bar = liste de dict {icon, value, label} affiché en bandeau bas
+    - Layout : 2 ou 3 cartes en ligne + bandeau KPI
+    """
+    sl = blank_slide(prs)
+    rect(sl, 0, 0, W, Inches(1.5), TEAL)
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
+    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
+          size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    txbox(sl, title, Inches(1.5), Inches(0.2), Inches(9.5), Inches(1.1),
+          size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    n = len(cards)
+    card_w = Inches((13.33 - 1.2) / n - 0.2)
+    card_gap = Inches(0.2)
+    card_y = Inches(1.65)
+    kpi_h = Inches(0.9) if kpi_bar else 0
+    note_h = Inches(0.6) if note else 0
+    card_h = H - card_y - Inches(0.75) - kpi_h - note_h - Inches(0.1)
+
+    CARD_COLORS = [TEAL, RGBColor(0x00, 0x60, 0x60), RGBColor(0x00, 0x70, 0x70),
+                   RGBColor(0x00, 0x50, 0x50), TEAL_DARK]
+
+    for i, card in enumerate(cards):
+        x = Inches(0.6) + i * (card_w + card_gap)
+        cc = card.get("color", CARD_COLORS[i % len(CARD_COLORS)])
+        # Ombre légère
+        rect(sl, x + Inches(0.06), card_y + Inches(0.06), card_w, card_h, MGRAY)
+        # Carte fond blanc
+        rect(sl, x, card_y, card_w, card_h, WHITE)
+        # Barre colorée en haut de la carte
+        rect(sl, x, card_y, card_w, Inches(0.45), cc)
+        # Icône
+        txbox(sl, card.get("icon", "●"), x, card_y + Inches(0.02), card_w, Inches(0.42),
+              size=22, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+        # Label titre carte
+        txbox(sl, card["label"], x, card_y + Inches(0.5), card_w, Inches(0.7),
+              size=16, bold=True, color=cc, align=PP_ALIGN.CENTER)
+        # Sous-titre / contenu
+        sub = card.get("sub", "")
+        if isinstance(sub, list):
+            tb = sl.shapes.add_textbox(x + Inches(0.1), card_y + Inches(1.25),
+                                       card_w - Inches(0.2), card_h - Inches(1.3))
+            tf = tb.text_frame
+            tf.word_wrap = True
+            first = True
+            for item in sub:
+                p = tf.paragraphs[0] if first else tf.add_paragraph()
+                first = False
+                p.alignment = PP_ALIGN.CENTER
+                p.space_before = Pt(4)
+                run = p.add_run()
+                run.text = "▸ " + item
+                run.font.name = "Calibri"
+                run.font.size = Pt(13)
+                run.font.color.rgb = DARK
+        else:
+            txbox(sl, sub, x + Inches(0.1), card_y + Inches(1.25),
+                  card_w - Inches(0.2), card_h - Inches(1.3),
+                  size=13, color=DARK, align=PP_ALIGN.CENTER)
+        # Séparateur sous le label
+        rect(sl, x + Inches(0.3), card_y + Inches(1.2), card_w - Inches(0.6), Inches(0.03), MGRAY)
+
+    # Bandeau KPI
+    if kpi_bar:
+        bar_y = H - Inches(0.75) - kpi_h - (note_h if note else 0) - Inches(0.05)
+        rect(sl, Inches(0.5), bar_y, W - Inches(1.0), kpi_h, LGRAY)
+        rect(sl, Inches(0.5), bar_y, W - Inches(1.0), Inches(0.04), TEAL)
+        kpi_w = (W - Inches(1.0)) / len(kpi_bar)
+        for j, kpi in enumerate(kpi_bar):
+            kx = Inches(0.5) + j * kpi_w
+            # Séparateur vertical
+            if j > 0:
+                rect(sl, kx, bar_y + Inches(0.1), Inches(0.03), kpi_h - Inches(0.2), MGRAY)
+            txbox(sl, kpi.get("icon","") + " " + kpi["value"],
+                  kx, bar_y + Inches(0.04), kpi_w, Inches(0.45),
+                  size=20, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
+            txbox(sl, kpi["label"], kx, bar_y + Inches(0.48), kpi_w, Inches(0.38),
+                  size=11, color=TEAL_DARK, align=PP_ALIGN.CENTER)
+
+    if note:
+        note_y = H - Inches(0.75) - note_h
+        rect(sl, Inches(0.5), note_y, W - Inches(1.0), note_h - Inches(0.05), MGRAY)
+        txbox(sl, "💡  " + note, Inches(0.6), note_y + Inches(0.02),
+              W - Inches(1.2), note_h - Inches(0.08),
+              size=12, italic=True, color=TEAL, align=PP_ALIGN.CENTER)
+
+    txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
+          Inches(0.3), H - Inches(0.70), Inches(10), Inches(0.35),
+          size=11, color=WHITE, align=PP_ALIGN.CENTER)
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
+    return sl
+
+
 def add_lines_centered(slide, items, x, y, w, size=18, color=DARK, bullet="★ "):
     tb = slide.shapes.add_textbox(x, y, w, Inches(5.5))
     tf = tb.text_frame
@@ -364,13 +462,31 @@ def build_file_conducteur():
         "Book J4 — Traitement des Objections : 15 objections, méthode AAR",
         "Book J5 — Synthèse Générale & Simulations : évaluation finale, quiz 40Q",
     ])
-    slide_section(prs, 2, "Qui forme ? Qui est formé ?", [
-        "Donneur d'ordre : FIDELIS — mandataire officiel de la campagne UNICEF",
-        "Opérateur terrain : SHY-Performance — centre de collecte téléphonique",
-        "Public cible : fundraisers SHY-Performance, nouveaux entrants en collecte de dons",
-        "Prérequis : aucune expérience préalable en collecte de dons requise",
-        "Effectif recommandé : 8 à 14 fundraisers par session",
-        "Durée totale : 5 jours consécutifs | 9h30–17h30 | 6h40 de production effective/jour",
+    slide_cards(prs, 2, "Qui forme ? Qui est formé ?", [
+        {
+            "icon": "🎯",
+            "label": "DONNEUR D'ORDRE",
+            "color": TEAL_DARK,
+            "sub": ["FIDELIS", "Mandataire officiel", "Campagne UNICEF France", "Pilotage & conformité"]
+        },
+        {
+            "icon": "🏢",
+            "label": "OPÉRATEUR TERRAIN",
+            "color": TEAL,
+            "sub": ["SHY-Performance", "Centre de collecte téléphonique", "Formation & encadrement", "Supervision qualité"]
+        },
+        {
+            "icon": "👥",
+            "label": "PUBLIC CIBLE",
+            "color": RGBColor(0x00, 0x70, 0x70),
+            "sub": ["Fundraisers juniors", "Nouveaux entrants", "Niv. Bac à Bac+2", "Aucun prérequis"]
+        },
+    ],
+    kpi_bar=[
+        {"icon": "📅", "value": "5 JOURS", "label": "Formation intensive"},
+        {"icon": "👤", "value": "8 – 14", "label": "Fundraisers par session"},
+        {"icon": "⏱", "value": "6h40", "label": "Production effective/jour"},
+        {"icon": "🎓", "value": "0", "label": "Prérequis requis"},
     ])
     slide_section(prs, 3, "Comment utiliser ce kit ?", [
         "Chaque book jour est autonome — il peut être utilisé seul pour un rappel ciblé",
@@ -389,14 +505,43 @@ def build_file_conducteur():
         "📊 Grille d'évaluation — outil formateur",
         "❓ Quiz — évaluation des connaissances",
     ])
-    slide_section(prs, 5, "Planning Recommandé sur 5 Jours", [
-        "JOUR 1 — Fondations & Mission | 9h30–17h30 | 6h40 production",
-        "JOUR 2 — Monde Associatif & Humanitaire | 9h30–17h30 | 6h40 production",
-        "JOUR 3 — Analyse et Lecture du Script | 9h30–17h30 | Exercices intensifs",
-        "JOUR 4 — Traitement des Objections | 9h30–17h30 | Jeux de rôle",
-        "JOUR 5 — Synthèse Générale & Simulations | 9h30–17h30 | Quiz + Certifications",
-        "Pause déjeuner recommandée : 13h00–14h00",
-        "Pause matin : 11h00 | Pause après-midi : 15h30",
+    slide_cards(prs, 5, "Planning Recommandé — 5 Jours de Formation", [
+        {
+            "icon": "J1",
+            "label": "FONDATIONS\n& MISSION",
+            "color": TEAL_DARK,
+            "sub": ["KPIs & Nomenclature", "Script accroche", "Types d'opérations", "9h30 → 17h30"]
+        },
+        {
+            "icon": "J2",
+            "label": "MONDE\nASSOCIATIF",
+            "color": TEAL,
+            "sub": ["Loi 1901", "Histoire humanitaire", "UNICEF & Charte", "9h30 → 17h30"]
+        },
+        {
+            "icon": "J3",
+            "label": "LECTURE\nDU SCRIPT",
+            "color": RGBColor(0x00, 0x70, 0x70),
+            "sub": ["7 étapes décryptées", "Exercices intensifs", "Jeux de rôle", "9h30 → 17h30"]
+        },
+        {
+            "icon": "J4",
+            "label": "TRAITEMENT\nOBJECTIONS",
+            "color": RGBColor(0x00, 0x65, 0x65),
+            "sub": ["15 objections / 5 cat.", "Méthode AAR", "Simulations terrain", "9h30 → 17h30"]
+        },
+        {
+            "icon": "J5",
+            "label": "SYNTHÈSE &\nSIMULATIONS",
+            "color": RGBColor(0x00, 0x55, 0x55),
+            "sub": ["Quiz 40 questions", "Certifications", "Félicitations", "9h30 → 17h30"]
+        },
+    ],
+    kpi_bar=[
+        {"icon": "🌅", "value": "9h30", "label": "Prise de poste + briefing"},
+        {"icon": "☕", "value": "11h00 / 15h30", "label": "Pauses matin & après-midi"},
+        {"icon": "🍽", "value": "13h00–14h00", "label": "Pause déjeuner"},
+        {"icon": "🏁", "value": "17h30", "label": "Fin de journée officielle"},
     ])
     slide_merci(prs)
     prs.save("/home/user/fatou/FIM_Book0_FileConducteur.pptx")
@@ -520,21 +665,37 @@ def build_j1():
         "Pilotage collectif : chaque fundraiser contribue au PDC de l'équipe",
     ])
 
-    slide_two_col(prs, 6, "Les 2 Types d'Opérations",
-        "LA CONQUÊTE", [
-            "Appeler pour la 1ère fois des prospects",
-            "Présenter les missions de l'UNICEF",
-            "Convaincre d'adhérer à la cause",
-            "Inciter au soutien : PA en ligne ou DON en ligne",
-            "Dossier : conquête PA ou conquête DON",
-        ],
-        "LA FIDÉLISATION / RÉACTIVATION", [
-            "Relancer d'anciens donateurs ou contacts indécis",
-            "Maintenir et renforcer l'engagement existant",
-            "Réactiver les donateurs inactifs",
-            "Proposer une augmentation du montant du don",
-            "Dossier : fidélisation ou réactivation",
-        ])
+    slide_cards(prs, 6, "Les 2 Types d'Opérations", [
+        {
+            "icon": "🚀",
+            "label": "LA CONQUÊTE",
+            "color": TEAL_DARK,
+            "sub": [
+                "Appeler pour la 1ère fois des prospects",
+                "Présenter les missions de l'UNICEF",
+                "Convaincre d'adhérer à la cause",
+                "Inciter au soutien : PA en ligne ou DON",
+                "Dossier : conquête PA ou conquête DON",
+            ]
+        },
+        {
+            "icon": "🤝",
+            "label": "FIDÉLISATION / RÉACTIVATION",
+            "color": RGBColor(0x00, 0x65, 0x65),
+            "sub": [
+                "Relancer d'anciens donateurs ou contacts indécis",
+                "Maintenir et renforcer l'engagement existant",
+                "Réactiver les donateurs inactifs",
+                "Proposer une augmentation du montant du don",
+                "Dossier : fidélisation ou réactivation",
+            ]
+        },
+    ],
+    kpi_bar=[
+        {"icon": "🎯", "value": "CONQUÊTE", "label": "Nouveaux donateurs à convertir"},
+        {"icon": "♻️", "value": "RÉACTIVATION", "label": "Anciens donateurs à relancer"},
+        {"icon": "💡", "value": "OBJECTIF COMMUN", "label": "Prélèvement Automatique Régulier"},
+    ])
 
     # RÈGLE D'OR slide
     slide_section(prs, 7, "Le Produit — RÈGLE D'OR DE LA CAMPAGNE", [
