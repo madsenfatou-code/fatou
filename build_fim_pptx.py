@@ -267,28 +267,95 @@ def slide_section(prs, number, title, items, note="", is_regle_dor=False):
         # Small logo in header top-right
         add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
-        # Content area — compact, no extra gaps
-        content_y = Inches(1.6)
-        note_h = Inches(0.6) if note else 0
-        content_h = H - content_y - Inches(0.75) - note_h
-        add_lines_aligned(sl, items, Inches(0.6), content_y, W - Inches(1.2), content_h, size=16, color=DARK)
+        # ── GRILLE DE DÉFINITIONS — items en rangées alternées avec badge numéroté ──
+        footer_h   = Inches(0.75)
+        note_h     = Inches(0.65) if note else 0
+        content_y  = Inches(1.62)
+        content_h  = H - content_y - footer_h - note_h - Inches(0.08)
+        n          = len(items)
+        row_h      = content_h / n
 
+        for i, item in enumerate(items):
+            ry = content_y + i * row_h
+            # Fond alternant : teal très clair / blanc
+            bg = LGRAY if i % 2 == 0 else WHITE
+            rect(sl, Inches(0.22), ry, W - Inches(0.22), row_h - Inches(0.04), bg)
+            # Barre d'accent teal gauche sur chaque ligne
+            rect(sl, Inches(0.22), ry, Inches(0.07), row_h - Inches(0.04), TEAL)
+            # Badge numéro rond (carré) teal dark
+            badge_s = min(row_h - Inches(0.12), Inches(0.55))
+            badge_x = Inches(0.35)
+            badge_y = ry + (row_h - Inches(0.04) - badge_s) / 2
+            rect(sl, badge_x, badge_y, badge_s, badge_s, TEAL_DARK)
+            txbox(sl, str(i + 1), badge_x, badge_y, badge_s, badge_s,
+                  size=int(12 if n > 7 else 13), bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+            # Scinder item : avant "—" en gras teal, après en dark
+            text_x  = Inches(1.05)
+            text_w  = W - Inches(1.3)
+            text_y  = ry + Inches(0.04)
+            text_h  = row_h - Inches(0.12)
+            font_sz = 13 if n > 7 else 15
+            if " — " in item or " : " in item:
+                sep    = " — " if " — " in item else " : "
+                parts  = item.split(sep, 1)
+                term   = parts[0].strip()
+                defn   = parts[1].strip() if len(parts) > 1 else ""
+                tb = sl.shapes.add_textbox(text_x, text_y, text_w, text_h)
+                tf = tb.text_frame
+                tf.word_wrap = True
+                p = tf.paragraphs[0]
+                p.alignment = PP_ALIGN.LEFT
+                p.space_before = Pt(0)
+                r1 = p.add_run()
+                r1.text = term + "  "
+                r1.font.name = "Calibri"
+                r1.font.size = Pt(font_sz)
+                r1.font.bold = True
+                r1.font.color.rgb = TEAL_DARK
+                r2 = p.add_run()
+                r2.text = sep.strip() + "  " + defn
+                r2.font.name = "Calibri"
+                r2.font.size = Pt(font_sz)
+                r2.font.bold = False
+                r2.font.color.rgb = DARK
+            else:
+                txbox(sl, item, text_x, text_y, text_w, text_h,
+                      size=font_sz, color=DARK, align=PP_ALIGN.LEFT, bold=False)
+
+        # Note callout
         if note:
-            note_y = H - Inches(1.38)
-            # Left teal border accent
-            rect(sl, Inches(0.4), note_y, Inches(0.08), Inches(0.55), YELLOW)
-            rect(sl, Inches(0.5), note_y, W - Inches(1.0), Inches(0.55), LGRAY)
-            txbox(sl, "💡  " + note, Inches(0.6), note_y + Inches(0.04), W - Inches(1.2), Inches(0.48),
-                  size=13, italic=True, color=TEAL, align=PP_ALIGN.CENTER)
+            note_y = H - footer_h - note_h + Inches(0.04)
+            rect(sl, Inches(0.22), note_y, W - Inches(0.22), note_h - Inches(0.06), RGBColor(0xFF, 0xF8, 0xE6))
+            rect(sl, Inches(0.22), note_y, Inches(0.18), note_h - Inches(0.06), YELLOW)
+            txbox(sl, "💡  " + note, Inches(0.5), note_y + Inches(0.06),
+                  W - Inches(0.8), note_h - Inches(0.14),
+                  size=12, italic=True, color=TEAL_DARK, align=PP_ALIGN.LEFT)
 
         # Footer band
-        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
+        rect(sl, 0, H - footer_h, W, footer_h, TEAL_DARK)
         txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
               Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
               size=11, color=WHITE, align=PP_ALIGN.CENTER)
 
     add_interdiction(sl)
     return sl
+
+
+def _render_card_items(sl, items, card_x, start_y, card_w, avail_h):
+    """Renders items inside a card as alternating-row mini-tiles."""
+    n = len(items)
+    if n == 0:
+        return
+    row_h = avail_h / n
+    for i, item in enumerate(items):
+        ry = start_y + i * row_h
+        bg = LGRAY if i % 2 == 0 else WHITE
+        rect(sl, card_x, ry, card_w, row_h - Inches(0.03), bg)
+        rect(sl, card_x, ry, Inches(0.06), row_h - Inches(0.03), TEAL)
+        font_sz = 11 if n > 6 else 12
+        txbox(sl, item, card_x + Inches(0.15), ry + Inches(0.04),
+              card_w - Inches(0.2), row_h - Inches(0.08),
+              size=font_sz, color=DARK, align=PP_ALIGN.LEFT, bold=False)
 
 
 def slide_two_col(prs, number, title, left_title, left_items, right_title, right_items):
@@ -326,7 +393,7 @@ def slide_two_col(prs, number, title, left_title, left_items, right_title, right
     rect(sl, Inches(0.5), card_y, Inches(5.9), Inches(0.55), TEAL_DARK)
     txbox(sl, left_title, Inches(0.5), card_y, Inches(5.9), Inches(0.55),
           size=15, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    add_lines_aligned(sl, left_items, Inches(0.6), card_y + Inches(0.6), Inches(5.7), card_h - Inches(0.65), size=13, color=DARK)
+    _render_card_items(sl, left_items, Inches(0.5), card_y + Inches(0.55), Inches(5.9), card_h - Inches(0.55))
 
     # Card right
     # Shadow
@@ -337,7 +404,7 @@ def slide_two_col(prs, number, title, left_title, left_items, right_title, right
     rect(sl, Inches(7.0), card_y, Inches(5.9), Inches(0.55), TEAL_MID)
     txbox(sl, right_title, Inches(7.0), card_y, Inches(5.9), Inches(0.55),
           size=15, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    add_lines_aligned(sl, right_items, Inches(7.1), card_y + Inches(0.6), Inches(5.7), card_h - Inches(0.65), size=13, color=DARK)
+    _render_card_items(sl, right_items, Inches(7.0), card_y + Inches(0.55), Inches(5.9), card_h - Inches(0.55))
 
     # Footer band
     rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
