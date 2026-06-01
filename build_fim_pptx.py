@@ -1,8 +1,9 @@
 """
 Génère tous les books FIM SHY-Performance en PPTX
-Charte graphique V3 : Architecture premium Teal/Jaune, Calibri
-Logo : shy_logo_v2.png — présent sur TOUTES les slides sans exception
-Texte : CENTRÉ sur toutes les slides
+Charte graphique V4 : Architecture premium Teal/Jaune, Calibri
+Logo : shy_logo_v2.png (large, covers) & shy_logo_v3.png (small, headers)
+Texte : ALIGNÉ À GAUCHE sur bullet lists, CENTRÉ ailleurs
+Layout : Compact, professionnel, sans espace blanc excessif
 """
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
@@ -28,7 +29,8 @@ CREAM      = RGBColor(0xFF, 0xFB, 0xF0)
 W = Inches(13.33)
 H = Inches(7.5)
 
-LOGO_PATH = "/home/user/fatou/shy_logo_v2.png"
+LOGO_PATH_FULL = "/home/user/fatou/shy_logo_v2.png"  # Large logo: 1081×1055
+LOGO_PATH_SMALL = "/home/user/fatou/shy_logo_v3.png"  # Small logo: 336×311
 
 INTERDICTION_TEXT = (
     "Toute modification, rectification ou ajout est strictement interdit(e). "
@@ -71,8 +73,12 @@ def txbox(slide, text, x, y, w, h,
     run.font.color.rgb = color
     return tb
 
-def add_lines(slide, items, x, y, w, size=16, color=DARK, bullet="▸ "):
-    tb = slide.shapes.add_textbox(x, y, w, Inches(6))
+def add_lines_aligned(slide, items, x, y, w, h, size=16, color=DARK):
+    """
+    Compact bullet list with left-aligned arrows, minimal spacing.
+    Removes extra space_before/after, uses fixed tight line height.
+    """
+    tb = slide.shapes.add_textbox(x, y, w, h)
     tf = tb.text_frame
     tf.word_wrap = True
     first = True
@@ -82,14 +88,20 @@ def add_lines(slide, items, x, y, w, size=16, color=DARK, bullet="▸ "):
             first = False
         else:
             p = tf.add_paragraph()
-        p.alignment = PP_ALIGN.CENTER
-        p.space_before = Pt(5)
+        p.level = 0
+        p.space_before = Pt(2)
+        p.space_after = Pt(2)
+        p.alignment = PP_ALIGN.LEFT
         run = p.add_run()
-        run.text = bullet + item
+        run.text = "→ " + item
         run.font.name = "Calibri"
         run.font.size = Pt(size)
         run.font.color.rgb = color
     return tb
+
+def add_lines(slide, items, x, y, w, size=16, color=DARK, bullet="▸ "):
+    """Legacy bullet function - kept for backwards compatibility"""
+    return add_lines_aligned(slide, items, x, y, w, Inches(6), size, color)
 
 def add_lines_centered(slide, items, x, y, w, size=18, color=DARK, bullet="★ "):
     tb = slide.shapes.add_textbox(x, y, w, Inches(5.5))
@@ -112,10 +124,18 @@ def add_lines_centered(slide, items, x, y, w, size=18, color=DARK, bullet="★ "
         run.font.bold = True
 
 def add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0)):
-    if os.path.exists(LOGO_PATH):
+    """Add large logo (full size) - for covers only"""
+    if os.path.exists(LOGO_PATH_FULL):
         aspect = 1081 / 1055
         w = h * aspect
-        sl.shapes.add_picture(LOGO_PATH, x, y, width=w, height=h)
+        sl.shapes.add_picture(LOGO_PATH_FULL, x, y, width=w, height=h)
+
+def add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7)):
+    """Add small logo (compact) - for all slide headers except cover"""
+    if os.path.exists(LOGO_PATH_SMALL):
+        aspect = 336 / 311
+        w = h * aspect
+        sl.shapes.add_picture(LOGO_PATH_SMALL, x, y, width=w, height=h)
 
 def add_interdiction(sl):
     band_y = H - Inches(0.75)
@@ -194,7 +214,7 @@ def slide_section(prs, number, title, items, note="", is_regle_dor=False):
         rect(sl, 0, 0, Inches(0.25), H, AMBER)
 
         # Full-width AMBER header band
-        rect(sl, 0, 0, W, Inches(1.8), AMBER)
+        rect(sl, 0, 0, W, Inches(1.55), AMBER)
 
         # "★ RÈGLE D'OR ★" in header
         txbox(sl, "★  RÈGLE D'OR  ★", Inches(0.3), Inches(0.05), W - Inches(0.6), Inches(0.55),
@@ -204,11 +224,12 @@ def slide_section(prs, number, title, items, note="", is_regle_dor=False):
         txbox(sl, title, Inches(0.5), Inches(0.65), W - Inches(1.0), Inches(0.55),
               size=20, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
-        # Logo in header
-        add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+        # Small logo in header top-right
+        add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
         # Content items — centered, bold, teal_dark with star bullet
-        add_lines_centered(sl, items, Inches(0.5), Inches(1.9), W - Inches(1.0),
+        content_h = H - Inches(1.6) - Inches(0.75) - (Inches(0.6) if note else 0)
+        add_lines_centered(sl, items, Inches(0.5), Inches(1.6), W - Inches(1.0),
                            size=19, color=TEAL_DARK, bullet="⭐ ")
 
         if note:
@@ -219,9 +240,9 @@ def slide_section(prs, number, title, items, note="", is_regle_dor=False):
                   size=13, italic=True, color=TEAL_DARK, align=PP_ALIGN.CENTER)
 
         # Amber footer band
-        rect(sl, 0, H - Inches(0.75), W, Inches(0.37), AMBER)
+        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), AMBER)
         txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-              Inches(0.3), H - Inches(0.74), Inches(10), Inches(0.35),
+              Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
               size=11, color=WHITE, align=PP_ALIGN.CENTER)
 
     else:
@@ -243,11 +264,14 @@ def slide_section(prs, number, title, items, note="", is_regle_dor=False):
         txbox(sl, title, Inches(1.7), Inches(0.25), Inches(9.0), Inches(1.0),
               size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
-        # Logo in header
-        add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+        # Small logo in header top-right
+        add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
-        # Content area
-        add_lines(sl, items, Inches(0.6), Inches(1.65), W - Inches(1.2), size=16, color=DARK)
+        # Content area — compact, no extra gaps
+        content_y = Inches(1.6)
+        note_h = Inches(0.6) if note else 0
+        content_h = H - content_y - Inches(0.75) - note_h
+        add_lines_aligned(sl, items, Inches(0.6), content_y, W - Inches(1.2), content_h, size=16, color=DARK)
 
         if note:
             note_y = H - Inches(1.38)
@@ -288,12 +312,12 @@ def slide_two_col(prs, number, title, left_title, left_items, right_title, right
     txbox(sl, title, Inches(1.7), Inches(0.25), Inches(9.0), Inches(1.0),
           size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
-    # Logo in header
-    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+    # Small logo in header top-right
+    add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
     # Card left
     card_y = Inches(1.65)
-    card_h = Inches(5.1)
+    card_h = H - card_y - Inches(0.75)
     # Shadow
     rect(sl, Inches(0.57), card_y + Inches(0.07), Inches(5.9), card_h, MGRAY)
     # Card bg
@@ -302,7 +326,7 @@ def slide_two_col(prs, number, title, left_title, left_items, right_title, right
     rect(sl, Inches(0.5), card_y, Inches(5.9), Inches(0.55), TEAL_DARK)
     txbox(sl, left_title, Inches(0.5), card_y, Inches(5.9), Inches(0.55),
           size=15, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    add_lines(sl, left_items, Inches(0.6), card_y + Inches(0.6), Inches(5.7), size=13, color=DARK)
+    add_lines_aligned(sl, left_items, Inches(0.6), card_y + Inches(0.6), Inches(5.7), card_h - Inches(0.65), size=13, color=DARK)
 
     # Card right
     # Shadow
@@ -313,7 +337,7 @@ def slide_two_col(prs, number, title, left_title, left_items, right_title, right
     rect(sl, Inches(7.0), card_y, Inches(5.9), Inches(0.55), TEAL_MID)
     txbox(sl, right_title, Inches(7.0), card_y, Inches(5.9), Inches(0.55),
           size=15, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    add_lines(sl, right_items, Inches(7.1), card_y + Inches(0.6), Inches(5.7), size=13, color=DARK)
+    add_lines_aligned(sl, right_items, Inches(7.1), card_y + Inches(0.6), Inches(5.7), card_h - Inches(0.65), size=13, color=DARK)
 
     # Footer band
     rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
@@ -349,11 +373,11 @@ def slide_quote(prs, quote, author=""):
         txbox(sl, "— " + author, Inches(1.2), Inches(5.4), Inches(11.5), Inches(0.6),
               size=16, color=YELLOW, align=PP_ALIGN.CENTER)
 
-    # Logo
-    add_logo(sl, x=Inches(11.0), y=Inches(0.15), h=Inches(1.0))
+    # Small logo top-right
+    add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
     # Footer
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.37), TEAL_DARK)
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
           Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
           size=11, color=MGRAY, align=PP_ALIGN.CENTER)
@@ -472,8 +496,8 @@ def slide_kpi_table(prs):
     txbox(sl, "Indicateurs de Performance — KPI", Inches(1.7), Inches(0.25),
           Inches(9.0), Inches(1.0), size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
-    # Logo in header
-    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+    # Small logo in header
+    add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
     rows = [
         ("KPI", "Libellé", "Objectif"),
@@ -529,8 +553,8 @@ def slide_cards(prs, number, title, cards, kpi_bar=None, note=""):
     txbox(sl, title, Inches(1.7), Inches(0.25), Inches(9.0), Inches(1.0),
           size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
-    # Logo in header
-    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+    # Small logo in header
+    add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
     n = len(cards)
     card_w = Inches((13.33 - 1.2) / n - 0.2)
@@ -574,7 +598,7 @@ def slide_cards(prs, number, title, cards, kpi_bar=None, note=""):
                 p.alignment = PP_ALIGN.CENTER
                 p.space_before = Pt(4)
                 run = p.add_run()
-                run.text = "▸ " + item
+                run.text = "→ " + item
                 run.font.name = "Calibri"
                 run.font.size = Pt(13)
                 run.font.color.rgb = DARK
@@ -1028,7 +1052,7 @@ def build_j3():
         "SI OUI : 'Très bien ! L'UNICEF intervient dans plus de 190 pays...'",
         "SI NON : définir l'UNICEF en 2 phrases — soins, éducation, protection en période de crise",
         "Ton : chaleureux, souriant, jamais récité — le prospect entend si on lit",
-    ], note="🎭 Exercice : lire l'étape 1 à voix haute × 3 en binôme — feedback sur le naturel")
+    ], note="Exercice : lire l'étape 1 à voix haute × 3 en binôme — feedback sur le naturel")
 
     slide_section(prs, 3, "Étape 2 — La Malnutrition Infantile (Analyse)", [
         "'Plus d'un million d'enfants de 3 mois à 5 ans confrontés à une mort évitable'",
@@ -1038,7 +1062,7 @@ def build_j3():
         "But : créer un pont émotionnel avant la solution (RUTF)",
         "Pause après la question — laisser le prospect répondre, ne pas interrompre",
         "Adapter le ton : grave mais porteur d'espoir — jamais alarmiste au point de bloquer",
-    ], note="🎭 Exercice : lire l'étape 2 — identifier les mots-clés émotionnels à accentuer")
+    ], note="Exercice : lire l'étape 2 — identifier les mots-clés émotionnels à accentuer")
 
     slide_section(prs, 4, "Étape 3 — Les Sachets RUTF (Analyse)", [
         "'Ces petits sachets de 92 grammes peuvent littéralement sauver des vies'",
@@ -1048,7 +1072,7 @@ def build_j3():
         "'Notre engagement est permanent... mais il reste du chemin à parcourir'",
         "Transition vers la proposition : créer le sentiment de continuité nécessaire",
         "Ton : conviction, fierté de l'action, pas de complaisance — montrer que le besoin persiste",
-    ], note="🎭 Exercice : présenter les RUTF sans regarder le script — 60 secondes chrono")
+    ], note="Exercice : présenter les RUTF sans regarder le script — 60 secondes chrono")
 
     slide_section(prs, 5, "Étape 4 — Appel au Soutien (Analyse)", [
         "'J'aimerais vous inviter à apporter votre pierre à l'édifice'",
@@ -1058,7 +1082,7 @@ def build_j3():
         "Si OUI ferme → verrouillage : 'Je peux enregistrer un don régulier de X€ par mois ?'",
         "Si OUI hésitant → budget prévisionnel : 'Ceci nous permet de planifier nos actions'",
         "Paliers : 10€ / 15€ / 20€ — jamais descendre sans accord explicite du donateur",
-    ], note="🎭 Exercice en binôme : jouer l'étape 4 — un fundraiser, un prospect hésitant")
+    ], note="Exercice en binôme : jouer l'étape 4 — un fundraiser, un prospect hésitant")
 
     slide_section(prs, 6, "Étapes 5 & 6 — Ponctuel & Indécis (Analyse)", [
         "DON PONCTUEL — ne pas refuser : 'C'est déjà formidable !'",
@@ -1068,7 +1092,7 @@ def build_j3():
         "Reproposer avec un montant plus accessible : 10€ → 2,50€ après déduction fiscale",
         "Question de relance : 'Seriez-vous prêt(e) à poser ce petit geste régulier ?'",
         "Si toujours indécis → classer INDÉCIS 'doit réfléchir' — respecter la décision",
-    ], note="🎭 Exercice : jeu de rôle étape 5 — prospect qui préfère le don ponctuel")
+    ], note="Exercice : jeu de rôle étape 5 — prospect qui préfère le don ponctuel")
 
     slide_section(prs, 7, "Étape 7 — Validation des Coordonnées (Analyse)", [
         "Annonce prélèvement : '1er prélèvement le 10 du mois prochain, puis le 10 de chaque mois'",
@@ -1078,15 +1102,15 @@ def build_j3():
         "MODE 3 — PROMESSE PA LIGNE : fixer un moment précis + rappel planifié",
         "MODE 4 — PA COURRIER (exceptionnel) : engagement ferme de renvoyer l'autorisation",
         "Clôture : 'Merci infiniment — votre soutien va changer concrètement la vie d'enfants'",
-    ], note="🎭 Exercice : simulation complète étape 7 — traiter la méfiance IBAN")
+    ], note="Exercice : simulation complète étape 7 — traiter la méfiance IBAN")
 
     # RÈGLE D'OR — Script
     slide_section(prs, 8, "RÈGLE D'OR — Exercice de Lecture du Script", [
-        "🎭 EXERCICE 1 : Lecture silencieuse du script complet (10 minutes)",
-        "🎭 EXERCICE 2 : Lecture à voix haute individuelle — 1 étape par fundraiser",
-        "🎭 EXERCICE 3 : Jeu de rôle complet en binôme — script de bout en bout",
+        "Exercice 1 : Lecture silencieuse du script complet (10 minutes)",
+        "Exercice 2 : Lecture à voix haute individuelle — 1 étape par fundraiser",
+        "Exercice 3 : Jeu de rôle complet en binôme — script de bout en bout",
         "Grille d'observation : accroche / naturel / écoute / proposition / closing",
-        "🎭 EXERCICE 4 : Appel chronométré — objectif : script complet en moins de 5 minutes",
+        "Exercice 4 : Appel chronométré — objectif : script complet en moins de 5 minutes",
         "Débrief collectif : points forts identifiés + 1 axe d'amélioration par fundraiser",
         "Auto-évaluation : chaque fundraiser note ses propres points de vigilance",
     ], is_regle_dor=True)
@@ -1182,11 +1206,11 @@ def build_j4():
 
     # RÈGLE D'OR — Programme jeux de rôle
     slide_section(prs, 8, "RÈGLE D'OR — Programme Jeux de Rôle Journée J4", [
-        "🎭 MATIN : Jeux de rôle catégories 1 & 2 (objections initiales + financières)",
+        "MATIN : Jeux de rôle catégories 1 & 2 (objections initiales + financières)",
         "Binômes tournants : chaque fundraiser joue les 2 rôles (fundraiser + prospect)",
         "Formateur observe 2 binômes simultanément avec la grille",
         "Débrief à mi-journée : retours individuels + points de vigilance collectifs",
-        "🎭 APRÈS-MIDI : Jeux de rôle catégories 3, 4 & 5 (PA + IBAN + conflictuelles)",
+        "APRÈS-MIDI : Jeux de rôle catégories 3, 4 & 5 (PA + IBAN + conflictuelles)",
         "Simulation d'appels complets : script entier + objection tirée au sort",
         "Débrief final : 3 points forts collectifs + 2 axes d'amélioration prioritaires",
     ], is_regle_dor=True)
@@ -1407,8 +1431,8 @@ def build_j5():
         txbox(sl, f"Q{i+1}–Q{i+4}  |  Nom : ________________________",
               Inches(10.3), Inches(0.1), Inches(2.8), Inches(0.8), size=11, color=WHITE, align=PP_ALIGN.CENTER)
 
-        # Logo in header
-        add_logo(sl, x=Inches(11.0), y=Inches(0.0), h=Inches(1.0))
+        # Small logo in header
+        add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
         letters = ["A", "B", "C", "D"]
         LETTER_COLORS = [TEAL_DARK, TEAL, TEAL_MID, RGBColor(0x00, 0x55, 0x55)]
@@ -1457,8 +1481,8 @@ def build_j5():
     txbox(sl, "GRILLE FORMATEUR — Correction Quiz 40 Questions", Inches(0.3), Inches(0.15),
           Inches(10.5), Inches(0.8), size=24, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
-    # Logo in header
-    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+    # Small logo in header
+    add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7))
 
     corr_letters = ["C","C","C","C","B","C","B","B","C","A","B","B","B","C","A","C","B","C","C","B","C","C","B","C","C","B","C","C","B","B","D","C","B","B","B","C","B","B","B","B"]
     y0 = Inches(1.2)
@@ -1500,4 +1524,4 @@ build_j2()
 build_j3()
 build_j4()
 build_j5()
-print("\n✅ Tous les books FIM générés avec succès !")
+print("\n✓ Tous les books FIM générés avec succès !")
