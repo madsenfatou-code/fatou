@@ -1,8 +1,8 @@
 """
 Génère tous les books FIM SHY-Performance en PPTX
-Charte graphique : Teal #008080, Jaune #D4A017, Calibri
-Logo : extrait directement de la charte graphique (image6.png)
-Texte : SYMÉTRIQUE (centré) sur toutes les slides
+Charte graphique V3 : Architecture premium Teal/Jaune, Calibri
+Logo : shy_logo_v2.png — présent sur TOUTES les slides sans exception
+Texte : CENTRÉ sur toutes les slides
 """
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
@@ -12,16 +12,18 @@ from pptx.util import Cm
 import os
 
 # ── Couleurs charte ──────────────────────────────────────────────────────────
-TEAL   = RGBColor(0x00, 0x80, 0x80)
-TEAL_DARK = RGBColor(0x00, 0x4D, 0x4D)
-YELLOW = RGBColor(0xD4, 0xA0, 0x17)
-GOLD   = RGBColor(0xB8, 0x86, 0x00)
-AMBER  = RGBColor(0xFF, 0x8C, 0x00)
-RED    = RGBColor(0xFF, 0x00, 0x00)
-WHITE  = RGBColor(0xFF, 0xFF, 0xFF)
-DARK   = RGBColor(0x1A, 0x1A, 0x1A)
-LGRAY  = RGBColor(0xF0, 0xF7, 0xF7)
-MGRAY  = RGBColor(0xCC, 0xE5, 0xE5)
+TEAL       = RGBColor(0x00, 0x80, 0x80)   # #008080
+TEAL_DARK  = RGBColor(0x00, 0x4D, 0x4D)   # #004D4D
+TEAL_MID   = RGBColor(0x00, 0x66, 0x66)   # #006666
+YELLOW     = RGBColor(0xD4, 0xA0, 0x17)   # #D4A017
+AMBER      = RGBColor(0xFF, 0x8C, 0x00)   # #FF8C00
+GOLD       = RGBColor(0xB8, 0x86, 0x00)
+RED        = RGBColor(0xFF, 0x00, 0x00)
+WHITE      = RGBColor(0xFF, 0xFF, 0xFF)
+DARK       = RGBColor(0x1A, 0x1A, 0x1A)
+LGRAY      = RGBColor(0xF0, 0xF7, 0xF7)
+MGRAY      = RGBColor(0xCC, 0xE5, 0xE5)
+CREAM      = RGBColor(0xFF, 0xFB, 0xF0)
 
 W = Inches(13.33)
 H = Inches(7.5)
@@ -80,7 +82,7 @@ def add_lines(slide, items, x, y, w, size=16, color=DARK, bullet="▸ "):
             first = False
         else:
             p = tf.add_paragraph()
-        p.alignment = PP_ALIGN.LEFT
+        p.alignment = PP_ALIGN.CENTER
         p.space_before = Pt(5)
         run = p.add_run()
         run.text = bullet + item
@@ -88,212 +90,6 @@ def add_lines(slide, items, x, y, w, size=16, color=DARK, bullet="▸ "):
         run.font.size = Pt(size)
         run.font.color.rgb = color
     return tb
-
-def add_logo(sl, x=Inches(11.5), y=Inches(0.05), h=Inches(0.85)):
-    if os.path.exists(LOGO_PATH):
-        from pptx.util import Inches as In
-        aspect = 1081 / 1055
-        w = h * aspect
-        sl.shapes.add_picture(LOGO_PATH, x, y, width=w, height=h)
-
-def add_interdiction(sl):
-    # Bande sombre en bas
-    band_y = H - Inches(0.75)
-    band_h = Inches(0.40)
-    rect(sl, 0, band_y, W, band_h, TEAL_DARK)
-    # Ligne rouge séparatrice
-    rect(sl, 0, band_y, W, Inches(0.03), RED)
-    # Texte interdiction
-    txbox(sl, INTERDICTION_TEXT,
-          Inches(0.3), band_y + Inches(0.03), W - Inches(0.6), band_h - Inches(0.04),
-          size=7, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
-
-# ── Slides types ─────────────────────────────────────────────────────────────
-
-def slide_cover(prs, title, subtitle, day_label=""):
-    sl = blank_slide(prs)
-    # Fond
-    rect(sl, 0, 0, W, H, LGRAY)
-    # Bande teal gauche
-    rect(sl, 0, 0, Inches(0.5), H, TEAL)
-    # Bande teal haut
-    rect(sl, 0, 0, W, Inches(1.0), TEAL)
-    # Bande teal bas
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
-    # Badge jour
-    if day_label:
-        rect(sl, Inches(0.7), Inches(1.2), Inches(3.0), Inches(0.75), TEAL_DARK)
-        txbox(sl, day_label, Inches(0.7), Inches(1.2), Inches(3.0), Inches(0.75),
-              size=18, bold=True, color=YELLOW, align=PP_ALIGN.CENTER)
-    # Logo SHY-Performance (texte jaune dans header)
-    txbox(sl, "SHY-Performance", Inches(0.7), Inches(0.1), Inches(5), Inches(0.8),
-          size=20, bold=True, color=YELLOW, align=PP_ALIGN.LEFT)
-    # Titre principal — centré
-    txbox(sl, title, Inches(0.7), Inches(2.0), Inches(11.5), Inches(2.5),
-          size=44, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
-    # Séparateur
-    rect(sl, Inches(2.5), Inches(4.65), Inches(8.3), Inches(0.06), TEAL)
-    # Sous-titre — centré
-    txbox(sl, subtitle, Inches(0.7), Inches(4.8), Inches(11.9), Inches(1.1),
-          size=18, color=DARK, align=PP_ALIGN.CENTER)
-    # Footer credits
-    txbox(sl, "FIDELIS  ×  UNICEF France  |  Formation Initiale Module  |  © SHY-Performance 2025",
-          Inches(0.6), H - Inches(0.72), Inches(10), Inches(0.35),
-          size=11, color=WHITE, align=PP_ALIGN.CENTER)
-    # Logo image top-right
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
-    add_interdiction(sl)
-    return sl
-
-def slide_section(prs, number, title, items, note="", is_regle_dor=False):
-    sl = blank_slide(prs)
-
-    if is_regle_dor:
-        # RÈGLE D'OR : fond doré/ambré, grande police, mise en valeur
-        rect(sl, 0, 0, W, H, RGBColor(0xFF, 0xF8, 0xE1))
-        rect(sl, 0, 0, W, Inches(1.5), AMBER)
-        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), AMBER)
-        # Étoile décorative
-        txbox(sl, "★  RÈGLE D'OR  ★", Inches(0.3), Inches(0.05), W - Inches(0.6), Inches(0.8),
-              size=32, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-        # Titre RÈGLE D'OR
-        txbox(sl, title, Inches(0.5), Inches(0.9), W - Inches(1.0), Inches(0.55),
-              size=22, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-        # Contenu centré, grande police
-        content_y = Inches(1.6)
-        content_h = H - Inches(1.6) - Inches(0.75) - (Inches(0.6) if note else 0)
-        add_lines_centered(sl, items, Inches(0.5), content_y, W - Inches(1.0), size=20, color=TEAL_DARK)
-        if note:
-            note_y = H - Inches(1.35)
-            rect(sl, Inches(0.5), note_y, W - Inches(1.0), Inches(0.55), RGBColor(0xFF, 0xE0, 0x80))
-            txbox(sl, "⭐  " + note, Inches(0.6), note_y + Inches(0.02), W - Inches(1.2), Inches(0.5),
-                  size=13, italic=True, color=TEAL_DARK, align=PP_ALIGN.CENTER)
-        txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-              Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
-              size=11, color=WHITE, align=PP_ALIGN.CENTER)
-    else:
-        rect(sl, 0, 0, W, Inches(1.5), TEAL)
-        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
-        # Numéro
-        txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
-              size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-        # Titre — centré
-        txbox(sl, title, Inches(1.5), Inches(0.2), Inches(9.5), Inches(1.1),
-              size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-        # Contenu — centré verticalement entre header et footer
-        content_y = Inches(1.6)
-        footer_y = H - Inches(0.75) - (Inches(0.65) if note else 0)
-        add_lines(sl, items, Inches(0.6), content_y, W - Inches(1.2), size=17, color=DARK)
-        if note:
-            note_y = H - Inches(1.38)
-            rect(sl, Inches(0.5), note_y, W - Inches(1.0), Inches(0.58), MGRAY)
-            txbox(sl, "💡  " + note, Inches(0.6), note_y + Inches(0.02), W - Inches(1.2), Inches(0.54),
-                  size=13, italic=True, color=TEAL, align=PP_ALIGN.CENTER)
-        txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-              Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
-              size=11, color=WHITE, align=PP_ALIGN.CENTER)
-
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
-    add_interdiction(sl)
-    return sl
-
-def slide_cards(prs, number, title, cards, kpi_bar=None, note=""):
-    """
-    Modèle type carte pédagogique :
-    - cards = liste de dict {icon, label, sub, color (opt)}
-    - kpi_bar = liste de dict {icon, value, label} affiché en bandeau bas
-    - Layout : 2 ou 3 cartes en ligne + bandeau KPI
-    """
-    sl = blank_slide(prs)
-    rect(sl, 0, 0, W, Inches(1.5), TEAL)
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
-    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
-          size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    txbox(sl, title, Inches(1.5), Inches(0.2), Inches(9.5), Inches(1.1),
-          size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-
-    n = len(cards)
-    card_w = Inches((13.33 - 1.2) / n - 0.2)
-    card_gap = Inches(0.2)
-    card_y = Inches(1.65)
-    kpi_h = Inches(0.9) if kpi_bar else 0
-    note_h = Inches(0.6) if note else 0
-    card_h = H - card_y - Inches(0.75) - kpi_h - note_h - Inches(0.1)
-
-    CARD_COLORS = [TEAL, RGBColor(0x00, 0x60, 0x60), RGBColor(0x00, 0x70, 0x70),
-                   RGBColor(0x00, 0x50, 0x50), TEAL_DARK]
-
-    for i, card in enumerate(cards):
-        x = Inches(0.6) + i * (card_w + card_gap)
-        cc = card.get("color", CARD_COLORS[i % len(CARD_COLORS)])
-        # Ombre légère
-        rect(sl, x + Inches(0.06), card_y + Inches(0.06), card_w, card_h, MGRAY)
-        # Carte fond blanc
-        rect(sl, x, card_y, card_w, card_h, WHITE)
-        # Barre colorée en haut de la carte
-        rect(sl, x, card_y, card_w, Inches(0.45), cc)
-        # Icône
-        txbox(sl, card.get("icon", "●"), x, card_y + Inches(0.02), card_w, Inches(0.42),
-              size=22, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-        # Label titre carte
-        txbox(sl, card["label"], x, card_y + Inches(0.5), card_w, Inches(0.7),
-              size=16, bold=True, color=cc, align=PP_ALIGN.CENTER)
-        # Sous-titre / contenu
-        sub = card.get("sub", "")
-        if isinstance(sub, list):
-            tb = sl.shapes.add_textbox(x + Inches(0.1), card_y + Inches(1.25),
-                                       card_w - Inches(0.2), card_h - Inches(1.3))
-            tf = tb.text_frame
-            tf.word_wrap = True
-            first = True
-            for item in sub:
-                p = tf.paragraphs[0] if first else tf.add_paragraph()
-                first = False
-                p.alignment = PP_ALIGN.CENTER
-                p.space_before = Pt(4)
-                run = p.add_run()
-                run.text = "▸ " + item
-                run.font.name = "Calibri"
-                run.font.size = Pt(13)
-                run.font.color.rgb = DARK
-        else:
-            txbox(sl, sub, x + Inches(0.1), card_y + Inches(1.25),
-                  card_w - Inches(0.2), card_h - Inches(1.3),
-                  size=13, color=DARK, align=PP_ALIGN.CENTER)
-        # Séparateur sous le label
-        rect(sl, x + Inches(0.3), card_y + Inches(1.2), card_w - Inches(0.6), Inches(0.03), MGRAY)
-
-    # Bandeau KPI
-    if kpi_bar:
-        bar_y = H - Inches(0.75) - kpi_h - (note_h if note else 0) - Inches(0.05)
-        rect(sl, Inches(0.5), bar_y, W - Inches(1.0), kpi_h, LGRAY)
-        rect(sl, Inches(0.5), bar_y, W - Inches(1.0), Inches(0.04), TEAL)
-        kpi_w = (W - Inches(1.0)) / len(kpi_bar)
-        for j, kpi in enumerate(kpi_bar):
-            kx = Inches(0.5) + j * kpi_w
-            # Séparateur vertical
-            if j > 0:
-                rect(sl, kx, bar_y + Inches(0.1), Inches(0.03), kpi_h - Inches(0.2), MGRAY)
-            txbox(sl, kpi.get("icon","") + " " + kpi["value"],
-                  kx, bar_y + Inches(0.04), kpi_w, Inches(0.45),
-                  size=20, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
-            txbox(sl, kpi["label"], kx, bar_y + Inches(0.48), kpi_w, Inches(0.38),
-                  size=11, color=TEAL_DARK, align=PP_ALIGN.CENTER)
-
-    if note:
-        note_y = H - Inches(0.75) - note_h
-        rect(sl, Inches(0.5), note_y, W - Inches(1.0), note_h - Inches(0.05), MGRAY)
-        txbox(sl, "💡  " + note, Inches(0.6), note_y + Inches(0.02),
-              W - Inches(1.2), note_h - Inches(0.08),
-              size=12, italic=True, color=TEAL, align=PP_ALIGN.CENTER)
-
-    txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.3), H - Inches(0.70), Inches(10), Inches(0.35),
-          size=11, color=WHITE, align=PP_ALIGN.CENTER)
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
-    add_interdiction(sl)
-    return sl
-
 
 def add_lines_centered(slide, items, x, y, w, size=18, color=DARK, bullet="★ "):
     tb = slide.shapes.add_textbox(x, y, w, Inches(5.5))
@@ -315,82 +111,322 @@ def add_lines_centered(slide, items, x, y, w, size=18, color=DARK, bullet="★ "
         run.font.color.rgb = color
         run.font.bold = True
 
+def add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0)):
+    if os.path.exists(LOGO_PATH):
+        aspect = 1081 / 1055
+        w = h * aspect
+        sl.shapes.add_picture(LOGO_PATH, x, y, width=w, height=h)
+
+def add_interdiction(sl):
+    band_y = H - Inches(0.75)
+    band_h = Inches(0.38)
+    rect(sl, 0, band_y, W, band_h, TEAL_DARK)
+    rect(sl, 0, band_y, W, Inches(0.03), RED)
+    txbox(sl, INTERDICTION_TEXT,
+          Inches(0.3), band_y + Inches(0.03), W - Inches(0.6), band_h - Inches(0.04),
+          size=7, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
+
+# ── Slides types ─────────────────────────────────────────────────────────────
+
+def slide_cover(prs, title, subtitle, day_label=""):
+    sl = blank_slide(prs)
+
+    # Right panel background (full slide)
+    rect(sl, 0, 0, W, H, LGRAY)
+
+    # Left panel — deep teal column
+    rect(sl, 0, 0, Inches(5.2), H, TEAL_DARK)
+
+    # Yellow horizontal stripe at top of left panel
+    rect(sl, 0, 0, Inches(5.2), Inches(0.5), YELLOW)
+
+    # Logo — large in left panel
+    add_logo(sl, x=Inches(0.3), y=Inches(0.6), h=Inches(1.2))
+
+    # Day badge in left panel
+    if day_label:
+        rect(sl, Inches(0.5), Inches(2.1), Inches(4.2), Inches(0.55), YELLOW)
+        txbox(sl, day_label, Inches(0.5), Inches(2.1), Inches(4.2), Inches(0.55),
+              size=22, bold=True, color=TEAL_DARK, align=PP_ALIGN.CENTER)
+
+    # Vertical white decorative line in left panel
+    rect(sl, Inches(2.4), Inches(2.8), Inches(0.04), Inches(3.0), WHITE)
+
+    # SHY-Performance text in left panel
+    txbox(sl, "SHY-Performance", Inches(0.3), Inches(6.2), Inches(4.6), Inches(0.45),
+          size=13, color=YELLOW, italic=True, align=PP_ALIGN.CENTER)
+
+    # FIDELIS × UNICEF France in left panel
+    txbox(sl, "FIDELIS × UNICEF France", Inches(0.3), Inches(6.55), Inches(4.6), Inches(0.35),
+          size=10, color=MGRAY, align=PP_ALIGN.CENTER)
+
+    # Right panel content — small yellow accent bar
+    rect(sl, Inches(5.5), Inches(1.0), Inches(7.5), Inches(0.08), YELLOW)
+
+    # Title — right panel
+    txbox(sl, title, Inches(5.5), Inches(1.2), Inches(7.5), Inches(2.8),
+          size=40, bold=True, color=TEAL_DARK, align=PP_ALIGN.CENTER)
+
+    # Separator line
+    rect(sl, Inches(5.5), Inches(4.2), Inches(5.0), Inches(0.05), TEAL)
+
+    # Subtitle
+    txbox(sl, subtitle, Inches(5.5), Inches(4.4), Inches(7.5), Inches(1.0),
+          size=16, color=DARK, align=PP_ALIGN.CENTER)
+
+    # Formation label badge
+    rect(sl, Inches(5.5), Inches(5.55), Inches(4.0), Inches(0.42), TEAL)
+    txbox(sl, "Formation Initiale Module", Inches(5.5), Inches(5.55), Inches(4.0), Inches(0.42),
+          size=13, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    add_interdiction(sl)
+    return sl
+
+
+def slide_section(prs, number, title, items, note="", is_regle_dor=False):
+    sl = blank_slide(prs)
+
+    if is_regle_dor:
+        # Background warm cream
+        rect(sl, 0, 0, W, H, CREAM)
+
+        # Left amber accent bar
+        rect(sl, 0, 0, Inches(0.25), H, AMBER)
+
+        # Full-width AMBER header band
+        rect(sl, 0, 0, W, Inches(1.8), AMBER)
+
+        # "★ RÈGLE D'OR ★" in header
+        txbox(sl, "★  RÈGLE D'OR  ★", Inches(0.3), Inches(0.05), W - Inches(0.6), Inches(0.55),
+              size=30, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+        # Title below in header
+        txbox(sl, title, Inches(0.5), Inches(0.65), W - Inches(1.0), Inches(0.55),
+              size=20, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+        # Logo in header
+        add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+
+        # Content items — centered, bold, teal_dark with star bullet
+        add_lines_centered(sl, items, Inches(0.5), Inches(1.9), W - Inches(1.0),
+                           size=19, color=TEAL_DARK, bullet="⭐ ")
+
+        if note:
+            note_y = H - Inches(1.35)
+            rect(sl, Inches(0.5), note_y, Inches(0.08), Inches(0.55), AMBER)
+            rect(sl, Inches(0.6), note_y, W - Inches(1.1), Inches(0.55), RGBColor(0xFF, 0xF0, 0xCC))
+            txbox(sl, "⭐  " + note, Inches(0.7), note_y + Inches(0.04), W - Inches(1.2), Inches(0.48),
+                  size=13, italic=True, color=TEAL_DARK, align=PP_ALIGN.CENTER)
+
+        # Amber footer band
+        rect(sl, 0, H - Inches(0.75), W, Inches(0.37), AMBER)
+        txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
+              Inches(0.3), H - Inches(0.74), Inches(10), Inches(0.35),
+              size=11, color=WHITE, align=PP_ALIGN.CENTER)
+
+    else:
+        # White background
+        rect(sl, 0, 0, W, H, WHITE)
+
+        # Left accent bar — thin dark teal
+        rect(sl, 0, 0, Inches(0.18), H, TEAL_DARK)
+
+        # Header band
+        rect(sl, 0, 0, W, Inches(1.55), TEAL)
+
+        # Number badge square
+        rect(sl, Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2), TEAL_DARK)
+        txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2),
+              size=44, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+        # Title in header
+        txbox(sl, title, Inches(1.7), Inches(0.25), Inches(9.0), Inches(1.0),
+              size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+        # Logo in header
+        add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+
+        # Content area
+        add_lines(sl, items, Inches(0.6), Inches(1.65), W - Inches(1.2), size=16, color=DARK)
+
+        if note:
+            note_y = H - Inches(1.38)
+            # Left teal border accent
+            rect(sl, Inches(0.4), note_y, Inches(0.08), Inches(0.55), YELLOW)
+            rect(sl, Inches(0.5), note_y, W - Inches(1.0), Inches(0.55), LGRAY)
+            txbox(sl, "💡  " + note, Inches(0.6), note_y + Inches(0.04), W - Inches(1.2), Inches(0.48),
+                  size=13, italic=True, color=TEAL, align=PP_ALIGN.CENTER)
+
+        # Footer band
+        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
+        txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
+              Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
+              size=11, color=WHITE, align=PP_ALIGN.CENTER)
+
+    add_interdiction(sl)
+    return sl
+
+
 def slide_two_col(prs, number, title, left_title, left_items, right_title, right_items):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, Inches(1.5), TEAL)
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
-    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
-          size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    txbox(sl, title, Inches(1.5), Inches(0.2), Inches(9.5), Inches(1.1),
-          size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    # Col gauche
-    rect(sl, Inches(0.5), Inches(1.6), Inches(6.0), Inches(0.5), TEAL_DARK)
-    txbox(sl, left_title, Inches(0.5), Inches(1.6), Inches(6.0), Inches(0.5),
-          size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    add_lines(sl, left_items, Inches(0.55), Inches(2.2), Inches(5.8), size=14, color=DARK)
-    # Col droite
-    rect(sl, Inches(6.9), Inches(1.6), Inches(6.0), Inches(0.5), TEAL_DARK)
-    txbox(sl, right_title, Inches(6.9), Inches(1.6), Inches(6.0), Inches(0.5),
-          size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    add_lines(sl, right_items, Inches(6.95), Inches(2.2), Inches(5.8), size=14, color=DARK)
+
+    # White background
+    rect(sl, 0, 0, W, H, WHITE)
+
+    # Left accent bar
+    rect(sl, 0, 0, Inches(0.18), H, TEAL_DARK)
+
+    # Header band
+    rect(sl, 0, 0, W, Inches(1.55), TEAL)
+
+    # Number badge
+    rect(sl, Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2), TEAL_DARK)
+    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2),
+          size=44, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Title in header
+    txbox(sl, title, Inches(1.7), Inches(0.25), Inches(9.0), Inches(1.0),
+          size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Logo in header
+    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+
+    # Card left
+    card_y = Inches(1.65)
+    card_h = Inches(5.1)
+    # Shadow
+    rect(sl, Inches(0.57), card_y + Inches(0.07), Inches(5.9), card_h, MGRAY)
+    # Card bg
+    rect(sl, Inches(0.5), card_y, Inches(5.9), card_h, WHITE)
+    # Card header TEAL_DARK
+    rect(sl, Inches(0.5), card_y, Inches(5.9), Inches(0.55), TEAL_DARK)
+    txbox(sl, left_title, Inches(0.5), card_y, Inches(5.9), Inches(0.55),
+          size=15, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    add_lines(sl, left_items, Inches(0.6), card_y + Inches(0.6), Inches(5.7), size=13, color=DARK)
+
+    # Card right
+    # Shadow
+    rect(sl, Inches(7.07), card_y + Inches(0.07), Inches(5.9), card_h, MGRAY)
+    # Card bg
+    rect(sl, Inches(7.0), card_y, Inches(5.9), card_h, WHITE)
+    # Card header TEAL_MID
+    rect(sl, Inches(7.0), card_y, Inches(5.9), Inches(0.55), TEAL_MID)
+    txbox(sl, right_title, Inches(7.0), card_y, Inches(5.9), Inches(0.55),
+          size=15, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    add_lines(sl, right_items, Inches(7.1), card_y + Inches(0.6), Inches(5.7), size=13, color=DARK)
+
+    # Footer band
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
           Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
           size=11, color=WHITE, align=PP_ALIGN.CENTER)
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+
     add_interdiction(sl)
     return sl
+
 
 def slide_quote(prs, quote, author=""):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, H, TEAL)
-    rect(sl, Inches(0.4), Inches(0.4), Inches(0.12), H - Inches(0.8), WHITE)
-    txbox(sl, "❝", Inches(0.8), Inches(0.8), Inches(11.7), Inches(1.2),
-          size=72, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    txbox(sl, quote, Inches(0.8), Inches(2.1), Inches(11.7), Inches(3.2),
-          size=30, bold=True, color=WHITE, italic=True, align=PP_ALIGN.CENTER)
+
+    # Full TEAL_DARK background
+    rect(sl, 0, 0, W, H, TEAL_DARK)
+
+    # Large watermark quote mark behind
+    txbox(sl, "❝", Inches(1), -Inches(0.5), Inches(5), Inches(4),
+          size=200, color=RGBColor(0x00, 0x60, 0x60), align=PP_ALIGN.CENTER)
+
+    # Left gold vertical stripe
+    rect(sl, Inches(0.5), Inches(0.8), Inches(0.12), H - Inches(1.6), YELLOW)
+
+    # Decorative line above author
+    rect(sl, Inches(4), Inches(5.2), Inches(5.3), Inches(0.05), YELLOW)
+
+    # Quote text
+    txbox(sl, quote, Inches(1.2), Inches(1.5), Inches(11.5), Inches(3.5),
+          size=32, bold=True, color=WHITE, italic=True, align=PP_ALIGN.CENTER)
+
     if author:
-        txbox(sl, "— " + author, Inches(0.8), Inches(5.5), Inches(11.7), Inches(0.7),
-              size=18, color=MGRAY, align=PP_ALIGN.CENTER)
+        txbox(sl, "— " + author, Inches(1.2), Inches(5.4), Inches(11.5), Inches(0.6),
+              size=16, color=YELLOW, align=PP_ALIGN.CENTER)
+
+    # Logo
+    add_logo(sl, x=Inches(11.0), y=Inches(0.15), h=Inches(1.0))
+
+    # Footer
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.37), TEAL_DARK)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
           Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
           size=11, color=MGRAY, align=PP_ALIGN.CENTER)
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+
     add_interdiction(sl)
     return sl
+
 
 def slide_merci(prs, extra_msg=""):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, H, TEAL)
-    rect(sl, 0, 0, W, Inches(0.4), YELLOW)
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
-    txbox(sl, "MERCI POUR VOTRE PARTICIPATION",
-          Inches(0.5), Inches(1.6), Inches(12.3), Inches(1.5),
-          size=42, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    rect(sl, Inches(2.5), Inches(3.3), Inches(8.3), Inches(0.07), YELLOW)
+
+    # Background TEAL_DARK
+    rect(sl, 0, 0, W, H, TEAL_DARK)
+
+    # Top yellow stripe
+    rect(sl, 0, 0, W, Inches(0.45), YELLOW)
+
+    # Bottom yellow stripe
+    rect(sl, 0, H - Inches(0.45), W, Inches(0.45), YELLOW)
+
+    # "MERCI"
+    txbox(sl, "MERCI", Inches(0.5), Inches(1.8), Inches(12.3), Inches(1.5),
+          size=72, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # "POUR VOTRE PARTICIPATION"
+    txbox(sl, "POUR VOTRE PARTICIPATION", Inches(0.5), Inches(3.2), Inches(12.3), Inches(0.7),
+          size=26, color=YELLOW, align=PP_ALIGN.CENTER)
+
+    # Thin yellow line
+    rect(sl, Inches(3.5), Inches(3.0), Inches(6.3), Inches(0.06), YELLOW)
+
+    # Sub text
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.5), Inches(3.5), Inches(12.3), Inches(0.7),
-          size=20, color=MGRAY, align=PP_ALIGN.CENTER)
+          Inches(0.5), Inches(4.0), Inches(12.3), Inches(0.6),
+          size=18, color=MGRAY, align=PP_ALIGN.CENTER)
+
     if extra_msg:
-        txbox(sl, extra_msg, Inches(0.5), Inches(4.4), Inches(12.3), Inches(2.4),
-              size=17, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
-    txbox(sl, "Élaboré par Tamou Eljerrari | Sur ordre de Mme Salima Negrao, DG SHY-Performance",
-          Inches(0.3), H - Inches(0.70), Inches(12.7), Inches(0.35),
-          size=10, color=MGRAY, align=PP_ALIGN.CENTER)
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+        txbox(sl, extra_msg, Inches(0.5), Inches(4.7), Inches(12.3), Inches(1.5),
+              size=16, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
+
+    # Credits
+    txbox(sl, "Élaboré par Tamou Eljerrari  |  Sur ordre de Mme Salima Negrao, DG",
+          Inches(0.3), Inches(5.2), Inches(12.7), Inches(0.4),
+          size=13, color=MGRAY, align=PP_ALIGN.CENTER, italic=True)
+
+    # Logo centered bottom
+    add_logo(sl, x=Inches(5.8), y=Inches(5.9), h=Inches(1.1))
+
     add_interdiction(sl)
     return sl
 
+
 def slide_felicitations(prs):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, H, TEAL)
-    rect(sl, 0, 0, W, Inches(0.4), YELLOW)
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
-    txbox(sl, "★  ★  ★", Inches(0.5), Inches(0.5), Inches(12.3), Inches(0.8),
+
+    # Background TEAL_DARK
+    rect(sl, 0, 0, W, H, TEAL_DARK)
+
+    # Yellow stripes top and bottom
+    rect(sl, 0, 0, W, Inches(0.5), YELLOW)
+    rect(sl, 0, H - Inches(0.5), W, Inches(0.5), YELLOW)
+
+    # Gold stars top row
+    txbox(sl, "★  ★  ★  ★  ★", Inches(0.5), Inches(0.6), Inches(12.3), Inches(0.65),
           size=28, color=YELLOW, align=PP_ALIGN.CENTER)
-    txbox(sl, "FÉLICITATIONS !",
-          Inches(0.5), Inches(1.3), Inches(12.3), Inches(1.4),
-          size=54, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # "FÉLICITATIONS !"
+    txbox(sl, "FÉLICITATIONS !", Inches(0.5), Inches(1.4), Inches(12.3), Inches(1.3),
+          size=60, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Yellow separator
     rect(sl, Inches(2.0), Inches(2.85), Inches(9.3), Inches(0.07), YELLOW)
+
     msg = (
         "Vous avez complété avec succès la Formation Initiale Module (FIM)\n"
         "Fundraiser UNICEF — SHY-Performance × FIDELIS\n\n"
@@ -401,22 +437,44 @@ def slide_felicitations(prs):
         "L'équipe SHY-Performance est fière de vous.\n"
         "Bonne continuation et beau terrain à toutes et à tous !"
     )
-    txbox(sl, msg, Inches(1.0), Inches(3.0), Inches(11.3), Inches(3.8),
-          size=17, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
-    txbox(sl, "★  ★  ★", Inches(0.5), H - Inches(1.1), Inches(12.3), Inches(0.4),
+    txbox(sl, msg, Inches(1.0), Inches(3.0), Inches(11.3), Inches(3.0),
+          size=16, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
+
+    # Bottom stars
+    txbox(sl, "★  ★  ★  ★  ★", Inches(0.5), H - Inches(1.15), Inches(12.3), Inches(0.5),
           size=22, color=YELLOW, align=PP_ALIGN.CENTER)
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+
+    # Logo centered bottom
+    add_logo(sl, x=Inches(5.8), y=Inches(5.9), h=Inches(1.1))
+
     add_interdiction(sl)
     return sl
 
+
 def slide_kpi_table(prs):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, Inches(1.5), TEAL)
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
-    txbox(sl, "04", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
-          size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    txbox(sl, "Indicateurs de Performance — KPI", Inches(1.5), Inches(0.2),
-          Inches(9.5), Inches(1.1), size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # White background
+    rect(sl, 0, 0, W, H, WHITE)
+
+    # Left accent bar
+    rect(sl, 0, 0, Inches(0.18), H, TEAL_DARK)
+
+    # Header band
+    rect(sl, 0, 0, W, Inches(1.55), TEAL)
+
+    # Number badge
+    rect(sl, Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2), TEAL_DARK)
+    txbox(sl, "04", Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2),
+          size=44, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Title
+    txbox(sl, "Indicateurs de Performance — KPI", Inches(1.7), Inches(0.25),
+          Inches(9.0), Inches(1.0), size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Logo in header
+    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+
     rows = [
         ("KPI", "Libellé", "Objectif"),
         ("CU/H", "Contacts Utiles par Heure", "9 minimum"),
@@ -439,12 +497,125 @@ def slide_kpi_table(prs):
             txbox(sl, cell, cx + Inches(0.1), y + Inches(0.1),
                   cw - Inches(0.2), row_h - Inches(0.1),
                   size=14 if r > 0 else 15, bold=(r == 0), color=fc, align=PP_ALIGN.CENTER)
+
+    # Footer band
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
           Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
           size=11, color=WHITE, align=PP_ALIGN.CENTER)
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+
     add_interdiction(sl)
     return sl
+
+
+def slide_cards(prs, number, title, cards, kpi_bar=None, note=""):
+    sl = blank_slide(prs)
+
+    # White background
+    rect(sl, 0, 0, W, H, WHITE)
+
+    # Left accent bar
+    rect(sl, 0, 0, Inches(0.18), H, TEAL_DARK)
+
+    # Header band
+    rect(sl, 0, 0, W, Inches(1.55), TEAL)
+
+    # Number badge
+    rect(sl, Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2), TEAL_DARK)
+    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.15), Inches(1.2), Inches(1.2),
+          size=44, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Title
+    txbox(sl, title, Inches(1.7), Inches(0.25), Inches(9.0), Inches(1.0),
+          size=26, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Logo in header
+    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+
+    n = len(cards)
+    card_w = Inches((13.33 - 1.2) / n - 0.2)
+    card_gap = Inches(0.2)
+    card_y = Inches(1.65)
+    kpi_h = Inches(0.9) if kpi_bar else 0
+    note_h = Inches(0.6) if note else 0
+    card_h = H - card_y - Inches(0.75) - kpi_h - note_h - Inches(0.1)
+
+    CARD_COLORS = [TEAL, RGBColor(0x00, 0x60, 0x60), RGBColor(0x00, 0x70, 0x70),
+                   RGBColor(0x00, 0x50, 0x50), TEAL_DARK]
+
+    for i, card in enumerate(cards):
+        x = Inches(0.6) + i * (card_w + card_gap)
+        cc = card.get("color", CARD_COLORS[i % len(CARD_COLORS)])
+        # Shadow
+        rect(sl, x + Inches(0.07), card_y + Inches(0.07), card_w, card_h, MGRAY)
+        # Card bg WHITE
+        rect(sl, x, card_y, card_w, card_h, WHITE)
+        # Card header TEAL_DARK
+        rect(sl, x, card_y, card_w, Inches(0.55), cc)
+        # Icon in header
+        txbox(sl, card.get("icon", "●"), x, card_y + Inches(0.04), card_w, Inches(0.47),
+              size=22, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+        # Label
+        txbox(sl, card["label"], x, card_y + Inches(0.58), card_w, Inches(0.65),
+              size=16, bold=True, color=cc, align=PP_ALIGN.CENTER)
+        # Separator
+        rect(sl, x + Inches(0.3), card_y + Inches(1.25), card_w - Inches(0.6), Inches(0.03), MGRAY)
+        # Sub content
+        sub = card.get("sub", "")
+        if isinstance(sub, list):
+            tb = sl.shapes.add_textbox(x + Inches(0.1), card_y + Inches(1.3),
+                                       card_w - Inches(0.2), card_h - Inches(1.35))
+            tf = tb.text_frame
+            tf.word_wrap = True
+            first = True
+            for item in sub:
+                p = tf.paragraphs[0] if first else tf.add_paragraph()
+                first = False
+                p.alignment = PP_ALIGN.CENTER
+                p.space_before = Pt(4)
+                run = p.add_run()
+                run.text = "▸ " + item
+                run.font.name = "Calibri"
+                run.font.size = Pt(13)
+                run.font.color.rgb = DARK
+        else:
+            txbox(sl, sub, x + Inches(0.1), card_y + Inches(1.3),
+                  card_w - Inches(0.2), card_h - Inches(1.35),
+                  size=13, color=DARK, align=PP_ALIGN.CENTER)
+
+    # Bandeau KPI
+    if kpi_bar:
+        bar_y = H - Inches(0.75) - kpi_h - (note_h if note else 0) - Inches(0.05)
+        rect(sl, Inches(0.5), bar_y, W - Inches(1.0), kpi_h, LGRAY)
+        rect(sl, Inches(0.5), bar_y, W - Inches(1.0), Inches(0.04), TEAL)
+        kpi_w = (W - Inches(1.0)) / len(kpi_bar)
+        for j, kpi in enumerate(kpi_bar):
+            kx = Inches(0.5) + j * kpi_w
+            if j > 0:
+                rect(sl, kx, bar_y + Inches(0.1), Inches(0.03), kpi_h - Inches(0.2), MGRAY)
+            txbox(sl, kpi.get("icon","") + " " + kpi["value"],
+                  kx, bar_y + Inches(0.04), kpi_w, Inches(0.45),
+                  size=20, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
+            txbox(sl, kpi["label"], kx, bar_y + Inches(0.48), kpi_w, Inches(0.38),
+                  size=11, color=TEAL_DARK, align=PP_ALIGN.CENTER)
+
+    if note:
+        note_y = H - Inches(0.75) - note_h
+        rect(sl, Inches(0.4), note_y, Inches(0.08), note_h - Inches(0.05), YELLOW)
+        rect(sl, Inches(0.5), note_y, W - Inches(1.0), note_h - Inches(0.05), LGRAY)
+        txbox(sl, "💡  " + note, Inches(0.6), note_y + Inches(0.04),
+              W - Inches(1.2), note_h - Inches(0.1),
+              size=12, italic=True, color=TEAL, align=PP_ALIGN.CENTER)
+
+    # Footer band
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
+    txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
+          Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
+          size=11, color=WHITE, align=PP_ALIGN.CENTER)
+
+    add_interdiction(sl)
+    return sl
+
 
 # ════════════════════════════════════════════════════════════════════════════════
 # BOOK 0 — FILE CONDUCTEUR
@@ -479,7 +650,7 @@ def build_file_conducteur():
             "icon": "👥",
             "label": "PUBLIC CIBLE",
             "color": RGBColor(0x00, 0x70, 0x70),
-            "sub": ["Fundraisers juniors", "Nouveaux entrants", "Niv. Bac à Bac+2", "Aucun prérequis"]
+            "sub": ["Fundraisers juniors", "Nouveaux entrants", "Minimum niveau Bac, excellent niveau de langue", "Aucun prérequis"]
         },
     ],
     kpi_bar=[
@@ -600,7 +771,7 @@ def build_synopsis():
     slide_kpi_table(prs)
 
     slide_section(prs, 5, "Population Cible & Architecture Pédagogique", [
-        "Public : fundraisers juniors ou en reconversion, niveau Bac à Bac+2",
+        "Public : fundraisers juniors ou en reconversion, minimum niveau Bac, excellent niveau de langue",
         "Effectif : 8 à 14 fundraisers par session (qualité des jeux de rôle garantie)",
         "Prérequis : aucune expérience en collecte de dons requise",
         "Dimension Opérationnelle (50%) : script, grille AAR, quiz, mises en situation",
@@ -1211,50 +1382,84 @@ def build_j5():
             "Transférer à un superviseur"], 1),
     ]
 
-    # Grouper par 4 questions par slide
+    # Grouper par 4 questions par slide — design premium
     for i in range(0, 40, 4):
         group = quiz_data[i:i+4]
         sl = blank_slide(prs)
-        rect(sl, 0, 0, W, Inches(0.95), TEAL)
-        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
+
+        # White background
+        rect(sl, 0, 0, W, H, WHITE)
+
+        # Left accent bar
+        rect(sl, 0, 0, Inches(0.18), H, TEAL_DARK)
+
+        # TEAL header band
+        rect(sl, 0, 0, W, Inches(1.0), TEAL)
+
         part_num = i // 4 + 1
         parts = ["A — UNICEF & Cause", "B — Monde Associatif", "C — Script & Accroche",
                  "D — KPIs & Nomenclature", "E — Objections & AAR", "F — Closing & Validation",
                  "G","H","I","J"]
         part_label = parts[part_num - 1] if part_num <= len(parts) else f"Partie {part_num}"
+
         txbox(sl, f"QUIZ FIM — Partie {part_label}", Inches(0.3), Inches(0.1),
-              Inches(10), Inches(0.75), size=18, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+              Inches(10), Inches(0.8), size=20, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
         txbox(sl, f"Q{i+1}–Q{i+4}  |  Nom : ________________________",
-              Inches(10.3), Inches(0.1), Inches(2.8), Inches(0.75), size=11, color=WHITE, align=PP_ALIGN.RIGHT)
+              Inches(10.3), Inches(0.1), Inches(2.8), Inches(0.8), size=11, color=WHITE, align=PP_ALIGN.CENTER)
+
+        # Logo in header
+        add_logo(sl, x=Inches(11.0), y=Inches(0.0), h=Inches(1.0))
+
         letters = ["A", "B", "C", "D"]
+        LETTER_COLORS = [TEAL_DARK, TEAL, TEAL_MID, RGBColor(0x00, 0x55, 0x55)]
         for idx, (qcode, question, options, _correct) in enumerate(group):
             col = idx % 2
             row = idx // 2
             x0 = Inches(0.3) + col * Inches(6.55)
-            y0 = Inches(1.0) + row * Inches(3.1)
-            rect(sl, x0, y0, Inches(6.4), Inches(0.52), TEAL)
+            y0 = Inches(1.05) + row * Inches(3.1)
+            # Question header — TEAL_MID
+            rect(sl, x0, y0, Inches(6.4), Inches(0.52), TEAL_MID)
             qnum = i + idx + 1
             txbox(sl, f"Q{qnum} — {question}", x0 + Inches(0.1), y0 + Inches(0.04),
                   Inches(6.2), Inches(0.46), size=12, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+            # Options
             for oi, (letter, opt) in enumerate(zip(letters, options)):
                 oy = y0 + Inches(0.58) + oi * Inches(0.61)
-                rect(sl, x0 + Inches(0.1), oy + Inches(0.04), Inches(0.42), Inches(0.42), MGRAY)
-                txbox(sl, letter, x0 + Inches(0.1), oy + Inches(0.04), Inches(0.42), Inches(0.42),
-                      size=11, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
-                txbox(sl, opt, x0 + Inches(0.62), oy + Inches(0.04), Inches(5.7), Inches(0.45),
-                      size=11, color=DARK, align=PP_ALIGN.LEFT)
+                bg_opt = LGRAY if oi % 2 == 0 else WHITE
+                rect(sl, x0 + Inches(0.1), oy + Inches(0.02), Inches(6.2), Inches(0.54), bg_opt)
+                # Letter badge
+                rect(sl, x0 + Inches(0.12), oy + Inches(0.05), Inches(0.42), Inches(0.42),
+                     LETTER_COLORS[oi])
+                txbox(sl, letter, x0 + Inches(0.12), oy + Inches(0.05), Inches(0.42), Inches(0.42),
+                      size=11, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+                txbox(sl, opt, x0 + Inches(0.62), oy + Inches(0.06), Inches(5.7), Inches(0.44),
+                      size=11, color=DARK, align=PP_ALIGN.CENTER)
+
+        # Footer band
+        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
         txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France — Quiz FIM 40 Questions",
-              Inches(0.3), H - Inches(0.70), Inches(12.7), Inches(0.35), size=10, color=WHITE,
+              Inches(0.3), H - Inches(0.72), Inches(12.7), Inches(0.35), size=10, color=WHITE,
               align=PP_ALIGN.CENTER)
-        add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.85))
         add_interdiction(sl)
 
-    # Grille formateur
+    # Grille formateur — design premium
     sl = blank_slide(prs)
+
+    # White background
+    rect(sl, 0, 0, W, H, WHITE)
+
+    # Left accent bar
+    rect(sl, 0, 0, Inches(0.18), H, TEAL_DARK)
+
+    # Header band
     rect(sl, 0, 0, W, Inches(1.1), TEAL)
-    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
+
     txbox(sl, "GRILLE FORMATEUR — Correction Quiz 40 Questions", Inches(0.3), Inches(0.15),
-          Inches(12.7), Inches(0.8), size=24, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+          Inches(10.5), Inches(0.8), size=24, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Logo in header
+    add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0))
+
     corr_letters = ["C","C","C","C","B","C","B","B","C","A","B","B","B","C","A","C","B","C","C","B","C","C","B","C","C","B","C","C","B","B","D","C","B","B","B","C","B","B","B","B"]
     y0 = Inches(1.2)
     for row in range(5):
@@ -1263,16 +1468,21 @@ def build_j5():
             if idx >= 40: break
             x = Inches(0.3) + col * Inches(1.6)
             y = y0 + row * Inches(1.05)
-            rect(sl, x, y, Inches(1.5), Inches(0.88), LGRAY)
-            txbox(sl, f"Q{idx+1}", x + Inches(0.05), y + Inches(0.03), Inches(0.7), Inches(0.35),
-                  size=11, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
-            rect(sl, x + Inches(0.8), y + Inches(0.06), Inches(0.6), Inches(0.62), TEAL)
-            txbox(sl, corr_letters[idx], x + Inches(0.8), y + Inches(0.06), Inches(0.6), Inches(0.62),
+            # Card shadow
+            rect(sl, x + Inches(0.04), y + Inches(0.04), Inches(1.5), Inches(0.88), MGRAY)
+            rect(sl, x, y, Inches(1.5), Inches(0.88), WHITE)
+            rect(sl, x, y, Inches(1.5), Inches(0.28), LGRAY)
+            txbox(sl, f"Q{idx+1}", x + Inches(0.05), y + Inches(0.02), Inches(1.4), Inches(0.25),
+                  size=11, bold=True, color=TEAL_DARK, align=PP_ALIGN.CENTER)
+            rect(sl, x + Inches(0.45), y + Inches(0.33), Inches(0.6), Inches(0.48), TEAL)
+            txbox(sl, corr_letters[idx], x + Inches(0.45), y + Inches(0.33), Inches(0.6), Inches(0.48),
                   size=18, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Footer band
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.3), H - Inches(0.70), Inches(12.7), Inches(0.35), size=10, color=WHITE,
+          Inches(0.3), H - Inches(0.72), Inches(12.7), Inches(0.35), size=10, color=WHITE,
           align=PP_ALIGN.CENTER)
-    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
     add_interdiction(sl)
 
     slide_merci(prs)
