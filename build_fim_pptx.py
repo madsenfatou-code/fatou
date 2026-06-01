@@ -131,11 +131,30 @@ def add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0)):
         sl.shapes.add_picture(LOGO_PATH_FULL, x, y, width=w, height=h)
 
 def add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7)):
-    """Add small logo (compact SHY-Performance) - for all slide headers except cover"""
+    """Add small logo (compact SHY-Performance) - for all slide headers"""
     if os.path.exists(LOGO_PATH_SMALL):
         aspect = 285 / 126  # shy_logo.png ratio
         w = h * aspect
         sl.shapes.add_picture(LOGO_PATH_SMALL, x, y, width=w, height=h)
+
+def add_logo_cover(sl):
+    """Add compact SHY-Performance logo prominently on cover slides — right panel, centered"""
+    if os.path.exists(LOGO_PATH_SMALL):
+        aspect = 285 / 126
+        h = Inches(1.4)
+        w = h * aspect
+        # Centered in right panel (x from 5.2 to 13.33)
+        cx = Inches(5.2) + (Inches(13.33 - 5.2) - w) / 2
+        sl.shapes.add_picture(LOGO_PATH_SMALL, cx, Inches(5.7), width=w, height=h)
+
+def add_logo_last(sl):
+    """Add compact SHY-Performance logo centered on closing slides"""
+    if os.path.exists(LOGO_PATH_SMALL):
+        aspect = 285 / 126
+        h = Inches(1.6)
+        w = h * aspect
+        cx = (W - w) / 2
+        sl.shapes.add_picture(LOGO_PATH_SMALL, cx, Inches(5.5), width=w, height=h)
 
 def add_interdiction(sl):
     band_y = H - Inches(0.75)
@@ -160,8 +179,8 @@ def slide_cover(prs, title, subtitle, day_label=""):
     # Yellow horizontal stripe at top of left panel
     rect(sl, 0, 0, Inches(5.2), Inches(0.5), YELLOW)
 
-    # Logo — large in left panel
-    add_logo(sl, x=Inches(0.3), y=Inches(0.6), h=Inches(1.2))
+    # Logo compact SHY-Performance — prominent in left panel
+    add_logo_small(sl, x=Inches(0.3), y=Inches(0.6), h=Inches(1.1))
 
     # Day badge in left panel
     if day_label:
@@ -198,6 +217,9 @@ def slide_cover(prs, title, subtitle, day_label=""):
     rect(sl, Inches(5.5), Inches(5.55), Inches(4.0), Inches(0.42), TEAL)
     txbox(sl, "Formation Initiale Module", Inches(5.5), Inches(5.55), Inches(4.0), Inches(0.42),
           size=13, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    # Logo compact SHY-Performance — right panel bottom-right, prominent
+    add_logo_cover(sl)
 
     add_interdiction(sl)
     return sl
@@ -490,8 +512,8 @@ def slide_merci(prs, extra_msg=""):
           Inches(0.3), Inches(5.2), Inches(12.7), Inches(0.4),
           size=13, color=MGRAY, align=PP_ALIGN.CENTER, italic=True)
 
-    # Logo centered bottom
-    add_logo(sl, x=Inches(5.8), y=Inches(5.9), h=Inches(1.1))
+    # Logo compact SHY-Performance — centered, prominent
+    add_logo_last(sl)
 
     add_interdiction(sl)
     return sl
@@ -535,8 +557,8 @@ def slide_felicitations(prs):
     txbox(sl, "★  ★  ★  ★  ★", Inches(0.5), H - Inches(1.15), Inches(12.3), Inches(0.5),
           size=22, color=YELLOW, align=PP_ALIGN.CENTER)
 
-    # Logo centered bottom
-    add_logo(sl, x=Inches(5.8), y=Inches(5.9), h=Inches(1.1))
+    # Logo compact SHY-Performance — centered, prominent
+    add_logo_last(sl)
 
     add_interdiction(sl)
     return sl
