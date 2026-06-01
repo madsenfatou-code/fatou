@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FIM — Fiches Jeux de Rôle — Traitement des Objections</title>
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Calibri, 'Calibri Light', Arial, sans-serif;
+    background: #e8e8e8;
+    color: #1a1a1a;
+  }
+
+  /* ── Fiche = 1 page A4 ── */
+  .fiche {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    margin: 12mm auto;
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,128,128,.18);
+  }
+
+  /* ── Header ── */
+  .fiche-header {
+    background: #008080;
+    color: #fff;
+    padding: 10px 16px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+  }
+  .fiche-header .brand {
+    font-size: 15pt;
+    font-weight: 700;
+    letter-spacing: .5px;
+  }
+  .fiche-header .meta {
+    font-size: 8.5pt;
+    text-align: right;
+    opacity: .88;
+    line-height: 1.4;
+  }
+
+  /* ── Bandeau catégorie ── */
+  .categorie-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    border-bottom: 2px solid #008080;
+  }
+  .cat-badge {
+    background: #008080;
+    color: #fff;
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: .3px;
+    white-space: nowrap;
+  }
+  .fiche-num {
+    font-size: 8pt;
+    color: #008080;
+    font-weight: 700;
+  }
+  .fiche-title {
+    font-size: 9pt;
+    color: #555;
+    flex: 1;
+    text-align: right;
+    font-style: italic;
+  }
+
+  /* ── Contenu principal ── */
+  .fiche-body {
+    flex: 1;
+    padding: 12px 16px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* ── Bloc objection ── */
+  .bloc-objection {
+    background: #fff3f3;
+    border-left: 5px solid #ff0000;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+  }
+  .bloc-objection .label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #ff0000;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bloc-objection .label::before {
+    content: "🎭";
+    font-size: 10pt;
+  }
+  .bloc-objection .objection-text {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #cc0000;
+    font-style: italic;
+    line-height: 1.35;
+  }
+
+  /* ── Persona donateur ── */
+  .bloc-persona {
+    background: #f0f7f7;
+    border-left: 4px solid #008080;
+    border-radius: 0 6px 6px 0;
+    padding: 8px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .persona-icon {
+    font-size: 22pt;
+    line-height: 1;
+    min-width: 32px;
+    text-align: center;
+  }
+  .persona-info .persona-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #008080;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 2px;
+  }
+  .persona-info .persona-name {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .persona-info .persona-desc {
+    font-size: 9pt;
+    color: #444;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  /* ── Scénario ── */
+  .bloc-scenario {
+    border: 1.5px solid #cce5e5;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .scenario-header {
+    background: #008080;
+    color: #fff;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 5px 14px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+  .scenario-body {
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  /* ── Bulle dialogue ── */
+  .bulle {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .bulle-role {
+    min-width: 90px;
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 1.3;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .bulle-role.donateur {
+    background: #ffe5e5;
+    color: #cc0000;
+    border: 1px solid #ffb3b3;
+  }
+  .bulle-role.fundraiser {
+    background: #e0f2f2;
+    color: #006060;
+    border: 1px solid #99d6d6;
+  }
+  .bulle-text {
+    font-size: 10pt;
+    color: #1a1a1a;
+    line-height: 1.45;
+    flex: 1;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .bulle-text.donateur { background: #fff8f8; border-left: 3px solid #ffcccc; font-style: italic; }
+  .bulle-text.fundraiser { background: #f4fbfb; border-left: 3px solid #99d6d6; }
+
+  /* ── AAR ── */
+  .bloc-aar {
+    border: 1.5px solid #cce5e5;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .aar-header {
+    background: #004d4d;
+    color: #fff;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 5px 14px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+  .aar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+  .aar-col {
+    padding: 8px 12px;
+    border-right: 1px solid #e0f0f0;
+  }
+  .aar-col:last-child { border-right: none; }
+  .aar-letter {
+    font-size: 18pt;
+    font-weight: 700;
+    color: #008080;
+    line-height: 1;
+  }
+  .aar-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #008080;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    margin-bottom: 4px;
+  }
+  .aar-text {
+    font-size: 9pt;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+
+  /* ── Notes ── */
+  .bloc-notes {
+    border: 1.5px dashed #99d6d6;
+    border-radius: 6px;
+    padding: 8px 14px;
+    min-height: 48px;
+  }
+  .notes-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #008080;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 6px;
+  }
+  .notes-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .notes-line {
+    border-bottom: 1px solid #cce5e5;
+    height: 16px;
+  }
+
+  /* ── Tip ── */
+  .bloc-tip {
+    background: #f0f7f7;
+    border-radius: 6px;
+    padding: 7px 14px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .tip-icon { font-size: 12pt; min-width: 20px; }
+  .tip-text { font-size: 9pt; color: #004d4d; line-height: 1.4; }
+  .tip-text strong { color: #008080; }
+
+  /* ── Footer ── */
+  .fiche-footer {
+    background: #008080;
+    color: #cce5e5;
+    font-size: 7.5pt;
+    padding: 5px 16px;
+    text-align: center;
+    letter-spacing: .2px;
+  }
+
+  /* ── Barre déco droite ── */
+  .deco-bar {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: #008080;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; }
+    .fiche {
+      box-shadow: none;
+      margin: 0;
+      width: 100%;
+      min-height: 100vh;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     FICHE 01 — Pas intéressé / Pas le temps
+     ══════════════════════════════════════════════════════ -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 01 / 15</span>
+    <span class="fiche-title">Phase d'accroche</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je ne suis pas intéressé(e) / Je n'ai pas le temps ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👩‍💼</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Sophie, 44 ans — Active, CSP+</div>
+        <div class="persona-desc">Mère de famille pressée, décroche mais veut raccrocher vite. Ton sec mais pas hostile. Le fundraiser a 10 secondes pour piquer sa curiosité.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Allô ? … Bonjour Mme Dupont, je suis [Prénom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire. Cet appel est enregistré à des fins de qualité. Je suppose que vous connaissez bien l'UNICEF ?</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Écoutez je ne suis pas intéressée, j'ai vraiment pas le temps là.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Permettez-moi de vous expliquer rapidement ce dont il s'agit, puis vous me direz ce que vous en pensez… Votre avis est très important pour nous. Il me tient à cœur de vous parler brièvement des missions que nous menons en faveur des enfants du monde entier — je serai très bref(ve). ↪ Enchaîner sur le script.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« Permettez-moi de vous expliquer rapidement… » — on ne contredit pas, on ouvre une porte.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">« Votre avis est très important » → valoriser la personne. « Je serai très bref(ve) » → lever le frein temps.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Enchaîner directement sur le script sans poser de question — ne pas lui laisser un 2ème refus.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Sourire dans la voix dès la réponse — ne jamais marquer de pause hésitante. La fluidité rassure. Si le prospect coupe une 2ème fois → prendre congé avec respect.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines">
+        <div class="notes-line"></div>
+        <div class="notes-line"></div>
+        <div class="notes-line"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 02 — Faux numéro -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 02 / 15</span>
+    <span class="fiche-title">Phase d'accroche</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Vous faites erreur, c'est un faux numéro ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👴</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">René, 68 ans — Retraité, bienveillant</div>
+        <div class="persona-desc">Pense que l'appel est nominatif et qu'il y a erreur de destinataire. Pas hostile — juste surpris. Opportunité de continuer si bien rebondi.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Allô ? … Bonjour, je suis [Prénom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Attendez, vous devez faire erreur — c'est un faux numéro chez moi.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Très bien — en réalité mon appel n'est pas nominatif : nous appelons dans toute la France dans le cadre d'une campagne d'information et de sensibilisation. Je vous prendrais qu'une toute petite minute 😊 ↪ Enchaîner sur le script.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« Très bien » — valider ce que dit la personne sans la contredire brutalement.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Lever le malentendu : l'appel n'est pas nominatif — campagne nationale. Ça change tout.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">« Je vous prendrais qu'une toute petite minute » → minimiser l'effort demandé + enchaîner.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Ne jamais dire « Ah non, vous avez tort » — toujours amortir. Le mot « simplement » rassure : « nous appelons simplement dans le cadre d'une campagne nationale ».</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines">
+        <div class="notes-line"></div>
+        <div class="notes-line"></div>
+        <div class="notes-line"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 03 — Vous m'appelez pour un don ? -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 03 / 15</span>
+    <span class="fiche-title">Phase d'accroche</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Vous m'appelez pour un don ? ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">🧑‍💻</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Thomas, 36 ans — Actif, méfiant</div>
+        <div class="persona-desc">A l'habitude des démarchages téléphoniques. Pose la question directement pour savoir si c'est « encore une demande d'argent ». Ton neutre mais vigilant.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Allô ? … Bonjour M. Martin, je suis [Prénom] pour l'UNICEF, je vous appelle dans le cadre d'une campagne d'information humanitaire…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Attendez — vous m'appelez pour un don c'est ça ?</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Avant toute chose, je vous contacte afin de vous faire part de nos missions et avoir votre avis 😊 En fait, nous menons une campagne d'information et de sensibilisation partout en France, et nous savons bien que ce n'est pas tout le monde qui aura la possibilité de nous soutenir… ↪ Enchaîner : « Comme je vous le disais… »</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">On ne dit ni oui ni non à la question — on déplace le sujet vers l'information.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">« Avant toute chose, votre avis » → repositionner la relation. « Pas tout le monde ne peut soutenir » → ôter la pression.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Reprendre le script immédiatement : « Comme je vous le disais… » — ne pas attendre une nouvelle question.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Ne jamais confirmer « oui c'est pour un don » dès l'accroche — la valeur perçue de l'appel s'effondre. Repositionner sur l'information et l'avis du prospect.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 04 — Je donne déjà / Je ne peux pas donner plus -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 04 / 15</span>
+    <span class="fiche-title">Phase d'accroche</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je donne déjà à d'autres associations / Je ne peux pas donner plus ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👨‍⚕️</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Marc, 57 ans — Cadre, déjà engagé</div>
+        <div class="persona-desc">Sensible aux causes humanitaires, donne déjà. Sentiment de saturation des sollicitations. Bienveillant mais veut se protéger d'une demande de plus.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je suppose que vous connaissez bien l'UNICEF, le Fonds des Nations Unies pour l'Enfance ?</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Oui je connais, mais j'ai déjà des associations auxquelles je donne — je ne peux vraiment pas donner plus.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Et bien je vous remercie pour ce que vous faites déjà M. Lefebvre, et je vous rassure — il ne s'agit pas seulement de faire un don. Je me permets de vous contacter dans le cadre d'une campagne d'information et de sensibilisation au sujet de la situation des enfants vulnérables, et votre avis est très important pour nous 😊 ↪ Enchaîner sur le script.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">Remercier sincèrement l'engagement existant — ne jamais minimiser ce que la personne fait déjà.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">« Il ne s'agit pas seulement d'un don » → déplacer vers l'information. Lever la garde sans pression.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">« Votre avis est très important » → recréer le lien et enchaîner sur la cause.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Valoriser sincèrement les donateurs existants — ce sont les profils les plus convertibles. Ils ont déjà la fibre humanitaire, il faut juste leur montrer que l'UNICEF est complémentaire.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 05 — C'est une arnaque ! -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 05 / 15</span>
+    <span class="fiche-title">Phase d'accroche — Objection forte</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ C'est une arnaque ! Je ne vous crois pas ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">😠</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Karim, 42 ans — Méfiant, agressif</div>
+        <div class="persona-desc">A été victime d'une fraude par téléphone. Réflexe de défense immédiat. Ton accusateur. Le fundraiser doit garder son calme et apporter des preuves concrètes.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Bonjour M. Benali, je suis [Prénom] pour l'UNICEF. Je vous appelle dans le cadre d'une campagne d'information humanitaire…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">L'UNICEF par téléphone ?! C'est une arnaque ça, je vous crois pas du tout.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je peux comprendre votre inquiétude M. Benali, et c'est tout à fait légitime 😊 Soyez rassuré — je vous appelle bien de la part d'UNICEF France. Cette campagne téléphonique est annoncée sur notre site officiel www.unicef.fr, vous pouvez le constater immédiatement. Pour plus d'informations : ServiceRelationDonateurs@unicef.fr ou au 09 69 36 84 68. ↪ Enchaîner : « Comme je vous le disais… »</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« Je comprends votre inquiétude — c'est tout à fait légitime » → ne jamais s'indigner ni se braquer face à l'accusation.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">3 preuves concrètes : unicef.fr annonce la campagne / email SRD / numéro de téléphone officiel vérifiable en direct.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Après les preuves, reprendre le script naturellement. Si le prospect vérifie → attendre avec bienveillance.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> JAMAIS de ton défensif ou agacé. Plus le prospect est agressif, plus le fundraiser doit être calme et factuel. Les preuves vérifiables en direct (site web) sont l'argument le plus puissant.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 06 — Je ne donne pas d'argent par téléphone -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 06 / 15</span>
+    <span class="fiche-title">Phase d'accroche</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je ne donne pas d'argent par téléphone ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👩‍🦳</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Martine, 62 ans — Prudente, habituée aux arnaques</div>
+        <div class="persona-desc">Principe de précaution absolu. Ne donne jamais d'argent ni de coordonnées par téléphone. Pas hostile — juste une règle personnelle ferme. Le fundraiser doit repositionner le canal.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Nous vous appelons pour vous parler de la malnutrition qui touche chaque année plus d'un million d'enfants…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Je vous arrête tout de suite — moi je ne donne jamais d'argent par téléphone. C'est un principe.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je vous rassure, il n'est pas question que vous donniez de l'argent par téléphone. Le téléphone représente pour nous le moyen le plus simple et le plus efficace pour porter le message de notre noble cause au plus grand nombre. Cela me permet également de répondre à vos questions 😊 ↪ Enchaîner : « Comme je vous le disais… »</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« Je vous rassure » → lever immédiatement la peur sans juger le principe de la personne.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Repositionner le téléphone comme canal d'information et de réponse — pas de prise d'argent. La validation se fait en ligne ou par courrier.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">« Cela me permet de répondre à vos questions » → créer la relation avant de parler de soutien.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Cette objection est souvent un malentendu — la personne croit qu'on va lui demander son numéro de carte bancaire. Clarifier que la validation se fait sur unicef.fr ou par IBAN débloque souvent la situation.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 07 — Pas confiance aux associations -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 07 / 15</span>
+    <span class="fiche-title">Phase d'accroche</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je ne fais pas confiance aux associations ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">🧔</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Pierre, 48 ans — Sceptique, bien informé</div>
+        <div class="persona-desc">A entendu parler de scandales d'associations (type Affaire ARC). Méfiant par conviction, pas par hostilité. Sensible aux preuves concrètes et à la transparence.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je suppose que vous connaissez bien l'UNICEF ?</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Oui je connais. Mais franchement les associations… j'ai pas confiance. On ne sait jamais où va l'argent.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je comprends que vous vous posiez des questions quant à l'affectation des dons — permettez-moi de vous rassurer : l'UNICEF agit pour les enfants depuis 1946. UNICEF France, créée en 1964, a ses comptes certifiés par un commissaire aux comptes indépendant. 93% des fonds collectés vont directement aux programmes terrain : eau potable, alimentation, santé. L'UNICEF est membre du Comité de la Charte du Don en Confiance — gage de transparence totale. ↪ Enchaîner.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">Valider la question sans la minimiser — c'est une préoccupation légitime et fréquente.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">4 preuves : 75 ans d'existence / commissaire indépendant / 93% terrain / label Don en Confiance. Chiffres vérifiables publiquement.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Enchaîner sur la cause après avoir installé la légitimité — le prospect rassuré est prêt à écouter.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Mémoriser le chiffre <strong>93%</strong> — c'est le plus percutant. Dire « sur chaque euro que vous donnez, 93 centimes vont directement aux enfants » rend la preuve viscérale.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 08 — Je n'aime pas être contacté par téléphone -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 1 — Objections Initiales</span>
+    <span class="fiche-num">FICHE 08 / 15</span>
+    <span class="fiche-title">Phase d'accroche</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je n'aime pas être contacté(e) par téléphone ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👩</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Céline, 39 ans — Introvertie, saturation des sollicitations</div>
+        <div class="persona-desc">Agacée par le démarchage en général. Pas contre la cause — contre le canal. Ton légèrement irrité mais pas agressif. Peut basculer si le fundraiser respecte son espace.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Bonjour Mme Morel, je suis [Prénom] pour l'UNICEF…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Franchement j'aime vraiment pas être contactée par téléphone, c'est épuisant.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je comprends que vous ne souhaitiez pas être dérangée 😊 Mais si nous nous sommes permis de vous contacter aujourd'hui, c'est parce que l'UNICEF a un message important à diffuser, et le téléphone représente le moyen le plus efficace pour rassembler de nouvelles personnes autour de notre noble cause. Cela me permet également de répondre à vos questions… ↪ Enchaîner sur le script.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« Je comprends que vous ne souhaitiez pas être dérangée » → empathie sincère, pas condescendante.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Justifier le canal : le téléphone est le plus efficace pour la cause. Ce n'est pas du démarchage commercial — c'est humanitaire.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">« Cela me permet de répondre à vos questions » → inverser la dynamique : c'est utile pour elle aussi.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Baisser légèrement le rythme de parole pour cette objection — montrer qu'on respecte son espace. Un ton doux et posé après « Je comprends » suffit souvent à désamorcer.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 09 — Financière : Je donne déjà ailleurs -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 2 — Objections Financières</span>
+    <span class="fiche-num">FICHE 09 / 15</span>
+    <span class="fiche-title">Après appel au don</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je donne déjà à d'autres associations / Je me suis engagé avec X ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👨‍🦱</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Luc, 52 ans — Généreux mais budget limité</div>
+        <div class="persona-desc">Donne déjà à la Croix-Rouge ou aux Restos du Cœur. Se sent « complet » dans son engagement caritatif. Besoin d'être convaincu que l'UNICEF est complémentaire et urgent.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Avec un don mensuel de seulement 15€ — soit 50 centimes par jour — vous permettez à l'UNICEF de continuer à distribuer des aliments thérapeutiques à des enfants malnutris…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Je comprends mais moi je suis déjà engagé avec les Restos du Cœur — je ne peux pas me permettre de donner à plusieurs associations.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Et bien je comprends tout à fait — c'est tout à votre honneur M. Leclerc. Nous ne souhaitons en aucun cas modifier vos habitudes caritatives. 15€ par mois n'est pas une somme anodine — mais ce n'était qu'un exemple. Aujourd'hui, 300 millions de personnes sont en insécurité alimentaire dans le monde, provoquée par les guerres, les conflits armés et les catastrophes naturelles. Chaque don, aussi modeste soit-il, a un impact inestimable. 💡 Un don de 10€ par mois = 2,50€ après déduction fiscale. Cela vous semble-t-il plus envisageable ?</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« C'est tout à votre honneur » → valoriser sans flatter. « Nous ne souhaitons pas modifier vos habitudes » → lever la pression.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Chiffre choc : 300 millions en insécurité alimentaire. Puis descendre le montant : 15€ → 10€ → 2,50€ réels.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Question directe et fermée : « 10€ par mois vous semble-t-il plus envisageable ? »</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> La déduction fiscale est un argument clé ici : <strong>10€/mois = 2,50€ réels</strong> après déduction à 75%. Formuler en termes de coût réel rend le montant accessible psychologiquement.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 10 — Je n'ai pas les moyens -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 2 — Objections Financières</span>
+    <span class="fiche-num">FICHE 10 / 15</span>
+    <span class="fiche-title">Après appel au don — Dernier positionnement</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je n'ai pas les moyens — petite retraite / chômage ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👵</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Jacqueline, 71 ans — Retraitée, revenus modestes</div>
+        <div class="persona-desc">Sensible à la cause mais sincèrement contrainte financièrement. Ton sincère, pas de mauvaise volonté. Le fundraiser doit trouver un montant symbolique accessible sans jamais mettre la personne en difficulté.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Avec 15€ par mois, soit seulement 50 centimes par jour, vous permettez à des enfants malnutris de recevoir leur traitement thérapeutique quotidien…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">C'est une belle cause mais franchement 15€ par mois c'est trop pour moi, j'ai une petite retraite.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">J'entends bien ce que vous dites Mme Dupuis. 15€ n'était qu'un exemple — et nous sommes contraints de lancer cette campagne à cause du grand chaos qui touche l'Ukraine, le Congo, le Soudan, le Proche-Orient… Des millions d'enfants pris au piège des conflits, dont beaucoup ont moins de 5 ans. Avec seulement 10€ par mois — soit 2,50€ après déduction fiscale — vous prenez en charge 4 enfants. Peut-on compter sur ce geste de votre part ? 💡 Et si même 10€ est trop : « 8€ ou même 6€ par mois vous semblent-ils envisageables ? 6€ = 1,50€ après déduction fiscale. »</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« J'entends bien » → écoute sincère. Ne pas minimiser la contrainte financière réelle.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Contextualiser l'urgence (conflits) + descendre : 15€ → 10€ → 8€ → 6€. Toujours ramener au coût réel après déduction.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">« Peut-on compter sur ce geste ? » → question de closing après chaque descente de palier.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Ne jamais descendre en dessous de 6€ sans accord du superviseur. Si la personne est sincèrement dans l'impossibilité → la classer INDÉCIS avec bienveillance et respect total.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 11 — Je préfère un don ponctuel -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 3 — Contre le Don Régulier (PA)</span>
+    <span class="fiche-num">FICHE 11 / 15</span>
+    <span class="fiche-title">Lever les réticences au prélèvement mensuel</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je vous ferai un don ponctuel — pas un don régulier ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">🧑‍🏫</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Fabrice, 45 ans — Enseignant, sensible mais prudent</div>
+        <div class="persona-desc">Prêt à donner ponctuellement mais réticent à l'engagement récurrent. Préfère garder la maîtrise de ses dépenses. Besoin d'être convaincu par la supériorité du don régulier.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Peut-on compter sur votre soutien mensuel de 15€ pour les enfants malnutris ?</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Oui je veux bien vous aider mais je préfère faire un don une seule fois — pas tous les mois.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">C'est déjà formidable M. Bernard que vous envisagiez de nous aider ! Un don ponctuel, c'est une impulsion précieuse. Mais un don régulier, même très modeste, c'est ce qui sauve vraiment sur le long terme — la faim, la maladie, le manque de soins… ça ne s'arrête pas après une aide ponctuelle. Et ce qui est génial : vous pouvez stopper ou modifier le montant à tout moment, par un simple appel au service donateur. 💡 10€/mois = quelques centimes par jour après déduction fiscale → impact inestimable dans le quotidien de ces enfants. Peut-on compter sur vous pour poser ce geste simple ?</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« C'est déjà formidable » → ne jamais rejeter le don ponctuel, le valoriser avant de proposer mieux.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Argument durée : la malnutrition est chronique, pas ponctuelle. Argument flexibilité : stopper à tout moment.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">« Peut-on compter sur vous pour ce geste simple ? » — relance après l'argument flexibilité.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> L'argument <strong>« stopper à tout moment »</strong> est souvent décisif. Le prospect réalise que le PA n'est pas un engagement définitif. Insister sur la liberté totale qu'il conserve.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 12 — Je n'aime pas l'engagement mensuel -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 3 — Contre le Don Régulier (PA)</span>
+    <span class="fiche-num">FICHE 12 / 15</span>
+    <span class="fiche-title">Lever les réticences au prélèvement mensuel</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je préfère donner quand je veux / Je n'aime pas l'engagement mensuel ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">👩‍💼</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Isabelle, 38 ans — Indépendante, attachée à sa liberté</div>
+        <div class="persona-desc">Réticence psychologique à tout engagement récurrent (abonnements, prélèvements). Pas un problème d'argent — un besoin de contrôle et de liberté. Sensible à l'argument de flexibilité totale.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Un don mensuel régulier de 10€ permettrait d'accompagner un enfant durant toutes les étapes de sa guérison…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Vous savez moi je n'aime vraiment pas les engagements mensuels. Je préfère donner quand j'en ai envie.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je l'entends bien Mme Moreau — c'est bien naturel de vouloir garder la liberté de donner quand vous le sentez. Ce que je peux vous dire : le don mensuel n'est en aucun cas un engagement rigide ou contraignant. Vous pouvez l'ajuster ou l'arrêter à tout moment — vous gardez un contrôle total. Ce soutien régulier permet à nos équipes d'agir avec continuité et d'accompagner un enfant durant toutes les étapes de sa guérison. 💡 10€/mois = 2,50€ après déduction fiscale. Tout en sachant que vous pouvez stopper à tout moment, peut-on compter sur votre adhésion ?</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« C'est bien naturel » → valider le besoin de liberté sans le remettre en question.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Casser le mythe de l'engagement rigide : « contrôle total », « ajuster ou arrêter à tout moment ».</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Reformuler avec la flexibilité dans la question : « Tout en sachant que vous pouvez stopper… »</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Si la personne reste réticente après 2 tentatives → dernier positionnement : « Des milliers d'enfants dont la plupart n'ont pas encore 5 ans. Une personne meurt de faim toutes les 13 secondes. 8€ ou même 6€ vous semblent envisageables ? »</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 13 — Méfiance IBAN -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 4 — Méfiance IBAN</span>
+    <span class="fiche-num">FICHE 13 / 15</span>
+    <span class="fiche-title">Sécurisation du prélèvement SEPA</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je ne veux pas donner mon IBAN par téléphone ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">🛡️</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Gérard, 59 ans — Prudent, lecteur de presse</div>
+        <div class="persona-desc">A lu des articles sur les fraudes bancaires. Refuse catégoriquement de communiquer ses coordonnées bancaires par téléphone. Accord de principe sur le don — blocage uniquement sur le canal IBAN.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Pour valider votre don régulier, j'ai besoin de votre IBAN — c'est une série de 27 chiffres commençant par FR, que vous trouverez sur votre relevé bancaire…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Ah non, ça je ne donne pas mon IBAN par téléphone. C'est hors de question.</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je comprends que vous puissiez être prudent — c'est tout à fait légitime 😊 Votre IBAN ne permet PAS d'accéder à votre compte — il autorise uniquement un virement SEPA pour l'UNICEF avec votre accord verbal clair. Votre IBAN figure déjà sur vos factures d'énergie, d'internet, vos contrats de mutuelle… Aucun prélèvement n'aura lieu aujourd'hui — le 1er prélèvement n'est planifié qu'à partir du 10 du mois prochain. Cette procédure est strictement encadrée et accordée exclusivement aux organisations françaises reconnues d'utilité publique. Vous recevez un récapitulatif par email et SMS à la fin de notre conversation. Je vous laisse le récupérer, le temps pour moi de valider votre formulaire 😊</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« C'est tout à fait légitime » → jamais minimiser la prudence bancaire — c'est une bonne réflexe.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">4 points : IBAN ≠ accès compte / déjà sur vos documents / aucun prélèvement aujourd'hui / procédure encadrée.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Si toujours non → proposer PA en ligne en direct sur unicef.fr — le prospect saisit lui-même ses coordonnées.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>⚠ Règle absolue :</strong> L'IBAN ne doit jamais être recueilli sans la présence du superviseur et avec coupure de l'enregistrement. En cas de refus persistant → orienter vers le PA en ligne direct sur unicef.fr.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 14 — D'où avez-vous mon numéro ? -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 5 — Objections Conflictuelles</span>
+    <span class="fiche-num">FICHE 14 / 15</span>
+    <span class="fiche-title">Rester calme et professionnel</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ D'où avez-vous eu mon numéro ? / Vous n'avez pas le droit de m'appeler ! ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">😤</div>
+      <div class="persona-info">
+        <div class="persona-label">Profil donateur</div>
+        <div class="persona-name">Dominique, 50 ans — Irrité, soucieux de sa vie privée</div>
+        <div class="persona-desc">Préoccupé par le RGPD et la protection des données. Ton accusateur. Le fundraiser doit rester factuel, calme et transparent sans se justifier avec excès.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario — Simulation d'appel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Bonjour, je suis [Prénom] pour l'UNICEF…</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Attendez — d'abord dites-moi comment vous avez eu mon numéro ! Vous n'avez pas le droit de m'appeler !</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Je comprends votre question — elle est tout à fait légitime, et nous veillons à ce que nos prestataires respectent le RGPD. Vos coordonnées nous ont été transmises par notre partenaire [Rakuten / M6 Boutique / Comparez-Economisez] — ou : vos coordonnées sont disponibles sur l'annuaire. Pour l'origine précise, vous pouvez contacter : dpo@groupe-fidelis.fr. Concernant le droit d'appel : vous pouvez demander à votre opérateur de ne plus figurer dans l'annuaire. ↪ Si la personne se rassure → continuer. ↪ Si elle reste fermée → prendre congé + exclure des appels UNICEF.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-aar">
+      <div class="aar-header">⚙ Méthode AAR — Décryptage</div>
+      <div class="aar-grid">
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Accuser réception</div>
+          <div class="aar-text">« Tout à fait légitime » → valider la question sur les données personnelles sans se défendre.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">A</div>
+          <div class="aar-label">Argumenter</div>
+          <div class="aar-text">Citer la source précise de la fiche (partenaire / annuaire). Donner le contact DPO pour plus d'infos.</div>
+        </div>
+        <div class="aar-col">
+          <div class="aar-letter">R</div>
+          <div class="aar-label">Relancer</div>
+          <div class="aar-text">Si la personne est rassurée → reprendre le script. Si elle reste bloquée → prendre congé avec respect.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Ne jamais mentir sur la source du numéro. Si on ne connaît pas la source exacte → dire honnêtement : « En tant qu'agent je n'ai pas cette information précise — pour l'origine exacte : dpo@groupe-fidelis.fr »</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+<!-- FICHE 15 — Bloctel / Liste rouge / Accent -->
+<div class="fiche">
+  <div class="deco-bar"></div>
+  <div class="fiche-header">
+    <div class="brand">SHY-Performance</div>
+    <div class="meta">Formation FIM — Jeu de Rôle<br>Fidelis × UNICEF France</div>
+  </div>
+  <div class="categorie-bar">
+    <span class="cat-badge">Catégorie 5 — Objections Conflictuelles</span>
+    <span class="fiche-num">FICHE 15 / 15</span>
+    <span class="fiche-title">Situations délicates — Bloctel / Liste rouge / Accent</span>
+  </div>
+  <div class="fiche-body">
+    <div class="bloc-objection">
+      <div class="label">Le donateur dit :</div>
+      <div class="objection-text">❝ Je suis sur liste Bloctel ! ❞  &nbsp;/&nbsp;  ❝ Je suis sur liste rouge ❞  &nbsp;/&nbsp;  ❝ Vous avez un accent ! ❞</div>
+    </div>
+    <div class="bloc-persona">
+      <div class="persona-icon">⚠️</div>
+      <div class="persona-info">
+        <div class="persona-label">Situations multiples — 3 scénarios en 1 fiche</div>
+        <div class="persona-name">Situations conflictuelles fréquentes en accroche</div>
+        <div class="persona-desc">Ces 3 objections arrivent souvent dans les premières secondes. Elles nécessitent une réponse courte, calme et factuelle — sans s'attarder.</div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario A — Bloctel</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Je suis inscrit sur Bloctel — vous n'avez pas le droit de m'appeler !</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Très bien — sachez que les appels émanant d'associations à but non lucratif comme l'UNICEF sont expressément autorisés par Bloctel, tout comme ceux d'un service public. Ces informations sont disponibles sur conso.bloctel.fr. ↪ Si rassurée → continuer. ↪ Si reste fermée → prendre congé.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario B — Liste rouge</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Je suis sur liste rouge — comment vous avez mon numéro ?</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">Ah, je ne le savais pas — il se pourrait que nos fichiers ne soient pas à jour. Je vais remonter l'information afin que vous ne soyez plus recontacté(e) de notre part. Bonne journée à vous 🙂</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-scenario">
+      <div class="scenario-header">🎭 Scénario C — Accent</div>
+      <div class="scenario-body">
+        <div class="bulle">
+          <div class="bulle-role donateur">DONATEUR</div>
+          <div class="bulle-text donateur">Vous appelez d'où ? Vous avez un accent !</div>
+        </div>
+        <div class="bulle">
+          <div class="bulle-role fundraiser">FUNDRAISER</div>
+          <div class="bulle-text fundraiser">En effet 😊 vous l'avez bien détecté ! Je suis d'ascendance [pays] — vous connaissez ? ↪ Enchaîner sur le script sans s'attarder.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bloc-tip">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text"><strong>Conseil fundraiser :</strong> Pour Bloctel → citer la loi avec assurance, sans s'excuser. Pour liste rouge → s'excuser brièvement et prendre congé dignement. Pour l'accent → assumer avec naturel et humour bienveillant, puis reprendre le script sans hésitation.</div>
+    </div>
+    <div class="bloc-notes">
+      <div class="notes-label">📝 Notes du participant — Atelier</div>
+      <div class="notes-lines"><div class="notes-line"></div><div class="notes-line"></div><div class="notes-line"></div></div>
+    </div>
+  </div>
+  <div class="fiche-footer">SHY-Performance × FIDELIS × UNICEF France — Fiches Jeux de Rôle FIM — Document pédagogique interne</div>
+</div>
+
+</body>
+</html>
