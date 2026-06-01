@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIM V6 — Analyse Pédagogique & Guide d'Implémentation · UM6P</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #008080;
+      --teal-light: #F0F7F7;
+      --teal-mid:   #005F5F;
+      --red:        #C0392B;
+      --gold:       #C9A84C;
+      --white:      #FFFFFF;
+      --bg:         #F8FAFA;
+      --text:       #1A1A1A;
+      --text-muted: #555;
+      --border:     #D0E0E0;
+      --font:       Calibri, 'Segoe UI', Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--teal-mid);
+      color: var(--white);
+      padding: 36px 40px 28px;
+      border-bottom: 5px solid var(--gold);
+    }
+    .header-inner { max-width: 1140px; margin: 0 auto; }
+    .badge-version {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--teal-mid);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .site-header h1 { font-size: 2rem; font-weight: 700; line-height: 1.25; }
+    .site-header .sub { font-size: 1rem; opacity: 0.88; margin-top: 6px; }
+    .meta-row { margin-top: 16px; font-size: 0.85rem; opacity: 0.75; display: flex; gap: 28px; flex-wrap: wrap; }
+
+    /* ── NAV ── */
+    .toc {
+      background: var(--teal);
+      color: var(--white);
+      padding: 14px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .toc-inner { max-width: 1140px; margin: 0 auto; display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
+    .toc a { color: var(--white); text-decoration: none; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 14px; transition: background 0.2s; }
+    .toc a:hover { background: rgba(255,255,255,0.2); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 1140px; margin: 0 auto; padding: 40px 32px 80px; }
+
+    /* ── SECTIONS ── */
+    section { margin-bottom: 60px; }
+    section + section { border-top: 2px solid var(--border); padding-top: 50px; }
+
+    h2.section-title {
+      font-size: 1.55rem;
+      color: var(--teal-mid);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h2.section-title .icon { font-size: 1.3rem; }
+    .section-subtitle { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 28px; }
+
+    h3 { font-size: 1.12rem; color: var(--teal); font-weight: 700; margin: 28px 0 10px; }
+    h4 { font-size: 0.97rem; color: var(--teal-mid); font-weight: 700; margin: 18px 0 8px; }
+
+    p { margin-bottom: 12px; }
+    ul, ol { padding-left: 22px; margin-bottom: 12px; }
+    li { margin-bottom: 5px; }
+
+    /* ── CARDS ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; margin: 24px 0; }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      box-shadow: 0 2px 8px rgba(0,128,128,0.06);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .card-num {
+      background: var(--teal);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .card h3 { margin: 0; font-size: 0.98rem; }
+    .card p, .card li { font-size: 0.88rem; }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: var(--white); }
+    th { background: var(--teal); color: var(--white); padding: 10px 14px; text-align: left; font-weight: 600; }
+    td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: var(--teal-light); }
+    .good { color: #1a7a1a; font-weight: 600; }
+    .warn { color: #b36a00; font-weight: 600; }
+    .bad  { color: var(--red); font-weight: 600; }
+
+    /* ── HIGHLIGHT BOXES ── */
+    .box {
+      border-left: 4px solid var(--teal);
+      background: var(--teal-light);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 18px 0;
+    }
+    .box.gold  { border-color: var(--gold);  background: #FDF9EF; }
+    .box.red   { border-color: var(--red);   background: #FEF0EE; }
+    .box.dark  { border-color: var(--teal-mid); background: #EAF2F2; }
+
+    /* ── BLOOM TAXONOMY ── */
+    .bloom-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 16px 0; }
+    .bloom-cell {
+      text-align: center;
+      padding: 10px 6px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .bloom-1 { background: #78a5c5; }
+    .bloom-2 { background: #5d9ea6; }
+    .bloom-3 { background: #4a9070; }
+    .bloom-4 { background: #c9a84c; }
+    .bloom-5 { background: #d27a42; }
+    .bloom-6 { background: #c0392b; }
+
+    /* ── MODULE TABLE ── */
+    .module-block { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 28px; overflow: hidden; }
+    .module-header {
+      background: var(--teal-mid);
+      color: var(--white);
+      padding: 14px 22px;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+    .module-tag { font-size: 0.72rem; background: rgba(255,255,255,0.22); padding: 2px 10px; border-radius: 10px; }
+    .module-header h3 { margin: 0; font-size: 1.02rem; color: var(--white); }
+    .module-body { padding: 20px 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .module-body.full { grid-template-columns: 1fr; }
+    .module-col h4 { margin-top: 0; }
+    @media(max-width: 680px) { .module-body { grid-template-columns: 1fr; } .bloom-grid { grid-template-columns: repeat(3,1fr); } }
+
+    /* ── GUIDE ── */
+    .step { display: flex; gap: 18px; margin-bottom: 22px; }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: var(--teal);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1rem;
+    }
+    .step-body h4 { margin-top: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--teal-mid);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.82rem;
+    }
+    footer strong { color: var(--white); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <span class="badge-version">V6 · 01/06/2026 · SHY-TE</span>
+    <h1>Formation FIM — Analyse Pédagogique &amp; Guide d'Implémentation</h1>
+    <p class="sub">Comparaison aux référentiels de l'Université Mohammed VI Polytechnique (UM6P) &mdash; Ingénierie pédagogique pour adultes</p>
+    <div class="meta-row">
+      <span>Programme : <strong>Fundraiser Impact Mission (FIM)</strong></span>
+      <span>Organisme : <strong>SHY-Performance</strong></span>
+      <span>Version : <strong>V6-01062026SHY-TE</strong></span>
+      <span>Date : <strong>1er juin 2026</strong></span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#s1">① Cartographie</a>
+    <a href="#s2">② Comparaison UM6P</a>
+    <a href="#s3">③ Bonnes pratiques</a>
+    <a href="#s4">④ Version améliorée</a>
+    <a href="#s5">⑤ Guide formateurs</a>
+    <a href="#s6">⑥ Guide apprenants</a>
+    <a href="#s7">⑦ Recommandations</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ BODY ═══════════════════ -->
+<div class="page">
+
+<!-- ══════════════════════════════════════
+     SECTION 1 — CARTOGRAPHIE DES 7 MODULES
+══════════════════════════════════════ -->
+<section id="s1">
+  <h2 class="section-title"><span class="icon">🗂️</span>1. Cartographie des 7 modules FIM (V5-FINAL → V6)</h2>
+  <p class="section-subtitle">Structure actuelle analysée depuis la branche <code>claude/wizardly-cray-KaNNi</code> — version de référence <code>V5-FINAL-01062026SHY-TE</code></p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">Book 0</span>
+        <h3>Fil Conducteur</h3>
+      </div>
+      <p><strong>Rôle :</strong> Document de gouvernance pédagogique — séquençage des 5 jours, chartes formateur, fil narratif global.</p>
+      <ul>
+        <li>Planning horaire détaillé J1→J5</li>
+        <li>Règles de vie & contrat d'engagement</li>
+        <li>Tableau de bord de progression</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">Book 1</span>
+        <h3>Synopsis &amp; Objectifs</h3>
+      </div>
+      <p><strong>Rôle :</strong> Cadrage stratégique — vision de la formation, objectifs globaux, profil de sortie des fundraisers.</p>
+      <ul>
+        <li>Raison d'être du programme FIM</li>
+        <li>Compétences cibles (savoir / savoir-faire / savoir-être)</li>
+        <li>Indicateurs de réussite</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">Book J1</span>
+        <h3>Fondations &amp; Mission</h3>
+      </div>
+      <p><strong>Rôle :</strong> Ancrage identitaire du fundraiser — valeurs, posture, raison d'agir.</p>
+      <ul>
+        <li>Qu'est-ce qu'un fundraiser de rue ?</li>
+        <li>Mission UNICEF / cause humanitaire</li>
+        <li>Éthique et légitimité de la démarche</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">Book J2</span>
+        <h3>Monde Associatif</h3>
+      </div>
+      <p><strong>Rôle :</strong> Contextualisation — comprendre l'écosystème ONG/association au Maroc et à l'international.</p>
+      <ul>
+        <li>Statut juridique des associations</li>
+        <li>Financement participatif & don régulier</li>
+        <li>UNICEF : structure, programmes, impact chiffré</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">Book J3</span>
+        <h3>Lecture &amp; Script</h3>
+      </div>
+      <p><strong>Rôle :</strong> Acquisition du discours commercial-humanitaire — structure du pitch, langage verbal et non-verbal.</p>
+      <ul>
+        <li>Les 5 étapes du script FIM</li>
+        <li>Techniques d'accroche & storytelling</li>
+        <li>Ancrage émotionnel et appel à l'action</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">Book J4</span>
+        <h3>Objections</h3>
+      </div>
+      <p><strong>Rôle :</strong> Gestion des freins — écoute active, reformulation, transformation des objections en engagement.</p>
+      <ul>
+        <li>Typologies des 12 objections fréquentes</li>
+        <li>Méthode CROC et CAP</li>
+        <li>Jeux de rôle et grilles d'auto-évaluation</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">Book J5</span>
+        <h3>Synthèse &amp; Simulations</h3>
+      </div>
+      <p><strong>Rôle :</strong> Consolidation et certification opérationnelle — évaluation finale, feedback 360°, plan de développement individuel.</p>
+      <ul>
+        <li>Simulation terrain en conditions réelles</li>
+        <li>Grille de certification FIM</li>
+        <li>Plan d'action personnel (PAP)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box">
+    <strong>Structure globale :</strong> 5 jours de formation intensive (35h contact) + 1 journée terrain encadrée. Le ratio théorie/pratique est actuellement estimé à <strong>55 % / 45 %</strong> — cible V6 : <strong>35 % / 65 %</strong> conformément aux standards UM6P de formation professionnelle adultes.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — COMPARAISON UM6P
+══════════════════════════════════════ -->
+<section id="s2">
+  <h2 class="section-title"><span class="icon">🎓</span>2. Comparaison aux référentiels de l'Université Mohammed VI Polytechnique</h2>
+  <p class="section-subtitle">Référentiels mobilisés : UM6P College of Continuing Education (CCE) · Approche par compétences (APC) · Cadre Marocain des Certifications (CMC) · RNCP adaptation francophone</p>
+
+  <h3>2.1 Référentiel UM6P — Approche par Compétences (APC)</h3>
+  <p>L'UM6P structure ses formations continues autour de <strong>4 piliers APC</strong> : (1) référentiel métier, (2) référentiel de compétences, (3) référentiel de formation, (4) référentiel d'évaluation. Chaque module doit aligner explicitement ces quatre dimensions.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Pilier APC (UM6P)</th>
+          <th>Exigence</th>
+          <th>Book 0</th>
+          <th>Books J1–J5</th>
+          <th>Écart V5</th>
+          <th>Cible V6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Référentiel métier</strong></td>
+          <td>Fiche ROME / fiche poste validée</td>
+          <td class="warn">Partiel</td>
+          <td class="warn">Partiel</td>
+          <td>Aucune fiche poste formalisée</td>
+          <td class="good">Fiche fundraiser terrain normée</td>
+        </tr>
+        <tr>
+          <td><strong>Référentiel compétences</strong></td>
+          <td>Taxonomie de Bloom Niv. 1–6 explicite</td>
+          <td class="bad">Absent</td>
+          <td class="warn">Implicite</td>
+          <td>Objectifs non formulés en verbes d'action</td>
+          <td class="good">Objectifs SMART par module</td>
+        </tr>
+        <tr>
+          <td><strong>Référentiel de formation</strong></td>
+          <td>Séquençage didactique ADDIE ou SAM</td>
+          <td class="warn">Partiel</td>
+          <td class="warn">Partiel</td>
+          <td>Fil conducteur présent mais sans ancrage pédagogique</td>
+          <td class="good">Séquence Kolb intégrée</td>
+        </tr>
+        <tr>
+          <td><strong>Référentiel d'évaluation</strong></td>
+          <td>Évaluation diagnostique + formative + sommative</td>
+          <td class="bad">Absent</td>
+          <td class="warn">Sommative seule (J5)</td>
+          <td>Évaluation en fin uniquement</td>
+          <td class="good">3 paliers d'évaluation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.2 Référentiel UM6P — Formation Professionnelle Adultes</h3>
+  <p>Le College of Continuing Education (CCE) de l'UM6P applique les principes de l'<strong>andragogie de Knowles</strong> (1980) et les recommandations du <strong>Cadre Marocain des Certifications (CMC 2025)</strong> :</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Principe andragogique (UM6P/CMC)</th>
+          <th>Présence V5</th>
+          <th>Observation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Besoin de savoir — l'apprenant sait <em>pourquoi</em> il apprend</td>
+          <td class="warn">Partiel</td>
+          <td>Book1 cadre les objectifs mais ils ne sont pas repris au début de chaque journée</td>
+        </tr>
+        <tr>
+          <td>Concept de soi — autonomie et auto-direction</td>
+          <td class="bad">Absent</td>
+          <td>Aucun outil d'auto-diagnostic en entrée de module</td>
+        </tr>
+        <tr>
+          <td>Expériences antérieures — capitalisation</td>
+          <td class="bad">Absent</td>
+          <td>Pas d'ice-breaker ni de recueil d'expériences terrain</td>
+        </tr>
+        <tr>
+          <td>Disposition à apprendre — orientation tâche/problème</td>
+          <td class="good">Présent</td>
+          <td>J3 et J4 sont bien orientés résolution de problèmes</td>
+        </tr>
+        <tr>
+          <td>Motivation intrinsèque — sens et utilité immédiate</td>
+          <td class="warn">Partiel</td>
+          <td>La cause humanitaire est valorisée mais le bénéfice personnel du fundraiser est peu développé</td>
+        </tr>
+        <tr>
+          <td>Orientation vers l'application — transfert</td>
+          <td class="warn">Partiel</td>
+          <td>J5 propose des simulations mais sans plan de transfert structuré</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.3 Alignement avec le CMC 2025 (Maroc)</h3>
+  <div class="box dark">
+    <strong>Cadre Marocain des Certifications — Niveau 3 (Formation courte professionnalisante) :</strong>
+    <ul style="margin-top:8px">
+      <li>Durée minimale : 35h — <span class="good">✓ FIM respecte ce seuil</span></li>
+      <li>Évaluation en situation de travail (EST) obligatoire — <span class="warn">⚠ J5 simulation ≠ terrain réel homologué</span></li>
+      <li>Livret de formation individuel (LFI) — <span class="bad">✗ absent en V5</span></li>
+      <li>Certification par jury externe ou binôme formateur/superviseur — <span class="bad">✗ absent en V5</span></li>
+      <li>Accessibilité des contenus (FALC, multi-supports) — <span class="warn">⚠ format PPTX unique, aucune version audio/vidéo</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 3 — BONNES PRATIQUES ADULTES
+══════════════════════════════════════ -->
+<section id="s3">
+  <h2 class="section-title"><span class="icon">📚</span>3. Bonnes pratiques en ingénierie pédagogique pour adultes</h2>
+  <p class="section-subtitle">Synthèse des modèles de référence applicables au programme FIM</p>
+
+  <h3>3.1 Taxonomie de Bloom révisée (Anderson &amp; Krathwohl, 2001)</h3>
+  <p>Tout objectif pédagogique doit être formulé avec un <strong>verbe d'action observable</strong> situé dans la hiérarchie cognitive :</p>
+  <div class="bloom-grid">
+    <div class="bloom-cell bloom-1">1<br>Se souvenir<br><small>lister, nommer</small></div>
+    <div class="bloom-cell bloom-2">2<br>Comprendre<br><small>expliquer, résumer</small></div>
+    <div class="bloom-cell bloom-3">3<br>Appliquer<br><small>utiliser, démontrer</small></div>
+    <div class="bloom-cell bloom-4">4<br>Analyser<br><small>distinguer, comparer</small></div>
+    <div class="bloom-cell bloom-5">5<br>Évaluer<br><small>juger, critiquer</small></div>
+    <div class="bloom-cell bloom-6">6<br>Créer<br><small>concevoir, produire</small></div>
+  </div>
+  <p>Pour un programme de formation terrain intensive, les niveaux <strong>3 (Appliquer) et 4 (Analyser)</strong> doivent dominer.</p>
+
+  <h3>3.2 Cycle d'apprentissage expérientiel de Kolb</h3>
+  <div class="box">
+    <strong>EC → OR → CA → EA</strong> — Chaque séquence de 90 min doit passer par : <em>Expérience Concrète</em> (mise en situation) → <em>Observation Réfléchie</em> (debriefing) → <em>Conceptualisation Abstraite</em> (apport théorique) → <em>Expérimentation Active</em> (exercice transféré). Ce cycle, recommandé par l'UM6P CCE, est actuellement absent des Books J1–J5.
+  </div>
+
+  <h3>3.3 Modèle ADDIE</h3>
+  <div class="card-grid" style="grid-template-columns: repeat(5, 1fr); gap:10px;">
+    <div class="card" style="padding:14px 12px;">
+      <h4 style="color:var(--teal); margin-bottom:6px;">A — Analyser</h4>
+      <p style="font-size:0.82rem;">Besoins apprenants, prérequis, contraintes terrain</p>
+    </div>
+    <div class="card" style="padding:14px 12px;">
+      <h4 style="color:var(--teal); margin-bottom:6px;">D — Design</h4>
+      <p style="font-size:0.82rem;">Objectifs SMART, séquençage, modalités évaluation</p>
+    </div>
+    <div class="card" style="padding:14px 12px;">
+      <h4 style="color:var(--teal); margin-bottom:6px;">D — Développer</h4>
+      <p style="font-size:0.82rem;">Supports multi-formats, fiches activités, grilles</p>
+    </div>
+    <div class="card" style="padding:14px 12px;">
+      <h4 style="color:var(--teal); margin-bottom:6px;">I — Implémenter</h4>
+      <p style="font-size:0.82rem;">Formation formateurs, pilote, ajustements</p>
+    </div>
+    <div class="card" style="padding:14px 12px;">
+      <h4 style="color:var(--teal); margin-bottom:6px;">E — Évaluer</h4>
+      <p style="font-size:0.82rem;">Kirkpatrick Niv. 1–4, indicateurs terrain</p>
+    </div>
+  </div>
+
+  <h3>3.4 Modèle de Kirkpatrick (4 niveaux d'évaluation)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Niveau</th><th>Question clé</th><th>Outil recommandé</th><th>Fréquence FIM</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>1 — Réaction</strong></td><td>L'apprenant a-t-il apprécié ?</td><td>Questionnaire satisfaction (1-10)</td><td>Fin de chaque journée</td></tr>
+        <tr><td><strong>2 — Apprentissage</strong></td><td>A-t-il acquis les compétences ?</td><td>Quiz, grille d'observation</td><td>Fin J3, Fin J5</td></tr>
+        <tr><td><strong>3 — Comportement</strong></td><td>Applique-t-il sur le terrain ?</td><td>Grille d'évaluation terrain J+15</td><td>15 jours post-formation</td></tr>
+        <tr><td><strong>4 — Résultats</strong></td><td>Impact sur les dons collectés ?</td><td>KPI : taux de conversion, montant moyen</td><td>J+30 et J+90</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.5 Principes de la pédagogie active (UM6P)</h3>
+  <ul>
+    <li><strong>70 / 20 / 10</strong> — 70% apprentissage par l'expérience terrain, 20% apprentissage social (pairs, feedback), 10% formation formelle</li>
+    <li><strong>Apprentissage situé</strong> — les tâches d'entraînement doivent reproduire fidèlement les conditions réelles (bruits de rue, passants indifférents, pression temporelle)</li>
+    <li><strong>Feedback immédiat</strong> — retour du formateur dans les 90 secondes suivant chaque simulation</li>
+    <li><strong>Charge cognitive optimisée</strong> — maximum 3 nouveaux concepts par séquence de 90 min (théorie de Sweller)</li>
+    <li><strong>Différenciation pédagogique</strong> — adapter le rythme aux profils : débutants, reconversion, expérimentés</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 4 — VERSION AMÉLIORÉE V6
+══════════════════════════════════════ -->
+<section id="s4">
+  <h2 class="section-title"><span class="icon">✨</span>4. Version améliorée V6 — Objectifs, Activités &amp; Évaluations</h2>
+  <p class="section-subtitle">Refonte de chaque module selon les standards UM6P / APC / Bloom / Kolb</p>
+
+  <!-- BOOK 0 -->
+  <div class="module-block">
+    <div class="module-header">
+      <span class="module-tag">BOOK 0</span>
+      <h3>Fil Conducteur — Document de gouvernance pédagogique V6</h3>
+    </div>
+    <div class="module-body">
+      <div class="module-col">
+        <h4>Objectifs V6 (Bloom Niv. 2–3)</h4>
+        <ul>
+          <li>Expliquer la logique pédagogique des 5 jours</li>
+          <li>Utiliser le tableau de bord pour piloter la progression</li>
+          <li>Appliquer les règles de vie pour créer un cadre sécurisant</li>
+        </ul>
+        <h4>Ajouts V6</h4>
+        <ul>
+          <li>Fiche de diagnostic d'entrée (auto-positionnement compétences)</li>
+          <li>Contrat pédagogique signé formateur ↔ apprenant</li>
+          <li>Calendrier des évaluations formatives (J1 à J5)</li>
+        </ul>
+      </div>
+      <div class="module-col">
+        <h4>Activité d'ouverture (Kolb — EC)</h4>
+        <p>Ice-breaker : "Mon premier souvenir d'une demande de don" — 10 min en binômes, mise en commun 5 min. Objectif : révéler les représentations initiales et ancrer l'expérience personnelle.</p>
+        <h4>Évaluation diagnostique</h4>
+        <p>Quiz 10 questions (compétences relationnelles, connaissance ONG, gestion du refus). Score initial enregistré dans le Livret de Formation Individuel (LFI).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK 1 -->
+  <div class="module-block">
+    <div class="module-header">
+      <span class="module-tag">BOOK 1</span>
+      <h3>Synopsis &amp; Objectifs — Cadrage stratégique V6</h3>
+    </div>
+    <div class="module-body">
+      <div class="module-col">
+        <h4>Objectifs V6 (Bloom Niv. 2–4)</h4>
+        <ul>
+          <li>Nommer les 7 compétences clés du fundraiser professionnel</li>
+          <li>Expliquer le lien entre objectifs personnels et mission associative</li>
+          <li>Distinguer les niveaux de maîtrise attendus à J1, J3 et J5</li>
+        </ul>
+        <h4>Activités V6</h4>
+        <ul>
+          <li>Carte mentale individuelle "Pourquoi je suis ici" → partage en groupe</li>
+          <li>Vision board collectif : "Le fundraiser idéal en 2026"</li>
+          <li>Lecture commentée du référentiel de compétences FIM</li>
+        </ul>
+      </div>
+      <div class="module-col">
+        <h4>Référentiel de compétences FIM V6</h4>
+        <div class="table-wrap">
+          <table style="font-size:0.82rem;">
+            <tr><th>#</th><th>Compétence</th><th>Niveau cible</th></tr>
+            <tr><td>C1</td><td>Accroche &amp; ouverture conversationnelle</td><td>Bloom 3</td></tr>
+            <tr><td>C2</td><td>Storytelling impact humanitaire</td><td>Bloom 3</td></tr>
+            <tr><td>C3</td><td>Écoute active &amp; empathie</td><td>Bloom 4</td></tr>
+            <tr><td>C4</td><td>Traitement des objections (CROC/CAP)</td><td>Bloom 3</td></tr>
+            <tr><td>C5</td><td>Engagement au don régulier</td><td>Bloom 3</td></tr>
+            <tr><td>C6</td><td>Gestion émotionnelle &amp; résilience</td><td>Bloom 4</td></tr>
+            <tr><td>C7</td><td>Éthique et conformité donateur</td><td>Bloom 2</td></tr>
+          </table>
+        </div>
+        <h4>Évaluation</h4>
+        <p>Auto-positionnement sur la grille C1–C7 (0/1/2/3) → point de départ du LFI.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK J1 -->
+  <div class="module-block">
+    <div class="module-header">
+      <span class="module-tag">BOOK J1</span>
+      <h3>Fondations &amp; Mission — Identité du fundraiser V6</h3>
+    </div>
+    <div class="module-body">
+      <div class="module-col">
+        <h4>Objectifs V6 (Bloom Niv. 1–3)</h4>
+        <ul>
+          <li>Nommer les missions et valeurs de l'UNICEF au Maroc et à l'international</li>
+          <li>Expliquer le cadre éthique et juridique de la collecte de dons en rue</li>
+          <li>Démontrer la posture physique et vocale d'un fundraiser engagé</li>
+        </ul>
+        <h4>Séquence Kolb (3h)</h4>
+        <ol>
+          <li><strong>EC (30 min)</strong> — Visionnage d'un témoignage bénéficiaire UNICEF, réaction émotionnelle notée individuellement</li>
+          <li><strong>OR (20 min)</strong> — Débriefing : "Qu'avez-vous ressenti ? Qu'auriez-vous dit ?"</li>
+          <li><strong>CA (40 min)</strong> — Apport théorique : structure UNICEF, chiffres clés, cadre légal Maroc</li>
+          <li><strong>EA (30 min)</strong> — Jeu de rôle : "Expliquez la mission UNICEF en 60 secondes"</li>
+        </ol>
+      </div>
+      <div class="module-col">
+        <h4>Activités pratiques</h4>
+        <ul>
+          <li>"L'ascenseur de mission" — pitch 60s → feedback pair</li>
+          <li>Debate : "Le don mensuel régulier est-il éthique ?" — développe l'esprit critique</li>
+          <li>Cartographie mentale : valeurs personnelles ↔ valeurs UNICEF</li>
+        </ul>
+        <h4>Évaluation formative J1</h4>
+        <ul>
+          <li>Grille d'observation du pitch 60s (C1, C2, C7) — formateur + auto-évaluation</li>
+          <li>Quiz 5 questions (chiffres UNICEF, cadre légal) — score minimal 60%</li>
+          <li>Réflexion écrite 5 lignes : "Ma motivation personnelle à rejoindre FIM"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK J2 -->
+  <div class="module-block">
+    <div class="module-header">
+      <span class="module-tag">BOOK J2</span>
+      <h3>Monde Associatif — Contextualisation V6</h3>
+    </div>
+    <div class="module-body">
+      <div class="module-col">
+        <h4>Objectifs V6 (Bloom Niv. 2–4)</h4>
+        <ul>
+          <li>Expliquer le modèle économique du don régulier vs ponctuel</li>
+          <li>Distinguer les différents acteurs du secteur associatif marocain</li>
+          <li>Analyser pourquoi le don régulier est le modèle de financement le plus efficace</li>
+        </ul>
+        <h4>Activités V6</h4>
+        <ul>
+          <li><strong>Étude de cas :</strong> Analyse de 3 campagnes de fundraising (succès/échec) — déduction des facteurs clés</li>
+          <li><strong>Simulation budgétaire :</strong> "Si 100 Marocains donnent 100 DH/mois, quel impact ?" — calcul collectif</li>
+          <li><strong>Veille associative :</strong> Recherche en groupe — 5 associations opérant au Maroc, leurs modèles de collecte</li>
+        </ul>
+      </div>
+      <div class="module-col">
+        <h4>Apports théoriques clés</h4>
+        <ul>
+          <li>Loi 75-00 sur les associations au Maroc</li>
+          <li>Économie du don : théorie de la réciprocité (Mauss)</li>
+          <li>Données secteur : marché du fundraising MENA 2024–2026</li>
+          <li>UNICEF Maroc : budget annuel, programmes actifs, bénéficiaires</li>
+        </ul>
+        <h4>Évaluation formative J2</h4>
+        <ul>
+          <li>Restitution orale de l'étude de cas (5 min / groupe)</li>
+          <li>Fiche "Monde associatif" complétée individuellement</li>
+          <li>1 question de réflexion : "Comment justifier l'utilité du don régulier face à un sceptique ?"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK J3 -->
+  <div class="module-block">
+    <div class="module-header">
+      <span class="module-tag">BOOK J3</span>
+      <h3>Lecture &amp; Script — Maîtrise du discours V6</h3>
+    </div>
+    <div class="module-body">
+      <div class="module-col">
+        <h4>Objectifs V6 (Bloom Niv. 3–4)</h4>
+        <ul>
+          <li>Utiliser les 5 étapes du script FIM dans l'ordre et avec naturel</li>
+          <li>Adapter le storytelling au profil du passant (âge, signal non-verbal)</li>
+          <li>Analyser sa propre performance via la grille d'observation</li>
+        </ul>
+        <h4>Séquence Kolb (4h — cœur du programme)</h4>
+        <ol>
+          <li><strong>EC (45 min)</strong> — Démonstration formateur "en direct" sur un passant simulé, apprenants observateurs avec grille</li>
+          <li><strong>OR (30 min)</strong> — Débriefing collectif : "Qu'avez-vous observé ?" → liste des comportements efficaces</li>
+          <li><strong>CA (45 min)</strong> — Déconstruction des 5 étapes, ancres mnémotechniques, langage corporel</li>
+          <li><strong>EA (90 min)</strong> — Entraînement en trinômes : fundraiser / passant / observateur. Rotation toutes les 15 min</li>
+        </ol>
+      </div>
+      <div class="module-col">
+        <h4>Les 5 étapes du Script FIM V6</h4>
+        <ol>
+          <li><strong>Accroche</strong> — contact visuel, sourire, question ouverte (10–15 sec)</li>
+          <li><strong>Mise en contexte</strong> — "Je travaille avec l'UNICEF…" (20 sec)</li>
+          <li><strong>Impact Story</strong> — récit d'un enfant bénéficiaire (45–60 sec)</li>
+          <li><strong>Proposition</strong> — montant suggéré, avantages donateur (30 sec)</li>
+          <li><strong>Engagement</strong> — signature, remerciement chaleureux (20 sec)</li>
+        </ol>
+        <h4>Évaluation formative J3</h4>
+        <ul>
+          <li>Grille de certification partielle C1+C2+C5 (formateur)</li>
+          <li>Auto-évaluation vidéo (si apprenants consentent à être filmés)</li>
+          <li>Score seuil : 12/20 pour passer à J4</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK J4 -->
+  <div class="module-block">
+    <div class="module-header">
+      <span class="module-tag">BOOK J4</span>
+      <h3>Objections — Maîtrise des freins V6</h3>
+    </div>
+    <div class="module-body">
+      <div class="module-col">
+        <h4>Objectifs V6 (Bloom Niv. 3–5)</h4>
+        <ul>
+          <li>Appliquer la méthode CROC face aux 12 objections fréquentes</li>
+          <li>Distinguer l'objection réelle de l'objection prétexte</li>
+          <li>Évaluer la qualité de ses propres réponses aux objections</li>
+        </ul>
+        <h4>Les 12 objections clés + réponses V6</h4>
+        <div class="table-wrap">
+          <table style="font-size:0.8rem;">
+            <tr><th>#</th><th>Objection</th><th>Type</th><th>Réponse CROC</th></tr>
+            <tr><td>O1</td><td>"Je n'ai pas les moyens"</td><td>Financière</td><td>Recadrer sur le montant réel/jour</td></tr>
+            <tr><td>O2</td><td>"Je ne fais pas confiance"</td><td>Méfiance</td><td>Preuves : rapport annuel, site officiel</td></tr>
+            <tr><td>O3</td><td>"J'ai déjà fait un don"</td><td>Engagé</td><td>Valoriser et proposer le don régulier</td></tr>
+            <tr><td>O4</td><td>"Je dois réfléchir"</td><td>Report</td><td>Clarifier ce qui bloque, ancrer l'urgence</td></tr>
+            <tr><td>O5</td><td>"Combien vous gagnez ?"</td><td>Méfiance</td><td>Transparence totale + mission vs emploi</td></tr>
+            <tr><td>O6</td><td>"Je donne à d'autres ONG"</td><td>Concurrent</td><td>Complémentarité des causes</td></tr>
+            <tr><td>O7</td><td>"Ce n'est pas le bon moment"</td><td>Temporel</td><td>Urgence humanitaire + flexibilité date</td></tr>
+            <tr><td>O8</td><td>"L'argent n'arrive pas"</td><td>Méfiance</td><td>Traçabilité des fonds, rapports publiés</td></tr>
+            <tr><td>O9</td><td>"Je suis pressé"</td><td>Temporel</td><td>Pitch 45 secondes version express</td></tr>
+            <tr><td>O10</td><td>"Mon conjoint décide"</td><td>Autorité</td><td>Impliquer le couple, envoyer info</td></tr>
+            <tr><td>O11</td><td>"Je n'aime pas les prélèvements"</td><td>Processus</td><td>Flexibilité, modification/arrêt facile</td></tr>
+            <tr><td>O12</td><td>"Politique / religion"</td><td>Valeurs</td><td>Neutralité UNICEF, focus enfants</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="module-col">
+        <h4>Activités V6</h4>
+        <ul>
+          <li><strong>"Battle des objections" :</strong> tournoi en brackets — chaque binôme traite 2 objections tirées au sort, le groupe vote la meilleure réponse</li>
+          <li><strong>Analyse de cas filmés :</strong> 5 extraits vidéo (bonne/mauvaise gestion) — déconstruction collective</li>
+          <li><strong>Escalade progressive :</strong> simuler le même passant avec 3 niveaux d'hostilité croissante</li>
+        </ul>
+        <h4>Méthode CROC</h4>
+        <ul>
+          <li><strong>C</strong>onsidérer — accusé réception sincère</li>
+          <li><strong>R</strong>eformuler — "Si je comprends bien…"</li>
+          <li><strong>O</strong>rganiser — réponse structurée preuve/exemple</li>
+          <li><strong>C</strong>onclure — retour vers la proposition</li>
+        </ul>
+        <h4>Évaluation formative J4</h4>
+        <ul>
+          <li>Grille C3+C4 — 6 critères observables — formateur + pair</li>
+          <li>Réflexion : "Quelle objection me challenge le plus et pourquoi ?"</li>
+          <li>Score seuil : 14/20 pour validation C3+C4</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK J5 -->
+  <div class="module-block">
+    <div class="module-header">
+      <span class="module-tag">BOOK J5</span>
+      <h3>Synthèse &amp; Simulations — Certification opérationnelle V6</h3>
+    </div>
+    <div class="module-body">
+      <div class="module-col">
+        <h4>Objectifs V6 (Bloom Niv. 3–6)</h4>
+        <ul>
+          <li>Réaliser un pitch complet (script + objections) en conditions réelles simulées</li>
+          <li>Évaluer sa propre progression depuis J1 via le LFI</li>
+          <li>Concevoir son Plan d'Action Personnel (PAP) J+30</li>
+        </ul>
+        <h4>Programme J5</h4>
+        <ol>
+          <li><strong>08h30–09h00</strong> — Révision flash des 7 compétences, rappel des seuils</li>
+          <li><strong>09h00–11h00</strong> — Simulation terrain × 2 rounds (formateur joue passant réaliste)</li>
+          <li><strong>11h00–11h30</strong> — Debriefing collectif + célébration des progrès</li>
+          <li><strong>11h30–12h30</strong> — Évaluation sommative individuelle (formateur + supervisor)</li>
+          <li><strong>13h30–14h30</strong> — Construction du PAP (Plan d'Action Personnel)</li>
+          <li><strong>14h30–15h00</strong> — Remise des attestations + clôture ritualisée</li>
+        </ol>
+      </div>
+      <div class="module-col">
+        <h4>Grille de certification FIM V6</h4>
+        <div class="table-wrap">
+          <table style="font-size:0.82rem;">
+            <tr><th>Critère</th><th>Obs.</th><th>Max</th></tr>
+            <tr><td>Accroche naturelle ≤ 15 sec</td><td>__</td><td>4</td></tr>
+            <tr><td>Script fluide et personnalisé</td><td>__</td><td>4</td></tr>
+            <tr><td>Impact Story (émotion &amp; faits)</td><td>__</td><td>4</td></tr>
+            <tr><td>Traitement ≥ 2 objections</td><td>__</td><td>4</td></tr>
+            <tr><td>Engagement au don / closing</td><td>__</td><td>4</td></tr>
+            <tr><td>Posture éthique &amp; conformité</td><td>__</td><td>4</td></tr>
+            <tr><td>Gestion émotionnelle &amp; résilience</td><td>__</td><td>4</td></tr>
+            <tr><td><strong>TOTAL</strong></td><td>__</td><td><strong>28</strong></td></tr>
+          </table>
+        </div>
+        <p style="font-size:0.82rem; margin-top:8px;"><strong>Seuil de certification :</strong> 20/28 (71%) — En dessous : formation complémentaire ciblée + évaluation J+15</p>
+        <h4>Kirkpatrick Niv. 1 — Satisfaction</h4>
+        <p style="font-size:0.85rem;">Questionnaire 12 items (NPS formateur, contenu, rythme, utilité immédiate). Résultats analysés en comité qualité SHY-Performance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 5 — GUIDE FORMATEURS
+══════════════════════════════════════ -->
+<section id="s5">
+  <h2 class="section-title"><span class="icon">🎯</span>5. Guide d'implémentation — Formateurs</h2>
+  <p class="section-subtitle">Protocole opérationnel pour déployer le programme FIM V6 selon les standards UM6P</p>
+
+  <h3>5.1 Profil et compétences requis du formateur FIM</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Savoir</h3>
+      <ul>
+        <li>Connaissance approfondie de l'UNICEF et du secteur associatif marocain</li>
+        <li>Maîtrise des techniques de vente sociale et fundraising</li>
+        <li>Bases en andragogie et animation de groupe adultes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Savoir-faire</h3>
+      <ul>
+        <li>Animer un jeu de rôle et en faire le debriefing structuré</li>
+        <li>Utiliser la grille de certification de manière fiable (inter-rater reliability ≥ 80%)</li>
+        <li>Adapter le rythme en temps réel selon le groupe</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Savoir-être</h3>
+      <ul>
+        <li>Posture de coach plutôt que de professeur</li>
+        <li>Capacité à gérer les émotions fortes (frustration, découragement)</li>
+        <li>Exemplarité : démontrer le script avant de l'enseigner</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>5.2 Protocole J-15 (avant la formation)</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Analyse des apprenants</h4>
+      <p>Collecter les fiches d'inscription. Identifier les profils (primo-entrants, reconversions, expérimentés). Constituer des sous-groupes homogènes pour les exercices.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Préparation de l'espace</h4>
+      <p>Salle en U (facilite l'interaction), espace libre pour les jeux de rôle (3m × 3m), matériel : grilles imprimées, post-its, tableau blanc, éventuellement caméra/téléphone pour l'auto-analyse vidéo.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Calibrage de la grille</h4>
+      <p>Si 2 formateurs : faire une session de calibrage (chacun note la même simulation vidéo — écart acceptable &lt; 3 points/28). Garantit la fiabilité de la certification.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h4>Préparation des scénarios d'objections</h4>
+      <p>Préparer 20 fiches "passant" avec profil détaillé, objections assignées, niveau d'hostilité (1–3). Plastifier pour réutilisation.</p>
+    </div>
+  </div>
+
+  <h3>5.3 Protocole de chaque journée (J1–J5)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Moment</th><th>Durée</th><th>Action formateur</th><th>Outil</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Ouverture</strong></td><td>15 min</td><td>Tour de table express "Humeur du matin" + rappel objectifs du jour (affichés au tableau)</td><td>Météo émotionnelle</td></tr>
+        <tr><td><strong>Révision J-1</strong></td><td>10 min</td><td>Quiz flash 3 questions sur la journée précédente — correction immédiate</td><td>Quiz oral ou Mentimeter</td></tr>
+        <tr><td><strong>Séquence Kolb</strong></td><td>90 min × n</td><td>EC → OR → CA → EA — ne pas sauter l'OR même sous pression temps</td><td>Grilles, fiches activité</td></tr>
+        <tr><td><strong>Pause active</strong></td><td>15 min</td><td>Exercice de respiration / marche — essentiel pour la régulation émotionnelle</td><td>Protocole bien-être</td></tr>
+        <tr><td><strong>Évaluation formative</strong></td><td>20 min</td><td>Grille d'observation + feedback individuel en 3 points (1 force, 1 axe, 1 conseil)</td><td>Grille J1/J2/J3/J4</td></tr>
+        <tr><td><strong>Clôture</strong></td><td>10 min</td><td>Chaque apprenant complète 3 lignes dans son LFI : "J'ai appris… Je veux m'améliorer sur… Je m'engage à…"</td><td>LFI — Livret Formation</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>5.4 Gestion des situations difficiles</h3>
+  <div class="box red">
+    <strong>Apprenant bloqué / découragement :</strong> Ne pas forcer. Proposer le rôle "observateur" lors du tour suivant. Entretien individuel pendant la pause. Rappeler que l'aisance se construit en 8–12 semaines de pratique terrain.
+  </div>
+  <div class="box gold">
+    <strong>Groupe hétérogène (débutants + expérimentés) :</strong> Constituer des binômes mixtes pour les exercices. Les expérimentés jouent le rôle du "passant difficile" — ils progressent aussi en adaptant leur posture.
+  </div>
+  <div class="box">
+    <strong>Dérive vers la plainte/démotivation :</strong> Technique du "flip it" — transformer chaque plainte en question : "Qu'est-ce qui te permettrait de te sentir mieux équipé ?" Maintenir l'orientation solution.
+  </div>
+
+  <h3>5.5 Suivi post-formation (J+15 et J+30)</h3>
+  <ul>
+    <li><strong>J+15 :</strong> Observation terrain supervisée (15 min/apprenant) — grille Kirkpatrick Niv. 3 + feedback téléphonique ou WhatsApp</li>
+    <li><strong>J+30 :</strong> Revue du PAP — "Avez-vous atteint vos 3 objectifs personnels ?" — adaptation du plan si besoin</li>
+    <li><strong>J+90 :</strong> Analyse KPI terrain — taux de conversion, montant moyen/heure, taux de rétention donateur — feedback agrégé à SHY-Performance</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 6 — GUIDE APPRENANTS
+══════════════════════════════════════ -->
+<section id="s6">
+  <h2 class="section-title"><span class="icon">🌱</span>6. Guide d'implémentation — Apprenants</h2>
+  <p class="section-subtitle">Ce que vous devez savoir pour tirer le maximum des 5 jours FIM</p>
+
+  <h3>6.1 Comment apprendre efficacement en formation adulte</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Avant de commencer</h3>
+      <ul>
+        <li>Compléter honnêtement le questionnaire de positionnement initial</li>
+        <li>Notez 3 situations réelles où vous avez dû convaincre quelqu'un — vous les utiliserez en exercices</li>
+        <li>Dormez suffisamment les 5 nuits de formation : la mémorisation se consolide pendant le sommeil</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Pendant la formation</h3>
+      <ul>
+        <li><strong>Erreur = données :</strong> chaque simulation ratée vous renseigne sur votre zone de progrès</li>
+        <li>Demandez du feedback spécifique : "Qu'est-ce que j'aurais pu faire différemment à ce moment précis ?"</li>
+        <li>Remplissez votre LFI chaque soir — 5 min suffisent</li>
+        <li>Observez attentivement les autres apprenants : vous apprenez autant en regardant qu'en faisant</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Après la formation</h3>
+      <ul>
+        <li>Revoyez vos notes chaque soir pendant 2 semaines (courbe de l'oubli d'Ebbinghaus)</li>
+        <li>Enregistrez-vous en vidéo lors de vos premières journées terrain — analysez seul avant de demander un retour</li>
+        <li>Respectez votre PAP : 1 objectif par semaine sur 30 jours</li>
+        <li>Rejoignez le groupe de pairs SHY-Performance pour partager vos succès et vos difficultés</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>6.2 Le Livret de Formation Individuel (LFI) — votre journal de bord</h3>
+  <p>À remplir chaque soir en 5–10 minutes :</p>
+
+  <div class="box dark">
+    <strong>Structure LFI — Entrée quotidienne :</strong>
+    <ol style="margin-top:8px">
+      <li><strong>Ce que j'ai réussi aujourd'hui</strong> (1–2 points concrets)</li>
+      <li><strong>Ce qui m'a challengé</strong> (1 situation difficile + pourquoi)</li>
+      <li><strong>Mon insight du jour</strong> (1 apprentissage que je n'aurais pas pu anticiper)</li>
+      <li><strong>Mon engagement pour demain</strong> (1 comportement à changer ou renforcer)</li>
+      <li><strong>Mon score auto-évalué sur C1–C7</strong> (0 = pas encore / 1 = débutant / 2 = en progrès / 3 = maîtrisé)</li>
+    </ol>
+  </div>
+
+  <h3>6.3 Plan d'Action Personnel (PAP) — construit en J5</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Semaine</th><th>Objectif principal</th><th>Indicateur de réussite</th><th>Ressource/support</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>S1 (J+7)</td><td>Maîtriser l'accroche en &lt; 12 secondes</td><td>Chronomètre + feedback formateur J+7</td><td>Script J3 + miroir</td></tr>
+        <tr><td>S2 (J+14)</td><td>Traiter les objections O1 et O2 sans hésitation</td><td>0 rupture de discours en simulation</td><td>Fiches O1-O12</td></tr>
+        <tr><td>S3 (J+21)</td><td>Atteindre 1 don/heure minimum</td><td>Feuille de suivi terrain quotidienne</td><td>Superviseur SHY</td></tr>
+        <tr><td>S4 (J+30)</td><td>Révision PAP et définition objectifs M2</td><td>Entretien téléphonique avec formateur</td><td>LFI complet</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.4 Ressources recommandées pour aller plus loin</h3>
+  <ul>
+    <li><strong>Livres :</strong> "Influence" de Cialdini (psychologie de la persuasion) · "Écoute active" de Thomas Gordon · "Start with Why" de Simon Sinek</li>
+    <li><strong>Podcasts :</strong> "Changer le monde" (France 24) · "The Fundraising Podcast" (en anglais) · "L'art de la vente" (Olivier Roland)</li>
+    <li><strong>Rapports :</strong> Rapport annuel UNICEF Maroc (gratuit en ligne) · Baromètre du don en France (AFM/BNP) comme proxy régional</li>
+    <li><strong>Communauté :</strong> Groupe WhatsApp Alumni FIM · Sessions de perfectionnement SHY-Performance (mensuel)</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 7 — RECOMMANDATIONS
+══════════════════════════════════════ -->
+<section id="s7">
+  <h2 class="section-title"><span class="icon">🔭</span>7. Recommandations stratégiques &amp; feuille de route V6→V7</h2>
+  <p class="section-subtitle">Priorités d'amélioration pour SHY-Performance — court, moyen et long terme</p>
+
+  <h3>7.1 Priorités immédiates (J+0 → J+30)</h3>
+  <div class="step">
+    <div class="step-num">P1</div>
+    <div class="step-body">
+      <h4>Formaliser le Livret de Formation Individuel (LFI)</h4>
+      <p>Créer un document PDF/imprimé standardisé de 12 pages (1 page/demi-journée + page récapitulative). Distribuer dès J1 matin. Coût : minimal. Impact : élevé sur la méta-cognition et la traçabilité CMC.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">P2</div>
+    <div class="step-body">
+      <h4>Reformuler tous les objectifs en verbes d'action Bloom</h4>
+      <p>Réviser les slides Book1 et les intros de chaque BookJx. Remplacer "comprendre le monde associatif" par "expliquer en 2 minutes le modèle de financement d'une ONG internationale". Délai : 1 semaine.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">P3</div>
+    <div class="step-body">
+      <h4>Instaurer l'évaluation diagnostique en J1 matin</h4>
+      <p>Quiz 10 questions + auto-positionnement C1–C7. Crée un "avant/après" mesurable. Condition nécessaire pour la certification CMC Niveau 3.</p>
+    </div>
+  </div>
+
+  <h3>7.2 Priorités moyen terme (J+30 → J+90)</h3>
+  <div class="step">
+    <div class="step-num">M1</div>
+    <div class="step-body">
+      <h4>Déployer le cycle Kolb dans chaque module</h4>
+      <p>Restructurer les slides BookJ1–J5 en 4 blocs EC/OR/CA/EA avec timers visibles. Formation formateurs de 2h sur le debriefing structuré. ROI estimé : +25% de transfert terrain (études UM6P CCE).</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">M2</div>
+    <div class="step-body">
+      <h4>Créer un module de différenciation pédagogique</h4>
+      <p>Développer 3 parcours distincts dans Book0 : "Débutant" (formation complète 5J), "Intermédiaire" (J2–J5), "Expert" (J4–J5 + coaching individuel 3h). Répond à la réalité des groupes hétérogènes.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">M3</div>
+    <div class="step-body">
+      <h4>Obtenir la reconnaissance UM6P / CMC</h4>
+      <p>Déposer le dossier de reconnaissance auprès du CCE de l'UM6P (formation courte professionnalisante Niveau 3). Prérequis : LFI, grille de certification, évaluation terrain J+15, rapport Kirkpatrick Niv. 1–3.</p>
+    </div>
+  </div>
+
+  <h3>7.3 Vision long terme (V7 — horizon 2027)</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h3>Digitalisation partielle</h3>
+      <p>Module e-learning async pour Book0 + Book1 (2h en ligne avant la formation présentielle) — libère du temps pour la pratique en salle.</p>
+    </div>
+    <div class="card">
+      <h3>Certification sectorielle</h3>
+      <p>Démarche RNCP-like au Maroc : créer le titre "Fundraiser Professionnel FIM" reconnu par 3+ ONG partenaires (UNICEF, WWF Maroc, Croissant Rouge).</p>
+    </div>
+    <div class="card">
+      <h3>Observatoire des KPI</h3>
+      <p>Dashboard SHY-Performance : taux de certification, taux de conversion terrain J+30, NPS formateur, évolution compétences C1–C7 par cohorte.</p>
+    </div>
+    <div class="card">
+      <h3>Communauté Alumni</h3>
+      <p>Programme de mentoring : fundraisers certifiés J+6 mois coachent les nouvelles cohortes. Renforce la culture SHY-Performance et la rétention des talents.</p>
+    </div>
+  </div>
+
+  <h3>7.4 Synthèse des écarts V5 → V6</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Dimension</th><th>V5 FINAL</th><th>V6 cible</th><th>Gain attendu</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Objectifs pédagogiques</td><td class="warn">Implicites / généraux</td><td class="good">SMART + Bloom explicites</td><td>+40% clarté apprenant</td></tr>
+        <tr><td>Évaluation</td><td class="warn">Sommative J5 uniquement</td><td class="good">Diagnostique + 3 formatives + sommative</td><td>Détection précoce difficultés</td></tr>
+        <tr><td>Andragogie (Knowles)</td><td class="warn">2/6 principes présents</td><td class="good">6/6 principes intégrés</td><td>+30% engagement apprenant</td></tr>
+        <tr><td>Cycle Kolb</td><td class="bad">Absent</td><td class="good">4 phases par séquence</td><td>+25% transfert terrain</td></tr>
+        <tr><td>Traçabilité CMC</td><td class="bad">Aucune</td><td class="good">LFI + grille certification</td><td>Éligibilité certification</td></tr>
+        <tr><td>Ratio pratique/théorie</td><td class="warn">45% / 55%</td><td class="good">65% / 35%</td><td>Standard UM6P atteint</td></tr>
+        <tr><td>Suivi post-formation</td><td class="bad">Absent</td><td class="good">J+15, J+30, J+90</td><td>Kirkpatrick Niv. 3+4</td></tr>
+        <tr><td>Différenciation pédagogique</td><td class="bad">Absent</td><td class="warn">Partiel (3 parcours)</td><td>Adaptation profils variés</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box gold" style="margin-top:28px;">
+    <strong>Message clé :</strong> La formation FIM V5 dispose d'une base solide — contenu pertinent, rythme structuré, ancrage mission fort. La V6 ne remet pas en cause le fond mais injecte la <strong>rigueur pédagogique UM6P</strong> nécessaire pour (1) maximiser l'apprentissage des adultes, (2) mesurer l'impact terrain, et (3) ouvrir la voie à une reconnaissance institutionnelle au Maroc. Chaque amélioration proposée est applicable <strong>sans coût supplémentaire significatif</strong> — elles requièrent du temps de conception, pas de budget externe.
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<footer>
+  <strong>Formation FIM — V6-01062026SHY-TE</strong> · Analyse pédagogique &amp; Guide d'implémentation<br>
+  Produit par SHY-Performance · Référentiels : UM6P College of Continuing Education · CMC 2025 · APC · Bloom · Kolb · Kirkpatrick · Knowles<br>
+  Document de travail — Usage interne &amp; formateurs certifiés FIM
+</footer>
+
+</body>
+</html>
