@@ -1,15 +1,22 @@
 """
 Génère tous les books FIM SHY-Performance en PPTX
+Charte graphique : Teal #008080, Jaune #D4A017, Calibri
+Logo : extrait directement de la charte graphique (image6.png)
+Texte : SYMÉTRIQUE (centré) sur toutes les slides
 """
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 from pptx.util import Cm
-import copy
+import os
 
 # ── Couleurs charte ──────────────────────────────────────────────────────────
 TEAL   = RGBColor(0x00, 0x80, 0x80)
+TEAL_DARK = RGBColor(0x00, 0x4D, 0x4D)
+YELLOW = RGBColor(0xD4, 0xA0, 0x17)
+GOLD   = RGBColor(0xB8, 0x86, 0x00)
+AMBER  = RGBColor(0xFF, 0x8C, 0x00)
 RED    = RGBColor(0xFF, 0x00, 0x00)
 WHITE  = RGBColor(0xFF, 0xFF, 0xFF)
 DARK   = RGBColor(0x1A, 0x1A, 0x1A)
@@ -18,6 +25,14 @@ MGRAY  = RGBColor(0xCC, 0xE5, 0xE5)
 
 W = Inches(13.33)
 H = Inches(7.5)
+
+LOGO_PATH = "/home/user/fatou/shy_logo_v2.png"
+
+INTERDICTION_TEXT = (
+    "Toute modification, rectification ou ajout est strictement interdit(e). "
+    "Élaboré par Tamou Eljerrari — Ingénieure en Formation — sur ordre de la Directrice Générale, "
+    "Mme Salima Negrao. Seules la DG SHY-Performance ou une personne mandatée sont autorisées."
+)
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 def new_prs():
@@ -30,8 +45,7 @@ def blank_slide(prs):
     layout = prs.slide_layouts[6]  # blank
     return prs.slides.add_slide(layout)
 
-def rect(slide, x, y, w, h, fill_rgb, alpha=None):
-    from pptx.util import Emu
+def rect(slide, x, y, w, h, fill_rgb):
     shape = slide.shapes.add_shape(1, x, y, w, h)
     shape.line.fill.background()
     shape.fill.solid()
@@ -40,7 +54,7 @@ def rect(slide, x, y, w, h, fill_rgb, alpha=None):
 
 def txbox(slide, text, x, y, w, h,
           size=18, bold=False, color=DARK,
-          align=PP_ALIGN.LEFT, italic=False, font="Calibri"):
+          align=PP_ALIGN.CENTER, italic=False, font="Calibri"):
     tb = slide.shapes.add_textbox(x, y, w, h)
     tf = tb.text_frame
     tf.word_wrap = True
@@ -55,7 +69,7 @@ def txbox(slide, text, x, y, w, h,
     run.font.color.rgb = color
     return tb
 
-def add_lines(slide, items, x, y, w, size=14, color=DARK, bullet="▸ "):
+def add_lines(slide, items, x, y, w, size=16, color=DARK, bullet="▸ "):
     tb = slide.shapes.add_textbox(x, y, w, Inches(6))
     tf = tb.text_frame
     tf.word_wrap = True
@@ -66,137 +80,219 @@ def add_lines(slide, items, x, y, w, size=14, color=DARK, bullet="▸ "):
             first = False
         else:
             p = tf.add_paragraph()
-        p.space_before = Pt(4)
+        p.alignment = PP_ALIGN.LEFT
+        p.space_before = Pt(5)
         run = p.add_run()
         run.text = bullet + item
         run.font.name = "Calibri"
         run.font.size = Pt(size)
         run.font.color.rgb = color
+    return tb
+
+def add_logo(sl, x=Inches(11.5), y=Inches(0.05), h=Inches(0.85)):
+    if os.path.exists(LOGO_PATH):
+        from pptx.util import Inches as In
+        aspect = 1081 / 1055
+        w = h * aspect
+        sl.shapes.add_picture(LOGO_PATH, x, y, width=w, height=h)
+
+def add_interdiction(sl):
+    # Bande sombre en bas
+    band_y = H - Inches(0.75)
+    band_h = Inches(0.40)
+    rect(sl, 0, band_y, W, band_h, TEAL_DARK)
+    # Ligne rouge séparatrice
+    rect(sl, 0, band_y, W, Inches(0.03), RED)
+    # Texte interdiction
+    txbox(sl, INTERDICTION_TEXT,
+          Inches(0.3), band_y + Inches(0.03), W - Inches(0.6), band_h - Inches(0.04),
+          size=7, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
 
 # ── Slides types ─────────────────────────────────────────────────────────────
 
 def slide_cover(prs, title, subtitle, day_label=""):
     sl = blank_slide(prs)
-    # fond
+    # Fond
     rect(sl, 0, 0, W, H, LGRAY)
-    # bande teal gauche
-    rect(sl, 0, 0, Inches(0.35), H, TEAL)
-    # bande teal haut
-    rect(sl, 0, 0, W, Inches(0.35), TEAL)
-    # bande teal bas
-    rect(sl, 0, H - Inches(0.5), W, Inches(0.5), TEAL)
-    # badge jour
+    # Bande teal gauche
+    rect(sl, 0, 0, Inches(0.5), H, TEAL)
+    # Bande teal haut
+    rect(sl, 0, 0, W, Inches(1.0), TEAL)
+    # Bande teal bas
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
+    # Badge jour
     if day_label:
-        rect(sl, Inches(0.6), Inches(1.0), Inches(2.4), Inches(0.7), TEAL)
-        txbox(sl, day_label, Inches(0.65), Inches(1.0), Inches(2.3), Inches(0.7),
-              size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    # logo SHY-Performance
-    txbox(sl, "SHY-Performance", Inches(0.6), Inches(0.45), Inches(5), Inches(0.5),
-          size=13, bold=True, color=WHITE)
-    # titre principal
-    txbox(sl, title, Inches(0.6), Inches(2.0), Inches(11.5), Inches(1.8),
-          size=40, bold=True, color=TEAL, align=PP_ALIGN.LEFT)
-    # séparateur
-    rect(sl, Inches(0.6), Inches(3.9), Inches(4), Inches(0.06), TEAL)
-    # sous-titre
-    txbox(sl, subtitle, Inches(0.6), Inches(4.1), Inches(11.5), Inches(1.2),
-          size=18, color=DARK)
-    # footer
-    txbox(sl, "FIDELIS  ×  UNICEF France  |  Formation Initiale Module",
-          Inches(0.6), H - Inches(0.45), Inches(10), Inches(0.4),
-          size=11, color=WHITE)
+        rect(sl, Inches(0.7), Inches(1.2), Inches(3.0), Inches(0.75), TEAL_DARK)
+        txbox(sl, day_label, Inches(0.7), Inches(1.2), Inches(3.0), Inches(0.75),
+              size=18, bold=True, color=YELLOW, align=PP_ALIGN.CENTER)
+    # Logo SHY-Performance (texte jaune dans header)
+    txbox(sl, "SHY-Performance", Inches(0.7), Inches(0.1), Inches(5), Inches(0.8),
+          size=20, bold=True, color=YELLOW, align=PP_ALIGN.LEFT)
+    # Titre principal — centré
+    txbox(sl, title, Inches(0.7), Inches(2.0), Inches(11.5), Inches(2.5),
+          size=44, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
+    # Séparateur
+    rect(sl, Inches(2.5), Inches(4.65), Inches(8.3), Inches(0.06), TEAL)
+    # Sous-titre — centré
+    txbox(sl, subtitle, Inches(0.7), Inches(4.8), Inches(11.9), Inches(1.1),
+          size=18, color=DARK, align=PP_ALIGN.CENTER)
+    # Footer credits
+    txbox(sl, "FIDELIS  ×  UNICEF France  |  Formation Initiale Module  |  © SHY-Performance 2025",
+          Inches(0.6), H - Inches(0.72), Inches(10), Inches(0.35),
+          size=11, color=WHITE, align=PP_ALIGN.CENTER)
+    # Logo image top-right
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
     return sl
 
-def slide_section(prs, number, title, items, note=""):
+def slide_section(prs, number, title, items, note="", is_regle_dor=False):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, Inches(1.4), TEAL)
-    rect(sl, 0, H - Inches(0.4), W, Inches(0.4), TEAL)
-    # numéro
-    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.15), Inches(1), Inches(1.1),
-          size=42, bold=True, color=WHITE)
-    # titre
-    txbox(sl, title, Inches(1.4), Inches(0.25), Inches(11), Inches(0.9),
-          size=26, bold=True, color=WHITE)
-    # contenu
-    add_lines(sl, items, Inches(0.5), Inches(1.6), Inches(12.3), size=15)
-    if note:
-        rect(sl, Inches(0.5), Inches(6.4), Inches(12.3), Inches(0.7), MGRAY)
-        txbox(sl, "💡  " + note, Inches(0.6), Inches(6.4), Inches(12), Inches(0.7),
-              size=13, italic=True, color=TEAL)
-    # footer
-    txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.3), H - Inches(0.37), Inches(10), Inches(0.35),
-          size=10, color=WHITE)
+
+    if is_regle_dor:
+        # RÈGLE D'OR : fond doré/ambré, grande police, mise en valeur
+        rect(sl, 0, 0, W, H, RGBColor(0xFF, 0xF8, 0xE1))
+        rect(sl, 0, 0, W, Inches(1.5), AMBER)
+        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), AMBER)
+        # Étoile décorative
+        txbox(sl, "★  RÈGLE D'OR  ★", Inches(0.3), Inches(0.05), W - Inches(0.6), Inches(0.8),
+              size=32, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+        # Titre RÈGLE D'OR
+        txbox(sl, title, Inches(0.5), Inches(0.9), W - Inches(1.0), Inches(0.55),
+              size=22, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+        # Contenu centré, grande police
+        content_y = Inches(1.6)
+        content_h = H - Inches(1.6) - Inches(0.75) - (Inches(0.6) if note else 0)
+        add_lines_centered(sl, items, Inches(0.5), content_y, W - Inches(1.0), size=20, color=TEAL_DARK)
+        if note:
+            note_y = H - Inches(1.35)
+            rect(sl, Inches(0.5), note_y, W - Inches(1.0), Inches(0.55), RGBColor(0xFF, 0xE0, 0x80))
+            txbox(sl, "⭐  " + note, Inches(0.6), note_y + Inches(0.02), W - Inches(1.2), Inches(0.5),
+                  size=13, italic=True, color=TEAL_DARK, align=PP_ALIGN.CENTER)
+        txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
+              Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
+              size=11, color=WHITE, align=PP_ALIGN.CENTER)
+    else:
+        rect(sl, 0, 0, W, Inches(1.5), TEAL)
+        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
+        # Numéro
+        txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
+              size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+        # Titre — centré
+        txbox(sl, title, Inches(1.5), Inches(0.2), Inches(9.5), Inches(1.1),
+              size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+        # Contenu — centré verticalement entre header et footer
+        content_y = Inches(1.6)
+        footer_y = H - Inches(0.75) - (Inches(0.65) if note else 0)
+        add_lines(sl, items, Inches(0.6), content_y, W - Inches(1.2), size=17, color=DARK)
+        if note:
+            note_y = H - Inches(1.38)
+            rect(sl, Inches(0.5), note_y, W - Inches(1.0), Inches(0.58), MGRAY)
+            txbox(sl, "💡  " + note, Inches(0.6), note_y + Inches(0.02), W - Inches(1.2), Inches(0.54),
+                  size=13, italic=True, color=TEAL, align=PP_ALIGN.CENTER)
+        txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
+              Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
+              size=11, color=WHITE, align=PP_ALIGN.CENTER)
+
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
     return sl
+
+def add_lines_centered(slide, items, x, y, w, size=18, color=DARK, bullet="★ "):
+    tb = slide.shapes.add_textbox(x, y, w, Inches(5.5))
+    tf = tb.text_frame
+    tf.word_wrap = True
+    first = True
+    for item in items:
+        if first:
+            p = tf.paragraphs[0]
+            first = False
+        else:
+            p = tf.add_paragraph()
+        p.alignment = PP_ALIGN.CENTER
+        p.space_before = Pt(8)
+        run = p.add_run()
+        run.text = bullet + item
+        run.font.name = "Calibri"
+        run.font.size = Pt(size)
+        run.font.color.rgb = color
+        run.font.bold = True
 
 def slide_two_col(prs, number, title, left_title, left_items, right_title, right_items):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, Inches(1.4), TEAL)
-    rect(sl, 0, H - Inches(0.4), W, Inches(0.4), TEAL)
-    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.15), Inches(1), Inches(1.1),
-          size=42, bold=True, color=WHITE)
-    txbox(sl, title, Inches(1.4), Inches(0.25), Inches(11), Inches(0.9),
-          size=26, bold=True, color=WHITE)
-    # col gauche
-    rect(sl, Inches(0.4), Inches(1.5), Inches(6.0), Inches(0.45), TEAL)
-    txbox(sl, left_title, Inches(0.5), Inches(1.5), Inches(5.8), Inches(0.45),
-          size=14, bold=True, color=WHITE)
-    add_lines(sl, left_items, Inches(0.5), Inches(2.05), Inches(5.8), size=13)
-    # col droite
-    rect(sl, Inches(6.9), Inches(1.5), Inches(6.0), Inches(0.45), TEAL)
-    txbox(sl, right_title, Inches(7.0), Inches(1.5), Inches(5.8), Inches(0.45),
-          size=14, bold=True, color=WHITE)
-    add_lines(sl, right_items, Inches(7.0), Inches(2.05), Inches(5.8), size=13)
+    rect(sl, 0, 0, W, Inches(1.5), TEAL)
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
+    txbox(sl, f"{number:02d}", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
+          size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    txbox(sl, title, Inches(1.5), Inches(0.2), Inches(9.5), Inches(1.1),
+          size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    # Col gauche
+    rect(sl, Inches(0.5), Inches(1.6), Inches(6.0), Inches(0.5), TEAL_DARK)
+    txbox(sl, left_title, Inches(0.5), Inches(1.6), Inches(6.0), Inches(0.5),
+          size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    add_lines(sl, left_items, Inches(0.55), Inches(2.2), Inches(5.8), size=14, color=DARK)
+    # Col droite
+    rect(sl, Inches(6.9), Inches(1.6), Inches(6.0), Inches(0.5), TEAL_DARK)
+    txbox(sl, right_title, Inches(6.9), Inches(1.6), Inches(6.0), Inches(0.5),
+          size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    add_lines(sl, right_items, Inches(6.95), Inches(2.2), Inches(5.8), size=14, color=DARK)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.3), H - Inches(0.37), Inches(10), Inches(0.35),
-          size=10, color=WHITE)
+          Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
+          size=11, color=WHITE, align=PP_ALIGN.CENTER)
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
     return sl
 
 def slide_quote(prs, quote, author=""):
     sl = blank_slide(prs)
     rect(sl, 0, 0, W, H, TEAL)
-    rect(sl, Inches(0.5), Inches(0.5), Inches(0.1), H - Inches(1), WHITE)
-    txbox(sl, "❝", Inches(1.0), Inches(1.2), Inches(11), Inches(1.2),
-          size=60, bold=True, color=WHITE)
-    txbox(sl, quote, Inches(1.0), Inches(2.5), Inches(11.2), Inches(3),
-          size=28, bold=True, color=WHITE, italic=True)
+    rect(sl, Inches(0.4), Inches(0.4), Inches(0.12), H - Inches(0.8), WHITE)
+    txbox(sl, "❝", Inches(0.8), Inches(0.8), Inches(11.7), Inches(1.2),
+          size=72, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    txbox(sl, quote, Inches(0.8), Inches(2.1), Inches(11.7), Inches(3.2),
+          size=30, bold=True, color=WHITE, italic=True, align=PP_ALIGN.CENTER)
     if author:
-        txbox(sl, "— " + author, Inches(1.0), Inches(5.8), Inches(11), Inches(0.6),
-              size=16, color=MGRAY)
+        txbox(sl, "— " + author, Inches(0.8), Inches(5.5), Inches(11.7), Inches(0.7),
+              size=18, color=MGRAY, align=PP_ALIGN.CENTER)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.3), H - Inches(0.37), Inches(10), Inches(0.35),
-          size=10, color=MGRAY)
+          Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
+          size=11, color=MGRAY, align=PP_ALIGN.CENTER)
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
     return sl
 
 def slide_merci(prs, extra_msg=""):
     sl = blank_slide(prs)
     rect(sl, 0, 0, W, H, TEAL)
-    rect(sl, 0, 0, W, Inches(0.3), WHITE)
-    rect(sl, 0, H - Inches(0.3), W, Inches(0.3), WHITE)
+    rect(sl, 0, 0, W, Inches(0.4), YELLOW)
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
     txbox(sl, "MERCI POUR VOTRE PARTICIPATION",
-          Inches(1), Inches(1.8), Inches(11.3), Inches(1.3),
-          size=38, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    rect(sl, Inches(3), Inches(3.2), Inches(7.3), Inches(0.06), WHITE)
+          Inches(0.5), Inches(1.6), Inches(12.3), Inches(1.5),
+          size=42, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    rect(sl, Inches(2.5), Inches(3.3), Inches(8.3), Inches(0.07), YELLOW)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(1), Inches(3.4), Inches(11.3), Inches(0.6),
-          size=18, color=MGRAY, align=PP_ALIGN.CENTER)
+          Inches(0.5), Inches(3.5), Inches(12.3), Inches(0.7),
+          size=20, color=MGRAY, align=PP_ALIGN.CENTER)
     if extra_msg:
-        txbox(sl, extra_msg, Inches(1), Inches(4.2), Inches(11.3), Inches(2.4),
-              size=16, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
+        txbox(sl, extra_msg, Inches(0.5), Inches(4.4), Inches(12.3), Inches(2.4),
+              size=17, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
+    txbox(sl, "Élaboré par Tamou Eljerrari | Sur ordre de Mme Salima Negrao, DG SHY-Performance",
+          Inches(0.3), H - Inches(0.70), Inches(12.7), Inches(0.35),
+          size=10, color=MGRAY, align=PP_ALIGN.CENTER)
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
     return sl
 
 def slide_felicitations(prs):
     sl = blank_slide(prs)
     rect(sl, 0, 0, W, H, TEAL)
-    rect(sl, 0, 0, W, Inches(0.3), WHITE)
-    rect(sl, 0, H - Inches(0.3), W, Inches(0.3), WHITE)
-    # étoiles décoratives
-    txbox(sl, "★  ★  ★", Inches(1), Inches(0.5), Inches(11.3), Inches(0.8),
-          size=24, color=RGBColor(0xFF, 0xC0, 0x00), align=PP_ALIGN.CENTER)
+    rect(sl, 0, 0, W, Inches(0.4), YELLOW)
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL_DARK)
+    txbox(sl, "★  ★  ★", Inches(0.5), Inches(0.5), Inches(12.3), Inches(0.8),
+          size=28, color=YELLOW, align=PP_ALIGN.CENTER)
     txbox(sl, "FÉLICITATIONS !",
-          Inches(1), Inches(1.3), Inches(11.3), Inches(1.3),
-          size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
-    rect(sl, Inches(2.5), Inches(2.7), Inches(8.3), Inches(0.06), WHITE)
+          Inches(0.5), Inches(1.3), Inches(12.3), Inches(1.4),
+          size=54, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    rect(sl, Inches(2.0), Inches(2.85), Inches(9.3), Inches(0.07), YELLOW)
     msg = (
         "Vous avez complété avec succès la Formation Initiale Module (FIM)\n"
         "Fundraiser UNICEF — SHY-Performance × FIDELIS\n\n"
@@ -207,32 +303,34 @@ def slide_felicitations(prs):
         "L'équipe SHY-Performance est fière de vous.\n"
         "Bonne continuation et beau terrain à toutes et à tous !"
     )
-    txbox(sl, msg, Inches(1.2), Inches(2.9), Inches(10.9), Inches(4),
-          size=16, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
-    txbox(sl, "★  ★  ★", Inches(1), Inches(6.8), Inches(11.3), Inches(0.4),
-          size=20, color=RGBColor(0xFF, 0xC0, 0x00), align=PP_ALIGN.CENTER)
+    txbox(sl, msg, Inches(1.0), Inches(3.0), Inches(11.3), Inches(3.8),
+          size=17, color=WHITE, align=PP_ALIGN.CENTER, italic=True)
+    txbox(sl, "★  ★  ★", Inches(0.5), H - Inches(1.1), Inches(12.3), Inches(0.4),
+          size=22, color=YELLOW, align=PP_ALIGN.CENTER)
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
     return sl
 
 def slide_kpi_table(prs):
     sl = blank_slide(prs)
-    rect(sl, 0, 0, W, Inches(1.4), TEAL)
-    rect(sl, 0, H - Inches(0.4), W, Inches(0.4), TEAL)
-    txbox(sl, "04", Inches(0.3), Inches(0.15), Inches(1), Inches(1.1),
-          size=42, bold=True, color=WHITE)
-    txbox(sl, "Indicateurs de Performance — KPI", Inches(1.4), Inches(0.25),
-          Inches(11), Inches(0.9), size=26, bold=True, color=WHITE)
+    rect(sl, 0, 0, W, Inches(1.5), TEAL)
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
+    txbox(sl, "04", Inches(0.3), Inches(0.1), Inches(1.1), Inches(1.3),
+          size=48, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+    txbox(sl, "Indicateurs de Performance — KPI", Inches(1.5), Inches(0.2),
+          Inches(9.5), Inches(1.1), size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
     rows = [
-        ("KPI","Libellé","Objectif"),
-        ("CU/H","Contacts Utiles par Heure","9 minimum"),
-        ("TX Transfo","% de PEL/PA parmi les CU","Cible selon association"),
-        ("PDC","Plan de Charge mensuel","Volume défini par Fidelis"),
-        ("Qualification","Conformité des qualifications","50% de la qualité Fidelis"),
-        ("PEL","Prélèvement En Ligne","Mode prioritaire"),
-        ("PA","Prélèvement Automatique Régulier","Produit unique de la campagne"),
+        ("KPI", "Libellé", "Objectif"),
+        ("CU/H", "Contacts Utiles par Heure", "9 minimum"),
+        ("TX Transfo", "% de PEL/PA parmi les CU", "Cible selon association"),
+        ("PDC", "Plan de Charge mensuel", "Volume défini par Fidelis"),
+        ("Qualification", "Conformité des qualifications", "50% de la qualité Fidelis"),
+        ("PEL", "Prélèvement En Ligne", "Mode prioritaire"),
+        ("PA", "Prélèvement Automatique Régulier", "Produit unique de la campagne"),
     ]
     col_w = [Inches(2.0), Inches(5.5), Inches(4.5)]
     col_x = [Inches(0.4), Inches(2.5), Inches(8.1)]
-    y0 = Inches(1.55)
+    y0 = Inches(1.58)
     row_h = Inches(0.72)
     for r, row in enumerate(rows):
         y = y0 + r * row_h
@@ -242,34 +340,12 @@ def slide_kpi_table(prs):
             rect(sl, cx, y, cw - Inches(0.05), row_h - Inches(0.04), bg)
             txbox(sl, cell, cx + Inches(0.1), y + Inches(0.1),
                   cw - Inches(0.2), row_h - Inches(0.1),
-                  size=13 if r > 0 else 14, bold=(r == 0), color=fc)
+                  size=14 if r > 0 else 15, bold=(r == 0), color=fc, align=PP_ALIGN.CENTER)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.3), H - Inches(0.37), Inches(10), Inches(0.35),
-          size=10, color=WHITE)
-    return sl
-
-def slide_quiz_question(prs, qnum, question, options):
-    """options = list of 4 strings"""
-    sl = blank_slide(prs)
-    rect(sl, 0, 0, W, Inches(1.3), TEAL)
-    rect(sl, 0, H - Inches(0.4), W, Inches(0.4), TEAL)
-    txbox(sl, f"Q{qnum}", Inches(0.3), Inches(0.18), Inches(1.2), Inches(1.0),
-          size=36, bold=True, color=WHITE)
-    txbox(sl, question, Inches(1.5), Inches(0.2), Inches(11.5), Inches(0.9),
-          size=20, bold=True, color=WHITE)
-    letters = ["A", "B", "C", "D"]
-    y_start = Inches(1.5)
-    opt_h = Inches(1.15)
-    for i, (letter, opt) in enumerate(zip(letters, options)):
-        y = y_start + i * opt_h
-        rect(sl, Inches(0.4), y, Inches(0.7), Inches(0.7), MGRAY)
-        txbox(sl, letter, Inches(0.4), y, Inches(0.7), Inches(0.7),
-              size=18, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
-        txbox(sl, opt, Inches(1.25), y + Inches(0.05), Inches(11.7), Inches(0.9),
-              size=15, color=DARK)
-    txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France — Quiz FIM",
-          Inches(0.3), H - Inches(0.37), Inches(10), Inches(0.35),
-          size=10, color=WHITE)
+          Inches(0.3), H - Inches(0.72), Inches(10), Inches(0.35),
+          size=11, color=WHITE, align=PP_ALIGN.CENTER)
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
     return sl
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -460,23 +536,27 @@ def build_j1():
             "Dossier : fidélisation ou réactivation",
         ])
 
-    slide_section(prs, 7, "Le Produit — Prélèvement Automatique Régulier", [
-        "RÈGLE D'OR DE LA CAMPAGNE : SEUL le prélèvement automatique régulier est proposé",
+    # RÈGLE D'OR slide
+    slide_section(prs, 7, "Le Produit — RÈGLE D'OR DE LA CAMPAGNE", [
+        "SEUL le prélèvement automatique régulier (PA) est proposé",
         "Aucun don ponctuel — uniquement le PA mensuel régulier",
-        "MODE A — Prélèvement À CHAUD (prioritaire) : IBAN recueilli en direct lors de l'appel",
-        "MODE B — PA en ligne en direct : fundraiser guide le donateur sur le site unicef.fr",
-        "MODE C — Promesse PA en ligne : donateur s'engage à valider seul + rappel prévu",
-        "MODE D — PA Courrier (exceptionnel) : envoi d'une autorisation de prélèvement par courrier",
-        "Paliers proposés : 10€ / 15€ / 20€ par mois — ne jamais descendre sans accord explicite",
-    ], note="Rappel déduction fiscale : 15€/mois = 3,75€ réels après déduction à 75%")
+        "MODE A — Prélèvement À CHAUD : IBAN recueilli en direct lors de l'appel",
+        "MODE B — PA en ligne en direct : guider le donateur sur unicef.fr",
+        "MODE C — Promesse PA en ligne : engagement + rappel prévu",
+        "MODE D — PA Courrier (exceptionnel) : autorisation par courrier",
+        "Paliers proposés : 10€ / 15€ / 20€ par mois",
+    ], note="Rappel déduction fiscale : 15€/mois = 3,75€ réels après déduction à 75%",
+    is_regle_dor=True)
 
-    slide_section(prs, 8, "Les 5 Règles Officielles de l'Accroche", [
+    # RÈGLE D'OR — Les 5 règles de l'accroche
+    slide_section(prs, 8, "Les 5 Règles Officielles de l'Accroche — RÈGLE D'OR", [
         "RÈGLE 1 — Dire 'Allô ?' et attendre la réponse : ne jamais parler en premier",
         "RÈGLE 2 — Identifier le genre : voix masculine → M. / voix féminine → Mme",
         "RÈGLE 3 — Annoncer l'enregistrement de l'appel à des fins de qualité et formation",
         "RÈGLE 4 — Se présenter : prénom + pour l'UNICEF",
         "RÈGLE 5 — Accroche cause : 'Je suppose que vous connaissez bien l'UNICEF ?'",
-    ], note="Ces 5 règles sont OBLIGATOIRES — leur non-respect constitue une faute qualité")
+    ], note="Ces 5 règles sont OBLIGATOIRES — leur non-respect constitue une faute qualité",
+    is_regle_dor=True)
 
     slide_section(prs, 9, "Organisation de la Journée de Production", [
         "9h30 — Prise de poste + briefing équipe",
@@ -572,15 +652,16 @@ def build_j2():
         "Utiliser ce label comme réponse à l'objection 'Je ne fais pas confiance aux associations'",
     ])
 
-    slide_section(prs, 8, "Pourquoi le Don Régulier est Vital", [
+    # RÈGLE D'OR — Comprendre pour convaincre
+    slide_section(prs, 8, "RÈGLE D'OR — Pourquoi le Don Régulier est Vital", [
         "COMPRENDRE → S'ENGAGER → CONVAINCRE : le fundraiser qui comprend convainc mieux",
         "Le don régulier permet de planifier les actions humanitaires sur le long terme",
         "La faim, la maladie, le manque de soins ne s'arrêtent pas après une aide ponctuelle",
         "Un don de 10€/mois = accompagner un enfant durant toutes les étapes de sa guérison",
         "Flexible : le donateur peut modifier ou suspendre son don à tout moment",
-        "Impact cumulatif : 10€ × 12 mois = 120€/an soit 1 mois complet de nutrition thérapeutique × 4",
+        "Impact cumulatif : 10€ × 12 mois = 120€/an soit 4 mois complets de nutrition",
         "Argument : 'Sans votre soutien régulier, nos équipes ne peuvent pas planifier'",
-    ])
+    ], is_regle_dor=True)
 
     slide_quote(prs,
         "Comprendre pour Convaincre.\nChaque citoyen est concerné.",
@@ -667,7 +748,8 @@ def build_j3():
         "Clôture : 'Merci infiniment — votre soutien va changer concrètement la vie d'enfants'",
     ], note="🎭 Exercice : simulation complète étape 7 — traiter la méfiance IBAN")
 
-    slide_section(prs, 8, "Exercice de Lecture — Règles du Jeu", [
+    # RÈGLE D'OR — Script
+    slide_section(prs, 8, "RÈGLE D'OR — Exercice de Lecture du Script", [
         "🎭 EXERCICE 1 : Lecture silencieuse du script complet (10 minutes)",
         "🎭 EXERCICE 2 : Lecture à voix haute individuelle — 1 étape par fundraiser",
         "🎭 EXERCICE 3 : Jeu de rôle complet en binôme — script de bout en bout",
@@ -675,7 +757,7 @@ def build_j3():
         "🎭 EXERCICE 4 : Appel chronométré — objectif : script complet en moins de 5 minutes",
         "Débrief collectif : points forts identifiés + 1 axe d'amélioration par fundraiser",
         "Auto-évaluation : chaque fundraiser note ses propres points de vigilance",
-    ])
+    ], is_regle_dor=True)
 
     slide_quote(prs,
         "Votre voix, votre conviction,\nvotre argument — c'est ce qui transforme\nune hésitation en don concret.",
@@ -692,22 +774,24 @@ def build_j4():
     prs = new_prs()
     slide_cover(prs, "JOUR 4\nTRAITEMENT\nDES OBJECTIONS", "15 Objections — 5 Catégories — Méthode AAR\nSHY-Performance × FIDELIS × UNICEF France", "JOUR 4")
 
-    slide_section(prs, 1, "La Méthode AAR — Principe Fondamental", [
+    # RÈGLE D'OR — Méthode AAR
+    slide_section(prs, 1, "RÈGLE D'OR — La Méthode AAR", [
         "AAR = Accuser réception / Argumenter / Relancer",
         "A — ACCUSER RÉCEPTION : montrer que l'on a entendu et compris l'objection",
-        "Exemples : 'Je comprends tout à fait...' / 'C'est tout à fait légitime...' / 'J'entends bien...'",
+        "Exemples : 'Je comprends tout à fait...' / 'C'est tout à fait légitime...'",
         "A — ARGUMENTER : répondre avec un argument factuel ET émotionnel",
         "R — RELANCER : reposer une question orientée vers l'accord",
         "Exemples de relance : 'Alors, est-ce que 10€ par mois vous semble accessible ?'",
         "Règle d'or : ne jamais contredire frontalement — toujours amortir avant d'argumenter",
-    ], note="La méthode AAR s'applique à TOUTES les objections sans exception")
+    ], note="La méthode AAR s'applique à TOUTES les objections sans exception",
+    is_regle_dor=True)
 
     slide_section(prs, 2, "Catégorie 1 — Objections Initiales (Phase d'Accroche)", [
         "OBJ 1 : 'Pas intéressé / Je n'ai pas le temps' → 'Permettez-moi de vous expliquer rapidement...'",
         "OBJ 2 : 'Faux numéro' → 'Mon appel n'est pas nominatif — campagne nationale d'information'",
         "OBJ 3 : 'Vous m'appelez pour un don ?' → 'Avant tout, je vous contacte pour avoir votre avis'",
         "OBJ 4 : 'Je donne déjà ailleurs' → 'Je vous remercie — il ne s'agit pas seulement d'un don'",
-        "OBJ 5 : 'C'est une arnaque !' → 'Je vous appelle bien de la part d'UNICEF France — vérifiable sur unicef.fr'",
+        "OBJ 5 : 'C'est une arnaque !' → 'Je vous appelle bien de la part d'UNICEF France — unicef.fr'",
         "OBJ 6 : 'Je ne donne pas par téléphone' → 'Il n'est pas question de donner de l'argent par téléphone'",
         "OBJ 7 : 'Pas confiance aux associations' → citer Comité de la Charte, 75 ans, Nobel 1965",
         "OBJ 8 : 'Je n'aime pas être contacté' → 'Message important à diffuser — moyen le plus efficace'",
@@ -724,7 +808,7 @@ def build_j4():
     ], note="Toujours ramener le montant à son coût réel après déduction fiscale de 75%")
 
     slide_section(prs, 4, "Catégorie 3 — Contre le Don Régulier (PA)", [
-        "OBJ 11 : 'Je préfère un don ponctuel' → 'C'est formidable ! Mais le régulier sauve vraiment sur le long terme'",
+        "OBJ 11 : 'Je préfère un don ponctuel' → 'C'est formidable ! Mais le régulier sauve sur le long terme'",
         "Argument : 'La faim ne s'arrête pas après une aide ponctuelle'",
         "Argument flexibilité : 'Vous pouvez stopper ou modifier le montant à tout moment'",
         "OBJ 12 : 'Je n'aime pas l'engagement mensuel' → 'Ce n'est pas un engagement rigide'",
@@ -739,19 +823,19 @@ def build_j4():
         "'Sans accord verbal clair de votre part, rien n'est possible'",
         "'Votre IBAN figure déjà sur vos factures d'énergie, internet, mutuelle, CAF...'",
         "'Aucun prélèvement aujourd'hui — 1er prélèvement le 10 du mois prochain'",
-        "'Procédure encadrée accordée exclusivement aux organisations françaises reconnues d'utilité publique'",
+        "'Procédure encadrée accordée exclusivement aux organisations françaises reconnues'",
         "Si toujours non → orienter vers PA en ligne en direct sur unicef.fr",
     ], note="Ne jamais recueillir l'IBAN sans la présence du superviseur + coupure enregistrement")
 
     slide_section(prs, 6, "Catégorie 5 — Objections Conflictuelles", [
         "OBJ 14a : 'D'où m'appelez-vous ?' → 'De Paris — 6ème arrondissement, siège UNICEF France'",
-        "OBJ 14b : 'D'où avez-vous mon numéro ?' → citer la source (partenaire / annuaire / dpo@groupe-fidelis.fr)",
+        "OBJ 14b : 'D'où avez-vous mon numéro ?' → citer la source (partenaire / annuaire)",
         "OBJ 14c : 'Vous n'avez pas le droit de m'appeler' → informer sur l'inscription annuaire",
         "OBJ 14d : 'Je suis sur liste Bloctel' → 'Les associations à but non lucratif sont autorisées'",
         "OBJ 14e : 'Je suis sur liste rouge' → s'excuser, remonter l'info, prendre congé",
         "OBJ 14f : 'Vous avez un accent !' → assumer avec humour, enchaîner sur le script",
         "OBJ 14g : 'Je connais un membre de l'association' → valoriser + poursuivre ou prendre congé",
-        "OBJ 14h/i : 'Qui êtes-vous ?' / contestation source → 'Mandaté par l'UNICEF — vérifiable sur unicef.fr'",
+        "OBJ 14h/i : 'Qui êtes-vous ?' → 'Mandaté par l'UNICEF — vérifiable sur unicef.fr'",
     ], note="Face à une situation conflictuelle : SOURIRE + CALME + BLOC — jamais d'impatience")
 
     slide_section(prs, 7, "Grille d'Observation — Jeux de Rôle J4", [
@@ -764,7 +848,8 @@ def build_j4():
         "Score : 1 (à travailler) / 2 (en progrès) / 3 (maîtrisé) par critère",
     ])
 
-    slide_section(prs, 8, "Programme Jeux de Rôle — Journée J4", [
+    # RÈGLE D'OR — Programme jeux de rôle
+    slide_section(prs, 8, "RÈGLE D'OR — Programme Jeux de Rôle Journée J4", [
         "🎭 MATIN : Jeux de rôle catégories 1 & 2 (objections initiales + financières)",
         "Binômes tournants : chaque fundraiser joue les 2 rôles (fundraiser + prospect)",
         "Formateur observe 2 binômes simultanément avec la grille",
@@ -772,7 +857,7 @@ def build_j4():
         "🎭 APRÈS-MIDI : Jeux de rôle catégories 3, 4 & 5 (PA + IBAN + conflictuelles)",
         "Simulation d'appels complets : script entier + objection tirée au sort",
         "Débrief final : 3 points forts collectifs + 2 axes d'amélioration prioritaires",
-    ])
+    ], is_regle_dor=True)
 
     slide_quote(prs,
         "Chaque objection est une invitation\nà convaincre davantage.",
@@ -783,7 +868,7 @@ def build_j4():
     print("✓ Book J4 — Traitement des Objections")
 
 # ════════════════════════════════════════════════════════════════════════════════
-# BOOK J5 — SYNTHÈSE & SIMULATIONS (avec quiz 10 slides de 4Q + félicitations)
+# BOOK J5 — SYNTHÈSE & SIMULATIONS
 # ════════════════════════════════════════════════════════════════════════════════
 def build_j5():
     prs = new_prs()
@@ -831,9 +916,20 @@ def build_j5():
         "Expert : 21-24 pts | Intermédiaire : 15-20 pts | Débutant : 8-14 pts",
     ])
 
+    # RÈGLE D'OR — Quiz
+    slide_section(prs, 5, "RÈGLE D'OR — Instructions Quiz 40 Questions", [
+        "Le quiz comporte 40 questions réparties en 6 parties thématiques",
+        "PARTIE A — UNICEF & Cause (Q1–Q8)",
+        "PARTIE B — Monde Associatif (Q9–Q15)",
+        "PARTIE C — Script & Accroche (Q16–Q22)",
+        "PARTIE D — KPIs & Nomenclature (Q23–Q28)",
+        "PARTIE E — Objections & AAR (Q29–Q35)",
+        "PARTIE F — Closing & Validation (Q36–Q40)",
+        "Durée : 45 minutes maximum | Réponse unique par question",
+    ], is_regle_dor=True)
+
     # ── Quiz — 40 questions réparties sur 10 slides de 4Q ──
     quiz_data = [
-        # Partie A — UNICEF & Cause (Q1–Q8)
         ("Q1", "En quelle année l'UNICEF a-t-il été créé ?", ["1939","1946","1956","1963"], 1),
         ("Q2", "Dans combien de pays l'UNICEF intervient-il ?", ["150 pays","175 pays","190 pays","210 pays"], 2),
         ("Q3", "Quel est le poids d'un sachet RUTF ?", ["50 grammes","72 grammes","92 grammes","110 grammes"], 2),
@@ -850,10 +946,9 @@ def build_j5():
             "D'eau, d'électricité ni de cuisson",
             "D'un enfant de moins de 5 ans",
             "D'un stockage à température ambiante"], 1),
-        # Partie B — Monde Associatif (Q9–Q15)
         ("Q9", "Combien d'associations actives compte la France ?", ["500 000","1 million","1,5 million","2 millions"], 2),
         ("Q10", "La Loi 1901 a été adoptée le :", ["1er juillet 1901","14 juillet 1901","1er janvier 1901","1er mars 1901"], 0),
-        ("Q11", "La bataille de Solférino, fondatrice du droit humanitaire, a eu lieu en :", ["1845","1859","1871","1889"], 1),
+        ("Q11", "La bataille de Solférino a eu lieu en :", ["1845","1859","1871","1889"], 1),
         ("Q12", "Qui est à l'origine de la création de la Croix-Rouge ?", ["Florence Nightingale","Jean-Henri Dunant","Louis Pasteur","Albert Schweitzer"], 1),
         ("Q13", "Qu'est-ce que le label 'Don en Confiance' ?", [
             "Un label commercial pour les boutiques caritatives",
@@ -866,7 +961,6 @@ def build_j5():
             "L'Autorité des Marchés Financiers",
             "La Direction Générale des Finances Publiques",
             "Le Haut Commissariat aux Associations"], 0),
-        # Partie C — Script & Accroche (Q16–Q22)
         ("Q16", "Combien d'étapes comporte le script officiel UNICEF ?", ["5 étapes","6 étapes","7 étapes","8 étapes"], 2),
         ("Q17", "Quelle est la 1ère règle officielle de l'accroche ?", [
             "Se présenter immédiatement avec son prénom",
@@ -886,7 +980,6 @@ def build_j5():
             "Son IBAN (série de 27 chiffres commençant par FR)",
             "Son numéro de compte client"], 2),
         ("Q22", "Combien de modes de validation du don existent dans le script ?", ["2 modes","3 modes","4 modes","5 modes"], 2),
-        # Partie D — KPIs & Nomenclature (Q23–Q28)
         ("Q23", "Que signifie CU/H ?", [
             "Chiffre d'Utilité Horaire",
             "Contacts Utiles par Heure",
@@ -906,7 +999,6 @@ def build_j5():
             "Plan de Charge mensuel",
             "Paramètre De Contact"], 2),
         ("Q28", "Quel % de la qualité Fidelis repose sur une qualification conforme ?", ["25%","35%","50%","75%"], 2),
-        # Partie E — Objections & AAR (Q29–Q35)
         ("Q29", "Que signifie la méthode AAR ?", [
             "Argumenter, Accepter, Relancer",
             "Accuser réception, Argumenter, Relancer",
@@ -931,7 +1023,6 @@ def build_j5():
             "L'IBAN sera supprimé après le premier prélèvement"], 1),
         ("Q35", "Face à 'Je n'ai pas les moyens', quel montant peut-on proposer en dernier recours ?", [
             "5€/mois","6€/mois","8€/mois","10€/mois"], 1),
-        # Partie F — Closing & Validation (Q36–Q40)
         ("Q36", "Le 1er prélèvement a lieu :", [
             "Immédiatement après l'accord",
             "Le 1er du mois suivant",
@@ -963,45 +1054,46 @@ def build_j5():
     for i in range(0, 40, 4):
         group = quiz_data[i:i+4]
         sl = blank_slide(prs)
-        rect(sl, 0, 0, W, Inches(0.9), TEAL)
-        rect(sl, 0, H - Inches(0.35), W, Inches(0.35), TEAL)
+        rect(sl, 0, 0, W, Inches(0.95), TEAL)
+        rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
         part_num = i // 4 + 1
         parts = ["A — UNICEF & Cause", "B — Monde Associatif", "C — Script & Accroche",
                  "D — KPIs & Nomenclature", "E — Objections & AAR", "F — Closing & Validation",
-                 "G — Révision","H — Révision","I — Révision","J — Révision"]
+                 "G","H","I","J"]
         part_label = parts[part_num - 1] if part_num <= len(parts) else f"Partie {part_num}"
         txbox(sl, f"QUIZ FIM — Partie {part_label}", Inches(0.3), Inches(0.1),
-              Inches(10), Inches(0.7), size=18, bold=True, color=WHITE)
-        txbox(sl, f"Q{i+1}–Q{i+4}  |  Nom : ________________________  Score : ___ / 40",
-              Inches(10.2), Inches(0.1), Inches(3), Inches(0.7), size=11, color=WHITE, align=PP_ALIGN.RIGHT)
+              Inches(10), Inches(0.75), size=18, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+        txbox(sl, f"Q{i+1}–Q{i+4}  |  Nom : ________________________",
+              Inches(10.3), Inches(0.1), Inches(2.8), Inches(0.75), size=11, color=WHITE, align=PP_ALIGN.RIGHT)
         letters = ["A", "B", "C", "D"]
-        cols = [0, 1]
-        rows = [0, 1]
         for idx, (qcode, question, options, _correct) in enumerate(group):
             col = idx % 2
             row = idx // 2
             x0 = Inches(0.3) + col * Inches(6.55)
-            y0 = Inches(0.95) + row * Inches(3.2)
-            rect(sl, x0, y0, Inches(6.4), Inches(0.5), TEAL)
+            y0 = Inches(1.0) + row * Inches(3.1)
+            rect(sl, x0, y0, Inches(6.4), Inches(0.52), TEAL)
             qnum = i + idx + 1
-            txbox(sl, f"Q{qnum} — {question}", x0 + Inches(0.1), y0 + Inches(0.05),
-                  Inches(6.2), Inches(0.45), size=12, bold=True, color=WHITE)
+            txbox(sl, f"Q{qnum} — {question}", x0 + Inches(0.1), y0 + Inches(0.04),
+                  Inches(6.2), Inches(0.46), size=12, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
             for oi, (letter, opt) in enumerate(zip(letters, options)):
-                oy = y0 + Inches(0.55) + oi * Inches(0.6)
-                rect(sl, x0 + Inches(0.1), oy + Inches(0.05), Inches(0.4), Inches(0.4), MGRAY)
-                txbox(sl, letter, x0 + Inches(0.1), oy + Inches(0.05), Inches(0.4), Inches(0.4),
+                oy = y0 + Inches(0.58) + oi * Inches(0.61)
+                rect(sl, x0 + Inches(0.1), oy + Inches(0.04), Inches(0.42), Inches(0.42), MGRAY)
+                txbox(sl, letter, x0 + Inches(0.1), oy + Inches(0.04), Inches(0.42), Inches(0.42),
                       size=11, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
-                txbox(sl, opt, x0 + Inches(0.6), oy + Inches(0.05), Inches(5.7), Inches(0.45),
-                      size=11, color=DARK)
+                txbox(sl, opt, x0 + Inches(0.62), oy + Inches(0.04), Inches(5.7), Inches(0.45),
+                      size=11, color=DARK, align=PP_ALIGN.LEFT)
         txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France — Quiz FIM 40 Questions",
-              Inches(0.3), H - Inches(0.32), Inches(10), Inches(0.3), size=9, color=WHITE)
+              Inches(0.3), H - Inches(0.70), Inches(12.7), Inches(0.35), size=10, color=WHITE,
+              align=PP_ALIGN.CENTER)
+        add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.85))
+        add_interdiction(sl)
 
     # Grille formateur
     sl = blank_slide(prs)
     rect(sl, 0, 0, W, Inches(1.1), TEAL)
-    rect(sl, 0, H - Inches(0.35), W, Inches(0.35), TEAL)
+    rect(sl, 0, H - Inches(0.75), W, Inches(0.75), TEAL)
     txbox(sl, "GRILLE FORMATEUR — Correction Quiz 40 Questions", Inches(0.3), Inches(0.15),
-          Inches(12), Inches(0.8), size=24, bold=True, color=WHITE)
+          Inches(12.7), Inches(0.8), size=24, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
     corr_letters = ["C","C","C","C","B","C","B","B","C","A","B","B","B","C","A","C","B","C","C","B","C","C","B","C","C","B","C","C","B","B","D","C","B","B","B","C","B","B","B","B"]
     y0 = Inches(1.2)
     for row in range(5):
@@ -1009,15 +1101,18 @@ def build_j5():
             idx = row * 8 + col
             if idx >= 40: break
             x = Inches(0.3) + col * Inches(1.6)
-            y = y0 + row * Inches(1.0)
-            rect(sl, x, y, Inches(1.5), Inches(0.85), LGRAY)
-            txbox(sl, f"Q{idx+1}", x + Inches(0.05), y + Inches(0.02), Inches(0.7), Inches(0.35),
-                  size=11, bold=True, color=TEAL)
-            rect(sl, x + Inches(0.8), y + Inches(0.05), Inches(0.6), Inches(0.6), TEAL)
-            txbox(sl, corr_letters[idx], x + Inches(0.8), y + Inches(0.05), Inches(0.6), Inches(0.6),
-                  size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+            y = y0 + row * Inches(1.05)
+            rect(sl, x, y, Inches(1.5), Inches(0.88), LGRAY)
+            txbox(sl, f"Q{idx+1}", x + Inches(0.05), y + Inches(0.03), Inches(0.7), Inches(0.35),
+                  size=11, bold=True, color=TEAL, align=PP_ALIGN.CENTER)
+            rect(sl, x + Inches(0.8), y + Inches(0.06), Inches(0.6), Inches(0.62), TEAL)
+            txbox(sl, corr_letters[idx], x + Inches(0.8), y + Inches(0.06), Inches(0.6), Inches(0.62),
+                  size=18, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
     txbox(sl, "SHY-Performance  ×  FIDELIS  ×  UNICEF France",
-          Inches(0.3), H - Inches(0.32), Inches(10), Inches(0.3), size=9, color=WHITE)
+          Inches(0.3), H - Inches(0.70), Inches(12.7), Inches(0.35), size=10, color=WHITE,
+          align=PP_ALIGN.CENTER)
+    add_logo(sl, x=Inches(11.3), y=Inches(0.05), h=Inches(0.9))
+    add_interdiction(sl)
 
     slide_merci(prs)
     slide_felicitations(prs)
