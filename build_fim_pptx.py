@@ -30,7 +30,7 @@ W = Inches(13.33)
 H = Inches(7.5)
 
 LOGO_PATH_FULL = "/home/user/fatou/shy_logo_v2.png"  # Large logo: 1081×1055
-LOGO_PATH_SMALL = "/home/user/fatou/shy_logo_v3.png"  # Small logo: 336×311
+LOGO_PATH_SMALL = "/home/user/fatou/shy_logo.png"  # Small logo SHY-Performance: 285×126
 
 INTERDICTION_TEXT = (
     "Toute modification, rectification ou ajout est strictement interdit(e). "
@@ -131,9 +131,9 @@ def add_logo(sl, x=Inches(11.0), y=Inches(0.08), h=Inches(1.0)):
         sl.shapes.add_picture(LOGO_PATH_FULL, x, y, width=w, height=h)
 
 def add_logo_small(sl, x=Inches(11.5), y=Inches(0.1), h=Inches(0.7)):
-    """Add small logo (compact) - for all slide headers except cover"""
+    """Add small logo (compact SHY-Performance) - for all slide headers except cover"""
     if os.path.exists(LOGO_PATH_SMALL):
-        aspect = 336 / 311
+        aspect = 285 / 126  # shy_logo.png ratio
         w = h * aspect
         sl.shapes.add_picture(LOGO_PATH_SMALL, x, y, width=w, height=h)
 
