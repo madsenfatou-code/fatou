@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Synopsis Formation Fundraiser FIM — SHY-Performance</title>
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:      #008080;
+      --teal-light:#F0F7F7;
+      --red:       #FF0000;
+      --white:     #FFFFFF;
+      --text:      #1A1A1A;
+      --text-muted:#555555;
+      --border:    #CCCCCC;
+      --font:      Calibri, 'Segoe UI', Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--white);
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .site-header {
+      background: var(--teal);
+      color: var(--white);
+      padding: 0;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 32px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .header-brand .company-name {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .header-brand .formation-label {
+      font-size: 1.05rem;
+      font-weight: 400;
+      margin-top: 4px;
+      opacity: 0.92;
+    }
+
+    .header-brand .tagline {
+      margin-top: 8px;
+      font-size: 0.92rem;
+      opacity: 0.82;
+      font-style: italic;
+    }
+
+    .header-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .header-meta .badge-row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 4px;
+      padding: 5px 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    /* Sub-header strip */
+    .sub-header-strip {
+      background: rgba(0,0,0,0.12);
+      text-align: center;
+      padding: 8px 32px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.88);
+      letter-spacing: 0.8px;
+    }
+
+    /* ============================================================
+       LAYOUT WRAPPER
+    ============================================================ */
+    .page-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 32px 60px;
+    }
+
+    /* ============================================================
+       SECTION TITLES
+    ============================================================ */
+    .section-block {
+      margin-bottom: 52px;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--teal);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title .sec-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--teal);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SYNOPSIS NARRATIVE
+    ============================================================ */
+    .synopsis-card {
+      background: var(--teal-light);
+      border-left: 5px solid var(--teal);
+      border-radius: 6px;
+      padding: 28px 32px;
+    }
+
+    .synopsis-card p {
+      margin-bottom: 16px;
+      font-size: 1.01rem;
+      line-height: 1.75;
+    }
+
+    .synopsis-card p:last-child { margin-bottom: 0; }
+
+    .synopsis-card strong { color: var(--teal); }
+
+    /* ============================================================
+       5-DAY PROGRAMME CARDS
+    ============================================================ */
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .day-card {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,128,128,0.12);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .day-card-header {
+      background: var(--teal);
+      color: var(--white);
+      padding: 14px 20px;
+    }
+
+    .day-card-header .day-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .day-card-header .day-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .day-card-body {
+      background: var(--white);
+      padding: 18px 20px;
+      flex: 1;
+    }
+
+    .day-card-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .day-card-body ul li {
+      padding: 5px 0 5px 18px;
+      position: relative;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #EEF7F7;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .day-card-body ul li:last-child { border-bottom: none; }
+
+    .day-card-body ul li::before {
+      content: "›";
+      color: var(--teal);
+      font-weight: 700;
+      position: absolute;
+      left: 0;
+      top: 5px;
+    }
+
+    .day-card-body ul li.kpi-item {
+      background: var(--teal-light);
+      border-radius: 3px;
+      margin: 3px 0;
+      padding-left: 18px;
+    }
+
+    .day-card-body ul li.kpi-item::before { color: var(--teal); }
+
+    .day-card-body ul li strong { color: var(--teal); font-weight: 700; }
+
+    /* ============================================================
+       OBJECTIFS — 3 COLUMNS
+    ============================================================ */
+    .objectifs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .obj-card {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,128,128,0.1);
+    }
+
+    .obj-card-header {
+      background: var(--teal);
+      color: var(--white);
+      padding: 14px 20px;
+      text-align: center;
+    }
+
+    .obj-card-header .obj-type {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .obj-card-header .obj-sub {
+      font-size: 0.82rem;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    .obj-card-body {
+      background: var(--white);
+      padding: 18px 20px;
+    }
+
+    .obj-card-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .obj-card-body ul li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      font-size: 0.88rem;
+      border-bottom: 1px solid #EEF7F7;
+      line-height: 1.45;
+    }
+
+    .obj-card-body ul li:last-child { border-bottom: none; }
+
+    .obj-card-body ul li::before {
+      content: "✓";
+      color: var(--teal);
+      font-weight: 700;
+      position: absolute;
+      left: 0;
+      top: 6px;
+      font-size: 0.82rem;
+    }
+
+    /* ============================================================
+       KPI TABLE
+    ============================================================ */
+    .kpi-table-wrap {
+      overflow-x: auto;
+    }
+
+    .kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    .kpi-table thead tr {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .kpi-table thead th {
+      padding: 13px 18px;
+      text-align: left;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-table tbody tr:nth-child(even) {
+      background: var(--teal-light);
+    }
+
+    .kpi-table tbody tr:hover {
+      background: #D9EEEE;
+    }
+
+    .kpi-table tbody td {
+      padding: 13px 18px;
+      border-bottom: 1px solid #D0E8E8;
+      vertical-align: top;
+    }
+
+    .kpi-table tbody td:first-child {
+      font-weight: 700;
+      color: var(--teal);
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+
+    .kpi-table tbody td:last-child {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ============================================================
+       QUIZ
+    ============================================================ */
+    .quiz-header-box {
+      background: var(--teal);
+      color: var(--white);
+      border-radius: 8px 8px 0 0;
+      padding: 22px 32px;
+      text-align: center;
+    }
+
+    .quiz-header-box .quiz-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .quiz-header-box .quiz-subtitle {
+      font-size: 0.92rem;
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    .quiz-id-bar {
+      background: var(--teal-light);
+      border: 1.5px solid var(--teal);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      padding: 14px 32px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .quiz-id-bar .id-field {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--teal);
+      border-bottom: 1.5px solid var(--teal);
+      padding-bottom: 2px;
+      min-width: 200px;
+    }
+
+    /* Category headers inside quiz */
+    .quiz-category {
+      background: var(--teal);
+      color: var(--white);
+      padding: 9px 18px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      margin: 30px 0 16px;
+    }
+
+    .quiz-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .q-block {
+      border: 1.5px solid #D0E8E8;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .q-block-head {
+      background: var(--teal-light);
+      padding: 10px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .q-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background: var(--teal);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 0.82rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .q-text {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .q-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: var(--white);
+    }
+
+    .q-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 18px;
+      border-right: 1px solid #E8F4F4;
+      border-bottom: 1px solid #E8F4F4;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      cursor: default;
+    }
+
+    .q-option:nth-child(2n) { border-right: none; }
+    .q-option:nth-last-child(-n+2) { border-bottom: none; }
+
+    .opt-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--teal);
+      border-radius: 50%;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--teal);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .opt-text { color: var(--text); }
+
+    /* Score grid at end of quiz */
+    .score-grid-section {
+      margin-top: 40px;
+      border: 2px solid var(--teal);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .score-grid-header {
+      background: var(--teal);
+      color: var(--white);
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .score-grid-body {
+      padding: 20px 24px;
+      background: var(--white);
+    }
+
+    .score-grid-body p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .score-table th, .score-table td {
+      border: 1px solid #C8E6E6;
+      padding: 9px 14px;
+      text-align: center;
+    }
+
+    .score-table thead tr {
+      background: var(--teal-light);
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .score-table tbody td:first-child {
+      font-weight: 600;
+      text-align: left;
+      color: var(--teal);
+    }
+
+    .score-table tbody tr:nth-child(even) { background: #FAFEFE; }
+
+    .score-box-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .score-box {
+      border: 2px solid var(--teal);
+      border-radius: 6px;
+      padding: 14px 24px;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .score-box .sb-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .score-box .sb-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--teal);
+      border-bottom: 2px solid var(--teal);
+      padding-bottom: 4px;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .site-footer {
+      background: var(--teal);
+      color: var(--white);
+      text-align: center;
+      padding: 22px 32px;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      letter-spacing: 0.3px;
+    }
+
+    .site-footer .footer-line {
+      opacity: 0.88;
+    }
+
+    .site-footer .footer-bold {
+      font-weight: 700;
+      font-size: 0.9rem;
+      opacity: 1;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ============================================================
+       PRINT STYLES
+    ============================================================ */
+    @media print {
+      body { font-size: 11pt; }
+
+      .site-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .day-card-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .obj-card-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .kpi-table thead tr { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .quiz-header-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .quiz-category { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .q-block-head { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .score-grid-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .site-footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .synopsis-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .score-table thead tr { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+      .page-body { padding: 20px 24px; }
+      .days-grid { grid-template-columns: repeat(2, 1fr); }
+      .objectifs-grid { grid-template-columns: repeat(3, 1fr); }
+      .q-options { grid-template-columns: 1fr 1fr; }
+
+      .section-block { page-break-inside: avoid; }
+      .day-card { page-break-inside: avoid; }
+      .q-block { page-break-inside: avoid; }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      .header-inner { flex-direction: column; align-items: flex-start; }
+      .header-meta { text-align: left; }
+      .header-meta .badge-row { align-items: flex-start; }
+      .objectifs-grid { grid-template-columns: 1fr; }
+      .days-grid { grid-template-columns: 1fr; }
+      .q-options { grid-template-columns: 1fr; }
+      .q-option { border-right: none; }
+      .q-option:nth-last-child(-n+2) { border-bottom: 1px solid #E8F4F4; }
+      .q-option:last-child { border-bottom: none; }
+      .score-box-row { flex-direction: column; }
+      .quiz-id-bar { flex-direction: column; gap: 14px; }
+    }
+
+    @media (max-width: 480px) {
+      .header-brand .company-name { font-size: 1.7rem; }
+      .page-body { padding: 24px 16px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="company-name">SHY-Performance</div>
+      <div class="formation-label">Formation Initiale Module — FIM</div>
+      <div class="tagline">Mandaté par FIDELIS pour l'UNICEF France</div>
+    </div>
+    <div class="header-meta">
+      <div class="badge-row">
+        <span class="badge">5 Jours</span>
+        <span class="badge">Fundraising Téléphonique</span>
+        <span class="badge">Collecte de Dons</span>
+      </div>
+    </div>
+  </div>
+  <div class="sub-header-strip">
+    Document pédagogique interne — Usage strictement réservé aux fundraisers SHY-Performance
+  </div>
+</header>
+
+<!-- ============================================================
+     MAIN BODY
+============================================================ -->
+<main class="page-body">
+
+  <!-- =========================================================
+       SECTION 1 — SYNOPSIS
+  ========================================================= -->
+  <section class="section-block">
+    <h2 class="section-title">
+      <span class="sec-num">1</span>
+      Synopsis de la Formation
+    </h2>
+    <div class="synopsis-card">
+      <p>
+        La présente <strong>Formation Initiale Module (FIM)</strong> se déroule sur <strong>5 jours consécutifs</strong>
+        et cible les agents fundraisers mandatés par <strong>FIDELIS</strong> pour le compte de
+        <strong>l'UNICEF France</strong>, dans le cadre d'une campagne de collecte de dons opérée par
+        <strong>SHY-Performance</strong>. Elle constitue le socle indispensable à toute prise de poste en production téléphonique.
+      </p>
+      <p>
+        La formation habilite les fundraisers à conduire des appels de prospection téléphonique
+        (<strong>PPA — Prélèvement Automatique</strong>) en direction des particuliers, au bénéfice de la
+        lutte contre la <strong>malnutrition infantile aigüe sévère</strong>. Chaque appel vise l'obtention
+        d'un don régulier sécurisé (prélèvement automatique), dans le respect strict des règles déontologiques
+        du secteur associatif français.
+      </p>
+      <p>
+        Le programme couvre l'intégralité de la <strong>chaîne de compétences</strong> requise :
+        connaissance approfondie de la cause humanitaire et de la mission UNICEF, maîtrise du script
+        officiel UNICEF en 7 étapes, qualification conforme des contacts selon la nomenclature FIDELIS,
+        traitement argumenté de <strong>15 catégories d'objections</strong> (regroupées en 5 familles),
+        et sécurisation du closing par les 4 modes de validation du don (IBAN à chaud, PA en ligne en direct,
+        Promesse PA en ligne, PA courrier).
+      </p>
+      <p>
+        La formation intègre également une <strong>culture professionnelle complète</strong> du secteur
+        associatif français : cadre juridique (Loi du 1er juillet 1901), histoire de l'humanitaire moderne
+        (Solférino 1859, Croix-Rouge, UNICEF 1946), label Don en Confiance, conformité RGPD, et gestion
+        des listes d'opposition (Bloctel). À l'issue des 5 jours, chaque fundraiser est en capacité de
+        prendre son poste en conditions réelles, avec la conviction sincère de la mission qu'il représente.
+      </p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 2 — PROGRAMME SUR 5 JOURS
+  ========================================================= -->
+  <section class="section-block">
+    <h2 class="section-title">
+      <span class="sec-num">2</span>
+      Programme sur 5 Jours
+    </h2>
+
+    <div class="days-grid">
+
+      <!-- JOUR 1 -->
+      <div class="day-card">
+        <div class="day-card-header">
+          <div class="day-label">Jour 1</div>
+          <div class="day-title">Fondations &amp; Mission</div>
+        </div>
+        <div class="day-card-body">
+          <ul>
+            <li>Mission et finalité de la campagne UNICEF</li>
+            <li>Nomenclature métier : CU/H, TX Transfo, PDC, PEL, PA</li>
+            <li class="kpi-item"><strong>KPI 1 :</strong> Contacts Utiles/Heure → objectif 9 CU/H minimum</li>
+            <li class="kpi-item"><strong>KPI 2 :</strong> Taux de Transformation (% PEL/PA parmi CU)</li>
+            <li class="kpi-item"><strong>KPI 3 :</strong> Plan de Charge (PDC) mensuel</li>
+            <li>Types d'opérations : Conquête vs Fidélisation / Réactivation</li>
+            <li>Les 3 qualifications du Contact Utile : DON / INDÉCIS / REFUS</li>
+            <li>Le produit unique : Prélèvement Automatique Régulier</li>
+            <li>Organisation journée de production : 9h30–17h30 (6h40 de production effective)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- JOUR 2 -->
+      <div class="day-card">
+        <div class="day-card-header">
+          <div class="day-label">Jour 2</div>
+          <div class="day-title">Le Monde Associatif &amp; Humanitaire</div>
+        </div>
+        <div class="day-card-body">
+          <ul>
+            <li>La France associative : 1,5 million d'associations, 22 millions de bénévoles</li>
+            <li>Loi du 1er juillet 1901 — cadre juridique fondateur</li>
+            <li>Les 3 types d'associations : de fait / déclarée / reconnue d'utilité publique</li>
+            <li>Histoire de l'humanitaire : Bataille de Solférino 1859, Croix-Rouge, UNICEF 1946</li>
+            <li>Les principes humanitaires : Humanité, Impartialité, Neutralité</li>
+            <li>Évolution du marché de la collecte (avant 1990 → crise de confiance → label Don en Confiance)</li>
+            <li>Impact mondial UNICEF : vaccination (45 % des enfants du monde), eau potable, nutrition</li>
+            <li>Comité de la Charte du Don en Confiance</li>
+            <li>Le don régulier : légitimité et puissance du prélèvement automatique</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- JOUR 3 -->
+      <div class="day-card">
+        <div class="day-card-header">
+          <div class="day-label">Jour 3</div>
+          <div class="day-title">Analyse et Lecture du Script</div>
+        </div>
+        <div class="day-card-body">
+          <ul>
+            <li>Lecture intégrale du script officiel UNICEF collecte de dons</li>
+            <li>Les 7 étapes : Accroche → Malnutrition → Sachets RUTF → Appel au soutien → Si don ponctuel → Indécis → Validation coordonnées</li>
+            <li>Les 5 règles officielles de la phrase d'accroche</li>
+            <li>Les 4 modes de validation du don : PA à chaud IBAN / PA en ligne en direct / Promesse PA en ligne / PA courrier</li>
+            <li>Analyse phrase par phrase : ton, intention, mots-clés</li>
+            <li>Exercices de lecture à voix haute par binômes</li>
+            <li>Débriefs collectifs : points forts, axes d'amélioration</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- JOUR 4 -->
+      <div class="day-card">
+        <div class="day-card-header">
+          <div class="day-label">Jour 4</div>
+          <div class="day-title">Traitement des Objections</div>
+        </div>
+        <div class="day-card-body">
+          <ul>
+            <li><strong>Catégorie 1 — Objections Initiales</strong> (phase d'accroche, 8 objections) : pas intéressé, faux numéro, appel pour un don, je donne déjà, arnaque, je ne donne pas par téléphone, pas confiance aux associations, n'aime pas être contacté</li>
+            <li><strong>Catégorie 2 — Objections Financières</strong> (après appel au don) : je donne déjà ailleurs, je n'ai pas les moyens, dernier positionnement</li>
+            <li><strong>Catégorie 3 — Contre le Don Régulier (PA)</strong> : préfère ponctuel, n'aime pas l'engagement mensuel, dernier positionnement PA</li>
+            <li><strong>Catégorie 4 — Méfiance IBAN</strong> : sécurisation SEPA, réassurance bancaire</li>
+            <li><strong>Catégorie 5 — Objections Conflictuelles</strong> : origine de l'appel, source du numéro, droits légaux, Bloctel, liste rouge, accent, connaissance d'un membre, identité de l'appelant</li>
+            <li>Méthode <strong>AAR</strong> : Accuser réception / Argumenter / Relancer</li>
+            <li>Jeux de rôle par binômes sur chaque catégorie</li>
+            <li>Grille d'observation formateur</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- JOUR 5 -->
+      <div class="day-card">
+        <div class="day-card-header">
+          <div class="day-label">Jour 5</div>
+          <div class="day-title">Synthèse Générale &amp; Simulations</div>
+        </div>
+        <div class="day-card-body">
+          <ul>
+            <li>Révision consolidée des 5 modules de la FIM</li>
+            <li>Simulation d'appels complets (script + objections + closing) chronométrés</li>
+            <li>Jeux de rôle en conditions réelles : fundraiser vs prospect</li>
+            <li>Grille d'évaluation finale (24 critères)</li>
+            <li>Débriefing collectif et feedback individuel</li>
+            <li>Quiz d'évaluation finale des connaissances (40 questions)</li>
+            <li>Remise des certifications de formation</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 3 — OBJECTIFS PÉDAGOGIQUES GÉNÉRAUX
+  ========================================================= -->
+  <section class="section-block">
+    <h2 class="section-title">
+      <span class="sec-num">3</span>
+      Objectifs Pédagogiques Généraux
+    </h2>
+
+    <div class="objectifs-grid">
+
+      <!-- SAVOIR -->
+      <div class="obj-card">
+        <div class="obj-card-header">
+          <div class="obj-type">SAVOIR</div>
+          <div class="obj-sub">Connaissance de la cause</div>
+        </div>
+        <div class="obj-card-body">
+          <ul>
+            <li>Présenter l'UNICEF, sa mission, son histoire (75 ans, 190 pays)</li>
+            <li>Expliquer la malnutrition aigüe sévère et le rôle des sachets RUTF (92g)</li>
+            <li>Situer le secteur associatif (Loi 1901, Comité de la Charte, Bloctel, RGPD)</li>
+            <li>Citer les arguments de légitimité UNICEF</li>
+            <li>Connaître les 3 principes humanitaires fondamentaux</li>
+            <li>Comprendre les différences entre types d'opérations (Conquête / Fidélisation)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SAVOIR-FAIRE -->
+      <div class="obj-card">
+        <div class="obj-card-header">
+          <div class="obj-type">SAVOIR-FAIRE</div>
+          <div class="obj-sub">Technique d'appel et qualification</div>
+        </div>
+        <div class="obj-card-body">
+          <ul>
+            <li>Appliquer les 5 règles officielles de l'accroche</li>
+            <li>Conduire le script complet en 7 étapes</li>
+            <li>Qualifier chaque appel conformément à la nomenclature FIDELIS</li>
+            <li>Gérer les 4 modes de validation du don</li>
+            <li>Traiter les 15 objections types par la méthode AAR</li>
+            <li>Atteindre l'objectif de 9 CU/H minimum en production</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SAVOIR-ÊTRE -->
+      <div class="obj-card">
+        <div class="obj-card-header">
+          <div class="obj-type">SAVOIR-ÊTRE</div>
+          <div class="obj-sub">Posture et conviction</div>
+        </div>
+        <div class="obj-card-body">
+          <ul>
+            <li>Maintenir un ton chaleureux, souriant et naturel tout au long de l'appel</li>
+            <li>Gérer les objections sensibles avec calme et professionnalisme</li>
+            <li>Transmettre une conviction sincère pour la mission UNICEF</li>
+            <li>Intégrer le mantra : "Le refus d'aujourd'hui peut être le don de demain"</li>
+            <li>Adopter une posture de représentant digne de la cause humanitaire</li>
+            <li>Respecter systématiquement les règles éthiques du secteur associatif</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 4 — INDICATEURS DE PERFORMANCE
+  ========================================================= -->
+  <section class="section-block">
+    <h2 class="section-title">
+      <span class="sec-num">4</span>
+      Indicateurs de Performance
+    </h2>
+
+    <div class="kpi-table-wrap">
+      <table class="kpi-table">
+        <thead>
+          <tr>
+            <th>KPI</th>
+            <th>Libellé complet</th>
+            <th>Définition opérationnelle</th>
+            <th>Objectif</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CU/H</td>
+            <td>Contacts Utiles par Heure</td>
+            <td>Nombre de contacts effectivement qualifiés (DON / INDÉCIS / REFUS) obtenus par heure de production téléphonique</td>
+            <td>9 minimum</td>
+          </tr>
+          <tr>
+            <td>TX Transfo</td>
+            <td>Taux de Transformation</td>
+            <td>Pourcentage de PEL/PA obtenus parmi l'ensemble des Contacts Utiles ; mesure l'efficacité de la conversion au don régulier</td>
+            <td>Cible définie par l'association (selon campagne)</td>
+          </tr>
+          <tr>
+            <td>PDC</td>
+            <td>Plan de Charge</td>
+            <td>Volume mensuel de dons réguliers à atteindre, défini par FIDELIS en accord avec UNICEF France pour la période de campagne</td>
+            <td>Volume défini par FIDELIS</td>
+          </tr>
+          <tr>
+            <td>Qualification</td>
+            <td>Conformité des qualifications</td>
+            <td>Taux de qualifications d'appels correctement renseignées et conformes à la nomenclature FIDELIS (DON / INDÉCIS / REFUS)</td>
+            <td>50 % de la qualité FIDELIS</td>
+          </tr>
+          <tr>
+            <td>PEL</td>
+            <td>Promesse En Ligne</td>
+            <td>Contact ayant accepté de valider son don régulier en ligne (lien envoyé en direct) lors de l'appel</td>
+            <td>Comptabilisé dans TX Transfo</td>
+          </tr>
+          <tr>
+            <td>PA</td>
+            <td>Prélèvement Automatique</td>
+            <td>Don régulier sécurisé par mandat SEPA (IBAN collecté à chaud, PA en ligne confirmé, ou PA courrier)</td>
+            <td>Produit unique de la campagne</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 5 — QUIZ D'ÉVALUATION FINALE
+  ========================================================= -->
+  <section class="section-block">
+    <h2 class="section-title">
+      <span class="sec-num">5</span>
+      Quiz d'Évaluation — Prêt à l'Emploi
+    </h2>
+
+    <div class="quiz-header-box">
+      <div class="quiz-title">Quiz d'Évaluation Finale — Module FIM | 40 Questions</div>
+      <div class="quiz-subtitle">Formation Initiale Module — SHY-Performance × FIDELIS × UNICEF France</div>
+    </div>
+    <div class="quiz-id-bar">
+      <span class="id-field">Nom de l'apprenant : ___________________________</span>
+      <span class="id-field">Date : ___________________________</span>
+      <span class="id-field">Score : ______ / 40</span>
+    </div>
+
+    <!-- ---- CATEGORY A ---- -->
+    <div class="quiz-category">Partie A — Connaissance de l'UNICEF &amp; de la Cause (Q1–Q8)</div>
+    <div class="quiz-questions">
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">1</span>
+          <span class="q-text">En quelle année l'UNICEF a-t-il été fondé ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">1901</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">1946</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">1959</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">1919</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">2</span>
+          <span class="q-text">Dans combien de pays l'UNICEF est-il présent à ce jour ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">120 pays</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">150 pays</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">190 pays</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">210 pays</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">3</span>
+          <span class="q-text">Quel pourcentage des enfants du monde l'UNICEF vaccine-t-il grâce à ses programmes ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">25 %</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">35 %</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">45 %</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">60 %</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">4</span>
+          <span class="q-text">Que signifie l'acronyme RUTF dans le traitement de la malnutrition infantile ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Rapid Urban Treatment Fund</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Ready-to-Use Therapeutic Food</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Regional Unified Task Force</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Routine Universal Treatment Formula</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">5</span>
+          <span class="q-text">Quel est le poids standard d'un sachet RUTF utilisé dans les programmes UNICEF de lutte contre la malnutrition ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">45 g</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">75 g</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">92 g</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">120 g</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">6</span>
+          <span class="q-text">Quelle est la cause humanitaire centrale défendue dans la campagne UNICEF portée par SHY-Performance ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">L'accès à l'éducation dans les zones de conflit</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">La lutte contre la malnutrition aigüe sévère chez l'enfant</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Le financement de l'eau potable en Afrique subsaharienne</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">La protection contre le travail des enfants</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">7</span>
+          <span class="q-text">Quelle organisation internationale a précédé et inspiré la création de l'UNICEF après la Seconde Guerre mondiale ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">La Croix-Rouge internationale</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">La Société des Nations (SDN)</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Le Fond des Nations Unies (ONU)</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">L'UNRRA (Administration des Nations Unies pour le secours et la reconstruction)</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">8</span>
+          <span class="q-text">Lequel des domaines suivants NE fait PAS partie des missions principales de l'UNICEF ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Vaccination et santé</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Eau potable et assainissement</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Financement des partis politiques</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Protection de l'enfance et nutrition</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---- CATEGORY B ---- -->
+    <div class="quiz-category">Partie B — Secteur Associatif &amp; Humanitaire (Q9–Q15)</div>
+    <div class="quiz-questions">
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">9</span>
+          <span class="q-text">En quelle date a été promulguée la loi fondatrice du droit associatif français ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">14 juillet 1789</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">1er juillet 1901</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">5 mai 1946</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">10 mars 1972</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">10</span>
+          <span class="q-text">Combien d'associations sont recensées en France selon les données enseignées en formation ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">250 000 associations</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">800 000 associations</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">1,5 million d'associations</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">3 millions d'associations</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">11</span>
+          <span class="q-text">Quel événement historique de 1859 est considéré comme l'acte fondateur de l'humanitaire moderne ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">La conférence de Berlin</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">La signature du Traité de Genève</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">La Bataille de Solférino</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">La Révolution industrielle anglaise</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">12</span>
+          <span class="q-text">Parmi les 3 types d'associations selon la loi française, lequel bénéficie du statut le plus reconnu par l'État ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Association de fait</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Association déclarée</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Association reconnue d'utilité publique</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Association internationale</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">13</span>
+          <span class="q-text">Quel est le rôle du Comité de la Charte du Don en Confiance ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Gérer les finances publiques des associations agréées</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Certifier la transparence et l'éthique des organisations faisant appel à la générosité du public</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Former les agents de collecte téléphonique</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Contrôler le respect de la loi RGPD dans les associations</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">14</span>
+          <span class="q-text">Combien de bénévoles compte le secteur associatif français selon les données de la formation ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">5 millions</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">12 millions</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">22 millions</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">35 millions</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">15</span>
+          <span class="q-text">Lequel de ces principes humanitaires fondamentaux NE figure PAS dans la liste enseignée en formation ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Humanité</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Impartialité</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Solidarité nationale</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Neutralité</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---- CATEGORY C ---- -->
+    <div class="quiz-category">Partie C — Script &amp; Règles d'Accroche (Q16–Q22)</div>
+    <div class="quiz-questions">
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">16</span>
+          <span class="q-text">Combien d'étapes comporte le script officiel UNICEF utilisé par les fundraisers SHY-Performance ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">4 étapes</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">5 étapes</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">7 étapes</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">10 étapes</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">17</span>
+          <span class="q-text">Combien de règles officielles régissent la phrase d'accroche du script UNICEF ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">2 règles</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">3 règles</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">5 règles</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">7 règles</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">18</span>
+          <span class="q-text">Quelle est la première étape du script UNICEF après la présentation de l'appelant ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">La demande de coordonnées bancaires</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">L'accroche sur la mission UNICEF</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">La présentation du montant minimum de don</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">La vérification de l'identité du prospect</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">19</span>
+          <span class="q-text">Combien de modes de validation du don sont disponibles selon le script officiel ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">2 modes</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">3 modes</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">4 modes</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">6 modes</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">20</span>
+          <span class="q-text">Lequel des modes suivants NE fait PAS partie des 4 modes de validation du don ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">PA à chaud IBAN (collecté lors de l'appel)</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">PA en ligne en direct (lien envoyé et validé pendant l'appel)</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Virement bancaire unique différé</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">PA courrier (formulaire envoyé par courrier postal)</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">21</span>
+          <span class="q-text">À quelle étape du script le fundraiser aborde-t-il la question des sachets RUTF ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Lors de la validation des coordonnées (étape 7)</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Après l'accroche initiale, dans la description de la malnutrition (étapes 2–3)</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Uniquement en cas d'objection financière</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Dès la première phrase d'accroche</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">22</span>
+          <span class="q-text">Quel produit unique est proposé au prospect lors de chaque appel dans la campagne UNICEF ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Un don ponctuel par carte bancaire</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Un prélèvement automatique régulier (PA)</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Un abonnement mensuel par chèque</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Un parrainage ponctuel d'enfant</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---- CATEGORY D ---- -->
+    <div class="quiz-category">Partie D — KPIs, Nomenclature &amp; Production (Q23–Q28)</div>
+    <div class="quiz-questions">
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">23</span>
+          <span class="q-text">Quel est l'objectif minimum de Contacts Utiles par Heure (CU/H) en production téléphonique ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">5 CU/H</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">7 CU/H</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">9 CU/H</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">12 CU/H</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">24</span>
+          <span class="q-text">Que représente le sigle "TX Transfo" dans la nomenclature métier ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Le nombre total de transferts de dossiers</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Le taux de transformation (% PEL/PA parmi les CU)</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Le temps moyen de traitement par appel</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Le taux de transfert vers un superviseur</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">25</span>
+          <span class="q-text">Quelles sont les 3 qualifications possibles d'un Contact Utile (CU) ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Positif / Neutre / Négatif</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">DON / INDÉCIS / REFUS</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Chaud / Tiède / Froid</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">PA / PEL / PDC</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">26</span>
+          <span class="q-text">Quelle est la durée effective de production téléphonique lors d'une journée standard (9h30–17h30) ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">5h00 de production effective</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">6h00 de production effective</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">6h40 de production effective</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">8h00 de production effective</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">27</span>
+          <span class="q-text">Que désigne le terme "PDC" dans la nomenclature de la campagne ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Protocole de Communication</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Plan de Charge mensuel</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Programme de Collecte de Dons</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Priorité de Campagne Définie</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">28</span>
+          <span class="q-text">Quelle est la différence entre une opération de "Conquête" et une opération de "Fidélisation / Réactivation" ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">La Conquête cible des anciens donateurs, la Fidélisation cible de nouveaux prospects</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">La Conquête cible de nouveaux prospects, la Fidélisation / Réactivation cible des anciens donateurs ou sympathisants</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Les deux opérations ciblent les mêmes fichiers de contacts</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">La Conquête est réservée aux appels entrants uniquement</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---- CATEGORY E ---- -->
+    <div class="quiz-category">Partie E — Traitement des Objections &amp; Méthode AAR (Q29–Q35)</div>
+    <div class="quiz-questions">
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">29</span>
+          <span class="q-text">Combien de catégories d'objections sont enseignées dans la FIM ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">3 catégories</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">5 catégories</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">7 catégories</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">10 catégories</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">30</span>
+          <span class="q-text">Que signifie l'acronyme AAR dans la méthode de traitement des objections ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Analyser / Adapter / Répondre</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Accepter / Argumenter / Reformuler</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Accuser réception / Argumenter / Relancer</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Approcher / Assurer / Recadrer</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">31</span>
+          <span class="q-text">Combien d'objections au total sont couvertes dans le module de traitement des objections de la FIM ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">8 objections</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">10 objections</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">15 objections</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">20 objections</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">32</span>
+          <span class="q-text">Quelle catégorie regroupe les objections du type "d'où m'appelez-vous ?" ou "vous n'avez pas le droit de m'appeler" ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Catégorie 2 — Objections Financières</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Catégorie 3 — Contre le Don Régulier</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Catégorie 4 — Méfiance IBAN</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Catégorie 5 — Objections Conflictuelles</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">33</span>
+          <span class="q-text">Lorsque le prospect dit "je donne déjà à d'autres associations", dans quelle catégorie d'objections se situe cette réponse ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Catégorie 1 — Objections Initiales</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Catégorie 2 — Objections Financières</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Catégorie 3 — Contre le Don Régulier</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Catégorie 5 — Objections Conflictuelles</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">34</span>
+          <span class="q-text">Quel est le mantra fondamental de la posture fundraiser enseigné dans la FIM ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">"Un non aujourd'hui, jamais demain"</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">"Le refus d'aujourd'hui peut être le don de demain"</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">"Chaque appel est une chance, chaque don une victoire"</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">"Persévérer jusqu'au premier OUI"</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">35</span>
+          <span class="q-text">Face à l'objection "je préfère faire un don ponctuel plutôt que régulier", dans quelle catégorie se situe cette objection ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Catégorie 1 — Objections Initiales</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Catégorie 2 — Objections Financières</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Catégorie 3 — Contre le Don Régulier (PA)</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Catégorie 4 — Méfiance IBAN</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---- CATEGORY F ---- -->
+    <div class="quiz-category">Partie F — Closing &amp; Validation IBAN / SEPA (Q36–Q40)</div>
+    <div class="quiz-questions">
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">36</span>
+          <span class="q-text">Que signifie collecter un IBAN "à chaud" lors d'un appel téléphonique ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Envoyer un formulaire par email après l'appel pour que le prospect saisisse ses coordonnées bancaires</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Recueillir les coordonnées bancaires du prospect directement pendant l'appel téléphonique</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Appeler la banque du prospect pour valider le prélèvement</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Envoyer un courrier postal avec le formulaire de prélèvement</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">37</span>
+          <span class="q-text">Quelle catégorie d'objections spécifique traite des craintes du prospect concernant la sécurité de ses données bancaires ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Catégorie 1 — Objections Initiales</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Catégorie 2 — Objections Financières</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Catégorie 4 — Méfiance IBAN / Sécurisation SEPA</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Catégorie 5 — Objections Conflictuelles</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">38</span>
+          <span class="q-text">Que désigne le mode de validation "Promesse PA en ligne" ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Le prospect promet de faire un virement dès le lendemain</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Le prospect s'engage verbalement à valider son don en ligne après l'appel, via un lien envoyé par le fundraiser</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Le fundraiser promet d'envoyer un courrier de relance dans les 48h</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Le superviseur valide le don en ligne à la place du prospect</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">39</span>
+          <span class="q-text">À quelle étape du script le fundraiser procède-t-il à la validation des coordonnées du donateur ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Étape 1 — Accroche initiale</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Étape 3 — Présentation des sachets RUTF</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Étape 5 — Si préfère don ponctuel</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Étape 7 — Validation des coordonnées (closing)</span></div>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-block-head">
+          <span class="q-num">40</span>
+          <span class="q-text">Parmi les affirmations suivantes sur le mandat SEPA, laquelle est EXACTE ?</span>
+        </div>
+        <div class="q-options">
+          <div class="q-option"><span class="opt-letter">a</span><span class="opt-text">Le mandat SEPA permet un prélèvement unique et non reconductible</span></div>
+          <div class="q-option"><span class="opt-letter">b</span><span class="opt-text">Le mandat SEPA autorise des prélèvements réguliers et donne au donateur le droit d'annuler à tout moment auprès de sa banque</span></div>
+          <div class="q-option"><span class="opt-letter">c</span><span class="opt-text">Le mandat SEPA est exclusivement réservé aux entreprises et non aux particuliers</span></div>
+          <div class="q-option"><span class="opt-letter">d</span><span class="opt-text">Le mandat SEPA nécessite obligatoirement la présence physique du donateur pour être validé</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SCORE GRID -->
+    <div class="score-grid-section">
+      <div class="score-grid-header">Grille de Résultats — Réservée au Formateur</div>
+      <div class="score-grid-body">
+        <p>Reporter le nombre de bonnes réponses par partie, puis calculer le score global sur 40.</p>
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th>Partie</th>
+              <th>Thème</th>
+              <th>Questions</th>
+              <th>Nombre de bonnes réponses</th>
+              <th>Score partiel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>UNICEF &amp; Cause humanitaire</td>
+              <td>Q1 – Q8</td>
+              <td>______ / 8</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>Secteur Associatif &amp; Humanitaire</td>
+              <td>Q9 – Q15</td>
+              <td>______ / 7</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>Script &amp; Règles d'Accroche</td>
+              <td>Q16 – Q22</td>
+              <td>______ / 7</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>KPIs, Nomenclature &amp; Production</td>
+              <td>Q23 – Q28</td>
+              <td>______ / 6</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>E</td>
+              <td>Traitement des Objections &amp; AAR</td>
+              <td>Q29 – Q35</td>
+              <td>______ / 7</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>F</td>
+              <td>Closing &amp; Validation IBAN / SEPA</td>
+              <td>Q36 – Q40</td>
+              <td>______ / 5</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="score-box-row">
+          <div class="score-box">
+            <div class="sb-label">Score Total</div>
+            <div class="sb-value">______ / 40</div>
+          </div>
+          <div class="score-box">
+            <div class="sb-label">Pourcentage</div>
+            <div class="sb-value">______ %</div>
+          </div>
+          <div class="score-box">
+            <div class="sb-label">Mention</div>
+            <div class="sb-value">__________</div>
+          </div>
+          <div class="score-box">
+            <div class="sb-label">Visa Formateur</div>
+            <div class="sb-value">__________</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="site-footer">
+  <span class="footer-bold">SHY-Performance × FIDELIS × UNICEF France</span>
+  <span class="footer-line">Formation Initiale Module — FIM 5 Jours | Document pédagogique interne — Usage strictement réservé aux fundraisers SHY-Performance</span>
+</footer>
+
+</body>
+</html>
