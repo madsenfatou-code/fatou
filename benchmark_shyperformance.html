@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Benchmark Agents — shyperformance</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      padding: 32px 24px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #58a6ff;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 0.88rem;
+      color: #8b949e;
+      margin-bottom: 36px;
+    }
+    .kpi-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .kpi {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px 28px;
+      text-align: center;
+      min-width: 160px;
+    }
+    .kpi .name { font-size: 0.8rem; color: #8b949e; margin-bottom: 6px; }
+    .kpi .val  { font-size: 2rem; font-weight: 800; }
+    .kpi .label{ font-size: 0.75rem; color: #8b949e; margin-top: 4px; }
+    .tamou { border-top: 3px solid #f78166; }
+    .jalal  { border-top: 3px solid #58a6ff; }
+    .imad   { border-top: 3px solid #3fb950; }
+    .tamou .val { color: #f78166; }
+    .jalal  .val { color: #58a6ff; }
+    .imad   .val { color: #3fb950; }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .chart-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .chart-card h2 {
+      font-size: 0.95rem;
+      color: #c9d1d9;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .chart-card .comment {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: #8b949e;
+      border-left: 3px solid #30363d;
+      padding-left: 10px;
+      line-height: 1.6;
+    }
+    canvas { max-height: 260px; }
+
+    /* Radar full width */
+    .chart-card.full { grid-column: 1 / -1; }
+    .chart-card.full canvas { max-height: 360px; }
+
+    /* Tableau */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th {
+      background: #21262d;
+      color: #8b949e;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid #21262d; }
+    tr:last-child td { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge.top  { background: #f7816633; color: #f78166; }
+    .badge.mid  { background: #58a6ff33; color: #58a6ff; }
+    .badge.low  { background: #3fb95033; color: #3fb950; }
+
+    .section-title {
+      font-size: 1.05rem;
+      color: #c9d1d9;
+      margin: 32px 0 16px;
+      font-weight: 700;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #484f58;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Benchmark — À la Rencontre de nos Agents</h1>
+<p class="subtitle">shyperformance.com · Comparatif Tamou vs Jalal vs Imad · Juin 2026</p>
+
+<!-- KPI Cards -->
+<div class="kpi-row">
+  <div class="kpi tamou">
+    <div class="name">Tamou — RQF</div>
+    <div class="val">1 652</div>
+    <div class="label">vues · 43 j'aime · 2,60 % eng.</div>
+  </div>
+  <div class="kpi jalal">
+    <div class="name">Jalal — Coordinateur</div>
+    <div class="val">360</div>
+    <div class="label">vues · 7 j'aime · 1,94 % eng.</div>
+  </div>
+  <div class="kpi imad">
+    <div class="name">Imad — Superviseur</div>
+    <div class="val">618</div>
+    <div class="label">vues · 6 j'aime · 0,97 % eng.</div>
+  </div>
+</div>
+
+<!-- Charts Grid -->
+<div class="charts-grid">
+
+  <!-- Vues -->
+  <div class="chart-card">
+    <h2>📊 Volume de Vues</h2>
+    <canvas id="chartVues"></canvas>
+    <p class="comment">
+      Tamou capte <strong>62,8 %</strong> de l'audience totale (2 630 vues).
+      Imad (23,5 %) devance Jalal (13,7 %), mais reste loin du niveau de Tamou.
+      L'écart de notoriété est très marqué.
+    </p>
+  </div>
+
+  <!-- J'aime -->
+  <div class="chart-card">
+    <h2>👍 Nombre de J'aime</h2>
+    <canvas id="chartLikes"></canvas>
+    <p class="comment">
+      Tamou concentre <strong>76,8 %</strong> des j'aime totaux (56).
+      Jalal et Imad sont quasi à égalité (7 vs 6), malgré un écart de vues de +72 %.
+      Jalal convertit mieux proportionnellement.
+    </p>
+  </div>
+
+  <!-- Taux d'engagement -->
+  <div class="chart-card">
+    <h2>⚡ Taux d'Engagement (J'aime / Vues %)</h2>
+    <canvas id="chartEngagement"></canvas>
+    <p class="comment">
+      Tamou mène avec <strong>2,60 %</strong>, soit 2,7× le taux d'Imad (0,97 %).
+      Jalal se positionne à 1,94 %, preuve que sa vidéo résonne,
+      mais sa faible diffusion plafonne son impact réel.
+    </p>
+  </div>
+
+  <!-- NPS pondéré -->
+  <div class="chart-card">
+    <h2>🎯 NPS Proxy Pondéré</h2>
+    <canvas id="chartNPS"></canvas>
+    <p class="comment">
+      Le NPS proxy pondéré global est de <strong>+2,13</strong>.
+      Tamou contribue à hauteur de <strong>+1,63</strong> (77 % du score total).
+      Imad déprime le score global malgré une bonne portée.
+    </p>
+  </div>
+
+  <!-- Radar full -->
+  <div class="chart-card full">
+    <h2>🕸️ Radar Multi-critères — Vue 360°</h2>
+    <canvas id="chartRadar"></canvas>
+    <p class="comment">
+      Le radar normalise 5 dimensions sur 100.
+      <strong>Tamou</strong> domine sur la portée et les j'aime absolus, confirme un engagement solide.
+      <strong>Jalal</strong> présente un profil équilibré mais sous-diffusé.
+      <strong>Imad</strong> accuse un déficit d'engagement malgré une portée intermédiaire.
+      Le profil idéal combinerait la portée de Tamou avec l'efficacité de conversion de Jalal.
+    </p>
+  </div>
+
+</div>
+
+<!-- Tableau récapitulatif -->
+<p class="section-title">Tableau Récapitulatif & Classement</p>
+<div class="chart-card">
+  <table>
+    <thead>
+      <tr>
+        <th>Indicateur</th>
+        <th>Tamou (RQF)</th>
+        <th>Jalal (Coord.)</th>
+        <th>Imad (Superv.)</th>
+        <th>Leader</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Vues</td>
+        <td>1 652</td>
+        <td>360</td>
+        <td>618</td>
+        <td><span class="badge top">Tamou</span></td>
+      </tr>
+      <tr>
+        <td>J'aime</td>
+        <td>43</td>
+        <td>7</td>
+        <td>6</td>
+        <td><span class="badge top">Tamou</span></td>
+      </tr>
+      <tr>
+        <td>Taux d'engagement</td>
+        <td>2,60 %</td>
+        <td>1,94 %</td>
+        <td>0,97 %</td>
+        <td><span class="badge top">Tamou</span></td>
+      </tr>
+      <tr>
+        <td>Poids audience</td>
+        <td>62,8 %</td>
+        <td>13,7 %</td>
+        <td>23,5 %</td>
+        <td><span class="badge top">Tamou</span></td>
+      </tr>
+      <tr>
+        <td>NPS Proxy</td>
+        <td>+2,60</td>
+        <td>+1,94</td>
+        <td>+0,97</td>
+        <td><span class="badge top">Tamou</span></td>
+      </tr>
+      <tr>
+        <td>Contribution NPS global</td>
+        <td>+1,63 (77 %)</td>
+        <td>+0,27 (13 %)</td>
+        <td>+0,23 (11 %)</td>
+        <td><span class="badge top">Tamou</span></td>
+      </tr>
+      <tr>
+        <td>Classement global</td>
+        <td><span class="badge top">🥇 1er</span></td>
+        <td><span class="badge mid">🥈 2e</span></td>
+        <td><span class="badge low">🥉 3e</span></td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>shyperformance · Analyse générée le 10/06/2026 · Données issues des vidéos publiques</footer>
+
+<script>
+const COLORS = {
+  tamou: '#f78166',
+  jalal:  '#58a6ff',
+  imad:   '#3fb950',
+  tamouBg: 'rgba(247,129,102,0.18)',
+  jalalBg:  'rgba(88,166,255,0.18)',
+  imadBg:   'rgba(63,185,80,0.18)',
+};
+
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = '#21262d';
+Chart.defaults.font.family = "'Segoe UI', sans-serif";
+
+// --- Vues (bar horizontal) ---
+new Chart(document.getElementById('chartVues'), {
+  type: 'bar',
+  data: {
+    labels: ['Tamou', 'Jalal', 'Imad'],
+    datasets: [{
+      label: 'Vues',
+      data: [1652, 360, 618],
+      backgroundColor: [COLORS.tamouBg, COLORS.jalalBg, COLORS.imadBg],
+      borderColor:     [COLORS.tamou,   COLORS.jalal,   COLORS.imad],
+      borderWidth: 2,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#21262d' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// --- Likes (doughnut) ---
+new Chart(document.getElementById('chartLikes'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Tamou (43)', 'Jalal (7)', 'Imad (6)'],
+    datasets: [{
+      data: [43, 7, 6],
+      backgroundColor: [COLORS.tamouBg, COLORS.jalalBg, COLORS.imadBg],
+      borderColor:     [COLORS.tamou,   COLORS.jalal,   COLORS.imad],
+      borderWidth: 2,
+    }]
+  },
+  options: {
+    cutout: '62%',
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } }
+    }
+  }
+});
+
+// --- Engagement (bar vertical) ---
+new Chart(document.getElementById('chartEngagement'), {
+  type: 'bar',
+  data: {
+    labels: ['Tamou', 'Jalal', 'Imad'],
+    datasets: [{
+      label: 'Taux d\'engagement (%)',
+      data: [2.60, 1.94, 0.97],
+      backgroundColor: [COLORS.tamouBg, COLORS.jalalBg, COLORS.imadBg],
+      borderColor:     [COLORS.tamou,   COLORS.jalal,   COLORS.imad],
+      borderWidth: 2,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        grid: { color: '#21262d' },
+        ticks: { callback: v => v + ' %' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// --- NPS proxy (bar + line) ---
+new Chart(document.getElementById('chartNPS'), {
+  type: 'bar',
+  data: {
+    labels: ['Tamou', 'Jalal', 'Imad'],
+    datasets: [
+      {
+        type: 'bar',
+        label: 'NPS Proxy',
+        data: [2.60, 1.94, 0.97],
+        backgroundColor: [COLORS.tamouBg, COLORS.jalalBg, COLORS.imadBg],
+        borderColor:     [COLORS.tamou,   COLORS.jalal,   COLORS.imad],
+        borderWidth: 2,
+        borderRadius: 6,
+        yAxisID: 'y',
+      },
+      {
+        type: 'line',
+        label: 'Contribution NPS pondéré',
+        data: [1.63, 0.27, 0.23],
+        borderColor: '#d2a8ff',
+        backgroundColor: 'rgba(210,168,255,0.1)',
+        pointBackgroundColor: '#d2a8ff',
+        borderWidth: 2,
+        tension: 0.3,
+        yAxisID: 'y',
+      }
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: { grid: { color: '#21262d' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// --- Radar ---
+new Chart(document.getElementById('chartRadar'), {
+  type: 'radar',
+  data: {
+    labels: ['Portée (vues)', 'J\'aime', 'Taux engagement', 'Poids audience', 'NPS Proxy'],
+    datasets: [
+      {
+        label: 'Tamou (RQF)',
+        data: [100, 100, 100, 100, 100],
+        borderColor: COLORS.tamou,
+        backgroundColor: COLORS.tamouBg,
+        pointBackgroundColor: COLORS.tamou,
+        borderWidth: 2,
+      },
+      {
+        label: 'Jalal (Coord.)',
+        data: [
+          Math.round(360/1652*100),
+          Math.round(7/43*100),
+          Math.round(1.94/2.60*100),
+          Math.round(13.7/62.8*100),
+          Math.round(1.94/2.60*100),
+        ],
+        borderColor: COLORS.jalal,
+        backgroundColor: COLORS.jalalBg,
+        pointBackgroundColor: COLORS.jalal,
+        borderWidth: 2,
+      },
+      {
+        label: 'Imad (Superv.)',
+        data: [
+          Math.round(618/1652*100),
+          Math.round(6/43*100),
+          Math.round(0.97/2.60*100),
+          Math.round(23.5/62.8*100),
+          Math.round(0.97/2.60*100),
+        ],
+        borderColor: COLORS.imad,
+        backgroundColor: COLORS.imadBg,
+        pointBackgroundColor: COLORS.imad,
+        borderWidth: 2,
+      }
+    ]
+  },
+  options: {
+    scales: {
+      r: {
+        grid: { color: '#21262d' },
+        angleLines: { color: '#30363d' },
+        pointLabels: { color: '#c9d1d9', font: { size: 13 } },
+        ticks: { display: false, stepSize: 20 },
+        min: 0, max: 100,
+      }
+    },
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 20, font: { size: 13 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>
